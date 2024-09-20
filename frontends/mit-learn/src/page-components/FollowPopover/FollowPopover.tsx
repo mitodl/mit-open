@@ -78,45 +78,41 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
 
   if (isSubscribed) {
     return (
-      <>
-        <StyledPopover {...props} open={!!props.anchorEl}>
-          <HeaderText variant="subtitle2">
-            You are following {itemName}
-          </HeaderText>
-          <BodyText variant="body2">
-            Unfollow to stop getting emails for new {itemName} courses
-          </BodyText>
-          <Footer>
-            <Button
-              variant="inverted"
-              data-testid="action-unfollow"
-              onClick={handleFollowAction}
-            >
-              Unfollow
-            </Button>
-            <Button onClick={() => props.onClose()}>Close</Button>
-          </Footer>
-        </StyledPopover>
-      </>
+      <StyledPopover {...props} open={!!props.anchorEl}>
+        <HeaderText variant="subtitle2">
+          You are following {itemName}
+        </HeaderText>
+        <BodyText variant="body2">
+          Unfollow to stop getting emails for new {itemName} courses
+        </BodyText>
+        <Footer>
+          <Button
+            variant="inverted"
+            data-testid="action-unfollow"
+            onClick={handleFollowAction}
+          >
+            Unfollow
+          </Button>
+          <Button onClick={() => props.onClose()}>Close</Button>
+        </Footer>
+      </StyledPopover>
     )
   }
   return (
-    <>
-      <StyledPopover {...props} open={!!props.anchorEl}>
-        <HeaderText variant="subtitle2">Follow {itemName}?</HeaderText>
-        <BodyText variant="body2">
-          You will get an email when new courses are available
-        </BodyText>
-        <Footer>
-          <Button variant="inverted" onClick={() => props.onClose()}>
-            Close
-          </Button>
-          <Button data-testid="action-follow" onClick={handleFollowAction}>
-            Follow
-          </Button>
-        </Footer>
-      </StyledPopover>
-    </>
+    <StyledPopover {...props} open={!!props.anchorEl}>
+      <HeaderText variant="subtitle2">Follow {itemName}?</HeaderText>
+      <BodyText variant="body2">
+        You will get an email when new courses are available
+      </BodyText>
+      <Footer>
+        <Button variant="inverted" onClick={() => props.onClose()}>
+          Close
+        </Button>
+        <Button data-testid="action-follow" onClick={handleFollowAction}>
+          Follow
+        </Button>
+      </Footer>
+    </StyledPopover>
   )
 }
 
