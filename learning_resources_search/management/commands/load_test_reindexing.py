@@ -16,11 +16,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "--count",
-            dest="count",
-            type=int,
-            default=100,
-            help="Count of learning resources to update",
+            "--rate--limit", dest="rate_limit", help="Rate limit for upsert requests"
         )
 
         parser.add_argument(

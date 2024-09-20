@@ -3674,6 +3674,16 @@ files = [
 cffi = {version = "*", markers = "implementation_name == \"pypy\""}
 
 [[package]]
+name = "ratelimit"
+version = "2.2.1"
+description = "API rate limit decorator"
+optional = false
+python-versions = "*"
+files = [
+    {file = "ratelimit-2.2.1.tar.gz", hash = "sha256:af8a9b64b821529aca09ebaf6d8d279100d766f19e90b5059ac6a718ca6dee42"},
+]
+
+[[package]]
 name = "redis"
 version = "5.0.8"
 description = "Python client for Redis database and key-value store"
@@ -4870,4 +4880,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.12.5"
-content-hash = "bccd022ca67036a0249fc75a09ad14af0ad809fa8139a84bee7561888904360d"
+content-hash = "1f8525cebcdf21d1c3e65e6434a6e05603ec33c4a6404759edae5f5a40c26eba"
