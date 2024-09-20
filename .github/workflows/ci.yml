@@ -289,7 +289,7 @@ jobs:
       - name: Release on Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release --app mitopen-rc-nextjs frontend
+        run: heroku container:release --app mitopen-rc-nextjs web
 
   build-storybook:
     runs-on: ubuntu-latest
