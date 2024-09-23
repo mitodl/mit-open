@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.19.2
+Version 0.19.2 (Released September 23, 2024)
 --------------
 
 - Codespace opensearch service fix (#1582)
