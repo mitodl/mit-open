@@ -155,46 +155,40 @@ jobs:
         with:
           file: coverage/lcov.info
 
-  build-publish-frontend:
+  build-deploy-frontend:
+    if: github.ref == 'refs/heads/nextjs'
     needs: javascript-tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
-      - name: Get short commit hash
-        run: |
-          SHORT_SHA=$(git rev-parse --short ${{ github.sha }})
-          echo "COMMIT_SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+      - name: Heroku login
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+
       - name: Build the Docker image
         env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
           ORIGIN: https://next.rc.learn.mit.edu
           MITOL_API_BASE_URL: https://api.rc.learn.mit.edu
           SITE_NAME: MIT Learn
-          MITOL_SUPPORT_EMAIL: mitlearn-support@mit.edu
-          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
+          SUPPORT_EMAIL: mitlearn-support@mit.edu
           MITOL_AXIOS_WITH_CREDENTIALS: true
-          CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_RC }}
+          CSRF_COOKIE_NAME: learn-rc-csrftoken
         run: |
-          docker build \
-            -t mitodl/mit-learn-frontend:$COMMIT_SHORT_SHA \
-            --build-arg NEXT_PUBLIC_ORIGIN="$ORIGIN" \
-            --build-arg NEXT_PUBLIC_MITOL_API_BASE_URL="$MITOL_API_BASE_URL" \
-            --build-arg NEXT_PUBLIC_SITE_NAME="$SITE_NAME" \
-            --build-arg NEXT_PUBLIC_MITOL_SUPPORT_EMAIL="$MITOL_SUPPORT_EMAIL" \
-            --build-arg NEXT_PUBLIC_EMBEDLY_KEY="$EMBEDLY_KEY" \
-            --build-arg NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS="$MITOL_AXIOS_WITH_CREDENTIALS" \
-            --build-arg NEXT_PUBLIC_CSRF_COOKIE_NAME="$CSRF_COOKIE_NAME" \
-            -f frontends/main/Dockerfile \
-            .
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.MITOL_LEARN_DOCKERHUB_USER }}
-          password: ${{ secrets.MITOL_LEARN_DOCKERHUB_PASSWORD }}
+          heroku container:push web \
+          --app mitopen-rc-nextjs \
+          --recursive \
+          --arg NEXT_PUBLIC_ORIGIN=$ORIGIN,NEXT_PUBLIC_MITOL_API_BASE_URL=$MITOL_API_BASE_URL,NEXT_PUBLIC_SITE_NAME="$SITE_NAME",NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=$SUPPORT_EMAIL,NEXT_PUBLIC_EMBEDLY_KEY=$EMBEDLY_KEY,NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=$MITOL_AXIOS_WITH_CREDENTIALS,NEXT_PUBLIC_CSRF_COOKIE_NAME=$CSRF_COOKIE_NAME \
+          --context-path .
 
-      - name: Push the Docker image to Dockerhub
-        run: docker push mitodl/mit-learn-frontend:$COMMIT_SHORT_SHA
+      - name: Release on Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release --app mitopen-rc-nextjs web
 
   build-storybook:
     runs-on: ubuntu-latest
