@@ -1,6 +1,6 @@
 # Build: \
 # docker build \
-#   -f frontends/main/Dockerfile \
+#   -f frontends/main/Dockerfile.web \
 #   --build-arg NEXT_PUBLIC_ORIGIN=http://api.open.odl.local:8062 \
 #   --build-arg NEXT_PUBLIC_MITOL_API_BASE_URL=http://open.odl.local:8063 \
 #   --build-arg NEXT_PUBLIC_SITE_NAME="MIT Learn" \
@@ -12,6 +12,26 @@
 
 # Run:
 # docker run -p 8062:8062 -e PORT=8062 mit-learn-frontend:latest
+
+
+# Heroku build/push:
+#
+# heroku container:push web \
+#   --app mitopen-rc-nextjs \
+#   --recursive \
+#   --arg NEXT_PUBLIC_ORIGIN=https://next.rc.learn.mit.edu, \
+#   NEXT_PUBLIC_MITOL_API_BASE_URL=https://api.rc.learn.mit.edu, \
+#   NEXT_PUBLIC_SITE_NAME="MIT Learn", \
+#   NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=mitlearn-support@mit.edu, \
+#   NEXT_PUBLIC_EMBEDLY_KEY=*******, \
+#   NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=true, \
+#   NEXT_PUBLIC_CSRF_COOKIE_NAME=learn-rc-csrftoken \
+#   --context-path .
+
+
+# Heroku release:
+# heroku ps:scale frontend=1 --app mitopen-rc-nextjs
+# heroku container:release --app mitopen-rc-nextjs frontend
 
 
 FROM node:22-alpine
@@ -50,17 +70,15 @@ ENV NEXT_PUBLIC_SITE_NAME=$NEXT_PUBLIC_SITE_NAME
 ARG NEXT_PUBLIC_MITOL_SUPPORT_EMAIL
 ENV NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=$NEXT_PUBLIC_MITOL_SUPPORT_EMAIL
 
-ARG NEXT_PUBLIC_EMBEDLY_KEY
+ARG NEXT_PUBLIC_EMBEDLY_KEY=None
 ENV NEXT_PUBLIC_EMBEDLY_KEY=$NEXT_PUBLIC_EMBEDLY_KEY
 
-ARG NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS
+ARG NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=true
 ENV NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=$NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS
 
 ARG NEXT_PUBLIC_CSRF_COOKIE_NAME
 ENV NEXT_PUBLIC_CSRF_COOKIE_NAME=$NEXT_PUBLIC_CSRF_COOKIE_NAME
 
-
-RUN echo $NEXT_PUBLIC_ORIGIN
 RUN yarn build
 
 EXPOSE 3000
