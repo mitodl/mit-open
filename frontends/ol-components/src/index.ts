@@ -220,8 +220,6 @@ export type {
 export { Link, linkStyles } from "./components/Link/Link"
 export type { LinkProps } from "./components/Link/Link"
 
-export * from "./hooks/useBreakpoint"
-
 export { pxToRem } from "./components/ThemeProvider/typography"
 export { MITLearnGlobalStyles } from "./components/ThemeProvider/MITLearnGlobalStyles"
 

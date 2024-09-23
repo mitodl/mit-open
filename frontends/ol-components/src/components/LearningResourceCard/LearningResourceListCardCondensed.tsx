@@ -13,7 +13,6 @@ import {
   getLearningResourcePrices,
 } from "ol-utilities"
 import { ListCardCondensed } from "../Card/ListCardCondensed"
-import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
 import {
   Certificate,
   Price,
@@ -51,13 +50,13 @@ const Info = ({ resource }: { resource: LearningResource }) => {
   )
 }
 
-const Loading = styled.div<{ mobile?: boolean }>`
+const Loading = styled.div`
   padding: 16px;
 `
 
-const LoadingView = ({ isMobile }: { isMobile: boolean }) => {
+const LoadingView = () => {
   return (
-    <Loading mobile={isMobile}>
+    <Loading>
       <Skeleton variant="text" width="6%" />
       <Skeleton variant="text" width="60%" style={{ marginBottom: 8 }} />
       <Skeleton variant="text" width="20%" />
@@ -103,13 +102,11 @@ const LearningResourceListCardCondensed: React.FC<
   inUserList,
   draggable,
 }) => {
-  const isMobile = !useMuiBreakpointAtLeast("md")
-
   if (isLoading) {
     return (
       <ListCardCondensed className={className}>
         <ListCardCondensed.Content>
-          <LoadingView isMobile={isMobile} />
+          <LoadingView />
         </ListCardCondensed.Content>
       </ListCardCondensed>
     )

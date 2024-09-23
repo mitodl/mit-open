@@ -5,7 +5,6 @@ import {
   theme,
   Typography,
   Grid,
-  useMuiBreakpointAtLeast,
   Card,
   TypographyProps,
 } from "ol-components"
@@ -63,8 +62,8 @@ const MobileContainer = styled.section`
   width: 100%;
   margin: 0 -16px;
 
-  h4 {
-    margin: 0 16px 24px;
+  h3 {
+    margin: 0 16px 12px;
   }
 `
 
@@ -101,6 +100,7 @@ const Events = styled.div`
 
 const MobileEvents = styled(Events)`
   padding: 0 16px;
+  gap: 18px;
 `
 
 const EventCard = styled(Card)`
@@ -167,6 +167,24 @@ const Chevron = styled(RiArrowRightSLine)`
   justify-content: flex-end;
 `
 
+const AboveMdOnly = styled.div(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+}))
+
+const BelowMdOnly = styled.div(({ theme }) => ({
+  [theme.breakpoints.up("md")]: {
+    display: "none",
+  },
+}))
+
+const AboveLgOnly = styled.div(({ theme }) => ({
+  [theme.breakpoints.down("lg")]: {
+    display: "none",
+  },
+}))
+
 const Story: React.FC<{ item: NewsFeedItem; mobile: boolean }> = ({
   item,
   mobile,
@@ -199,14 +217,11 @@ const NewsEventsSection: React.FC = () => {
     sortby: "event_date",
   })
 
-  const isAboveLg = useMuiBreakpointAtLeast("lg")
-  const isMobile = !useMuiBreakpointAtLeast("md")
-
   if (!news || !events) {
     return null
   }
 
-  const stories = news!.results?.slice(0, isAboveLg || isMobile ? 6 : 4) || []
+  const stories = news!.results?.slice(0, 6) || []
 
   const EventCards =
     events!.results?.map((item) => (
@@ -241,7 +256,7 @@ const NewsEventsSection: React.FC = () => {
         See what's happening in the world of learning with the latest news,
         insights, and upcoming events at MIT.
       </StrapLine>
-      {isMobile ? (
+      <BelowMdOnly>
         <MobileContent>
           <MobileContainer>
             <Typography component="h3" variant="h4">
@@ -251,7 +266,7 @@ const NewsEventsSection: React.FC = () => {
               {stories.map((item) => (
                 <Story
                   key={item.id}
-                  mobile={isMobile}
+                  mobile={true}
                   item={item as NewsFeedItem}
                 />
               ))}
@@ -264,7 +279,8 @@ const NewsEventsSection: React.FC = () => {
             <MobileEvents>{EventCards}</MobileEvents>
           </MobileContainer>
         </MobileContent>
-      ) : (
+      </BelowMdOnly>
+      <AboveMdOnly>
         <Container>
           <Content>
             <StoriesContainer>
@@ -272,9 +288,15 @@ const NewsEventsSection: React.FC = () => {
                 Stories
               </Typography>
               <Grid container columnSpacing="24px" rowSpacing="28px">
-                {stories.map((item) => (
+                {stories.map((item, index) => (
                   <Grid item key={item.id} xs={12} sm={12} md={6} lg={4} xl={4}>
-                    <Story item={item as NewsFeedItem} mobile={false} />
+                    {index >= 4 ? (
+                      <AboveLgOnly>
+                        <Story item={item as NewsFeedItem} mobile={false} />
+                      </AboveLgOnly>
+                    ) : (
+                      <Story item={item as NewsFeedItem} mobile={false} />
+                    )}
                   </Grid>
                 ))}
               </Grid>
@@ -287,7 +309,7 @@ const NewsEventsSection: React.FC = () => {
             </EventsContainer>
           </Content>
         </Container>
-      )}
+      </AboveMdOnly>
     </Section>
   )
 }
