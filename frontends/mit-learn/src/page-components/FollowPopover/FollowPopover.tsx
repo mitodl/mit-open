@@ -32,9 +32,6 @@ const Footer = styled.div({
   gap: "16px",
 })
 
-const StyledButton = styled(Button)({
-  borderRadius: "4px",
-})
 interface FollowPopoverProps
   extends Pick<PopoverProps, "anchorEl" | "onClose" | "placement"> {
   itemName?: string
@@ -81,7 +78,7 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
 
   if (isSubscribed) {
     return (
-      <StyledPopover {...props} open={!!props.anchorEl}>
+      <StyledPopover edge="rounded" {...props} open={!!props.anchorEl}>
         <HeaderText variant="subtitle2">
           You are following {itemName}
         </HeaderText>
@@ -89,14 +86,17 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
           Unfollow to stop getting emails for new {itemName} courses.
         </BodyText>
         <Footer>
-          <StyledButton
+          <Button
             variant="inverted"
+            edge="rounded"
             data-testid="action-unfollow"
             onClick={handleFollowAction}
           >
             Unfollow
-          </StyledButton>
-          <StyledButton onClick={() => props.onClose()}>Close</StyledButton>
+          </Button>
+          <Button edge="rounded" onClick={() => props.onClose()}>
+            Close
+          </Button>
         </Footer>
       </StyledPopover>
     )
@@ -108,12 +108,20 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
         You will get an email when new courses are available.
       </BodyText>
       <Footer>
-        <StyledButton variant="inverted" onClick={() => props.onClose()}>
+        <Button
+          edge="rounded"
+          variant="inverted"
+          onClick={() => props.onClose()}
+        >
           Close
-        </StyledButton>
-        <StyledButton data-testid="action-follow" onClick={handleFollowAction}>
+        </Button>
+        <Button
+          edge="rounded"
+          data-testid="action-follow"
+          onClick={handleFollowAction}
+        >
           Follow
-        </StyledButton>
+        </Button>
       </Footer>
     </StyledPopover>
   )
