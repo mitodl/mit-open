@@ -80,7 +80,7 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
 
   if (isSubscribed) {
     return (
-      <StyledPopover edge="rounded" {...props} open={!!props.anchorEl}>
+      <StyledPopover {...props} open={!!props.anchorEl}>
         <HeaderText variant="subtitle2">
           You are following {itemName}
         </HeaderText>
