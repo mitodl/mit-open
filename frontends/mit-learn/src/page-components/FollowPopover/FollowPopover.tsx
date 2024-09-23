@@ -20,8 +20,10 @@ const StyledPopover = styled(Popover)({
 const HeaderText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
   marginBottom: "8px",
+  ...theme.typography.subtitle2,
 }))
 const BodyText = styled(Typography)(({ theme }) => ({
+  ...theme.typography.body2,
   color: theme.custom.colors.silverGrayDark,
   marginBottom: "16px",
 }))
@@ -87,6 +89,8 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
         </BodyText>
         <Footer>
           <Button
+            size="medium"
+            responsive={true}
             variant="inverted"
             edge="rounded"
             data-testid="action-unfollow"
@@ -94,7 +98,12 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
           >
             Unfollow
           </Button>
-          <Button edge="rounded" onClick={() => props.onClose()}>
+          <Button
+            responsive={true}
+            size="medium"
+            edge="rounded"
+            onClick={() => props.onClose()}
+          >
             Close
           </Button>
         </Footer>
@@ -109,6 +118,8 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
       </BodyText>
       <Footer>
         <Button
+          responsive={true}
+          size="medium"
           edge="rounded"
           variant="inverted"
           onClick={() => props.onClose()}
@@ -116,6 +127,8 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
           Close
         </Button>
         <Button
+          responsive={true}
+          size="medium"
           edge="rounded"
           data-testid="action-follow"
           onClick={handleFollowAction}
