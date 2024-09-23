@@ -11,10 +11,12 @@ const StyledPopover = styled(Popover)({
 const HeaderText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
   marginBottom: "8px",
+  ...theme.typography.subtitle2,
 }))
 const BodyText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.silverGrayDark,
   marginBottom: "16px",
+  ...theme.typography.body2,
 }))
 
 const Footer = styled.div({
