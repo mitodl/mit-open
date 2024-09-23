@@ -14252,6 +14252,7 @@ __metadata:
     "@faker-js/faker": "npm:^8.4.1"
     "@mitodl/course-search-utils": "mitodl/course-search-utils.git#jk/5244-support-for-nextjs"
     "@remixicon/react": "npm:^4.2.0"
+    "@tanstack/react-query": "npm:^4.36.1"
     "@testing-library/jest-dom": "npm:^6.4.8"
     "@testing-library/react": "npm:^16.0.0"
     "@testing-library/user-event": "npm:^14.5.2"

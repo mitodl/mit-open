@@ -2,7 +2,7 @@
 
 import React from "react"
 import { getQueryClient } from "./getQueryClient"
-import { QueryClientProvider } from "api/ssr"
+import { QueryClientProvider } from "@tanstack/react-query"
 import { ThemeProvider, NextJsAppRouterCacheProvider } from "ol-components"
 import { Provider as NiceModalProvider } from "@ebay/nice-modal-react"
 
