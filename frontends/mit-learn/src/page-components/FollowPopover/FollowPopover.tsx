@@ -32,6 +32,9 @@ const Footer = styled.div({
   gap: "16px",
 })
 
+const StyledButton = styled(Button)({
+  borderRadius: "4px",
+})
 interface FollowPopoverProps
   extends Pick<PopoverProps, "anchorEl" | "onClose" | "placement"> {
   itemName?: string
@@ -83,17 +86,17 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
           You are following {itemName}
         </HeaderText>
         <BodyText variant="body2">
-          Unfollow to stop getting emails for new {itemName} courses
+          Unfollow to stop getting emails for new {itemName} courses.
         </BodyText>
         <Footer>
-          <Button
+          <StyledButton
             variant="inverted"
             data-testid="action-unfollow"
             onClick={handleFollowAction}
           >
             Unfollow
-          </Button>
-          <Button onClick={() => props.onClose()}>Close</Button>
+          </StyledButton>
+          <StyledButton onClick={() => props.onClose()}>Close</StyledButton>
         </Footer>
       </StyledPopover>
     )
@@ -102,15 +105,15 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
     <StyledPopover {...props} open={!!props.anchorEl}>
       <HeaderText variant="subtitle2">Follow {itemName}?</HeaderText>
       <BodyText variant="body2">
-        You will get an email when new courses are available
+        You will get an email when new courses are available.
       </BodyText>
       <Footer>
-        <Button variant="inverted" onClick={() => props.onClose()}>
+        <StyledButton variant="inverted" onClick={() => props.onClose()}>
           Close
-        </Button>
-        <Button data-testid="action-follow" onClick={handleFollowAction}>
+        </StyledButton>
+        <StyledButton data-testid="action-follow" onClick={handleFollowAction}>
           Follow
-        </Button>
+        </StyledButton>
       </Footer>
     </StyledPopover>
   )
