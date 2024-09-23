@@ -16,8 +16,6 @@ export async function generateMetadata({
   return await getMetadataAsync({
     title: "Learn with MIT",
     searchParams,
-    robots:
-      process.env.MITOL_NOINDEX === "true" ? "noindex, nofollow" : undefined,
   })
 }
 

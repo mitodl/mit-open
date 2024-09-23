@@ -102,6 +102,8 @@ export const standardizeMetadata = ({
     title,
     description,
     ...socialMetadata,
+    robots:
+      process.env.MITOL_NOINDEX === "false" ? undefined : "noindex, nofollow",
     ...otherMeta,
   }
 }
