@@ -21,7 +21,6 @@ import {
 import { ListCard } from "../Card/ListCard"
 import { ActionButtonProps } from "../Button/Button"
 import { theme } from "../ThemeProvider/ThemeProvider"
-import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
 
 const IMAGE_SIZES = {
   mobile: { width: 116, height: 104 },
@@ -181,7 +180,7 @@ export const Format = ({ resource }: { resource: LearningResource }) => {
   )
 }
 
-const Loading = styled.div<{ mobile?: boolean }>`
+const Loading = styled.div`
   display: flex;
   padding: 24px;
   justify-content: space-between;
@@ -194,40 +193,54 @@ const Loading = styled.div<{ mobile?: boolean }>`
     flex-grow: 0;
     margin-left: auto;
   }
-  ${({ mobile }) =>
-    mobile
-      ? `
-    padding: 0px;
-    > div {
-      padding: 12px;
-    }`
-      : ""}
 `
 
-const LoadingView = ({ isMobile }: { isMobile: boolean }) => {
-  const { width, height } = IMAGE_SIZES[isMobile ? "mobile" : "desktop"]
+const MobileLoading = styled(Loading)(({ theme }) => ({
+  [theme.breakpoints.up("md")]: {
+    display: "none",
+  },
+  padding: "0px",
+  "> div": {
+    padding: "12px",
+  },
+}))
+
+const DesktopLoading = styled(Loading)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+}))
+
+const LoadingView = () => {
   return (
-    <Loading mobile={isMobile}>
-      <div>
+    <>
+      <MobileLoading>
+        <div>
+          <Skeleton variant="text" width="15%" style={{ marginBottom: 4 }} />
+          <Skeleton variant="text" width="75%" style={{ marginBottom: 16 }} />
+          <Skeleton variant="text" width="20%" />
+        </div>
         <Skeleton
-          variant="text"
-          width="15%"
-          style={{ marginBottom: isMobile ? 4 : 10 }}
+          variant="rectangular"
+          width={IMAGE_SIZES.mobile.width}
+          height={IMAGE_SIZES.mobile.height}
+          style={{ borderRadius: 0 }}
         />
+      </MobileLoading>
+      <DesktopLoading>
+        <div>
+          <Skeleton variant="text" width="15%" style={{ marginBottom: 10 }} />
+          <Skeleton variant="text" width="75%" style={{ marginBottom: 51 }} />
+          <Skeleton variant="text" width="20%" />
+        </div>
         <Skeleton
-          variant="text"
-          width="75%"
-          style={{ marginBottom: isMobile ? 16 : 51 }}
+          variant="rectangular"
+          width={IMAGE_SIZES.desktop.width}
+          height={IMAGE_SIZES.desktop.height}
+          style={{ borderRadius: 4 }}
         />
-        <Skeleton variant="text" width="20%" />
-      </div>
-      <Skeleton
-        variant="rectangular"
-        width={width}
-        height={height}
-        style={{ borderRadius: 4 }}
-      />
-    </Loading>
+      </DesktopLoading>
+    </>
   )
 }
 
@@ -282,13 +295,11 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   inUserList,
   draggable,
 }) => {
-  const isMobile = !useMuiBreakpointAtLeast("md")
-
   if (isLoading) {
     return (
       <ListCard className={className}>
         <ListCard.Content>
-          <LoadingView isMobile={isMobile} />
+          <LoadingView />
         </ListCard.Content>
       </ListCard>
     )
@@ -302,7 +313,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
       <ListCard.Image
         src={resource.image?.url || DEFAULT_RESOURCE_IMG}
         alt={resource.image?.alt ?? ""}
-        {...IMAGE_SIZES[isMobile ? "mobile" : "desktop"]}
+        {...IMAGE_SIZES["desktop"]}
       />
       <ListCard.Info>
         <Info resource={resource} />
