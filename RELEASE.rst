@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.19.3
+Version 0.19.3 (Released September 23, 2024)
 --------------
 
 - Make search mode defaults settable env variables (#1590)
