@@ -8,9 +8,8 @@ import type {
   BooleanFacetKey,
 } from "@mitodl/course-search-utils"
 import { BOOLEAN_FACET_NAMES } from "@mitodl/course-search-utils"
-import { Skeleton, styled } from "ol-components"
+import { Skeleton, styled, SimpleSelect } from "ol-components"
 import type { SimpleSelectOption } from "ol-components"
-import { StyledSelect } from "@/page-components/SearchDisplay/SearchDisplay"
 
 const StyledSkeleton = styled(Skeleton)`
   display: inline-flex;
@@ -117,7 +116,7 @@ const AvailableFacetsDropdowns: React.FC<
 
         return (
           facetItems.length && (
-            <StyledSelect
+            <SimpleSelect
               key={facetSetting.name}
               value={displayValue}
               multiple={isMultiple}
