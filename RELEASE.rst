@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.19.3
+--------------
+
+- Make search mode defaults settable env variables (#1590)
+- follow/unfollow popover (#1589)
+- Fix extract_openedx_data and backpopulate_mit_edx_data commands to work with course/program datafiles (#1587)
+
 Version 0.19.2 (Released September 23, 2024)
 --------------
 
