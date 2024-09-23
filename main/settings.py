@@ -766,3 +766,16 @@ POSTHOG_PROJECT_ID = get_int(
 
 # Enable or disable search engine indexing
 MITOL_NOINDEX = get_bool("MITOL_NOINDEX", True)  # noqa: FBT003
+
+# Search defaults settings - adjustable throught the admin ui
+DEFAULT_SEARCH_MODE = get_string(name="DEFAULT_SEARCH_MODE", default="phrase")
+DEFAULT_SEARCH_SLOP = get_int(name="DEFAULT_SEARCH_SLOP", default=6)
+DEFAULT_SEARCH_STALENESS_PENALTY = get_float(
+    name="DEFAULT_SEARCH_STALENESS_PENALTY", default=2.5
+)
+DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF = get_float(
+    name="DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF", default=0
+)
+DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY = get_float(
+    name="DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY", default=90
+)

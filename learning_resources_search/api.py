@@ -5,6 +5,7 @@ import re
 from collections import Counter
 from datetime import UTC, datetime
 
+from django.conf import settings
 from opensearch_dsl import Search
 from opensearch_dsl.query import MoreLikeThis, Percolate
 from opensearchpy.exceptions import NotFoundError
@@ -507,7 +508,19 @@ def adjust_original_query_for_percolate(query):
     Remove keys that are irrelevent when storing original queries
     for percolate uniqueness such as "limit" and "offset"
     """
-    for key in ["limit", "offset", "sortby", "yearly_decay_percent", "dev_mode"]:
+    for key in [
+        "limit",
+        "offset",
+        "sortby",
+        "yearly_decay_percent",
+        "dev_mode",
+        "use_dfs_query_then_fetch",
+        "max_incompleteness_penalty",
+        "min_score",
+        "search_mode",
+        "slop",
+        "use_dfs_query_then_fetch",
+    ]:
         query.pop(key, None)
     return order_params(query)
 
@@ -684,6 +697,21 @@ def execute_learn_search(search_params):
     Returns:
         dict: The opensearch response dict
     """
+    if search_params.get("endpoint") != CONTENT_FILE_TYPE:
+        if search_params.get("yearly_decay_percent") is None:
+            search_params["yearly_decay_percent"] = (
+                settings.DEFAULT_SEARCH_STALENESS_PENALTY
+            )
+        if search_params.get("search_mode") is None:
+            search_params["search_mode"] = settings.DEFAULT_SEARCH_MODE
+        if search_params.get("slop") is None:
+            search_params["slop"] = settings.DEFAULT_SEARCH_SLOP
+        if search_params.get("min_score") is None:
+            search_params["min_score"] = settings.DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF
+        if search_params.get("max_incompleteness_penalty") is None:
+            search_params["max_incompleteness_penalty"] = (
+                settings.DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY
+            )
     search = construct_search(search_params)
     return search.execute().to_dict()
 
