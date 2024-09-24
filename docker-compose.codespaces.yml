@@ -17,7 +17,8 @@ services:
     env_file: env/codespaces.env
     environment:
       - PORT=8062
-      - NEXT_SERVER_MITOL_API_BASE_URL=http://nginx:8063/
+    depends_on:
+      - nginx
   celery:
     extends:
       file: docker-compose.apps.yml
