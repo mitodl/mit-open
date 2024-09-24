@@ -110,7 +110,7 @@ const ImageContainer = styled.div(({ theme }) => ({
   img: {
     width: "100%",
   },
-  position: "relative"
+  position: "relative",
 }))
 
 const ControlsContainer = styled.div(({ theme }) => ({
@@ -199,7 +199,7 @@ const HeroImage: React.FC = () => {
     /* We need to set the random image index once in useEffece to prevent
      * hydration mismatch between client and server
      */
-    const index = Math.floor(Math.random() * 5) + 1;
+    const index = Math.floor(Math.random() * 5) + 1
     setImageIndex(index)
   }, [])
 
@@ -209,7 +209,13 @@ const HeroImage: React.FC = () => {
 
   return (
     <ImageContainer>
-      <Image alt="" src={`/images/hero/hero-${imageIndex}.png`} fill priority sizes="513px" />
+      <Image
+        alt=""
+        src={`/images/hero/hero-${imageIndex}.png`}
+        fill
+        priority
+        sizes="513px"
+      />
     </ImageContainer>
   )
 }

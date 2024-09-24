@@ -17,8 +17,6 @@ import Slider from "react-slick"
 import AttestantBlock from "@/page-components/TestimonialDisplay/AttestantBlock"
 import Image from "next/image"
 
-
-
 const HeaderContainer = styled(Container)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -226,8 +224,8 @@ const TestimonialTruncateText = styled(TruncateText)({
 const SlickCarousel = () => {
   const { data } = useTestimonialList({ position: 1 })
   const [slick, setSlick] = React.useState<Slider | null>(null)
-  const [shuffled, setShuffled] = useState<Attestation[]>();
-  const [imageSequence, setImageSequence] = useState<number[]>();
+  const [shuffled, setShuffled] = useState<Attestation[]>()
+  const [imageSequence, setImageSequence] = useState<number[]>()
 
   useEffect(() => {
     if (!data) return
