@@ -2,18 +2,18 @@ import React, { useEffect } from "react"
 import ErrorPageTemplate from "./ErrorPageTemplate"
 import { useUserMe } from "api/hooks/user"
 import { Typography } from "ol-components"
-import { login } from "@/common/urls"
-import { useLocation } from "react-router"
+import { redirect } from "next/navigation"
+import * as urls from "@/common/urls"
 
 const ForbiddenPage: React.FC = () => {
-  const location = useLocation()
   const { data: user } = useUserMe()
 
   useEffect(() => {
     if (!user?.is_authenticated) {
-      window.location.assign(login(location))
+      const loginUrl = urls.login()
+      redirect(loginUrl)
     }
-  })
+  }, [user])
   return (
     <ErrorPageTemplate title="Not Allowed">
       <Typography variant="h3" component="h1">

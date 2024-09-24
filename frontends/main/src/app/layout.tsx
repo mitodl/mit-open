@@ -7,6 +7,7 @@ import { PageWrapper, PageWrapperInner } from "./styled"
 import Providers from "./providers"
 import { MITLearnGlobalStyles } from "ol-components"
 import Script from "next/script"
+import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary"
 
 import "./GlobalStyles"
 
@@ -22,7 +23,9 @@ export default function RootLayout({
           <MITLearnGlobalStyles />
           <PageWrapper>
             <Header />
-            <PageWrapperInner>{children}</PageWrapperInner>
+            <PageWrapperInner>
+              <ErrorBoundary>{children}</ErrorBoundary>
+            </PageWrapperInner>
             <Footer />
           </PageWrapper>
         </Providers>
