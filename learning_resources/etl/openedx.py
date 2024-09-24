@@ -18,7 +18,9 @@ from toolz import compose
 from learning_resources.constants import (
     Availability,
     CertificationType,
+    Format,
     LearningResourceType,
+    Pace,
     PlatformType,
     RunStatus,
 )
@@ -290,7 +292,7 @@ def _parse_course_dates(program, date_field):
                 [
                     run[date_field]
                     for run in course["course_runs"]
-                    if run["status"] == "published" and run[date_field]
+                    if _get_run_published(run) and run[date_field]
                 ]
             )
     return dates
@@ -312,7 +314,7 @@ def _sum_course_prices(program: dict) -> Decimal:
             for run in sorted(
                 course["course_runs"], key=lambda x: x["start"], reverse=False
             ):
-                if run["status"] == "published":
+                if _get_run_published(run):
                     return min(
                         [
                             Decimal(seat["price"])
@@ -356,6 +358,8 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "image": _transform_course_image(course_run.get("image")),
         "status": course_run.get("availability"),
         "availability": _get_run_availability(course_run).name,
+        "format": [Format.asynchronous.name],
+        "pace": [course_run.get("pacing_type") or Pace.self_paced.name],
         "url": marketing_url
         or "{}{}/course/".format(config.alt_url, course_run.get("key")),
         "prices": sorted(
@@ -401,6 +405,25 @@ def _parse_program_instructors_topics(program):
     )
 
 
+def _parse_course_pace(runs: list[dict]) -> list[str]:
+    """
+    Parse the pace of a course based on its runs
+
+    Args:
+        runs (list of dict): the runs data
+
+    Returns:
+        str: the pace of the course or programe
+    """
+    pace = sorted(
+        {run["pacing_type"] for run in runs if run and _get_run_published(run)}
+    )
+    if len(pace) == 0:
+        # Archived courses are considered self-paced
+        pace = [Pace.self_paced.name]
+    return pace
+
+
 def _transform_program_course(config: OpenEdxConfiguration, course: dict) -> dict:
     """
     Transform a program's course dict to a normalized data structure
@@ -419,6 +442,7 @@ def _transform_program_course(config: OpenEdxConfiguration, course: dict) -> dic
         "platform": config.platform,
         "resource_type": LearningResourceType.course.name,
         "offered_by": {"code": config.offered_by},
+        "pace": _parse_course_pace(course.get("course_runs", [])),
     }
 
 
@@ -458,6 +482,14 @@ def _transform_program_run(
         "prices": [_sum_course_prices(program)],
         "instructors": program.pop("instructors", []),
         "availability": _get_program_availability(program),
+        "format": [Format.asynchronous.name],
+        "pace": sorted(
+            {
+                pace
+                for course in program.get("courses", [])
+                for pace in _parse_course_pace(course.get("course_runs", []))
+            }
+        ),
     }
 
 
@@ -507,6 +539,8 @@ def _transform_course(config: OpenEdxConfiguration, course: dict) -> dict:
         if has_certification
         else CertificationType.none.name,
         "availability": _get_course_availability(course),
+        "format": [Format.asynchronous.name],
+        "pace": _parse_course_pace(course.get("course_runs", [])),
     }
 
 
@@ -526,6 +560,11 @@ def _transform_program(config: OpenEdxConfiguration, program: dict) -> dict:
     image = _transform_program_image(program)
     instructors, topics = _parse_program_instructors_topics(program)
     program["instructors"] = instructors
+    courses = [
+        _transform_program_course(config, course)
+        for course in program.get("courses", [])
+    ]
+    paces = sorted({pace for course in courses for pace in course["pace"]})
     runs = [_transform_program_run(program, last_modified, image)]
     has_certification = parse_certification(config.offered_by, runs)
     return {
@@ -549,10 +588,9 @@ def _transform_program(config: OpenEdxConfiguration, program: dict) -> dict:
         if has_certification
         else CertificationType.none.name,
         "availability": runs[0]["availability"],
-        "courses": [
-            _transform_program_course(config, course)
-            for course in program.get("courses", [])
-        ],
+        "format": [Format.asynchronous.name],
+        "pace": paces,
+        "courses": courses,
     }
 
 

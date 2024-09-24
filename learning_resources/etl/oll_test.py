@@ -73,6 +73,8 @@ def test_oll_transform(mocker, oll_course_data):
                 "year": 2022,
                 "status": "Archived",
                 "availability": "anytime",
+                "pace": ["self_paced"],
+                "format": ["asynchronous"],
             }
         ],
         "image": {
@@ -82,6 +84,8 @@ def test_oll_transform(mocker, oll_course_data):
         "prices": [0.00],
         "etl_source": "oll",
         "availability": "anytime",
+        "pace": ["self_paced"],
+        "format": ["asynchronous"],
     }
     assert results[2] == {
         "title": "Competency-Based Education",
@@ -125,6 +129,8 @@ def test_oll_transform(mocker, oll_course_data):
                 "year": 2019,
                 "status": "Archived",
                 "availability": "anytime",
+                "pace": ["self_paced"],
+                "format": ["asynchronous"],
             }
         ],
         "image": {
@@ -134,4 +140,6 @@ def test_oll_transform(mocker, oll_course_data):
         "prices": [0.00],
         "etl_source": "oll",
         "availability": "anytime",
+        "pace": ["self_paced"],
+        "format": ["asynchronous"],
     }

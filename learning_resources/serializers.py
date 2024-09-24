@@ -15,9 +15,11 @@ from learning_resources import constants, models
 from learning_resources.constants import (
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
     CertificationType,
+    Format,
     LearningResourceDelivery,
     LearningResourceType,
     LevelType,
+    Pace,
 )
 from learning_resources.etl.loaders import update_index
 from main.serializers import COMMON_IGNORED_FIELDS, WriteableSerializerMethodField
@@ -236,6 +238,36 @@ class LearningResourceDeliverySerializer(serializers.Field):
         return {"code": value, "name": LearningResourceDelivery[value].value}
 
 
+@extend_schema_field(
+    {
+        "type": "object",
+        "properties": {
+            "code": {"enum": Format.names()},
+            "name": {"type": "string"},
+        },
+        "required": ["code", "name"],
+    }
+)
+class FormatSerializer(serializers.Field):
+    def to_representation(self, value):
+        return {"code": value, "name": Format[value].value}
+
+
+@extend_schema_field(
+    {
+        "type": "object",
+        "properties": {
+            "code": {"enum": Pace.names()},
+            "name": {"type": "string"},
+        },
+        "required": ["code", "name"],
+    }
+)
+class PaceSerializer(serializers.Field):
+    def to_representation(self, value):
+        return {"code": value, "name": Pace[value].value}
+
+
 class LearningResourceRunSerializer(serializers.ModelSerializer):
     """Serializer for the LearningResourceRun model"""
 
@@ -248,6 +280,8 @@ class LearningResourceRunSerializer(serializers.ModelSerializer):
     delivery = serializers.ListField(
         child=LearningResourceDeliverySerializer(), read_only=True
     )
+    format = serializers.ListField(child=FormatSerializer(), read_only=True)
+    pace = serializers.ListField(child=PaceSerializer(), read_only=True)
 
     class Meta:
         model = models.LearningResourceRun
@@ -415,6 +449,8 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     )
     free = serializers.SerializerMethodField()
     resource_category = serializers.SerializerMethodField()
+    format = serializers.ListField(child=FormatSerializer(), read_only=True)
+    pace = serializers.ListField(child=PaceSerializer(), read_only=True)
 
     def get_resource_category(self, instance) -> str:
         """Return the resource category of the resource"""

@@ -12,7 +12,9 @@ from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3_ocw
 from learning_resources.constants import (
     DEPARTMENTS,
     Availability,
+    Format,
     LearningResourceDelivery,
+    Pace,
 )
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.ocw import (
@@ -248,6 +250,10 @@ def test_transform_course(  # noqa: PLR0913
         assert transformed_json["runs"][0]["delivery"] == expected_delivery
         assert transformed_json["runs"][0]["availability"] == Availability.anytime.name
         assert transformed_json["availability"] == Availability.anytime.name
+        assert transformed_json["runs"][0]["pace"] == [Pace.self_paced.name]
+        assert transformed_json["runs"][0]["format"] == [Format.asynchronous.name]
+        assert transformed_json["pace"] == [Pace.self_paced.name]
+        assert transformed_json["format"] == [Format.asynchronous.name]
         assert transformed_json["description"] == clean_data(
             course_json["course_description_html"]
         )

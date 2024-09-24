@@ -30,6 +30,8 @@ import type {
 import {
   AvailabilityEnum,
   DeliveryEnum,
+  CourseResourcePaceInnerCodeEnum,
+  CourseResourceFormatInnerCodeEnum,
   ResourceTypeEnum,
   LearningResourceRunLevelInnerCodeEnum,
   PlatformEnum,
@@ -183,6 +185,22 @@ const learningResourceRun: Factory<LearningResourceRun> = (overrides = {}) => {
     delivery: [
       {
         code: faker.helpers.arrayElement(Object.values(DeliveryEnum)),
+        name: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
+      },
+    ],
+    pace: [
+      {
+        code: faker.helpers.arrayElement(
+          Object.values(CourseResourcePaceInnerCodeEnum),
+        ),
+        name: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
+      },
+    ],
+    format: [
+      {
+        code: faker.helpers.arrayElement(
+          Object.values(CourseResourceFormatInnerCodeEnum),
+        ),
         name: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
       },
     ],

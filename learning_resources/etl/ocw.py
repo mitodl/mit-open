@@ -20,9 +20,11 @@ from learning_resources.constants import (
     CONTENT_TYPE_VIDEO,
     VALID_TEXT_FILE_TYPES,
     Availability,
+    Format,
     LearningResourceDelivery,
     LearningResourceType,
     OfferedBy,
+    Pace,
     PlatformType,
     RunStatus,
 )
@@ -285,6 +287,8 @@ def transform_run(course_data: dict) -> dict:
         "url": course_data["url"],
         "availability": Availability.anytime.name,
         "delivery": parse_delivery(course_data),
+        "format": [Format.asynchronous.name],
+        "pace": [Pace.self_paced.name],
     }
 
 
@@ -368,6 +372,8 @@ def transform_course(course_data: dict) -> dict:
         "availability": Availability.anytime.name,
         "delivery": parse_delivery(course_data),
         "license_cc": True,
+        "format": [Format.asynchronous.name],
+        "pace": [Pace.self_paced.name],
     }
 
 

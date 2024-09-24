@@ -2493,7 +2493,6 @@ paths:
           maximum: 100
           minimum: 0
           nullable: true
-          default: 0.0
         description: Maximum score penalty for incomplete OCW courses in percent.
           An OCW course with completeness = 0 will have this score penalty. Partially
           complete courses have a linear penalty proportional to the degree of incompleteness.
@@ -2506,7 +2505,6 @@ paths:
           maximum: 50
           minimum: 0
           nullable: true
-          default: 0.0
         description: Minimum score value a text query result needs to have to be displayed
       - in: query
         name: offered_by
@@ -2717,7 +2715,6 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
-          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -2976,7 +2973,6 @@ paths:
           maximum: 100
           minimum: 0
           nullable: true
-          default: 0.0
         description: Maximum score penalty for incomplete OCW courses in percent.
           An OCW course with completeness = 0 will have this score penalty. Partially
           complete courses have a linear penalty proportional to the degree of incompleteness.
@@ -2989,7 +2985,6 @@ paths:
           maximum: 50
           minimum: 0
           nullable: true
-          default: 0.0
         description: Minimum score value a text query result needs to have to be displayed
       - in: query
         name: offered_by
@@ -3200,7 +3195,6 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
-          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -3484,7 +3478,6 @@ paths:
           maximum: 100
           minimum: 0
           nullable: true
-          default: 0.0
         description: Maximum score penalty for incomplete OCW courses in percent.
           An OCW course with completeness = 0 will have this score penalty. Partially
           complete courses have a linear penalty proportional to the degree of incompleteness.
@@ -3497,7 +3490,6 @@ paths:
           maximum: 50
           minimum: 0
           nullable: true
-          default: 0.0
         description: Minimum score value a text query result needs to have to be displayed
       - in: query
         name: offered_by
@@ -3722,7 +3714,6 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
-          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -3983,7 +3974,6 @@ paths:
           maximum: 100
           minimum: 0
           nullable: true
-          default: 0.0
         description: Maximum score penalty for incomplete OCW courses in percent.
           An OCW course with completeness = 0 will have this score penalty. Partially
           complete courses have a linear penalty proportional to the degree of incompleteness.
@@ -3996,7 +3986,6 @@ paths:
           maximum: 50
           minimum: 0
           nullable: true
-          default: 0.0
         description: Minimum score value a text query result needs to have to be displayed
       - in: query
         name: offered_by
@@ -4221,7 +4210,6 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
-          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -7968,6 +7956,36 @@ components:
           type: string
           description: Return the resource category of the resource
           readOnly: true
+        format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - synchronous
+                - asynchronous
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
+        pace:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - self_paced
+                - instructor_paced
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/CourseResourceResourceTypeEnum'
@@ -8035,11 +8053,13 @@ components:
       - course_feature
       - delivery
       - departments
+      - format
       - free
       - id
       - image
       - learning_path_parents
       - offered_by
+      - pace
       - platform
       - prices
       - professional
@@ -8410,6 +8430,36 @@ components:
           type: string
           description: Return the resource category of the resource
           readOnly: true
+        format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - synchronous
+                - asynchronous
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
+        pace:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - self_paced
+                - instructor_paced
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/LearningPathResourceResourceTypeEnum'
@@ -8475,12 +8525,14 @@ components:
       - course_feature
       - delivery
       - departments
+      - format
       - free
       - id
       - image
       - learning_path
       - learning_path_parents
       - offered_by
+      - pace
       - platform
       - prices
       - readable_id
@@ -8976,6 +9028,36 @@ components:
             - code
             - name
           readOnly: true
+        format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - synchronous
+                - asynchronous
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
+        pace:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - self_paced
+                - instructor_paced
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         run_id:
           type: string
           maxLength: 128
@@ -9052,10 +9134,12 @@ components:
           - $ref: '#/components/schemas/NullEnum'
       required:
       - delivery
+      - format
       - id
       - image
       - instructors
       - level
+      - pace
       - run_id
       - title
     LearningResourceRunRequest:
@@ -10055,7 +10139,6 @@ components:
           maximum: 10
           minimum: 0
           nullable: true
-          default: 2.5
           description: Relevance score penalty percent per year for for resources
             without upcoming runs. Only affects results if there is a search term.
         certification:
@@ -10136,7 +10219,6 @@ components:
           maximum: 50
           minimum: 0
           nullable: true
-          default: 0.0
           description: Minimum score value a text query result needs to have to be
             displayed
         max_incompleteness_penalty:
@@ -10145,7 +10227,6 @@ components:
           maximum: 100
           minimum: 0
           nullable: true
-          default: 0.0
           description: Maximum score penalty for incomplete OCW courses in percent.
             An OCW course with completeness = 0 will have this score penalty. Partially
             complete courses have a linear penalty proportional to the degree of incompleteness.
@@ -10420,6 +10501,36 @@ components:
           type: string
           description: Return the resource category of the resource
           readOnly: true
+        format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - synchronous
+                - asynchronous
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
+        pace:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - self_paced
+                - instructor_paced
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastEpisodeResourceResourceTypeEnum'
@@ -10486,11 +10597,13 @@ components:
       - course_feature
       - delivery
       - departments
+      - format
       - free
       - id
       - image
       - learning_path_parents
       - offered_by
+      - pace
       - platform
       - podcast_episode
       - prices
@@ -10702,6 +10815,36 @@ components:
           type: string
           description: Return the resource category of the resource
           readOnly: true
+        format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - synchronous
+                - asynchronous
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
+        pace:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - self_paced
+                - instructor_paced
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastResourceResourceTypeEnum'
@@ -10768,11 +10911,13 @@ components:
       - course_feature
       - delivery
       - departments
+      - format
       - free
       - id
       - image
       - learning_path_parents
       - offered_by
+      - pace
       - platform
       - podcast
       - prices
@@ -11114,6 +11259,36 @@ components:
           type: string
           description: Return the resource category of the resource
           readOnly: true
+        format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - synchronous
+                - asynchronous
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
+        pace:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - self_paced
+                - instructor_paced
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/ProgramResourceResourceTypeEnum'
@@ -11180,11 +11355,13 @@ components:
       - course_feature
       - delivery
       - departments
+      - format
       - free
       - id
       - image
       - learning_path_parents
       - offered_by
+      - pace
       - platform
       - prices
       - professional
@@ -11668,6 +11845,36 @@ components:
           type: string
           description: Return the resource category of the resource
           readOnly: true
+        format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - synchronous
+                - asynchronous
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
+        pace:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - self_paced
+                - instructor_paced
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoPlaylistResourceResourceTypeEnum'
@@ -11734,11 +11941,13 @@ components:
       - course_feature
       - delivery
       - departments
+      - format
       - free
       - id
       - image
       - learning_path_parents
       - offered_by
+      - pace
       - platform
       - prices
       - professional
@@ -11936,6 +12145,36 @@ components:
           type: string
           description: Return the resource category of the resource
           readOnly: true
+        format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - synchronous
+                - asynchronous
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
+        pace:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - self_paced
+                - instructor_paced
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoResourceResourceTypeEnum'
@@ -12002,11 +12241,13 @@ components:
       - course_feature
       - delivery
       - departments
+      - format
       - free
       - id
       - image
       - learning_path_parents
       - offered_by
+      - pace
       - platform
       - prices
       - professional

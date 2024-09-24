@@ -10,8 +10,10 @@ import pytest
 from learning_resources.constants import (
     Availability,
     CertificationType,
+    Format,
     LearningResourceDelivery,
     OfferedBy,
+    Pace,
     PlatformType,
 )
 from learning_resources.etl.constants import ETLSource
@@ -177,6 +179,8 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                     ),
                     "availability": Availability.dated.name,
                     "delivery": transform_delivery(program["format_name"]),
+                    "pace": [Pace.instructor_paced.name],
+                    "format": [Format.asynchronous.name],
                 }
                 for (start_val, end_val) in zip(
                     program["start_value"], program["end_value"]
@@ -201,10 +205,14 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                         }
                     ],
                     "unique_field": UNIQUE_FIELD,
+                    "pace": [Pace.instructor_paced.name],
+                    "format": [Format.asynchronous.name],
                 }
                 for course_id in sorted(program["field_related_courses_programs"])
             ],
             "unique_field": UNIQUE_FIELD,
+            "pace": [Pace.instructor_paced.name],
+            "format": [Format.asynchronous.name],
         }
         for program in extracted_data[1:]
     ]
@@ -254,6 +262,8 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                     ),
                     "availability": Availability.dated.name,
                     "delivery": transform_delivery(course["format_name"]),
+                    "pace": [Pace.instructor_paced.name],
+                    "format": [Format.asynchronous.name],
                 }
                 for (start_val, end_val) in zip(
                     course["start_value"], course["end_value"]
@@ -261,6 +271,8 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             ],
             "course": {"course_numbers": []},
             "unique_field": UNIQUE_FIELD,
+            "pace": [Pace.instructor_paced.name],
+            "format": [Format.asynchronous.name],
         }
         for course in extracted_data[2:]
     ]

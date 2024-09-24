@@ -48,15 +48,22 @@ def get_micromasters_data():
 
 
 @app.task
-def get_mit_edx_data(api_datafile=None) -> int:
+def get_mit_edx_data(
+    api_course_datafile: str | None = None, api_program_datafile: str | None = None
+) -> int:
     """Task to sync MIT edX data with the database
 
     Args:
-        api_datafile (str): If provided, use this file as the source of API data
+        api_course_datafile (str): If provided, use file as source of course API data
             Otherwise, the API is queried directly.
+        api_program_datafile (str): If provided, use file as source of program API data.
+            Otherwise, the API is queried directly.
+
+    Returns:
+        int: The number of results that were fetched
     """
-    courses = pipelines.mit_edx_courses_etl(api_datafile)
-    programs = pipelines.mit_edx_programs_etl(api_datafile)
+    courses = pipelines.mit_edx_courses_etl(api_course_datafile)
+    programs = pipelines.mit_edx_programs_etl(api_program_datafile)
     clear_search_cache()
     return len(courses) + len(programs)
 

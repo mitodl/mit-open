@@ -12,6 +12,7 @@ type ButtonVariant =
   | "text"
   | "noBorder"
   | "inverted"
+  | "success"
 type ButtonSize = "small" | "medium" | "large"
 type ButtonEdge = "circular" | "rounded" | "none"
 
@@ -128,6 +129,27 @@ const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>((
         "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 3px 8px 0px rgba(37, 38, 43, 0.12)",
       ":hover:not(:disabled)": {
         backgroundColor: colors.red,
+        boxShadow: "none",
+      },
+      ":disabled": {
+        backgroundColor: colors.silverGray,
+        boxShadow: "none",
+      },
+    },
+    hasBorder && {
+      backgroundColor: "transparent",
+      borderColor: "currentcolor",
+      borderStyle: "solid",
+    },
+    variant === "success" && {
+      backgroundColor: colors.darkGreen,
+      color: colors.white,
+      border: "none",
+      /* Shadow/04dp */
+      boxShadow:
+        "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 3px 8px 0px rgba(37, 38, 43, 0.12)",
+      ":hover:not(:disabled)": {
+        backgroundColor: colors.darkGreen,
         boxShadow: "none",
       },
       ":disabled": {
