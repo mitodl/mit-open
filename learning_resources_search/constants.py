@@ -121,6 +121,20 @@ LEARNING_RESOURCE_MAP = {
             "name": {"type": "keyword"},
         },
     },
+    "pace": {
+        "type": "nested",
+        "properties": {
+            "code": {"type": "keyword"},
+            "name": {"type": "keyword"},
+        },
+    },
+    "format": {
+        "type": "nested",
+        "properties": {
+            "code": {"type": "keyword"},
+            "name": {"type": "keyword"},
+        },
+    },
     "readable_id": {"type": "keyword"},
     "title": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
     "description": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
@@ -225,6 +239,20 @@ LEARNING_RESOURCE_MAP = {
             "slug": {"type": "keyword"},
             "availability": {"type": "keyword"},
             "delivery": {
+                "type": "nested",
+                "properties": {
+                    "code": {"type": "keyword"},
+                    "name": {"type": "keyword"},
+                },
+            },
+            "pace": {
+                "type": "nested",
+                "properties": {
+                    "code": {"type": "keyword"},
+                    "name": {"type": "keyword"},
+                },
+            },
+            "format": {
                 "type": "nested",
                 "properties": {
                     "code": {"type": "keyword"},

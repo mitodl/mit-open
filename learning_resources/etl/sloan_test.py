@@ -7,13 +7,17 @@ import pytest
 
 from learning_resources.constants import (
     Availability,
+    Format,
+    Pace,
     RunStatus,
 )
 from learning_resources.etl.sloan import (
     extract,
     parse_availability,
     parse_datetime,
+    parse_format,
     parse_image,
+    parse_pace,
     transform_course,
     transform_delivery,
     transform_run,
@@ -124,6 +128,8 @@ def test_transform_run(
         "published": True,
         "prices": [run_data["Price"]],
         "instructors": [{"full_name": name.strip()} for name in faculty_names],
+        "pace": [Pace.instructor_paced.name],
+        "format": [Format.synchronous.name],
     }
 
 
@@ -147,6 +153,10 @@ def test_transform_course(mock_sloan_courses_data, mock_sloan_runs_data):
     assert transformed["runs"][0]["availability"] == parse_availability(
         course_runs_data[0]
     )
+    assert transformed["pace"] == [Pace.instructor_paced.name]
+    assert transformed["format"] == [Format.asynchronous.name, Format.synchronous.name]
+    assert transformed["runs"][0]["pace"] == [Pace.instructor_paced.name]
+    assert transformed["runs"][0]["format"] == [Format.asynchronous.name]
     assert transformed["image"] == parse_image(course_data)
     assert (
         transformed["continuing_ed_credits"]
@@ -171,6 +181,8 @@ def test_transform_course(mock_sloan_courses_data, mock_sloan_runs_data):
             "course",
             "runs",
             "continuing_ed_credits",
+            "pace",
+            "format",
         ]
     )
 
@@ -223,3 +235,48 @@ def test_enabled_flag(mock_sloan_api_setting, settings):
     """Extract should return empty lists if the SEE_API_ENABLED flag is False"""
     settings.SEE_API_ENABLED = False
     assert extract() == ([], [])
+
+
+@pytest.mark.parametrize(
+    ("delivery", "run_format", "pace"),
+    [
+        ("Online", "Synchronous", Pace.instructor_paced.name),
+        ("Online", "Asynchronous (On-Demand)", Pace.self_paced.name),
+        ("Online", "Asynchronous (Date based)", Pace.instructor_paced.name),
+        ("In Person", "Asynchronous (On-Demand)", Pace.instructor_paced.name),
+    ],
+)
+def test_parse_pace(delivery, run_format, pace):
+    """Test that the pace is parsed correctly"""
+    run_data = {
+        "Format": run_format,
+        "Delivery": delivery,
+    }
+    assert parse_pace(run_data) == pace
+    assert parse_pace(None) == Pace.instructor_paced.name
+
+
+@pytest.mark.parametrize(
+    ("delivery", "run_format", "expected_format"),
+    [
+        ("In Person", "Asynchronous (On-Demand)", [Format.synchronous.name]),
+        (
+            "Blended",
+            "Asynchronous (On-Demand)",
+            [Format.synchronous.name, Format.asynchronous.name],
+        ),
+        ("Online", "Synchronous", [Format.synchronous.name]),
+        ("Online", "Asynchronous (On-Demand)", [Format.asynchronous.name]),
+        ("Online", "Asynchronous (Date based)", [Format.asynchronous.name]),
+        ("Online", None, [Format.synchronous.name]),
+        (None, None, [Format.synchronous.name]),
+    ],
+)
+def test_parse_format(delivery, run_format, expected_format):
+    """Test that the format is parsed correctly"""
+    run_data = {
+        "Format": run_format,
+        "Delivery": delivery,
+    }
+    assert parse_format(run_data) == expected_format
+    assert parse_format(None) == [Format.asynchronous.name]

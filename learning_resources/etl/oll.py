@@ -13,7 +13,9 @@ from django.utils.text import slugify
 
 from learning_resources.constants import (
     Availability,
+    Format,
     OfferedBy,
+    Pace,
     PlatformType,
     RunStatus,
 )
@@ -143,6 +145,8 @@ def transform_run(course_data: dict) -> list[dict]:
             ],
             "status": RunStatus.archived.value,
             "availability": Availability.anytime.name,
+            "pace": [Pace.self_paced.name],
+            "format": [Format.asynchronous.name],
         }
     ]
 
@@ -183,6 +187,8 @@ def transform_course(course_data: dict) -> dict:
         "prices": [Decimal(0.00)],
         "etl_source": ETLSource.oll.name,
         "availability": Availability.anytime.name,
+        "pace": [Pace.self_paced.name],
+        "format": [Format.asynchronous.name],
     }
 
 

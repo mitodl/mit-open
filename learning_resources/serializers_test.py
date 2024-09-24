@@ -12,9 +12,11 @@ from learning_resources import factories, serializers, utils
 from learning_resources.constants import (
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
     CertificationType,
+    Format,
     LearningResourceDelivery,
     LearningResourceRelationTypes,
     LearningResourceType,
+    Pace,
     PlatformType,
 )
 from learning_resources.models import ContentFile, LearningResource
@@ -261,6 +263,13 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "delivery": [
             {"code": lr_delivery, "name": LearningResourceDelivery[lr_delivery].value}
             for lr_delivery in resource.delivery
+        ],
+        "format": [
+            {"code": lr_format, "name": Format[lr_format].value}
+            for lr_format in resource.format
+        ],
+        "pace": [
+            {"code": lr_pace, "name": Pace[lr_pace].value} for lr_pace in resource.pace
         ],
         "next_start_date": resource.next_start_date,
         "availability": resource.availability,

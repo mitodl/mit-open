@@ -9,7 +9,7 @@ from urllib.parse import urljoin, urlparse
 import requests
 from django.conf import settings
 
-from learning_resources.constants import Availability, CertificationType
+from learning_resources.constants import Availability, CertificationType, Format, Pace
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import transform_delivery, transform_topics
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
@@ -281,10 +281,14 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                             }
                         ],
                         "unique_field": UNIQUE_FIELD,
+                        "pace": [Pace.instructor_paced.name],
+                        "format": [Format.asynchronous.name],
                     }
                     for course_id in sorted(program["field_related_courses_programs"])
                 ],
                 "unique_field": UNIQUE_FIELD,
+                "pace": [Pace.instructor_paced.name],
+                "format": [Format.asynchronous.name],
             }
             unique_program = unique_programs.setdefault(
                 transformed_program["url"], transformed_program
@@ -321,6 +325,8 @@ def _transform_runs(resource: dict) -> list[dict]:
                     "url": parse_url(resource),
                     "delivery": transform_delivery(resource["format_name"]),
                     "availability": Availability.dated.name,
+                    "pace": [Pace.instructor_paced.name],
+                    "format": [Format.asynchronous.name],
                 }
             )
     return runs
@@ -361,6 +367,8 @@ def _transform_course(
             "runs": runs,
             "unique_field": UNIQUE_FIELD,
             "availability": Availability.dated.name,
+            "pace": [Pace.instructor_paced.name],
+            "format": [Format.asynchronous.name],
         }
     return None
 

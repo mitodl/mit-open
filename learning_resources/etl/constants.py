@@ -46,7 +46,7 @@ ProgramLoaderConfig = namedtuple(  # noqa: PYI024
 )
 
 
-class ETLSource(Enum):
+class ETLSource(ExtendedEnum):
     """Enum of ETL sources"""
 
     micromasters = "micromasters"

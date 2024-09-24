@@ -10,8 +10,10 @@ import pytest
 from learning_resources.constants import (
     Availability,
     CertificationType,
+    Format,
     LearningResourceType,
     OfferedBy,
+    Pace,
     PlatformType,
     RunStatus,
 )
@@ -212,6 +214,13 @@ def test_transform_course(  # noqa: PLR0913
             "last_modified": any_instance_of(datetime),
             "topics": [{"name": "Data Analysis & Statistics"}],
             "url": "http://localhost/fake-alt-url/this_course",
+            "format": [Format.asynchronous.name],
+            "pace": [Pace.instructor_paced.name]
+            if has_runs
+            and not is_run_deleted
+            and is_run_published
+            and is_run_enrollable
+            else [Pace.self_paced.name],
             "published": is_run_published
             and is_run_enrollable
             and not is_run_deleted
@@ -249,6 +258,8 @@ def test_transform_course(  # noqa: PLR0913
                         "year": 2019,
                         "published": is_run_enrollable and is_run_published,
                         "availability": Availability.dated.name,
+                        "format": [Format.asynchronous.name],
+                        "pace": [Pace.instructor_paced.name],
                     }
                 ]
             ),
@@ -422,6 +433,8 @@ def test_transform_program(
         "certification": False,
         "certification_type": CertificationType.none.name,
         "availability": Availability.anytime.name,
+        "format": [Format.asynchronous.name],
+        "pace": [Pace.self_paced.name],
         "runs": (
             [
                 {
@@ -450,6 +463,8 @@ def test_transform_program(
                     "url": extracted[0]["marketing_url"],
                     "published": True,
                     "availability": Availability.anytime.name,
+                    "format": [Format.asynchronous.name],
+                    "pace": [Pace.self_paced.name],
                 }
             ]
         ),
@@ -460,6 +475,7 @@ def test_transform_program(
                 "platform": openedx_program_config.platform,
                 "readable_id": f"MITx+6.002.{i}x",
                 "resource_type": LearningResourceType.course.name,
+                "pace": [Pace.self_paced.name],
             }
             for i in range(1, 4)
         ],
