@@ -15,8 +15,9 @@ import type { Attestation } from "api/v0"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
 import AttestantBlock from "@/page-components/TestimonialDisplay/AttestantBlock"
+import Image from "next/image"
 
-const MARKETING_IMAGE_IDX = _.shuffle([1, 2, 3, 4, 5, 6])
+
 
 const HeaderContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -226,10 +227,12 @@ const SlickCarousel = () => {
   const { data } = useTestimonialList({ position: 1 })
   const [slick, setSlick] = React.useState<Slider | null>(null)
   const [shuffled, setShuffled] = useState<Attestation[]>();
+  const [imageSequence, setImageSequence] = useState<number[]>();
 
   useEffect(() => {
     if (!data) return
     setShuffled(_.shuffle(data?.results))
+    setImageSequence(_.shuffle([1, 2, 3, 4, 5, 6]))
   }, [data])
 
   if (!data?.results?.length || !shuffled?.length) {
@@ -268,9 +271,11 @@ const SlickCarousel = () => {
               className="testimonial-card"
             >
               <TestimonialCardImage>
-                <img
-                  src={`/images/testimonial_images/testimonial-image-${MARKETING_IMAGE_IDX[idx % 6]}.png`}
+                <Image
+                  src={`/images/testimonial_images/testimonial-image-${imageSequence![idx % 6]}.png`}
                   alt=""
+                  width={300}
+                  height={326}
                 />
               </TestimonialCardImage>
               <TestimonialCardQuote>
