@@ -6,7 +6,9 @@ import pytest
 from learning_resources.constants import (
     Availability,
     CertificationType,
+    Format,
     LearningResourceType,
+    Pace,
     PlatformType,
 )
 from learning_resources.etl import micromasters
@@ -111,6 +113,7 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
         readable_id="1",
         resource_type=LearningResourceType.course.name,
         etl_source=ETLSource.mit_edx.name,
+        pace=[Pace.instructor_paced.name],
     )
     if missing_url:
         mock_micromasters_data[0]["programpage_url"] = None
@@ -129,6 +132,8 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
                 "certification": True,
                 "certification_type": CertificationType.micromasters.name,
                 "availability": Availability.dated.name,
+                "pace": [Pace.instructor_paced.name],
+                "format": [Format.asynchronous.name],
                 "courses": [
                     {
                         "readable_id": "1",
@@ -140,6 +145,7 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
                                 "run_id": "course_key_1",
                             }
                         ],
+                        "pace": [Pace.instructor_paced.name],
                     },
                     {
                         "readable_id": "2",
@@ -147,6 +153,7 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
                         "offered_by": micromasters.OFFERED_BY,
                         "published": False,
                         "runs": [],
+                        "pace": [Pace.self_paced.name],
                     },
                 ],
                 "runs": [
@@ -162,6 +169,8 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
                         "end_date": None,
                         "enrollment_start": "2019-09-29T20:13:26.367297Z",
                         "availability": Availability.dated.name,
+                        "pace": [Pace.instructor_paced.name],
+                        "format": [Format.asynchronous.name],
                     }
                 ],
                 "topics": [{"name": "program"}, {"name": "first"}],

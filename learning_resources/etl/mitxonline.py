@@ -12,8 +12,10 @@ from django.conf import settings
 
 from learning_resources.constants import (
     CertificationType,
+    Format,
     LearningResourceType,
     OfferedBy,
+    Pace,
     PlatformType,
     RunStatus,
 )
@@ -237,6 +239,12 @@ def _transform_run(course_run: dict, course: dict) -> dict:
         if parse_page_attribute(course, "page_url")
         else RunStatus.archived.value,
         "availability": course.get("availability"),
+        "format": [Format.asynchronous.name],
+        "pace": [
+            Pace.self_paced.name
+            if course_run.get("is_self_paced", False)
+            else Pace.instructor_paced.name
+        ],
     }
 
 
@@ -283,6 +291,8 @@ def _transform_course(course):
         "url": parse_page_attribute(course, "page_url", is_url=True),
         "description": clean_data(parse_page_attribute(course, "description")),
         "availability": course.get("availability"),
+        "format": [Format.asynchronous.name],
+        "pace": sorted({pace for run in runs for pace in run["pace"]}),
     }
 
 
@@ -320,12 +330,30 @@ def _fetch_courses_by_ids(course_ids):
     return []
 
 
-def transform_programs(programs):
-    """Transform the MITX Online catalog data"""
-    # normalize the MITx Online data
+def transform_programs(programs: list[dict]) -> list[dict]:
+    """
+    Transform the MITX Online catalog data
 
-    return [
-        {
+    Args:
+        programs (list of dict): the MITX Online programs data
+
+    Returns:
+        list of dict: the transformed programs data
+
+    """
+    # normalize the MITx Online data
+    for program in programs:
+        courses = transform_courses(
+            [
+                course
+                for course in _fetch_courses_by_ids(program["courses"])
+                if not re.search(EXCLUDE_REGEX, course["title"], re.IGNORECASE)
+            ]
+        )
+        pace = sorted(
+            {course_pace for course in courses for course_pace in course["pace"]}
+        )
+        yield {
             "readable_id": program["readable_id"],
             "title": program["title"],
             "offered_by": OFFERED_BY,
@@ -346,6 +374,8 @@ def transform_programs(programs):
             "published": bool(
                 parse_page_attribute(program, "page_url")
             ),  # a program is only considered published if it has a page url
+            "format": [Format.asynchronous.name],
+            "pace": pace,
             "runs": [
                 {
                     "run_id": program["readable_id"],
@@ -371,15 +401,9 @@ def transform_programs(programs):
                     if parse_page_attribute(program, "page_url")
                     else RunStatus.archived.value,
                     "availability": program.get("availability"),
+                    "format": [Format.asynchronous.name],
+                    "pace": pace,
                 }
             ],
-            "courses": transform_courses(
-                [
-                    course
-                    for course in _fetch_courses_by_ids(program["courses"])
-                    if not re.search(EXCLUDE_REGEX, course["title"], re.IGNORECASE)
-                ]
-            ),
+            "courses": courses,
         }
-        for program in programs
-    ]

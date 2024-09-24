@@ -12,7 +12,9 @@ from django.conf import settings
 from learning_resources.constants import (
     Availability,
     CertificationType,
+    Format,
     OfferedBy,
+    Pace,
     PlatformType,
     RunStatus,
 )
@@ -21,6 +23,7 @@ from learning_resources.etl.utils import (
     transform_delivery,
     transform_topics,
 )
+from learning_resources.models import default_format
 
 log = logging.getLogger(__name__)
 
@@ -124,6 +127,49 @@ def parse_availability(run_data: dict) -> str:
     return Availability.dated.name
 
 
+def parse_pace(run_data: dict) -> str:
+    """
+    Parse pace from run data
+
+    Args:
+        run_data (list): the run data
+
+    Returns:
+        str: the pace
+    """
+    if run_data and (
+        run_data.get("Delivery") == "Online"
+        and run_data.get("Format") == "Asynchronous (On-Demand)"
+    ):
+        return Pace.self_paced.name
+    return Pace.instructor_paced.name
+
+
+def parse_format(run_data: dict) -> str:
+    """
+    Parse format from run data
+
+    Args:
+        run_data (list): the run data
+
+    Returns:
+        str: the format code
+    """
+    if run_data:
+        delivery = run_data.get("Delivery")
+        if delivery == "In Person":
+            return [Format.synchronous.name]
+        elif delivery == "Blended":
+            return [Format.synchronous.name, Format.asynchronous.name]
+        else:
+            return (
+                [Format.asynchronous.name]
+                if "Asynchronous" in (run_data.get("Format") or "")
+                else [Format.synchronous.name]
+            )
+    return default_format()
+
+
 def extract():
     """
     Extract Sloan Executive Education data
@@ -184,6 +230,8 @@ def transform_run(run_data, course_data):
         "published": True,
         "prices": [run_data["Price"]],
         "instructors": [{"full_name": name.strip()} for name in faculty_names],
+        "pace": [parse_pace(run_data)],
+        "format": parse_format(run_data),
     }
 
 
@@ -205,6 +253,8 @@ def transform_course(course_data: dict, runs_data: dict) -> dict:
     format_delivery = list(
         {transform_delivery(run["Delivery"])[0] for run in course_runs_data}
     )
+    runs = [transform_run(run, course_data) for run in course_runs_data]
+
     transformed_course = {
         "readable_id": course_data["Course_Id"],
         "title": course_data["Title"],
@@ -223,8 +273,10 @@ def transform_course(course_data: dict, runs_data: dict) -> dict:
         "course": {
             "course_numbers": [],
         },
-        "runs": [transform_run(run, course_data) for run in course_runs_data],
+        "runs": runs,
         "continuing_ed_credits": course_runs_data[0]["Continuing_Ed_Credits"],
+        "pace": sorted({pace for run in runs for pace in run["pace"]}),
+        "format": sorted({run_format for run in runs for run_format in run["format"]}),
     }
 
     return transformed_course if transformed_course.get("url") else None

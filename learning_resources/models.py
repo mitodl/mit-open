@@ -16,9 +16,11 @@ from learning_resources import constants
 from learning_resources.constants import (
     Availability,
     CertificationType,
+    Format,
     LearningResourceDelivery,
     LearningResourceRelationTypes,
     LearningResourceType,
+    Pace,
     PrivacyLevel,
 )
 from main.models import TimestampedModel, TimestampedModelQuerySet
@@ -27,6 +29,16 @@ from main.models import TimestampedModel, TimestampedModelQuerySet
 def default_delivery():
     """Return the default delivery as a list"""
     return [LearningResourceDelivery.online.name]
+
+
+def default_pace():
+    """Return the default pace as a list"""
+    return [Pace.self_paced.name]
+
+
+def default_format():
+    """Return the default format as a list"""
+    return [Format.asynchronous.name]
 
 
 class LearningResourcePlatform(TimestampedModel):
@@ -428,6 +440,20 @@ class LearningResource(TimestampedModel):
     continuing_ed_credits = models.DecimalField(
         max_digits=5, decimal_places=2, null=True, blank=True
     )
+    pace = ArrayField(
+        models.CharField(
+            max_length=24,
+            choices=Pace.as_tuple(),
+        ),
+        default=default_pace,
+    )
+    format = ArrayField(
+        models.CharField(
+            max_length=24,
+            choices=Format.as_tuple(),
+        ),
+        default=default_format,
+    )
 
     @property
     def audience(self) -> str | None:
@@ -564,6 +590,20 @@ class LearningResourceRun(TimestampedModel):
         max_length=24,
         null=True,
         choices=Availability.as_tuple(),
+    )
+    pace = ArrayField(
+        models.CharField(
+            max_length=24,
+            choices=Pace.as_tuple(),
+        ),
+        default=default_pace,
+    )
+    format = ArrayField(
+        models.CharField(
+            max_length=24,
+            choices=Format.as_tuple(),
+        ),
+        default=default_format,
     )
 
     def __str__(self):

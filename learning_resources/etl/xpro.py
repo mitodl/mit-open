@@ -10,8 +10,10 @@ from django.conf import settings
 
 from learning_resources.constants import (
     CertificationType,
+    Format,
     LearningResourceType,
     OfferedBy,
+    Pace,
     PlatformType,
 )
 from learning_resources.etl.constants import ETLSource
@@ -117,6 +119,8 @@ def _transform_run(course_run: dict, course: dict) -> dict:
         ],
         "availability": course["availability"],
         "delivery": transform_delivery(course.get("format")),
+        "pace": [Pace.self_paced.name],
+        "format": [Format.asynchronous.name],
     }
 
 
@@ -158,6 +162,8 @@ def _transform_learning_resource_course(course):
         "certification_type": CertificationType.professional.name,
         "availability": course["availability"],
         "continuing_ed_credits": course["credits"],
+        "pace": [Pace.self_paced.name],
+        "format": [Format.asynchronous.name],
     }
 
 
@@ -216,6 +222,8 @@ def transform_programs(programs):
                     ],
                     "delivery": transform_delivery(program.get("format")),
                     "availability": program["availability"],
+                    "pace": [Pace.self_paced.name],
+                    "format": [Format.asynchronous.name],
                 }
             ],
             "courses": transform_courses(program["courses"]),
@@ -223,6 +231,8 @@ def transform_programs(programs):
             "certification_type": CertificationType.professional.name,
             "availability": program["availability"],
             "continuing_ed_credits": program["credits"],
+            "pace": [Pace.self_paced.name],
+            "format": [Format.asynchronous.name],
         }
         for program in programs
     ]

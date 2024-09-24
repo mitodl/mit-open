@@ -287,3 +287,17 @@ class CertificationType(ExtendedEnum):
     professional = "Professional Certificate"
     completion = "Certificate of Completion"
     none = "No Certificate"
+
+
+class Pace(ExtendedEnum):
+    """Enum for resource pace types"""
+
+    self_paced = "Self-paced"
+    instructor_paced = "Instructor-paced"
+
+
+class Format(ExtendedEnum):
+    """Enum for resource format types"""
+
+    synchronous = "Synchronous"
+    asynchronous = "Asynchronous"
