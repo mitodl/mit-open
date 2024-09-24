@@ -52,10 +52,6 @@ import { ResourceCard } from "../ResourceCard/ResourceCard"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import { useUserMe } from "api/hooks/user"
 
-export const StyledSelect = styled(SimpleSelect)`
-  min-width: 160px;
-`
-
 const StyledResourceTabs = styled(ResourceCategoryTabs.TabList)`
   margin-top: 0 px;
 `
@@ -470,7 +466,7 @@ const SORT_OPTIONS = [
     value: "",
   },
   {
-    label: "New",
+    label: "Recently Added",
     value: "new",
   },
   {
@@ -596,7 +592,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   }
 
   const searchModeDropdown = (
-    <StyledSelect
+    <SimpleSelect
       size="small"
       value={searchParams.get("search_mode") || DEFAULT_SEARCH_MODE}
       onChange={(e) =>
@@ -615,7 +611,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   )
 
   const sortDropdown = (
-    <StyledSelect
+    <SimpleSelect
       size="small"
       value={requestParams.sortby || ""}
       onChange={(e) => setParamValue("sortby", e.target.value)}

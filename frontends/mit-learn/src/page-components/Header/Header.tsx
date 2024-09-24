@@ -219,7 +219,7 @@ const navData: NavData = {
       title: "DISCOVER LEARNING RESOURCES",
       items: [
         {
-          title: "New",
+          title: "Recently Added",
           icon: <RiFileAddLine />,
           href: SEARCH_NEW,
         },
