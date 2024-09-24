@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import {
   Typography,
@@ -27,7 +27,6 @@ import {
   RiTimeLine,
   RiVerifiedBadgeLine,
 } from "@remixicon/react"
-import _ from "lodash"
 import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "@/app-pages/AboutPage/AboutPage"
 import Image from "next/image"
 
@@ -192,16 +191,24 @@ const BoldLink = styled(Link)(({ theme }) => ({
   ...theme.typography.subtitle1,
 }))
 
-const getRandomHeroImage = () => {
-  const imageNumber = _.shuffle([1, 2, 3, 4, 5])[0]
-  return `/images/hero/hero-${imageNumber}.png`
-}
-
 const HeroImage: React.FC = () => {
-  const [heroImage, _] = useState(getRandomHeroImage)
+  const [imageIndex, setImageIndex] = useState<number>()
+
+  useEffect(() => {
+    /* We need to set the random image index once in useEffece to prevent
+     * hydration mismatch between client and server
+     */
+    const index = Math.floor(Math.random() * 5) + 1;
+    setImageIndex(index)
+  }, [])
+
+  if (!imageIndex) {
+    return <ImageContainer />
+  }
+
   return (
     <ImageContainer>
-      <Image alt="" src={heroImage} fill />
+      <Image alt="" src={`/images/hero/hero-${imageIndex}.png`} fill />
     </ImageContainer>
   )
 }
