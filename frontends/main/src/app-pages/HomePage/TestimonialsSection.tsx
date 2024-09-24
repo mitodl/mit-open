@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import _ from "lodash"
 import {
   Container,
@@ -11,6 +11,7 @@ import {
   onReInitSlickA11y,
 } from "ol-components"
 import { useTestimonialList } from "api/hooks/testimonials"
+import type { Attestation } from "api/v0"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
 import AttestantBlock from "@/page-components/TestimonialDisplay/AttestantBlock"
@@ -224,8 +225,16 @@ const TestimonialTruncateText = styled(TruncateText)({
 const SlickCarousel = () => {
   const { data } = useTestimonialList({ position: 1 })
   const [slick, setSlick] = React.useState<Slider | null>(null)
+  const [shuffled, setShuffled] = useState<Attestation[]>();
 
-  if (!data || data.results.length === 0) return null
+  useEffect(() => {
+    if (!data) return
+    setShuffled(_.shuffle(data?.results))
+  }, [data])
+
+  if (!data?.results?.length || !shuffled?.length) {
+    return null
+  }
 
   const settings = {
     ref: setSlick,
@@ -248,7 +257,7 @@ const SlickCarousel = () => {
   return (
     <OverlayContainer as="section" aria-label="Carousel of learner experiences">
       <Slider {...settings}>
-        {_.shuffle(data?.results).map((resource, idx) => (
+        {shuffled.map((resource, idx) => (
           <TestimonialCardContainer
             className="testimonial-card-container"
             key={`container-${resource.id}`}
