@@ -110,6 +110,7 @@ const ImageContainer = styled.div(({ theme }) => ({
   img: {
     width: "100%",
   },
+  position: "relative"
 }))
 
 const ControlsContainer = styled.div(({ theme }) => ({
@@ -208,7 +209,7 @@ const HeroImage: React.FC = () => {
 
   return (
     <ImageContainer>
-      <Image alt="" src={`/images/hero/hero-${imageIndex}.png`} fill />
+      <Image alt="" src={`/images/hero/hero-${imageIndex}.png`} fill priority sizes="513px" />
     </ImageContainer>
   )
 }
