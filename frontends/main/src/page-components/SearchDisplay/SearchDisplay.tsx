@@ -519,14 +519,6 @@ interface SearchDisplayProps {
   filterHeadingEl: React.ElementType
 }
 
-const {
-  DEFAULT_SEARCH_MODE,
-  DEFAULT_SEARCH_SLOP,
-  DEFAULT_SEARCH_STALENESS_PENALTY,
-  DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF,
-  DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY,
-} = APP_SETTINGS
-
 const SearchDisplay: React.FC<SearchDisplayProps> = ({
   page,
   setPage,
@@ -543,6 +535,20 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   resultsHeadingEl,
   filterHeadingEl,
 }) => {
+  const DEFAULT_SEARCH_MODE = process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MODE
+  const DEFAULT_SEARCH_SLOP = parseFloat(
+    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_SLOP!,
+  )
+  const DEFAULT_SEARCH_STALENESS_PENALTY = parseFloat(
+    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_STALENESS_PENALTY!,
+  )
+  const DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF = parseFloat(
+    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF!,
+  )
+  const DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY = parseFloat(
+    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY!,
+  )
+
   const [searchParams] = useSearchParams()
   const [expandAdminOptions, setExpandAdminOptions] = useState(false)
   const scrollHook = useRef<HTMLDivElement>(null)
