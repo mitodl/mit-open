@@ -12,13 +12,16 @@ import requests
 from django.conf import settings
 
 from learning_resources.constants import (
+    Availability,
     CertificationType,
+    Format,
     LearningResourceType,
     OfferedBy,
+    Pace,
     PlatformType,
 )
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import transform_format, transform_topics
+from learning_resources.etl.utils import transform_delivery, transform_topics
 from main.utils import clean_data
 
 log = logging.getLogger(__name__)
@@ -233,6 +236,9 @@ def _transform_runs(resource_data: dict) -> list[dict]:
             else [],
             "url": parse_resource_url(resource_data),
             "instructors": parse_instructors(resource_data),
+            "format": [Format.asynchronous.name],
+            "pace": [Pace.instructor_paced.name],
+            "availability": Availability.dated.name,
         }
         for run_data in runs_data
     ]
@@ -266,10 +272,13 @@ def transform_course(resource_data: dict) -> dict or None:
             "course": {
                 "course_numbers": [],
             },
-            "learning_format": transform_format(resource_data["learning_format"]),
+            "delivery": transform_delivery(resource_data["learning_format"]),
             "published": True,
             "topics": parse_topics(resource_data),
             "runs": runs,
+            "format": [Format.asynchronous.name],
+            "pace": [Pace.instructor_paced.name],
+            "availability": Availability.dated.name,
         }
     return None
 
@@ -303,10 +312,13 @@ def transform_program(resource_data: dict) -> dict or None:
                 for course_title in resource_data["courses"].split("|")
                 if course_title
             ],
-            "learning_format": transform_format(resource_data["learning_format"]),
+            "delivery": transform_delivery(resource_data["learning_format"]),
             "published": True,
             "topics": parse_topics(resource_data),
             "runs": runs,
+            "format": [Format.asynchronous.name],
+            "pace": [Pace.instructor_paced.name],
+            "availability": Availability.dated.name,
         }
     return None
 

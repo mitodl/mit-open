@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+from learning_resources.constants import Availability, Format, Pace
 from learning_resources.etl import mitpe
 from learning_resources.factories import (
     LearningResourceOfferorFactory,
@@ -31,7 +32,7 @@ EXPECTED_COURSES = [
         },
         "description": "Profissionais de áreas técnicas estão acostumados a falar ou apresentar dados para perfis que compartem os mesmos interesses e campo de atuação, mas podem encontrar dificuldades em transmitir suas ideias para pessoas de outros setores.\n",
         "course": {"course_numbers": []},
-        "learning_format": ["online"],
+        "delivery": ["online"],
         "published": True,
         "topics": [{"name": "Data Science"}],
         "runs": [
@@ -48,8 +49,14 @@ EXPECTED_COURSES = [
                 "prices": ["1870"],
                 "url": "https://professional.mit.edu/course-catalog/comunicacao-persuasiva-pensamento-critico-para-aprimorar-mensagem-portuguese",
                 "instructors": [{"full_name": "Edward Schiappa"}, {"full_name": ""}],
+                "format": [Format.asynchronous.name],
+                "pace": [Pace.instructor_paced.name],
+                "availability": Availability.dated.name,
             }
         ],
+        "format": [Format.asynchronous.name],
+        "pace": [Pace.instructor_paced.name],
+        "availability": Availability.dated.name,
     },
     {
         "readable_id": "e3be75f6-f7c9-432b-9c24-70c7132e1583",
@@ -67,7 +74,7 @@ EXPECTED_COURSES = [
         },
         "description": "Become a stronger leader of innovation and design-thinking in your workplace. Join us for a highly interactive and engaging course that will teach you powerful new approaches for creating innovative solutions, crafting vision that gets buy-in, and developing solutions that people love. You'll learn our proven 10-Step Design Process and gain the strategies and hands-on experience to make your mark as a leader of innovation. Don't miss this opportunity to take your leadership capabilities to the next level.\n\nThis course&nbsp;may be taken individually or as part of the&nbsp;Professional Certificate Program in Innovation and Technology.\n",
         "course": {"course_numbers": []},
-        "learning_format": ["in_person"],
+        "delivery": ["in_person"],
         "published": True,
         "topics": [{"name": "Data Science"}, {"name": "Product Innovation"}],
         "runs": [
@@ -88,8 +95,14 @@ EXPECTED_COURSES = [
                     {"full_name": "Reza Rahaman"},
                     {"full_name": ""},
                 ],
+                "format": [Format.asynchronous.name],
+                "pace": [Pace.instructor_paced.name],
+                "availability": Availability.dated.name,
             }
         ],
+        "format": [Format.asynchronous.name],
+        "pace": [Pace.instructor_paced.name],
+        "availability": Availability.dated.name,
     },
 ]
 EXPECTED_PROGRAMS = [
@@ -108,7 +121,7 @@ EXPECTED_PROGRAMS = [
             "url": "https://professional.mit.edu/sites/default/files/2020-08/Smart%20Manufacturing.jpg",
         },
         "description": "A fábrica do futuro já está aqui. Participe do programa online Manufatura Inteligente: Produção na Indústria 4.0 e aproveite a experiência de mais de cem anos de colaboração do MIT com vários setores. Aprenda as chaves para criar uma indústria inteligente em qualquer escala e saiba como software, sensores e sistemas são integrados para essa finalidade. Com este programa interativo, você passará da criação de modelos a sistemas de fabricação e análise avançada de dados para desenvolver estratégias que gerem uma vantagem competitiva.\n",
-        "learning_format": ["online"],
+        "delivery": ["online"],
         "published": True,
         "topics": [{"name": "Product Innovation"}],
         "runs": [
@@ -125,9 +138,15 @@ EXPECTED_PROGRAMS = [
                 "prices": ["1870"],
                 "url": "https://professional.mit.edu/course-catalog/manufatura-inteligente-producao-na-industria-40-portuguese",
                 "instructors": [{"full_name": ""}, {"full_name": "Brian Anthony"}],
+                "format": [Format.asynchronous.name],
+                "pace": [Pace.instructor_paced.name],
+                "availability": Availability.dated.name,
             }
         ],
         "courses": [EXPECTED_COURSES[0], EXPECTED_COURSES[1]],
+        "format": [Format.asynchronous.name],
+        "pace": [Pace.instructor_paced.name],
+        "availability": Availability.dated.name,
     }
 ]
 
