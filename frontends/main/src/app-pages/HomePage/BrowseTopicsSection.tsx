@@ -13,7 +13,7 @@ import { RiArrowRightLine } from "@remixicon/react"
 import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 
 const Section = styled.section`
-  background: #fff url("/static/images/open-bg-texture-with-gradient.svg")
+  background: #fff url("/images/backgrounds/open-bg-texture-with-gradient.svg")
     no-repeat center left;
   background-size: 135% auto;
   padding: 80px 0;
