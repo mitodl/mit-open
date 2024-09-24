@@ -15,8 +15,6 @@ services:
       file: docker-compose.apps.yml
       service: watch
     env_file: env/codespaces.env
-    depends_on:
-      - nginx
   celery:
     extends:
       file: docker-compose.apps.yml
