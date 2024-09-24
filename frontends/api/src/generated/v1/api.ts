@@ -760,6 +760,12 @@ export interface CourseResource {
   url?: string | null
   /**
    *
+   * @type {Array<string>}
+   * @memberof CourseResource
+   */
+  ocw_topics?: Array<string>
+  /**
+   *
    * @type {boolean}
    * @memberof CourseResource
    */
@@ -972,6 +978,12 @@ export interface CourseResourceRequest {
    * @memberof CourseResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof CourseResourceRequest
+   */
+  ocw_topics?: Array<string>
   /**
    *
    * @type {string}
@@ -1518,6 +1530,12 @@ export interface LearningPathResource {
   url?: string | null
   /**
    *
+   * @type {Array<string>}
+   * @memberof LearningPathResource
+   */
+  ocw_topics?: Array<string>
+  /**
+   *
    * @type {boolean}
    * @memberof LearningPathResource
    */
@@ -1608,6 +1626,12 @@ export interface LearningPathResourceRequest {
    * @memberof LearningPathResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningPathResourceRequest
+   */
+  ocw_topics?: Array<string>
   /**
    *
    * @type {boolean}
@@ -3441,6 +3465,12 @@ export interface PatchedLearningPathResourceRequest {
   url?: string | null
   /**
    *
+   * @type {Array<string>}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  ocw_topics?: Array<string>
+  /**
+   *
    * @type {boolean}
    * @memberof PatchedLearningPathResourceRequest
    */
@@ -3652,6 +3682,12 @@ export interface PercolateQuerySubscriptionRequestRequest {
    * @memberof PercolateQuerySubscriptionRequestRequest
    */
   topic?: Array<string>
+  /**
+   * The ocw topic name.
+   * @type {Array<string>}
+   * @memberof PercolateQuerySubscriptionRequestRequest
+   */
+  ocw_topic?: Array<string>
   /**
    * If true return raw open search results with score explanations
    * @type {boolean}
@@ -4215,6 +4251,12 @@ export interface PodcastEpisodeResource {
   url?: string | null
   /**
    *
+   * @type {Array<string>}
+   * @memberof PodcastEpisodeResource
+   */
+  ocw_topics?: Array<string>
+  /**
+   *
    * @type {boolean}
    * @memberof PodcastEpisodeResource
    */
@@ -4311,6 +4353,12 @@ export interface PodcastEpisodeResourceRequest {
    * @memberof PodcastEpisodeResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PodcastEpisodeResourceRequest
+   */
+  ocw_topics?: Array<string>
   /**
    *
    * @type {string}
@@ -4573,6 +4621,12 @@ export interface PodcastResource {
   url?: string | null
   /**
    *
+   * @type {Array<string>}
+   * @memberof PodcastResource
+   */
+  ocw_topics?: Array<string>
+  /**
+   *
    * @type {boolean}
    * @memberof PodcastResource
    */
@@ -4669,6 +4723,12 @@ export interface PodcastResourceRequest {
    * @memberof PodcastResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PodcastResourceRequest
+   */
+  ocw_topics?: Array<string>
   /**
    *
    * @type {string}
@@ -5151,6 +5211,12 @@ export interface ProgramResource {
   url?: string | null
   /**
    *
+   * @type {Array<string>}
+   * @memberof ProgramResource
+   */
+  ocw_topics?: Array<string>
+  /**
+   *
    * @type {boolean}
    * @memberof ProgramResource
    */
@@ -5247,6 +5313,12 @@ export interface ProgramResourceRequest {
    * @memberof ProgramResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ProgramResourceRequest
+   */
+  ocw_topics?: Array<string>
   /**
    *
    * @type {string}
@@ -5988,6 +6060,12 @@ export interface VideoPlaylistResource {
   url?: string | null
   /**
    *
+   * @type {Array<string>}
+   * @memberof VideoPlaylistResource
+   */
+  ocw_topics?: Array<string>
+  /**
+   *
    * @type {boolean}
    * @memberof VideoPlaylistResource
    */
@@ -6084,6 +6162,12 @@ export interface VideoPlaylistResourceRequest {
    * @memberof VideoPlaylistResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof VideoPlaylistResourceRequest
+   */
+  ocw_topics?: Array<string>
   /**
    *
    * @type {string}
@@ -6334,6 +6418,12 @@ export interface VideoResource {
   url?: string | null
   /**
    *
+   * @type {Array<string>}
+   * @memberof VideoResource
+   */
+  ocw_topics?: Array<string>
+  /**
+   *
    * @type {boolean}
    * @memberof VideoResource
    */
@@ -6430,6 +6520,12 @@ export interface VideoResourceRequest {
    * @memberof VideoResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof VideoResourceRequest
+   */
+  ocw_topics?: Array<string>
   /**
    *
    * @type {string}
@@ -7190,6 +7286,7 @@ export const ContentFileSearchApiAxiosParamCreator = function (
      * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {Array<number>} [id] The id value for the content file
      * @param {number} [limit] Number of results to return per page
+     * @param {Array<string>} [ocw_topic] The ocw topic name.
      * @param {Array<ContentFileSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<ContentFileSearchRetrievePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
@@ -7207,6 +7304,7 @@ export const ContentFileSearchApiAxiosParamCreator = function (
       dev_mode?: boolean | null,
       id?: Array<number>,
       limit?: number,
+      ocw_topic?: Array<string>,
       offered_by?: Array<ContentFileSearchRetrieveOfferedByEnum>,
       offset?: number,
       platform?: Array<ContentFileSearchRetrievePlatformEnum>,
@@ -7251,6 +7349,10 @@ export const ContentFileSearchApiAxiosParamCreator = function (
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (ocw_topic) {
+        localVarQueryParameter["ocw_topic"] = ocw_topic
       }
 
       if (offered_by) {
@@ -7318,6 +7420,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
      * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {Array<number>} [id] The id value for the content file
      * @param {number} [limit] Number of results to return per page
+     * @param {Array<string>} [ocw_topic] The ocw topic name.
      * @param {Array<ContentFileSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<ContentFileSearchRetrievePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
@@ -7335,6 +7438,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
       dev_mode?: boolean | null,
       id?: Array<number>,
       limit?: number,
+      ocw_topic?: Array<string>,
       offered_by?: Array<ContentFileSearchRetrieveOfferedByEnum>,
       offset?: number,
       platform?: Array<ContentFileSearchRetrievePlatformEnum>,
@@ -7357,6 +7461,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
           dev_mode,
           id,
           limit,
+          ocw_topic,
           offered_by,
           offset,
           platform,
@@ -7412,6 +7517,7 @@ export const ContentFileSearchApiFactory = function (
           requestParameters.dev_mode,
           requestParameters.id,
           requestParameters.limit,
+          requestParameters.ocw_topic,
           requestParameters.offered_by,
           requestParameters.offset,
           requestParameters.platform,
@@ -7467,6 +7573,13 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
   readonly limit?: number
+
+  /**
+   * The ocw topic name.
+   * @type {Array<string>}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly ocw_topic?: Array<string>
 
   /**
    * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
@@ -7551,6 +7664,7 @@ export class ContentFileSearchApi extends BaseAPI {
         requestParameters.dev_mode,
         requestParameters.id,
         requestParameters.limit,
+        requestParameters.ocw_topic,
         requestParameters.offered_by,
         requestParameters.offset,
         requestParameters.platform,
@@ -12619,6 +12733,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page
      * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
+     * @param {Array<string>} [ocw_topic] The ocw topic name.
      * @param {Array<LearningResourcesSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesSearchRetrievePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
@@ -12648,6 +12763,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       limit?: number,
       max_incompleteness_penalty?: number | null,
       min_score?: number | null,
+      ocw_topic?: Array<string>,
       offered_by?: Array<LearningResourcesSearchRetrieveOfferedByEnum>,
       offset?: number,
       platform?: Array<LearningResourcesSearchRetrievePlatformEnum>,
@@ -12729,6 +12845,10 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
 
       if (min_score !== undefined) {
         localVarQueryParameter["min_score"] = min_score
+      }
+
+      if (ocw_topic) {
+        localVarQueryParameter["ocw_topic"] = ocw_topic
       }
 
       if (offered_by) {
@@ -12822,6 +12942,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {number} [limit] Number of results to return per page
      * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
+     * @param {Array<string>} [ocw_topic] The ocw topic name.
      * @param {Array<LearningResourcesSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesSearchRetrievePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
@@ -12851,6 +12972,7 @@ export const LearningResourcesSearchApiFp = function (
       limit?: number,
       max_incompleteness_penalty?: number | null,
       min_score?: number | null,
+      ocw_topic?: Array<string>,
       offered_by?: Array<LearningResourcesSearchRetrieveOfferedByEnum>,
       offset?: number,
       platform?: Array<LearningResourcesSearchRetrievePlatformEnum>,
@@ -12885,6 +13007,7 @@ export const LearningResourcesSearchApiFp = function (
           limit,
           max_incompleteness_penalty,
           min_score,
+          ocw_topic,
           offered_by,
           offset,
           platform,
@@ -12952,6 +13075,7 @@ export const LearningResourcesSearchApiFactory = function (
           requestParameters.limit,
           requestParameters.max_incompleteness_penalty,
           requestParameters.min_score,
+          requestParameters.ocw_topic,
           requestParameters.offered_by,
           requestParameters.offset,
           requestParameters.platform,
@@ -13067,6 +13191,13 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly min_score?: number | null
+
+  /**
+   * The ocw topic name.
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly ocw_topic?: Array<string>
 
   /**
    * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
@@ -13187,6 +13318,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.max_incompleteness_penalty,
         requestParameters.min_score,
+        requestParameters.ocw_topic,
         requestParameters.offered_by,
         requestParameters.offset,
         requestParameters.platform,
@@ -13424,6 +13556,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page
      * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
+     * @param {Array<string>} [ocw_topic] The ocw topic name.
      * @param {Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionCheckListPlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
@@ -13454,6 +13587,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       limit?: number,
       max_incompleteness_penalty?: number | null,
       min_score?: number | null,
+      ocw_topic?: Array<string>,
       offered_by?: Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>,
       offset?: number,
       platform?: Array<LearningResourcesUserSubscriptionCheckListPlatformEnum>,
@@ -13538,6 +13672,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         localVarQueryParameter["min_score"] = min_score
       }
 
+      if (ocw_topic) {
+        localVarQueryParameter["ocw_topic"] = ocw_topic
+      }
+
       if (offered_by) {
         localVarQueryParameter["offered_by"] = offered_by
       }
@@ -13620,6 +13758,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page
      * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
+     * @param {Array<string>} [ocw_topic] The ocw topic name.
      * @param {Array<LearningResourcesUserSubscriptionListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionListPlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
@@ -13649,6 +13788,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       limit?: number,
       max_incompleteness_penalty?: number | null,
       min_score?: number | null,
+      ocw_topic?: Array<string>,
       offered_by?: Array<LearningResourcesUserSubscriptionListOfferedByEnum>,
       offset?: number,
       platform?: Array<LearningResourcesUserSubscriptionListPlatformEnum>,
@@ -13732,6 +13872,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         localVarQueryParameter["min_score"] = min_score
       }
 
+      if (ocw_topic) {
+        localVarQueryParameter["ocw_topic"] = ocw_topic
+      }
+
       if (offered_by) {
         localVarQueryParameter["offered_by"] = offered_by
       }
@@ -13810,6 +13954,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page
      * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
+     * @param {Array<string>} [ocw_topic] The ocw topic name.
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
@@ -13841,6 +13986,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       limit?: number,
       max_incompleteness_penalty?: number | null,
       min_score?: number | null,
+      ocw_topic?: Array<string>,
       offered_by?: Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>,
       offset?: number,
       platform?: Array<LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum>,
@@ -13924,6 +14070,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (min_score !== undefined) {
         localVarQueryParameter["min_score"] = min_score
+      }
+
+      if (ocw_topic) {
+        localVarQueryParameter["ocw_topic"] = ocw_topic
       }
 
       if (offered_by) {
@@ -14079,6 +14229,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {number} [limit] Number of results to return per page
      * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
+     * @param {Array<string>} [ocw_topic] The ocw topic name.
      * @param {Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionCheckListPlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
@@ -14109,6 +14260,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       limit?: number,
       max_incompleteness_penalty?: number | null,
       min_score?: number | null,
+      ocw_topic?: Array<string>,
       offered_by?: Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>,
       offset?: number,
       platform?: Array<LearningResourcesUserSubscriptionCheckListPlatformEnum>,
@@ -14144,6 +14296,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           limit,
           max_incompleteness_penalty,
           min_score,
+          ocw_topic,
           offered_by,
           offset,
           platform,
@@ -14188,6 +14341,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {number} [limit] Number of results to return per page
      * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
+     * @param {Array<string>} [ocw_topic] The ocw topic name.
      * @param {Array<LearningResourcesUserSubscriptionListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionListPlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
@@ -14217,6 +14371,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       limit?: number,
       max_incompleteness_penalty?: number | null,
       min_score?: number | null,
+      ocw_topic?: Array<string>,
       offered_by?: Array<LearningResourcesUserSubscriptionListOfferedByEnum>,
       offset?: number,
       platform?: Array<LearningResourcesUserSubscriptionListPlatformEnum>,
@@ -14251,6 +14406,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           limit,
           max_incompleteness_penalty,
           min_score,
+          ocw_topic,
           offered_by,
           offset,
           platform,
@@ -14294,6 +14450,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {number} [limit] Number of results to return per page
      * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
+     * @param {Array<string>} [ocw_topic] The ocw topic name.
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
@@ -14325,6 +14482,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       limit?: number,
       max_incompleteness_penalty?: number | null,
       min_score?: number | null,
+      ocw_topic?: Array<string>,
       offered_by?: Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>,
       offset?: number,
       platform?: Array<LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum>,
@@ -14358,6 +14516,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           limit,
           max_incompleteness_penalty,
           min_score,
+          ocw_topic,
           offered_by,
           offset,
           platform,
@@ -14458,6 +14617,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.limit,
           requestParameters.max_incompleteness_penalty,
           requestParameters.min_score,
+          requestParameters.ocw_topic,
           requestParameters.offered_by,
           requestParameters.offset,
           requestParameters.platform,
@@ -14501,6 +14661,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.limit,
           requestParameters.max_incompleteness_penalty,
           requestParameters.min_score,
+          requestParameters.ocw_topic,
           requestParameters.offered_by,
           requestParameters.offset,
           requestParameters.platform,
@@ -14543,6 +14704,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.limit,
           requestParameters.max_incompleteness_penalty,
           requestParameters.min_score,
+          requestParameters.ocw_topic,
           requestParameters.offered_by,
           requestParameters.offset,
           requestParameters.platform,
@@ -14678,6 +14840,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly min_score?: number | null
+
+  /**
+   * The ocw topic name.
+   * @type {Array<string>}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
+   */
+  readonly ocw_topic?: Array<string>
 
   /**
    * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
@@ -14869,6 +15038,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly min_score?: number | null
 
   /**
+   * The ocw topic name.
+   * @type {Array<string>}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
+   */
+  readonly ocw_topic?: Array<string>
+
+  /**
    * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
    * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'mitpe' | 'see'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
@@ -15051,6 +15227,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly min_score?: number | null
 
   /**
+   * The ocw topic name.
+   * @type {Array<string>}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly ocw_topic?: Array<string>
+
+  /**
    * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
    * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'mitpe' | 'see'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
@@ -15197,6 +15380,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.max_incompleteness_penalty,
         requestParameters.min_score,
+        requestParameters.ocw_topic,
         requestParameters.offered_by,
         requestParameters.offset,
         requestParameters.platform,
@@ -15242,6 +15426,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.max_incompleteness_penalty,
         requestParameters.min_score,
+        requestParameters.ocw_topic,
         requestParameters.offered_by,
         requestParameters.offset,
         requestParameters.platform,
@@ -15286,6 +15471,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.max_incompleteness_penalty,
         requestParameters.min_score,
+        requestParameters.ocw_topic,
         requestParameters.offered_by,
         requestParameters.offset,
         requestParameters.platform,
