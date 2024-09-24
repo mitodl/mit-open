@@ -6,7 +6,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("learning_resources", "0067_ocw_delivery_online_only"),
+        ("learning_resources", "0068_learningresource_format_pace"),
     ]
 
     operations = [
