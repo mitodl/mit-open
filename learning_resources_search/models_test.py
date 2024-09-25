@@ -152,3 +152,39 @@ def test_percolate_query_search_labels(mocker, mocked_es):
         == "q=testing+search+filter&department=physics&topic=math"
     )
     assert query.source_label() == "saved_search"
+
+
+@pytest.mark.django_db
+def test_percolate_query_display_labels(mocker, mocked_es):
+    """
+    Test that makes sure we display the display label for a percolate query if it is defined
+    """
+    mocker.patch(
+        "learning_resources_search.indexing_api.index_percolators", autospec=True
+    )
+    mocker.patch(
+        "learning_resources_search.indexing_api._update_document_by_id", autospec=True
+    )
+    ChannelFactory.create(search_filter="topic=Math", channel_type="topic")
+    ChannelFactory.create(search_filter="department=physics", channel_type="department")
+    ChannelFactory.create(search_filter="offered_by=mitx", channel_type="unit")
+    original_query = {
+        "q": "testing search filter",
+        "free": None,
+        "department": ["physics"],
+        "topic": ["math"],
+        "professional": None,
+        "certification": None,
+        "yearly_decay_percent": None,
+    }
+    test_label = "new courses about cats"
+    query = PercolateQueryFactory.create(
+        original_query=original_query,
+        query=original_query,
+        display_label=test_label,
+    )
+    assert (
+        query.original_url_params()
+        == "q=testing+search+filter&department=physics&topic=math"
+    )
+    assert query.source_label() == "saved_search"

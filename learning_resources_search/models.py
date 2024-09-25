@@ -43,6 +43,8 @@ class PercolateQuery(TimestampedModel):
 
     def source_description(self):
         channel = self.source_channel()
+        if self.display_label:
+            return self.display_label
         if channel:
             return channel.title
         return self.original_url_params()
