@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import _ from "lodash"
 import {
   Container,
@@ -11,11 +11,11 @@ import {
   onReInitSlickA11y,
 } from "ol-components"
 import { useTestimonialList } from "api/hooks/testimonials"
+import type { Attestation } from "api/v0"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
 import AttestantBlock from "@/page-components/TestimonialDisplay/AttestantBlock"
-
-const MARKETING_IMAGE_IDX = _.shuffle([1, 2, 3, 4, 5, 6])
+import Image from "next/image"
 
 const HeaderContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -224,8 +224,18 @@ const TestimonialTruncateText = styled(TruncateText)({
 const SlickCarousel = () => {
   const { data } = useTestimonialList({ position: 1 })
   const [slick, setSlick] = React.useState<Slider | null>(null)
+  const [shuffled, setShuffled] = useState<Attestation[]>()
+  const [imageSequence, setImageSequence] = useState<number[]>()
 
-  if (!data || data.results.length === 0) return null
+  useEffect(() => {
+    if (!data) return
+    setShuffled(_.shuffle(data?.results))
+    setImageSequence(_.shuffle([1, 2, 3, 4, 5, 6]))
+  }, [data])
+
+  if (!data?.results?.length || !shuffled?.length) {
+    return null
+  }
 
   const settings = {
     ref: setSlick,
@@ -248,7 +258,7 @@ const SlickCarousel = () => {
   return (
     <OverlayContainer as="section" aria-label="Carousel of learner experiences">
       <Slider {...settings}>
-        {_.shuffle(data?.results).map((resource, idx) => (
+        {shuffled.map((resource, idx) => (
           <TestimonialCardContainer
             className="testimonial-card-container"
             key={`container-${resource.id}`}
@@ -259,9 +269,11 @@ const SlickCarousel = () => {
               className="testimonial-card"
             >
               <TestimonialCardImage>
-                <img
-                  src={`/images/testimonial_images/testimonial-image-${MARKETING_IMAGE_IDX[idx % 6]}.png`}
+                <Image
+                  src={`/images/testimonial_images/testimonial-image-${imageSequence![idx % 6]}.png`}
                   alt=""
+                  width={300}
+                  height={326}
                 />
               </TestimonialCardImage>
               <TestimonialCardQuote>
