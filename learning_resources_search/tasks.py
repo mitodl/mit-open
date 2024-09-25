@@ -272,7 +272,7 @@ def send_subscription_emails(self, subscription_type, period="daily"):
             )
         ]
     )
-    raise self.replace(email_tasks)
+    return self.replace(email_tasks)
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
@@ -625,7 +625,7 @@ def start_recreate_index(self, indexes, remove_existing_reindexing_tags):
 
     # Use self.replace so that code waiting on this task will also wait on the indexing
     #  and finish tasks
-    raise self.replace(
+    return self.replace(
         celery.chain(index_tasks, finish_recreate_index.s(new_backing_indices))
     )
 
@@ -678,7 +678,7 @@ def start_update_index(self, indexes, etl_source):
         error = "start_update_index threw an error"
         log.exception(error)
         return [error]
-    raise self.replace(celery.chain(index_tasks, finish_update_index.s()))
+    return self.replace(celery.chain(index_tasks, finish_update_index.s()))
 
 
 def get_update_resource_files_tasks(blocklisted_ids, etl_source):
@@ -841,7 +841,11 @@ def get_update_learning_resource_tasks(resource_type):
 
 
 @app.task(
-    acks_late=True, autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m"
+    acks_late=True,
+    reject_on_worker_lost=True,
+    autoretry_for=(RetryError,),
+    retry_backoff=True,
+    rate_limit="600/m",
 )
 def finish_recreate_index(results, backing_indices):
     """
