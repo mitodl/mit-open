@@ -8,12 +8,13 @@ from django.conf import settings
 from learning_resources.constants import (
     Availability,
     CertificationType,
+    Format,
     LearningResourceType,
     OfferedBy,
     PlatformType,
 )
 from learning_resources.etl.constants import COMMON_HEADERS, ETLSource
-from learning_resources.models import LearningResource
+from learning_resources.models import LearningResource, default_pace
 
 OFFERED_BY = {"code": OfferedBy.mitx.name}
 READABLE_ID_PREFIX = "micromasters-program-"
@@ -46,6 +47,27 @@ def _is_published(course_id: str) -> bool:
     return False
 
 
+def _get_course_pace(course_id: str) -> list[str]:
+    """
+    Determine the pace of the course by id
+
+    Args:
+        course_id (str): the course id
+
+    Returns:
+        list[str]: the pace of the course as a list of strings
+
+    """
+    existing_course = LearningResource.objects.filter(
+        readable_id=course_id,
+        resource_type=LearningResourceType.course.name,
+        published=True,
+    ).first()
+    if existing_course:
+        return existing_course.pace
+    return default_pace()
+
+
 def _transform_image(micromasters_data: dict) -> dict:
     """
     Transform an image into our normalized data structure
@@ -65,7 +87,36 @@ def transform(programs_data):
     programs = []
     for program in programs_data:
         url = program.get("programpage_url")
+        # need positioning of courses by course_id for course data
+        courses = [
+            {
+                "readable_id": course["edx_key"],
+                "platform": PlatformType.edx.name,
+                "offered_by": OFFERED_BY,
+                "published": _is_published(course["edx_key"]),
+                "pace": _get_course_pace(course["edx_key"]),
+                "runs": [
+                    {
+                        "run_id": run["edx_course_key"],
+                    }
+                    for run in course["course_runs"]
+                    if run.get("edx_course_key", None)
+                ],
+            }
+            for course in sorted(
+                program["courses"],
+                key=lambda course: course["position_in_program"],
+            )
+        ]
         if url and DEDP not in url:
+            pace = sorted(
+                {
+                    pace
+                    for course in courses
+                    for pace in course["pace"]
+                    if course["published"]
+                }
+            )
             programs.append(
                 {
                     "readable_id": f"{READABLE_ID_PREFIX}{program['id']}",
@@ -91,30 +142,15 @@ def transform(programs_data):
                             "end_date": program["end_date"],
                             "enrollment_start": program["enrollment_start"],
                             "availability": Availability.dated.name,
+                            "pace": pace,
+                            "format": [Format.asynchronous.name],
                         }
                     ],
                     "topics": program["topics"],
                     "availability": Availability.dated.name,
-                    # only need positioning of courses by course_id for course data
-                    "courses": [
-                        {
-                            "readable_id": course["edx_key"],
-                            "platform": PlatformType.edx.name,
-                            "offered_by": OFFERED_BY,
-                            "published": _is_published(course["edx_key"]),
-                            "runs": [
-                                {
-                                    "run_id": run["edx_course_key"],
-                                }
-                                for run in course["course_runs"]
-                                if run.get("edx_course_key", None)
-                            ],
-                        }
-                        for course in sorted(
-                            program["courses"],
-                            key=lambda course: course["position_in_program"],
-                        )
-                    ],
+                    "pace": pace,
+                    "format": [Format.asynchronous.name],
+                    "courses": courses,
                 }
             )
     return programs

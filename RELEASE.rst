@@ -1,6 +1,22 @@
 Release Notes
 =============
 
+Version 0.19.3 (Released September 23, 2024)
+--------------
+
+- Make search mode defaults settable env variables (#1590)
+- follow/unfollow popover (#1589)
+- Fix extract_openedx_data and backpopulate_mit_edx_data commands to work with course/program datafiles (#1587)
+
+Version 0.19.2 (Released September 23, 2024)
+--------------
+
+- Codespace opensearch service fix (#1582)
+- Remove learning_format, use delivery for search filter/facet (#1567)
+- Signup popover owns url (#1576)
+- [pre-commit.ci] pre-commit autoupdate (#1541)
+- Remove an unused dependency (#1571)
+
 Version 0.19.1 (Released September 18, 2024)
 --------------
 

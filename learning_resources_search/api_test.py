@@ -1051,6 +1051,10 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
         "offset": 1,
         "sortby": "-readable_id",
         "endpoint": LEARNING_RESOURCE,
+        "yearly_decay_percent": 0,
+        "max_incompleteness_penalty": 0,
+        "min_score": 0,
+        "search_mode": "best_fields",
     }
 
     query = {
@@ -1079,6 +1083,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                     "course_feature",
                                                                     "video.transcript.english",
                                                                 ],
+                                                                "type": "best_fields",
                                                             }
                                                         },
                                                         {
@@ -1090,6 +1095,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                         "fields": [
                                                                             "topics.name"
                                                                         ],
+                                                                        "type": "best_fields",
                                                                     }
                                                                 },
                                                             }
@@ -1104,6 +1110,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                             "departments.department_id",
                                                                             "departments.name",
                                                                         ],
+                                                                        "type": "best_fields",
                                                                     }
                                                                 },
                                                             }
@@ -1117,6 +1124,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                         "fields": [
                                                                             "course.course_numbers.value"
                                                                         ],
+                                                                        "type": "best_fields",
                                                                     }
                                                                 },
                                                             }
@@ -1132,6 +1140,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                             "runs.semester",
                                                                             "runs.level",
                                                                         ],
+                                                                        "type": "best_fields",
                                                                     }
                                                                 },
                                                             }
@@ -1150,6 +1159,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                                     "runs.instructors.last_name^5",
                                                                                     "runs.instructors.full_name^5",
                                                                                 ],
+                                                                                "type": "best_fields",
                                                                             }
                                                                         },
                                                                     }
@@ -1168,6 +1178,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                             "short_description.english^2",
                                                                             "content_feature_type",
                                                                         ],
+                                                                        "type": "best_fields",
                                                                     }
                                                                 },
                                                                 "score_mode": "avg",
@@ -1194,6 +1205,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                             "course_feature",
                                             "video.transcript.english",
                                         ],
+                                        "type": "best_fields",
                                     }
                                 },
                                 {
@@ -1203,6 +1215,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                             "multi_match": {
                                                 "query": "math",
                                                 "fields": ["topics.name"],
+                                                "type": "best_fields",
                                             }
                                         },
                                     }
@@ -1217,6 +1230,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                     "departments.department_id",
                                                     "departments.name",
                                                 ],
+                                                "type": "best_fields",
                                             }
                                         },
                                     }
@@ -1230,6 +1244,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                 "fields": [
                                                     "course.course_numbers.value"
                                                 ],
+                                                "type": "best_fields",
                                             }
                                         },
                                     }
@@ -1245,6 +1260,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                     "runs.semester",
                                                     "runs.level",
                                                 ],
+                                                "type": "best_fields",
                                             }
                                         },
                                     }
@@ -1263,6 +1279,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                             "runs.instructors.last_name^5",
                                                             "runs.instructors.full_name^5",
                                                         ],
+                                                        "type": "best_fields",
                                                     }
                                                 },
                                             }
@@ -1281,6 +1298,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                     "short_description.english^2",
                                                     "content_feature_type",
                                                 ],
+                                                "type": "best_fields",
                                             }
                                         },
                                         "score_mode": "avg",
@@ -1450,8 +1468,12 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
     ],
 )
 def test_execute_learn_search_with_script_score(
-    mocker, opensearch, yearly_decay_percent, max_incompleteness_penalty
+    mocker, settings, opensearch, yearly_decay_percent, max_incompleteness_penalty
 ):
+    settings.DEFAULT_SEARCH_MODE = "phrase"
+    settings.DEFAULT_SEARCH_SLOP = 0
+    settings.DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF = 0
+
     opensearch.conn.search.return_value = {
         "hits": {"total": {"value": 10, "relation": "eq"}}
     }
@@ -1531,6 +1553,7 @@ def test_execute_learn_search_with_script_score(
                                                                             "course_feature",
                                                                             "video.transcript.english",
                                                                         ],
+                                                                        "type": "phrase",
                                                                     }
                                                                 },
                                                                 {
@@ -1542,6 +1565,7 @@ def test_execute_learn_search_with_script_score(
                                                                                 "fields": [
                                                                                     "topics.name"
                                                                                 ],
+                                                                                "type": "phrase",
                                                                             }
                                                                         },
                                                                     }
@@ -1556,6 +1580,7 @@ def test_execute_learn_search_with_script_score(
                                                                                     "departments.department_id",
                                                                                     "departments.name",
                                                                                 ],
+                                                                                "type": "phrase",
                                                                             }
                                                                         },
                                                                     }
@@ -1569,6 +1594,7 @@ def test_execute_learn_search_with_script_score(
                                                                                 "fields": [
                                                                                     "course.course_numbers.value"
                                                                                 ],
+                                                                                "type": "phrase",
                                                                             }
                                                                         },
                                                                     }
@@ -1584,6 +1610,7 @@ def test_execute_learn_search_with_script_score(
                                                                                     "runs.semester",
                                                                                     "runs.level",
                                                                                 ],
+                                                                                "type": "phrase",
                                                                             }
                                                                         },
                                                                     }
@@ -1602,6 +1629,7 @@ def test_execute_learn_search_with_script_score(
                                                                                             "runs.instructors.last_name^5",
                                                                                             "runs.instructors.full_name^5",
                                                                                         ],
+                                                                                        "type": "phrase",
                                                                                     }
                                                                                 },
                                                                             }
@@ -1620,6 +1648,7 @@ def test_execute_learn_search_with_script_score(
                                                                                     "short_description.english^2",
                                                                                     "content_feature_type",
                                                                                 ],
+                                                                                "type": "phrase",
                                                                             }
                                                                         },
                                                                         "score_mode": "avg",
@@ -1646,6 +1675,7 @@ def test_execute_learn_search_with_script_score(
                                                     "course_feature",
                                                     "video.transcript.english",
                                                 ],
+                                                "type": "phrase",
                                             }
                                         },
                                         {
@@ -1655,6 +1685,7 @@ def test_execute_learn_search_with_script_score(
                                                     "multi_match": {
                                                         "query": "math",
                                                         "fields": ["topics.name"],
+                                                        "type": "phrase",
                                                     }
                                                 },
                                             }
@@ -1669,6 +1700,7 @@ def test_execute_learn_search_with_script_score(
                                                             "departments.department_id",
                                                             "departments.name",
                                                         ],
+                                                        "type": "phrase",
                                                     }
                                                 },
                                             }
@@ -1682,6 +1714,7 @@ def test_execute_learn_search_with_script_score(
                                                         "fields": [
                                                             "course.course_numbers.value"
                                                         ],
+                                                        "type": "phrase",
                                                     }
                                                 },
                                             }
@@ -1697,6 +1730,7 @@ def test_execute_learn_search_with_script_score(
                                                             "runs.semester",
                                                             "runs.level",
                                                         ],
+                                                        "type": "phrase",
                                                     }
                                                 },
                                             }
@@ -1715,6 +1749,7 @@ def test_execute_learn_search_with_script_score(
                                                                     "runs.instructors.last_name^5",
                                                                     "runs.instructors.full_name^5",
                                                                 ],
+                                                                "type": "phrase",
                                                             }
                                                         },
                                                     }
@@ -1733,6 +1768,7 @@ def test_execute_learn_search_with_script_score(
                                                             "short_description.english^2",
                                                             "content_feature_type",
                                                         ],
+                                                        "type": "phrase",
                                                     }
                                                 },
                                                 "score_mode": "avg",
@@ -1898,10 +1934,14 @@ def test_execute_learn_search_with_script_score(
     )
 
 
-def test_execute_learn_search_with_min_score(mocker, opensearch):
+def test_execute_learn_search_with_min_score(mocker, settings, opensearch):
     opensearch.conn.search.return_value = {
         "hits": {"total": {"value": 10, "relation": "eq"}}
     }
+
+    settings.DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY = 0
+    settings.DEFAULT_SEARCH_STALENESS_PENALTY = 0
+    settings.DEFAULT_SEARCH_MODE = "best_fields"
 
     search_params = {
         "aggregations": ["offered_by"],
@@ -1943,6 +1983,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                                             "course_feature",
                                                                             "video.transcript.english",
                                                                         ],
+                                                                        "type": "best_fields",
                                                                     }
                                                                 },
                                                                 {
@@ -1954,6 +1995,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                                                 "fields": [
                                                                                     "topics.name"
                                                                                 ],
+                                                                                "type": "best_fields",
                                                                             }
                                                                         },
                                                                     }
@@ -1968,6 +2010,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                                                     "departments.department_id",
                                                                                     "departments.name",
                                                                                 ],
+                                                                                "type": "best_fields",
                                                                             }
                                                                         },
                                                                     }
@@ -1981,6 +2024,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                                                 "fields": [
                                                                                     "course.course_numbers.value"
                                                                                 ],
+                                                                                "type": "best_fields",
                                                                             }
                                                                         },
                                                                     }
@@ -1996,6 +2040,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                                                     "runs.semester",
                                                                                     "runs.level",
                                                                                 ],
+                                                                                "type": "best_fields",
                                                                             }
                                                                         },
                                                                     }
@@ -2014,6 +2059,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                                                             "runs.instructors.last_name^5",
                                                                                             "runs.instructors.full_name^5",
                                                                                         ],
+                                                                                        "type": "best_fields",
                                                                                     }
                                                                                 },
                                                                             }
@@ -2032,6 +2078,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                                                     "short_description.english^2",
                                                                                     "content_feature_type",
                                                                                 ],
+                                                                                "type": "best_fields",
                                                                             }
                                                                         },
                                                                         "score_mode": "avg",
@@ -2058,6 +2105,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                     "course_feature",
                                                     "video.transcript.english",
                                                 ],
+                                                "type": "best_fields",
                                             }
                                         },
                                         {
@@ -2067,6 +2115,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                     "multi_match": {
                                                         "query": "math",
                                                         "fields": ["topics.name"],
+                                                        "type": "best_fields",
                                                     }
                                                 },
                                             }
@@ -2081,6 +2130,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                             "departments.department_id",
                                                             "departments.name",
                                                         ],
+                                                        "type": "best_fields",
                                                     }
                                                 },
                                             }
@@ -2094,6 +2144,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                         "fields": [
                                                             "course.course_numbers.value"
                                                         ],
+                                                        "type": "best_fields",
                                                     }
                                                 },
                                             }
@@ -2109,6 +2160,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                             "runs.semester",
                                                             "runs.level",
                                                         ],
+                                                        "type": "best_fields",
                                                     }
                                                 },
                                             }
@@ -2127,6 +2179,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                                     "runs.instructors.last_name^5",
                                                                     "runs.instructors.full_name^5",
                                                                 ],
+                                                                "type": "best_fields",
                                                             }
                                                         },
                                                     }
@@ -2145,6 +2198,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                                                             "short_description.english^2",
                                                             "content_feature_type",
                                                         ],
+                                                        "type": "best_fields",
                                                     }
                                                 },
                                                 "score_mode": "avg",

@@ -71,6 +71,26 @@
       "description": "The domain to set the CSRF cookie on",
       "required": false
     },
+    "DEFAULT_SEARCH_MODE": {
+      "description": "Default search mode for the search API and frontend",
+      "required": false
+    },
+    "DEFAULT_SEARCH_SLOP": {
+      "description": "Default slop value for the search API and frontend. Only used for phrase queries.",
+      "required": false
+    },
+    "DEFAULT_SEARCH_STALENESS_PENALTY": {
+      "description": "Default staleness penalty value for the search API and frontend",
+      "required": false
+    },
+    "DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF": {
+      "description": "Default minimum score cutoff value for the search API and frontend",
+      "required": false
+    },
+    "DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY": {
+      "description": "Default max incompleteness penalty value for the search API and frontend",
+      "required": false
+    },
     "EDX_API_ACCESS_TOKEN_URL": {
       "description": "URL to retrieve a MITx access token",
       "required": false

@@ -11,7 +11,9 @@ import pytest
 
 from learning_resources.constants import (
     CertificationType,
+    Format,
     LearningResourceType,
+    Pace,
     PlatformType,
     RunStatus,
 )
@@ -150,6 +152,8 @@ def test_mitxonline_transform_programs(
             "url": parse_page_attribute(program_data, "page_url", is_url=True),
             "availability": program_data["availability"],
             "topics": transform_topics(program_data["topics"], OFFERED_BY["code"]),
+            "format": [Format.asynchronous.name],
+            "pace": [Pace.self_paced.name],
             "runs": [
                 {
                     "run_id": program_data["readable_id"],
@@ -171,6 +175,8 @@ def test_mitxonline_transform_programs(
                     if parse_page_attribute(program_data, "page_url")
                     else RunStatus.archived.value,
                     "availability": program_data["availability"],
+                    "format": [Format.asynchronous.name],
+                    "pace": [Pace.self_paced.name],
                 }
             ],
             "courses": [
@@ -205,6 +211,8 @@ def test_mitxonline_transform_programs(
                     "certification_type": CertificationType.completion.name,
                     "url": parse_page_attribute(course_data, "page_url", is_url=True),
                     "availability": course_data["availability"],
+                    "format": [Format.asynchronous.name],
+                    "pace": [Pace.self_paced.name],
                     "topics": transform_topics(
                         course_data["topics"], OFFERED_BY["code"]
                     ),
@@ -250,6 +258,8 @@ def test_mitxonline_transform_programs(
                             if parse_page_attribute(course_data, "page_url")
                             else RunStatus.archived.value,
                             "availability": course_data["availability"],
+                            "format": [Format.asynchronous.name],
+                            "pace": [Pace.self_paced.name],
                         }
                         for course_run_data in course_data["courseruns"]
                     ],
@@ -379,6 +389,8 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                     if parse_page_attribute(course_data, "page_url")
                     else RunStatus.archived.value,
                     "availability": course_data["availability"],
+                    "format": [Format.asynchronous.name],
+                    "pace": [Pace.self_paced.name],
                 }
                 for course_run_data in course_data["courseruns"]
             ],
@@ -394,6 +406,8 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                 ]
             },
             "availability": course_data["availability"],
+            "format": [Format.asynchronous.name],
+            "pace": [Pace.self_paced.name],
         }
         for course_data in mock_mitxonline_courses_data["results"]
         if "PROCTORED EXAM" not in course_data["title"]
@@ -463,7 +477,9 @@ def test_program_run_start_date_value(  # noqa: PLR0913
     mock_mitxonline_programs_data["results"][0]["start_date"] = start_dt
     mock_mitxonline_programs_data["results"][0]["enrollment_start"] = enrollment_dt
 
-    transformed_programs = transform_programs(mock_mitxonline_programs_data["results"])
+    transformed_programs = list(
+        transform_programs(mock_mitxonline_programs_data["results"])
+    )
 
     assert transformed_programs[0]["runs"][0]["start_date"] == _parse_datetime(
         expected_dt

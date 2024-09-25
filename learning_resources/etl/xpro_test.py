@@ -10,7 +10,9 @@ import pytest
 from learning_resources.constants import (
     Availability,
     CertificationType,
+    Format,
     LearningResourceType,
+    Pace,
     PlatformType,
 )
 from learning_resources.etl import xpro
@@ -112,6 +114,8 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
             "resource_type": LearningResourceType.program.name,
             "delivery": transform_delivery(program_data.get("format")),
             "continuing_ed_credits": program_data.get("credits"),
+            "pace": [Pace.self_paced.name],
+            "format": [Format.asynchronous.name],
             "runs": [
                 {
                     "run_id": program_data["readable_id"],
@@ -131,6 +135,8 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                     "description": program_data["description"],
                     "delivery": transform_delivery(program_data.get("format")),
                     "availability": Availability.dated.name,
+                    "pace": [Pace.self_paced.name],
+                    "format": [Format.asynchronous.name],
                 }
             ],
             "courses": [
@@ -153,6 +159,8 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                     "topics": parse_topics(course_data),
                     "resource_type": LearningResourceType.course.name,
                     "continuing_ed_credits": course_data.get("credits"),
+                    "pace": [Pace.self_paced.name],
+                    "format": [Format.asynchronous.name],
                     "runs": [
                         {
                             "run_id": course_run_data["courseware_id"],
@@ -173,6 +181,8 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                             ],
                             "delivery": transform_delivery(course_data.get("format")),
                             "availability": Availability.dated.name,
+                            "pace": [Pace.self_paced.name],
+                            "format": [Format.asynchronous.name],
                         }
                         for course_run_data in course_data["courseruns"]
                     ],
@@ -245,6 +255,8 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                     ],
                     "delivery": transform_delivery(course_data.get("format")),
                     "availability": Availability.dated.name,
+                    "pace": [Pace.self_paced.name],
+                    "format": [Format.asynchronous.name],
                 }
                 for course_run_data in course_data["courseruns"]
             ],
@@ -262,6 +274,8 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
             "certification": True,
             "certification_type": CertificationType.professional.name,
             "continuing_ed_credits": course_data.get("credits"),
+            "pace": [Pace.self_paced.name],
+            "format": [Format.asynchronous.name],
         }
         for course_data in mock_xpro_courses_data
     ]
