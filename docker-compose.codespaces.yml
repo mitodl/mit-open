@@ -9,14 +9,16 @@ services:
     env_file: env/codespaces.env
     depends_on:
       - opensearch-node-mitopen-1
-
   watch:
     extends:
       file: docker-compose.apps.yml
       service: watch
     env_file: env/codespaces.env
     restart: always
-
+    environment:
+      - PORT=8062
+    depends_on:
+      - nginx
   celery:
     extends:
       file: docker-compose.apps.yml
