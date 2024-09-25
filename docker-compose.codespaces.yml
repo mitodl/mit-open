@@ -9,19 +9,6 @@ services:
     env_file: env/codespaces.env
     depends_on:
       - opensearch-node-mitopen-1
-  opensearch-node-mitopen-1:
-    extends:
-      file: docker-compose.opensearch.base.yml
-      service: opensearch
-    hostname: opensearch-node-mitopen-1
-    environment:
-      - "node.name=opensearch-node-mitopen-1"
-      - "discovery.type=single-node" # disables bootstrap checks that are enabled when network.host is set to a non-loopback address
-    volumes:
-      - opensearch-data1:/usr/share/opensearch/data
-    ports:
-      - 9100:9200 # REST API
-      - 9500:9600 # Performance Analyzer
   watch:
     extends:
       file: docker-compose.apps.yml
@@ -31,11 +18,9 @@ services:
       - PORT=8062
     depends_on:
       - nginx
+      - opensearch-node-mitopen-1
   celery:
     extends:
       file: docker-compose.apps.yml
       service: celery
     env_file: env/codespaces.env
-
-volumes:
-  opensearch-data1:
