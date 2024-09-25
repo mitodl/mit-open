@@ -9,18 +9,13 @@ services:
     env_file: env/codespaces.env
     depends_on:
       - opensearch-node-mitopen-1
-    links:
-      - opensearch-node-mitopen-1
+
   watch:
     extends:
       file: docker-compose.apps.yml
       service: watch
     env_file: env/codespaces.env
-    environment:
-      - PORT=8062
-    depends_on:
-      - nginx
-      - opensearch-node-mitopen-1
+
   celery:
     extends:
       file: docker-compose.apps.yml
