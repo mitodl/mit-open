@@ -15408,6 +15408,7 @@ __metadata:
     material-ui-popup-state: "npm:^5.1.0"
     ol-test-utilities: "npm:0.0.0"
     ol-utilities: "npm:0.0.0"
+    posthog-js: "npm:^1.165.0"
     prop-types: "npm:^15.8.1"
     react: "npm:18.3.1"
     react-router: "npm:^6.22.2"
@@ -16574,6 +16575,17 @@ __metadata:
     preact: "npm:^10.19.3"
     web-vitals: "npm:^4.0.1"
   checksum: 10/5c3ad201fea4fcace4e3359cc36c4e938600400b38207a701869ef6067ae3d06a47cb89001300573f5a948be59f8b0811cb664bf1bf715eb1cbb9f9a14df0ca6
+  languageName: node
+  linkType: hard
+
+"posthog-js@npm:^1.165.0":
+  version: 1.165.0
+  resolution: "posthog-js@npm:1.165.0"
+  dependencies:
+    fflate: "npm:^0.4.8"
+    preact: "npm:^10.19.3"
+    web-vitals: "npm:^4.0.1"
+  checksum: 10/4a640b90af24ffb173b4d20f27aab572437c8641b1ff48ad23e98d593fa7e94e63e660a4ce967a18eaabaf5102ecaff8a258315b47d1916e79a7f1ec7ad3bc7d
   languageName: node
   linkType: hard
 
