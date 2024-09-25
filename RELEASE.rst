@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 0.19.5
+--------------
+
+- Add separate field for ocw topics, use best field to assign related topics (#1600)
+
 Version 0.19.4 (Released September 25, 2024)
 --------------
 
