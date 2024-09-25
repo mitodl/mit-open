@@ -29,7 +29,7 @@ def get_soup(url: str) -> Soup:
     """
     response = requests.get(url, timeout=settings.REQUESTS_TIMEOUT)
     response.raise_for_status()
-    return Soup(response.content, features="lxml")
+    return Soup(response.content, features="html.parser")
 
 
 def tag_text(tag: Tag) -> str:

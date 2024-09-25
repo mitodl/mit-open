@@ -9,6 +9,8 @@ services:
     env_file: env/codespaces.env
     depends_on:
       - opensearch-node-mitopen-1
+    links:
+      - opensearch-node-mitopen-1
   watch:
     extends:
       file: docker-compose.apps.yml

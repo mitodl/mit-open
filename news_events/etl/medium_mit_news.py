@@ -47,7 +47,7 @@ def transform_items(items_data: list[dict]) -> list[dict]:
     entries = []
     for item in items_data:
         content = (item.get("content") or [{}])[0].get("value", "")
-        soup = BeautifulSoup(content, "lxml")
+        soup = BeautifulSoup(content, "html.parser")
         figures = soup.find_all("figure")
         image_data = None
         if (
