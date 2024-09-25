@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.19.4 (Released September 25, 2024)
+--------------
+
+- new -> recently added (#1594)
+- Pace and format fields for learning resources (#1588)
+
 Version 0.19.3 (Released September 23, 2024)
 --------------
 
