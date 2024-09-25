@@ -16,7 +16,6 @@ class Migration(migrations.Migration):
                 blank=True,
                 help_text="Friendly display label for the query",
                 max_length=255,
-                null=True,
             ),
         ),
     ]
