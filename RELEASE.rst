@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.19.4
+Version 0.19.4 (Released September 25, 2024)
 --------------
 
 - new -> recently added (#1594)
