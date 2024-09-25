@@ -10106,6 +10106,10 @@ components:
         query: {}
         source_type:
           $ref: '#/components/schemas/SourceTypeEnum'
+        display_label:
+          type: string
+          description: Friendly display label for the query
+          maxLength: 255
       required:
       - id
       - original_query

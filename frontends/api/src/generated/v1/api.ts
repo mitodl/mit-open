@@ -3638,6 +3638,12 @@ export interface PercolateQuery {
    * @memberof PercolateQuery
    */
   source_type: SourceTypeEnum
+  /**
+   * Friendly display label for the query
+   * @type {string}
+   * @memberof PercolateQuery
+   */
+  display_label?: string
 }
 
 /**
