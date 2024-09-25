@@ -15,6 +15,7 @@ services:
       file: docker-compose.apps.yml
       service: watch
     env_file: env/codespaces.env
+    restart: always
 
   celery:
     extends:
