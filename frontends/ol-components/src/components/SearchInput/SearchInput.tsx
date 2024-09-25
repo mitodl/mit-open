@@ -58,7 +58,12 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
   const { POSTHOG } = APP_SETTINGS
 
   const handleSubmit = useCallback(
-    (ev: React.SyntheticEvent<HTMLInputElement>, isEnter: boolean = false) => {
+    (
+      ev:
+        | React.SyntheticEvent<HTMLInputElement>
+        | React.SyntheticEvent<HTMLButtonElement, MouseEvent>,
+      isEnter: boolean = false,
+    ) => {
       const event = {
         target: { value },
         preventDefault: () => null,
