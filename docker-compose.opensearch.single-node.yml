@@ -12,6 +12,7 @@ services:
     ports:
       - 9100:9200 # REST API
       - 9500:9600 # Performance Analyzer
+    restart: always
 
 volumes:
   opensearch-data1:
