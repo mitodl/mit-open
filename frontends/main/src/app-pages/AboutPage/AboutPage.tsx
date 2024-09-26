@@ -9,6 +9,7 @@ import {
 } from "ol-components"
 import * as urls from "@/common/urls"
 import React from "react"
+import domeImage from "../../../public/mit-dome-2.jpg"
 
 const WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER = "what-is-mit-learn"
 const NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER = "non-degree-learning"
@@ -86,7 +87,7 @@ const SubHeaderImage = styled.img({
   borderRadius: "8px",
   backgroundSize: "cover",
   backgroundPosition: "center",
-  backgroundImage: "url('/mit-dome-2.jpg')",
+  backgroundImage: `url(${domeImage.src})`,
   [theme.breakpoints.down("md")]: {
     height: "300px",
   },

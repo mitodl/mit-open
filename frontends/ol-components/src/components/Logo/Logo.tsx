@@ -102,12 +102,12 @@ export const PlatformLogo: React.FC<{
     return null
   }
 
-  /* The Next.js Image component's requirement to specify
-   * both width and height are peculiar in the context of SVG
-   * images that do not optimize. The @next/next/no-img-element
-   * lint rule does not have any escape for SVGs despite the
-   * warning not applying - "Using `<img>` could result in slower
-   * LCP and higher bandwidth.".
+  /* The Next.js Image component's requirement to specify both width and height are peculiar
+   * in the context of SVG images that do not optimize. Likely to ensure no layout shift,
+   * though for such a hard error ("Image is missing required width property"), the layout
+   * doesn't necessarily shift, depending on the image placement and can be prevented with CSS.
+   * The @next/next/no-img-element lint rule does not have any escape for SVGs despite the warning
+   * not actually applying - "Using `<img>` could result in slower LCP and higher bandwidth.".
    */
   if (width && !height) {
     height = width / platform.aspect

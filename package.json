@@ -17,7 +17,7 @@
     "style-lint": "yarn workspace frontends run style-lint",
     "test": "MITOL_API_BASE_URL=https://api.test.learn.mit.edu yarn workspace frontends global:test",
     "test-watch": "MITOL_API_BASE_URL=https://api.test.learn.mit.edu yarn workspace frontends test-watch",
-    "storybook": "yarn workspace frontends storybook",
+    "storybook": "yarn workspace ol-components storybook",
     "lint-check": "yarn workspace frontends run lint-check",
     "typecheck": "yarn workspace frontends run typecheck"
   },
