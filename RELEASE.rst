@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 0.19.6
+--------------
+
+- Add task_reject_on_worker_lost=True to finish_recreate_index, use return instead of raise for replaced tasks (#1608)
+
 Version 0.19.5 (Released September 26, 2024)
 --------------
 
