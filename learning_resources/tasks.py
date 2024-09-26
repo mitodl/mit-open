@@ -170,7 +170,7 @@ def get_content_tasks(
 @app.task(bind=True)
 def import_all_mit_edx_files(self, chunk_size=None):
     """Ingest MIT edX files from an S3 bucket"""
-    raise self.replace(
+    return self.replace(
         get_content_tasks(
             ETLSource.mit_edx.name,
             chunk_size=chunk_size,
@@ -182,7 +182,7 @@ def import_all_mit_edx_files(self, chunk_size=None):
 @app.task(bind=True)
 def import_all_oll_files(self, chunk_size=None):
     """Ingest MIT edX files from an S3 bucket"""
-    raise self.replace(
+    return self.replace(
         get_content_tasks(
             ETLSource.oll.name,
             chunk_size=chunk_size,
@@ -195,7 +195,7 @@ def import_all_oll_files(self, chunk_size=None):
 @app.task(bind=True)
 def import_all_mitxonline_files(self, chunk_size=None):
     """Ingest MITx Online files from an S3 bucket"""
-    raise self.replace(
+    return self.replace(
         get_content_tasks(
             ETLSource.mitxonline.name,
             chunk_size=chunk_size,
@@ -207,7 +207,7 @@ def import_all_mitxonline_files(self, chunk_size=None):
 def import_all_xpro_files(self, chunk_size=None):
     """Ingest xPRO OLX files from an S3 bucket"""
 
-    raise self.replace(
+    return self.replace(
         get_content_tasks(
             ETLSource.xpro.name,
             chunk_size=chunk_size,
@@ -274,7 +274,7 @@ def get_ocw_data(  # noqa: PLR0913
         and settings.OCW_LIVE_BUCKET
     ):
         log.warning("Required settings missing for get_ocw_data")
-        return
+        return None
 
     # get all the courses prefixes we care about
     raw_data_bucket = boto3.resource(
@@ -300,7 +300,7 @@ def get_ocw_data(  # noqa: PLR0913
 
     if len(ocw_courses) == 0:
         log.info("No courses matching url substring")
-        return
+        return None
 
     log.info("Backpopulating %d OCW courses...", len(ocw_courses))
 
@@ -317,7 +317,7 @@ def get_ocw_data(  # noqa: PLR0913
             )
         ]
     )
-    raise self.replace(ocw_tasks)
+    return self.replace(ocw_tasks)
 
 
 @app.task
