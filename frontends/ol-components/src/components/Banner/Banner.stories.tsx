@@ -4,6 +4,7 @@ import { Banner } from "./Banner"
 import { Breadcrumbs } from "../Breadcrumbs/Breadcrumbs"
 import { Button } from "../Button/Button"
 import Typography from "@mui/material/Typography"
+import Image from "next/image"
 
 const lipsum =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo"
@@ -43,10 +44,12 @@ export const logoBanner: Story = {
     return (
       <Banner
         avatar={
-          <img
+          <Image
             src="/mit-logo-transparent5.svg"
             alt="MIT Logo"
-            style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
+            width={70}
+            height={37}
+            style={{ filter: "saturate(0%) invert(100%)" }}
           />
         }
         {...args}
@@ -60,9 +63,11 @@ export const logoBannerWithExtras: Story = {
     return (
       <Banner
         avatar={
-          <img
+          <Image
             src="/mit-logo-transparent5.svg"
             alt="MIT Logo"
+            width={70}
+            height={37}
             style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
           />
         }
