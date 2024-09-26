@@ -54,7 +54,11 @@ def _parse_datetime(value):
 
 def parse_topics(resource_data: dict) -> list[dict]:
     """
-    Get a list containing {"name": <topic>} dict objects
+    Get a list containing {"name": <topic>} dict objects.
+    May be a mix of prolearn and mit-learn topics.
+    If all prolearn topics, transform them to mit-learn topics.
+    Otherwise, ignore the prolearn topics and return only mit-learn topics
+
     Args:
         resource_data: course or program data
     Returns:
@@ -63,14 +67,18 @@ def parse_topics(resource_data: dict) -> list[dict]:
     extracted_topics = resource_data["topics"]
     if not extracted_topics:
         return []
-    return transform_topics(
-        [
-            {"name": topic["name"].split(":")[-1].strip()}
-            for topic in extracted_topics
-            if topic
-        ],
-        OfferedBy.xpro.name,
-    )
+    prolearn_topics = [topic for topic in extracted_topics if ":" in topic["name"]]
+    if len(prolearn_topics) == len(extracted_topics):
+        return transform_topics(
+            [
+                {"name": topic["name"].split(":")[-1].strip()}
+                for topic in extracted_topics
+                if topic
+            ],
+            OfferedBy.xpro.name,
+        )
+    else:
+        return [topic for topic in extracted_topics if ":" not in topic["name"]]
 
 
 def extract_programs():

@@ -326,7 +326,23 @@ def test_program_run_start_date_value(
     )
 
 
-def test_parse_topics_data():
+@pytest.mark.parametrize(
+    ("raw_topics", "expected_topics"),
+    [
+        (["Technology:AI/Machine Learning", "Management"], ["Management"]),
+        (
+            ["Technology:AI/Machine Learning", "Business:Management"],
+            ["AI", "Machine Learning", "Management"],
+        ),
+        (["Machine Learning", "Management"], ["Machine Learning", "Management"]),
+        (["AI", "Machine Learning"], ["AI", "Machine Learning"]),
+        (
+            ["AI", "Machine Learning", "Technology:AI/Machine Learning"],
+            ["AI", "Machine Learning"],
+        ),
+    ],
+)
+def test_parse_topics_data(raw_topics, expected_topics):
     """Test that topics are correctly parsed from the xpro data"""
     offeror = LearningResourceOfferorFactory.create(is_xpro=True)
     LearningResourceTopicMappingFactory.create(
@@ -345,10 +361,8 @@ def test_parse_topics_data():
         topic_name="Management",
     )
     course_data = {
-        "topics": [{"name": "AI/Machine Learning"}, {"name": "Management"}],
+        "topics": [{"name": topic} for topic in raw_topics],
     }
-    assert sorted(parse_topics(course_data), key=lambda topic: topic["name"]) == [
-        {"name": "AI"},
-        {"name": "Machine Learning"},
-        {"name": "Management"},
-    ]
+    assert sorted(parse_topics(course_data), key=lambda topic: topic["name"]) == sorted(
+        [{"name": topic} for topic in expected_topics], key=lambda topic: topic["name"]
+    )

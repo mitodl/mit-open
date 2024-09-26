@@ -9,7 +9,10 @@
     "courseruns": [],
     "next_run_id": null,
     "platform": "xPRO",
-    "topics": [{ "name": "Business:Leadership & Organizations" }],
+    "topics": [
+      { "name": "Organizations & Leadership" },
+      { "name": "Business:Leadership & Organizations" }
+    ],
     "format": "Online",
     "availability": "dated",
     "credits": "1.25"
@@ -38,7 +41,7 @@
       }
     ],
     "next_run_id": 49,
-    "topics": [{ "name": "Business:Leadership & Organizations" }],
+    "topics": [{ "name": "Organizations & Leadership" }],
     "format": "In person",
     "availability": "dated",
     "credits": "2.25"
