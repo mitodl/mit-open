@@ -138,7 +138,12 @@ const AttestantBlock: React.FC<AttestantBlockProps> = ({
         avatarStyle={avatar}
       >
         {attestation.avatar_medium ? (
-          <Image src={attestation.avatar_medium} alt="" width={40} height={40} />
+          <Image
+            src={attestation.avatar_medium}
+            alt=""
+            width={40}
+            height={40}
+          />
         ) : (
           <StyledRiAccountCircleFill />
         )}

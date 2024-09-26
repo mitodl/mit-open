@@ -244,7 +244,10 @@ const CallToActionSection = ({
       {platformImage ? (
         <Platform>
           <OnPlatform>on</OnPlatform>
-          <StyledPlatformLogo platformCode={platform?.code as PlatformEnum} height={26} />
+          <StyledPlatformLogo
+            platformCode={platform?.code as PlatformEnum}
+            height={26}
+          />
         </Platform>
       ) : null}
     </CallToAction>

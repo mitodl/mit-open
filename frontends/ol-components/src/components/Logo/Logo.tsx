@@ -2,7 +2,6 @@ import React from "react"
 import { PlatformEnum } from "api"
 import Image from "next/image"
 
-
 type WithImage = {
   name: string
   image: string
@@ -20,27 +19,27 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   [PlatformEnum.Ocw]: {
     name: "MIT OpenCourseWare",
     image: "/unit_logos/ocw.svg",
-    aspect: 6.03
+    aspect: 6.03,
   },
   [PlatformEnum.Edx]: {
     name: "edX",
     image: "/platform_logos/edx.svg",
-    aspect: 1.77
+    aspect: 1.77,
   },
   [PlatformEnum.Mitxonline]: {
     name: "MITx Online",
     image: "/unit_logos/mitx.svg",
-    aspect: 3.32
+    aspect: 3.32,
   },
   [PlatformEnum.Bootcamps]: {
     name: "Bootcamps",
     image: "/platform_logos/bootcamps.svg",
-    aspect: 5.25
+    aspect: 5.25,
   },
   [PlatformEnum.Xpro]: {
     name: "MIT xPRO",
     image: "/unit_logos/xpro.svg",
-    aspect: 3.56
+    aspect: 3.56,
   },
   [PlatformEnum.Podcast]: {
     name: "Podcast",
@@ -48,7 +47,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   [PlatformEnum.Csail]: {
     name: "CSAIL",
     image: "/platform_logos/csail.svg",
-    aspect: 1.76
+    aspect: 1.76,
   },
   [PlatformEnum.Mitpe]: {
     name: "MIT Professional Education",
@@ -56,7 +55,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   [PlatformEnum.See]: {
     name: "MIT Sloan Executive Education",
     image: "/unit_logos/see.svg",
-    aspect: 7.73
+    aspect: 7.73,
   },
   [PlatformEnum.Scc]: {
     name: "Schwarzman College of Computing",
@@ -82,7 +81,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   [PlatformEnum.Oll]: {
     name: "Open Learning Library",
     image: "/platform_logos/oll.svg",
-    aspect: 5.25
+    aspect: 5.25,
   },
   [PlatformEnum.Youtube]: {
     name: "YouTube",
