@@ -86,7 +86,7 @@ const UserMenuChevron: React.FC<{ open: boolean }> = ({ open }) => {
   return open ? <RiArrowUpSLine /> : <RiArrowDownSLine />
 }
 
-const StyledMITHomeLink = styled(MITLogoLink)({
+const StyledMITLogoLink = styled(MITLogoLink)({
   width: "64px",
   height: "32px",
   marginLeft: "32px",
@@ -167,10 +167,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
             >
               Log In
             </ButtonLink>
-            <StyledMITHomeLink
-              href="https://mit.edu"
-              src="/static/images/mit-logo-white.svg"
-            />
+            <StyledMITLogoLink src="/static/images/mit-logo-white.svg" />
           </FlexContainer>
         ) : (
           ""
