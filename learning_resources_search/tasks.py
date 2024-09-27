@@ -167,7 +167,7 @@ def _infer_percolate_group(percolate_query):
             elif key == "offered_by":
                 return LearningResourceOfferor.objects.get(code=val[0]).name
             return val[0]
-    return percolate_query.original_url_params()
+    return None
 
 
 def _infer_percolate_group_url(percolate_query):
@@ -181,8 +181,6 @@ def _infer_percolate_group_url(percolate_query):
     query_string_params = {k: v for k, v in original_query.items() if v}
     if "endpoint" in query_string_params:
         query_string_params.pop("endpoint")
-    if "sortby" not in query_string_params:
-        query_string_params["sortby"] = "new"
     query_string = urlencode(query_string_params, doseq=True)
     return frontend_absolute_url(f"/search?{query_string}")
 
@@ -888,8 +886,8 @@ def _generate_subscription_digest_subject(
     if sample_course["source_channel_type"] == "saved_search":
         return (
             f"{prefix}New"
-            f" {unique_resource_types.pop().capitalize()}{pluralize(total_count)}: "
-            f"{sample_course['resource_title']}"
+            f' "{source_name}" '
+            f"{unique_resource_types.pop().capitalize()}{pluralize(total_count)}"
         )
     preposition = "from"
     if sample_course["source_channel_type"] == "topic":
