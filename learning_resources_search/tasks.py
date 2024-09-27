@@ -275,7 +275,13 @@ def send_subscription_emails(self, subscription_type, period="daily"):
     return self.replace(email_tasks)
 
 
-@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+@app.task(
+    autoretry_for=(RetryError,),
+    retry_backoff=True,
+    rate_limit="600/m",
+    acks_late=True,
+    reject_on_worker_lost=True,
+)
 def index_learning_resources(ids, resource_type, index_types):
     """
     Index courses
@@ -348,7 +354,13 @@ def bulk_deindex_percolators(ids):
         return error
 
 
-@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+@app.task(
+    autoretry_for=(RetryError,),
+    retry_backoff=True,
+    rate_limit="600/m",
+    acks_late=True,
+    reject_on_worker_lost=True,
+)
 def bulk_index_percolate_queries(percolate_ids, index_types):
     """
     Bulk index percolate queries for provided percolate query Ids
@@ -397,7 +409,13 @@ def index_course_content_files(course_ids, index_types):
         return error
 
 
-@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+@app.task(
+    autoretry_for=(RetryError,),
+    retry_backoff=True,
+    rate_limit="600/m",
+    acks_late=True,
+    reject_on_worker_lost=True,
+)
 def index_content_files(
     content_file_ids,
     learning_resource_id,
