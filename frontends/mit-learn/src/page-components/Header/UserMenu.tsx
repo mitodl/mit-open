@@ -70,15 +70,7 @@ const UserNameContainer = styled.span(({ theme }) => ({
 }))
 
 const UserName: React.FC<{ user: User | undefined }> = ({ user }) => {
-  const first = user?.first_name ?? ""
-  const last = user?.last_name ?? ""
-  return (
-    <UserNameContainer>
-      {first}
-      {first && last ? " " : ""}
-      {last}
-    </UserNameContainer>
-  )
+  return <UserNameContainer>{user?.profile?.name ?? ""}</UserNameContainer>
 }
 
 const UserMenuChevron: React.FC<{ open: boolean }> = ({ open }) => {
