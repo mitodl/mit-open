@@ -102,6 +102,9 @@ const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     opacity: 1,
   },
+  "&:hover": {
+    opacity: 1,
+  },
 }))
 
 const SearchButton: FunctionComponent = () => {

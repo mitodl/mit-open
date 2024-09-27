@@ -47,6 +47,9 @@ const StyledMenuButton = styled.button(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     opacity: 1,
   },
+  "&:hover": {
+    opacity: 1,
+  },
 }))
 
 interface MenuButtonProps {
