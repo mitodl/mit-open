@@ -1,5 +1,3 @@
-
-
 // export { ChannelTypeEnum } from "@mitodl/open-api-axios/v1"
 
 export * from "@mitodl/open-api-axios/v0"
@@ -23,7 +21,6 @@ export const CurrentEducationEnumDescriptions = {
   "No formal education": "No formal education",
   "Other education": "Other education",
 } as const
-
 
 export const GoalsEnumDescriptions = {
   "academic-excellence": "Academic Boost",

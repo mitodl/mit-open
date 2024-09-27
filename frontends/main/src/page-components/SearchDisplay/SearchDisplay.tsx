@@ -27,7 +27,7 @@ import {
 import {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
   ResourceCategoryEnum,
-  SearchModeEnumDescriptions
+  SearchModeEnumDescriptions,
 } from "api/v1"
 import { useLearningResourcesSearch } from "api/hooks/learningResources"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
