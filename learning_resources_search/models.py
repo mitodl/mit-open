@@ -26,6 +26,12 @@ class PercolateQuery(TimestampedModel):
     source_type = models.CharField(
         max_length=255, choices=[(choice, choice) for choice in SOURCE_TYPES]
     )
+
+    display_label = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Friendly display label for the query",
+    )
     users = models.ManyToManyField(User, related_name="percolate_queries")
 
     def source_label(self):
@@ -37,6 +43,8 @@ class PercolateQuery(TimestampedModel):
 
     def source_description(self):
         channel = self.source_channel()
+        if self.display_label:
+            return self.display_label
         if channel:
             return channel.title
         return self.original_url_params()
