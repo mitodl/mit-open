@@ -12,6 +12,7 @@ from learning_resources_search.factories import PercolateQueryFactory
 from learning_resources_search.indexing_api import (
     get_reindexing_alias_name,
 )
+from learning_resources_search.models import PercolateQuery
 
 pytestmark = [pytest.mark.django_db, pytest.mark.usefixtures("mocked_es")]
 
@@ -63,7 +64,9 @@ def test_percolate_query_unit_labels(mocker, mocked_es):
         "yearly_decay_percent": None,
     }
     query = PercolateQueryFactory.create(
-        original_query=original_query, query=original_query
+        original_query=original_query,
+        query=original_query,
+        source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
     )
     assert query.original_url_params() == "offered_by=mitx"
     assert query.source_label() == "unit"
@@ -91,7 +94,9 @@ def test_percolate_query_topic_labels(mocker, mocked_es):
         "yearly_decay_percent": None,
     }
     query = PercolateQueryFactory.create(
-        original_query=original_query, query=original_query
+        original_query=original_query,
+        query=original_query,
+        source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
     )
     assert query.original_url_params() == "topic=Math"
     assert query.source_label() == "topic"
@@ -118,7 +123,9 @@ def test_percolate_query_department_labels(mocker, mocked_es):
         "yearly_decay_percent": None,
     }
     query = PercolateQueryFactory.create(
-        original_query=original_query, query=original_query
+        original_query=original_query,
+        query=original_query,
+        source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
     )
     assert query.original_url_params() == "department=physics"
     assert query.source_label() == "department"
@@ -196,6 +203,9 @@ def test_percolate_query_display_labels(
         original_query=original_query,
         query=original_query,
         display_label=test_label,
+        source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+        if is_channel_query
+        else PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
     )
     assert query.original_url_params() == encode_params(original_query)
     if not is_channel_query:
