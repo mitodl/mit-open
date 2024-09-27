@@ -234,12 +234,20 @@ const FacetStyles = styled.div`
       .input-postfix-button {
         cursor: pointer;
         position: absolute;
-        right: 5px;
-        top: 50%;
-        transform: translateY(-50%);
+        right: 7px;
+        top: 9px;
         border: none;
         background: none;
         padding: 0;
+
+        svg {
+          color: ${({ theme }) => theme.custom.colors.silverGrayLight};
+          width: 20px;
+          height: 20px;
+          :hover {
+            color: ${({ theme }) => theme.custom.colors.darkGray2};
+          }
+        }
 
         span {
           color: ${({ theme }) => theme.palette.text.secondary};
