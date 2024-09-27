@@ -18,11 +18,15 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.ocw import (
+    parse_learn_topics,
     transform_content_files,
     transform_contentfile,
     transform_course,
 )
-from learning_resources.factories import ContentFileFactory
+from learning_resources.factories import (
+    ContentFileFactory,
+    LearningResourceTopicFactory,
+)
 from learning_resources.models import ContentFile
 from learning_resources.utils import (
     get_s3_object_and_read,
@@ -239,6 +243,14 @@ def test_transform_course(  # noqa: PLR0913
     )
     transformed_json = transform_course(extracted_json)
     if expected_uid:
+        assert transformed_json["ocw_topics"] == [
+            "Anthropology",
+            "Ethnography",
+            "Humanities",
+            "Philosophy",
+            "Political Philosophy",
+            "Social Science",
+        ]
         assert transformed_json["readable_id"] == expected_id
         assert transformed_json["etl_source"] == ETLSource.ocw.name
         assert transformed_json["delivery"] == expected_delivery
@@ -295,3 +307,45 @@ def test_transform_course(  # noqa: PLR0913
         )
     else:
         assert transformed_json is None
+
+
+@pytest.mark.parametrize("has_learn_topics", [True, False])
+def test_parse_topics(mocker, has_learn_topics):
+    """Topics should be assigned correctly based on mitlearn topics if present, ocw topics if not"""
+    ocw_topics = [
+        ["Social Science", "Anthropology", "Ethnography"],
+        ["Social Science", "Political Science", "International Relations"],
+    ]
+    mit_learn_topics = (
+        [["Social Sciences", "Anthropology"], ["Social Sciences", "Political Science"]]
+        if has_learn_topics
+        else []
+    )
+    course_data = {
+        "topics": ocw_topics,
+        "mit_learn_topics": mit_learn_topics,
+    }
+    mocker.patch(
+        "learning_resources.etl.utils.load_offeror_topic_map",
+        return_value={
+            "Political Philosophy": ["Philosophy"],
+            "Ethnography": ["Anthropology"],
+            "International Relations": ["Political Science"],
+        },
+    )
+    for topic in ("Social Sciences", "Anthropology", "Political Science"):
+        LearningResourceTopicFactory.create(name=topic)
+    topics_dict = parse_learn_topics(course_data)
+    if has_learn_topics:
+        assert topics_dict == [
+            {"name": "Anthropology"},
+            {"name": "Political Science"},
+            {"name": "Social Sciences"},
+        ]
+    else:
+        assert topics_dict == [
+            {"name": "Anthropology"},
+            {"name": "Anthropology"},
+            {"name": "Political Science"},
+            {"name": "Political Science"},
+        ]

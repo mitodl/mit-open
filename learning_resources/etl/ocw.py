@@ -71,6 +71,40 @@ def parse_delivery(course_data: dict) -> list[str]:
     return delivery
 
 
+def parse_learn_topics(course_data: dict) -> list[dict]:
+    """
+    Parse topics. Use the "mit_learn_topics" field if it exists and isn't empty,
+    otherwise use and transform the "topics" field values.
+
+    Args:
+        course_data (dict): The course data
+
+    Returns:
+        list[dict]: The topics
+    """
+    mitlearn_topics = course_data.get("mit_learn_topics") or []
+    ocw_topics = course_data.get("topics") or []
+    if mitlearn_topics:
+        # Should already be in the correct format
+        return [
+            {"name": topic_name}
+            for topic_name in sorted(
+                {topic for topics in mitlearn_topics for topic in topics}
+            )
+        ]
+    else:
+        # Topics need to be transformed
+        return transform_topics(
+            [
+                {"name": topic_name}
+                for topic_name in sorted(
+                    {topic for topics in ocw_topics for topic in topics}
+                )
+            ],
+            OFFERED_BY["code"],
+        )
+
+
 def transform_content_files(
     s3_resource: boto3.resource,
     course_prefix: str,
@@ -329,10 +363,6 @@ def transform_course(course_data: dict) -> dict:
     readable_term = f"+{slugify(term)}" if term else ""
     readable_year = f"_{course_data.get('year')}" if year else ""
     readable_id = f"{course_data[PRIMARY_COURSE_ID]}{readable_term}{readable_year}"
-    topics = transform_topics(
-        [{"name": topic} for topics in course_data.get("topics") for topic in topics],
-        OFFERED_BY["code"],
-    )
     image_src = course_data.get("image_src")
 
     return {
@@ -365,7 +395,14 @@ def transform_course(course_data: dict) -> dict:
                 is_ocw=True,
             ),
         },
-        "topics": topics,
+        "topics": parse_learn_topics(course_data),
+        "ocw_topics": sorted(
+            {
+                topic_name
+                for topic_sublist in course_data.get("topics", [])
+                for topic_name in topic_sublist
+            }
+        ),
         "runs": [transform_run(course_data)],
         "resource_type": LearningResourceType.course.name,
         "unique_field": UNIQUE_FIELD,

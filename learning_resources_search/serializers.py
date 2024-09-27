@@ -276,6 +276,11 @@ class SearchRequestSerializer(serializers.Serializer):
         child=serializers.CharField(),
         help_text="The topic name. To see a list of options go to api/v1/topics/",
     )
+    ocw_topic = serializers.ListField(
+        required=False,
+        child=serializers.CharField(),
+        help_text="The ocw topic name.",
+    )
     dev_mode = serializers.BooleanField(
         required=False,
         allow_null=True,

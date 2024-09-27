@@ -71,6 +71,7 @@ SEARCH_FILTERS = {
     "run_id": FilterConfig("run_id", case_sensitive=True),
     "resource_id": FilterConfig("resource_id", case_sensitive=True),
     "topic": FilterConfig("topics.name"),
+    "ocw_topic": FilterConfig("ocw_topics"),
     "level": FilterConfig("runs.level.code"),
     "department": FilterConfig("departments.department_id"),
     "platform": FilterConfig("platform.code"),
@@ -184,6 +185,7 @@ LEARNING_RESOURCE_MAP = {
             "channel_url": {"type": "keyword"},
         },
     },
+    "ocw_topics": {"type": "keyword"},
     "offered_by": {
         "type": "nested",
         "properties": {
