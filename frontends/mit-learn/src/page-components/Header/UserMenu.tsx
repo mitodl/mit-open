@@ -9,6 +9,7 @@ import {
 } from "@remixicon/react"
 import { useUserMe, User } from "api/hooks/user"
 import { useLocation } from "react-router"
+import MITLogoLink from "../MITLogoLink/MITLogoLink"
 
 const FlexContainer = styled.div({
   display: "flex",
@@ -27,7 +28,7 @@ const UserMenuContainer = styled.button({
 })
 
 const LoginButtonContainer = styled(FlexContainer)(({ theme }) => ({
-  paddingLeft: "24px",
+  paddingLeft: "16px",
   "&:hover": {
     textDecoration: "none",
   },
@@ -53,7 +54,7 @@ const LoginButtonContainer = styled(FlexContainer)(({ theme }) => ({
 const UserIcon = styled(RiAccountCircleFill)(({ theme }) => ({
   width: "24px",
   height: "24px",
-  color: theme.custom.colors.black,
+  color: theme.custom.colors.white,
 }))
 
 type UserMenuItem = SimpleMenuItem & {
@@ -84,6 +85,12 @@ const UserName: React.FC<{ user: User | undefined }> = ({ user }) => {
 const UserMenuChevron: React.FC<{ open: boolean }> = ({ open }) => {
   return open ? <RiArrowUpSLine /> : <RiArrowDownSLine />
 }
+
+const StyledMITHomeLink = styled(MITLogoLink)({
+  width: "64px",
+  height: "32px",
+  marginLeft: "32px",
+})
 
 type DeviceType = "mobile" | "desktop"
 type UserMenuProps = {
@@ -154,11 +161,16 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
             <ButtonLink
               data-testid="login-button-desktop"
               size="small"
+              variant="tertiary"
               reloadDocument={true}
               href={loginUrl}
             >
               Log In
             </ButtonLink>
+            <StyledMITHomeLink
+              href="https://mit.edu"
+              src="/static/images/mit-logo-white.svg"
+            />
           </FlexContainer>
         ) : (
           ""

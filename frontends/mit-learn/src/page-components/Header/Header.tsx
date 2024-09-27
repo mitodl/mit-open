@@ -3,7 +3,6 @@ import type { NavData } from "ol-components"
 import {
   styled,
   AppBar,
-  Divider,
   NavDrawer,
   Toolbar,
   ClickAwayListener,
@@ -23,7 +22,7 @@ import {
   RiPriceTag3Line,
   RiAwardLine,
 } from "@remixicon/react"
-import { MITLogoLink, useToggle } from "ol-utilities"
+import { useToggle } from "ol-utilities"
 import UserMenu from "./UserMenu"
 import { MenuButton } from "./MenuButton"
 import {
@@ -41,18 +40,20 @@ import {
   SEARCH_LEARNING_MATERIAL,
 } from "@/common/urls"
 import { useUserMe } from "api/hooks/user"
+import MITLearnLogoLink from "../MITLogoLink/MITLearnLogoLink"
 
 const Bar = styled(AppBar)(({ theme }) => ({
-  height: "60px",
-  padding: "0 8px",
-  borderBottom: `1px solid ${theme.custom.colors.lightGray2}`,
-  backgroundColor: theme.custom.colors.white,
-  color: theme.custom.colors.darkGray1,
+  height: "76px",
+  padding: "16px 8px",
+  borderBottom: `4px solid ${theme.custom.colors.darkGray2}`,
+  backgroundColor: theme.custom.colors.navGray,
   display: "flex",
   flexDirection: "column",
-  boxShadow: "0 2px 10px rgba(120 169 197 / 15%)",
+  boxShadow: "0px -2px 20px 0px rgba(0, 0, 0, 0.05);",
   [theme.breakpoints.down("sm")]: {
+    height: "61px",
     padding: "0",
+    borderBottom: `1px solid ${theme.custom.colors.darkGray2}`,
   },
 }))
 
@@ -83,40 +84,24 @@ const StyledToolbar = styled(Toolbar)({
   flex: 1,
 })
 
-const LogoLink = styled(MITLogoLink)(({ theme }) => ({
-  display: "flex",
-  border: "none",
-  img: {
-    width: 109,
-    height: 40,
-    [theme.breakpoints.down("sm")]: {
-      marginLeft: "16px",
-    },
-  },
-}))
-
-const LeftDivider = styled(Divider)({
-  margin: "0 24px",
-  height: "24px",
-  alignSelf: "auto",
+const Spacer = styled.div({
+  flex: "1",
 })
 
-const RightDivider = styled(Divider)(({ theme }) => ({
-  margin: "0 32px",
-  height: "24px",
-  alignSelf: "auto",
+const LeftSpacer = styled.div(({ theme }) => ({
+  width: "24px",
   [theme.breakpoints.down("sm")]: {
-    margin: "0 16px",
+    width: "16px",
   },
 }))
 
-const Spacer = styled.div`
-  flex: 1;
-`
-
 const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
-  color: theme.custom.colors.darkGray2,
+  color: theme.custom.colors.white,
+  opacity: 0.5,
   margin: "4px 0",
+  [theme.breakpoints.down("sm")]: {
+    opacity: 1,
+  },
 }))
 
 const SearchButton: FunctionComponent = () => {
@@ -142,7 +127,6 @@ const LoggedOutView: FunctionComponent = () => {
       </DesktopOnly>
       <MobileOnly>
         <SearchButton />
-        <RightDivider orientation="vertical" flexItem />
         <UserMenu variant="mobile" />
       </MobileOnly>
     </FlexContainer>
@@ -153,7 +137,6 @@ const LoggedInView: FunctionComponent = () => {
   return (
     <FlexContainer>
       <SearchButton />
-      <RightDivider orientation="vertical" flexItem />
       <UserMenu />
     </FlexContainer>
   )
@@ -265,8 +248,8 @@ const Header: FunctionComponent = () => {
       <Bar position="fixed">
         <StyledToolbar variant="dense">
           <DesktopOnly>
-            <LogoLink />
-            <LeftDivider orientation="vertical" flexItem />
+            <MITLearnLogoLink />
+            <LeftSpacer />
             <MenuButton
               text="Explore MIT"
               onClick={toggler}
@@ -275,7 +258,8 @@ const Header: FunctionComponent = () => {
           </DesktopOnly>
           <MobileOnly>
             <MenuButton onClick={toggler} drawerOpen={drawerOpen} />
-            <LogoLink />
+            <LeftSpacer />
+            <MITLearnLogoLink />
           </MobileOnly>
           <Spacer />
           <UserView />

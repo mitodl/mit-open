@@ -1,7 +1,7 @@
 import { Container, styled } from "ol-components"
-import { MITLogoLink } from "ol-utilities"
 import * as urls from "@/common/urls"
 import React, { FunctionComponent } from "react"
+import MITLogoLink from "../MITLogoLink/MITLogoLink"
 
 const PUBLIC_URL = APP_SETTINGS.PUBLIC_URL
 const HOME_URL = `${PUBLIC_URL}/`
@@ -149,7 +149,7 @@ const Footer: FunctionComponent = () => {
             <FooterLeftContainer>
               <FooterLogo
                 href="https://mit.edu/"
-                src="/static/images/mit_logo_std_cmyk_black.svg"
+                src="/static/images/mit-logo-black.svg"
               />
               <FooterAddress data-testid="footer-address">
                 Massachusetts Institute of Technology
