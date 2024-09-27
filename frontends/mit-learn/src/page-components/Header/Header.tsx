@@ -95,6 +95,15 @@ const LeftSpacer = styled.div(({ theme }) => ({
   },
 }))
 
+const StyledSearchButton = styled(ActionButtonLink)(({ theme }) => ({
+  width: "auto",
+  height: "auto",
+  padding: "8px 16px",
+  [theme.breakpoints.down("sm")]: {
+    padding: "0",
+  },
+}))
+
 const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
   color: theme.custom.colors.white,
   opacity: 0.5,
@@ -109,7 +118,7 @@ const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
 
 const SearchButton: FunctionComponent = () => {
   return (
-    <ActionButtonLink
+    <StyledSearchButton
       edge="circular"
       variant="text"
       reloadDocument={true}
@@ -117,7 +126,7 @@ const SearchButton: FunctionComponent = () => {
       aria-label="Search"
     >
       <StyledSearchIcon />
-    </ActionButtonLink>
+    </StyledSearchButton>
   )
 }
 

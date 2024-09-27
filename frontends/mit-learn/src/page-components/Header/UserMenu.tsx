@@ -1,5 +1,11 @@
 import React, { useState } from "react"
-import { ActionButtonLink, ButtonLink, SimpleMenu, styled } from "ol-components"
+import {
+  ActionButtonLink,
+  ButtonLink,
+  SimpleMenu,
+  styled,
+  theme,
+} from "ol-components"
 import type { MenuOverrideProps, SimpleMenuItem } from "ol-components"
 import * as urls from "@/common/urls"
 import {
@@ -16,19 +22,30 @@ const FlexContainer = styled.div({
   alignItems: "center",
 })
 
-const UserMenuContainer = styled.button({
+const UserMenuContainer = styled.button(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   cursor: "pointer",
   background: "none",
-  color: "inherit",
-  border: "none",
-  padding: "0",
+  color: theme.custom.colors.white,
+  height: "42px",
+  border: `1px solid ${theme.custom.colors.silverGrayDark}`,
+  borderRadius: "4px",
+  padding: "4px 8px",
+  gap: "8px",
   font: "inherit",
-})
+  margin: "0 16px",
+  opacity: 0.75,
+  "&:hover": {
+    opacity: 1,
+  },
+  [theme.breakpoints.down("sm")]: {
+    border: "none",
+    opacity: 1,
+  },
+}))
 
 const LoginButtonContainer = styled(FlexContainer)(({ theme }) => ({
-  paddingLeft: "16px",
   "&:hover": {
     textDecoration: "none",
   },
@@ -51,6 +68,16 @@ const LoginButtonContainer = styled(FlexContainer)(({ theme }) => ({
   },
 }))
 
+const DesktopLoginButton = styled(ButtonLink)({
+  height: "40px",
+  padding: "18px 12px",
+  margin: "0 16px",
+})
+
+const MobileLoginButton = styled(ActionButtonLink)({
+  margin: "0 24px",
+})
+
 const UserIcon = styled(RiAccountCircleFill)(({ theme }) => ({
   width: "24px",
   height: "24px",
@@ -62,8 +89,7 @@ type UserMenuItem = SimpleMenuItem & {
 }
 
 const UserNameContainer = styled.span(({ theme }) => ({
-  color: theme.custom.colors.darkGray2,
-  padding: "0 12px",
+  color: theme.custom.colors.white,
   [theme.breakpoints.down("sm")]: {
     display: "none",
   },
@@ -86,11 +112,16 @@ const UserMenuChevron: React.FC<{ open: boolean }> = ({ open }) => {
   return open ? <RiArrowUpSLine /> : <RiArrowDownSLine />
 }
 
-const StyledMITLogoLink = styled(MITLogoLink)({
+const StyledMITLogoLink = styled(MITLogoLink)(({ theme }) => ({
   width: "64px",
   height: "32px",
-  marginLeft: "32px",
-})
+  marginLeft: "16px",
+  [theme.breakpoints.down("sm")]: {
+    width: "48px",
+    height: "24px",
+    marginLeft: "0",
+  },
+}))
 
 type DeviceType = "mobile" | "desktop"
 type UserMenuProps = {
@@ -110,6 +141,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
   })
 
   const items: UserMenuItem[] = [
+    {
+      label: "Home",
+      key: "home",
+      allow: true,
+      href: urls.HOME,
+    },
     {
       label: "Dashboard",
       key: "dashboard",
@@ -134,31 +171,53 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
   const menuOverrideProps: MenuOverrideProps = {
     anchorOrigin: { horizontal: "right", vertical: "bottom" },
     transformOrigin: { horizontal: "right", vertical: "top" },
+    slotProps: {
+      paper: {
+        sx: {
+          width: "165px",
+          borderRadius: "0px 0px 5px 5px",
+          backgroundColor: theme.custom.colors.darkGray1,
+          padding: "0 16px",
+          ".MuiMenu-list": {
+            padding: "8px 0",
+            ".MuiMenuItem-root": {
+              backgroundColor: theme.custom.colors.darkGray1,
+              color: theme.custom.colors.white,
+              padding: "8px 0",
+            },
+          },
+          ...theme.typography.body2,
+        },
+      },
+    },
   }
 
   if (user?.is_authenticated) {
     return (
-      <SimpleMenu
-        menuOverrideProps={menuOverrideProps}
-        onVisibilityChange={setVisible}
-        items={items
-          .filter(({ allow }) => allow)
-          .map(({ allow, ...item }) => item)}
-        trigger={
-          <UserMenuContainer role="button" aria-label="User Menu">
-            <UserIcon data-testid="UserIcon" />
-            <UserName user={user} />
-            {user?.is_authenticated ? <UserMenuChevron open={visible} /> : ""}
-          </UserMenuContainer>
-        }
-      />
+      <>
+        <SimpleMenu
+          menuOverrideProps={menuOverrideProps}
+          onVisibilityChange={setVisible}
+          items={items
+            .filter(({ allow }) => allow)
+            .map(({ allow, ...item }) => item)}
+          trigger={
+            <UserMenuContainer role="button" aria-label="User Menu">
+              <UserIcon data-testid="UserIcon" />
+              <UserName user={user} />
+              {user?.is_authenticated ? <UserMenuChevron open={visible} /> : ""}
+            </UserMenuContainer>
+          }
+        />
+        <StyledMITLogoLink src="/static/images/mit-logo-white.svg" />
+      </>
     )
   } else {
     return (
       <LoginButtonContainer data-testid="login-button-container">
         {variant === "desktop" ? (
           <FlexContainer className="login-button-desktop">
-            <ButtonLink
+            <DesktopLoginButton
               data-testid="login-button-desktop"
               size="small"
               variant="tertiary"
@@ -166,7 +225,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
               href={loginUrl}
             >
               Log In
-            </ButtonLink>
+            </DesktopLoginButton>
             <StyledMITLogoLink src="/static/images/mit-logo-white.svg" />
           </FlexContainer>
         ) : (
@@ -174,7 +233,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
         )}
         {variant === "mobile" ? (
           <FlexContainer className="login-button-mobile">
-            <ActionButtonLink
+            <MobileLoginButton
               data-testid="login-button-mobile"
               edge="circular"
               variant="text"
@@ -183,7 +242,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
               aria-label="Log in"
             >
               <UserIcon data-testid="UserIcon" />
-            </ActionButtonLink>
+            </MobileLoginButton>
+            <StyledMITLogoLink src="/static/images/mit-logo-white.svg" />
           </FlexContainer>
         ) : (
           ""
