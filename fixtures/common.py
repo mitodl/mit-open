@@ -44,7 +44,7 @@ def warnings_as_errors():  # noqa: PT004
         # Ignore deprecation warnings in third party libraries
         warnings.filterwarnings(
             "ignore",
-            module=".*(api_jwt|api_jws|rest_framework_jwt|astroid|celery|factory|botocore|posthog).*",
+            module=".*(api_jwt|api_jws|rest_framework_jwt|astroid|bs4|celery|factory|botocore|posthog).*",
             category=DeprecationWarning,
         )
         yield
