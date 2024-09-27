@@ -4,7 +4,7 @@ import { Container, styled } from "ol-components"
 import MITLogoLink from "@/components/MITLogoLink/MITLogoLink"
 import * as urls from "@/common/urls"
 import React, { FunctionComponent } from "react"
-import footerLogo from "../../../public/images/mit-logo-transparent5.svg"
+import footerLogo from "@/public/images/mit-logo-transparent5.svg"
 
 const FooterContainer = styled.div(({ theme }) => ({
   display: "flex",

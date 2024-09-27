@@ -27,7 +27,7 @@ import Link from "next/link"
 import { useUserMe } from "api/hooks/user"
 import { useParams } from "next/navigation"
 import UserListListingComponent from "@/page-components/UserListListing/UserListListing"
-import backgroundImage from "../../../../public/images/backgrounds/user_menu_background.svg"
+import backgroundImage from "@/public/images/backgrounds/user_menu_background.svg"
 import { ProfileEditForm } from "./ProfileEditForm"
 import { useProfileMeQuery } from "api/hooks/profile"
 import {

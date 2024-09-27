@@ -1,7 +1,7 @@
 import React from "react"
 import Image from "next/image"
 import Link from "next/link"
-import defaultLogo from "../../../public/mit-logo-learn.svg"
+import defaultLogo from "@/public/mit-logo-learn.svg"
 
 interface Props {
   href?: string
