@@ -1,4 +1,5 @@
 from types import SimpleNamespace
+from urllib.parse import urlencode
 
 import pytest
 
@@ -163,6 +164,15 @@ def test_percolate_query_display_labels(
     """
     Test that makes sure we display the display label for a percolate query if it is defined
     """
+
+    def encode_params(oparams):
+        ignore_params = ["endpoint"]
+        query = oparams
+        defined_params = {
+            key: query[key] for key in query if query[key] and key not in ignore_params
+        }
+        return urlencode(defined_params, doseq=True)
+
     mocker.patch(
         "learning_resources_search.indexing_api.index_percolators", autospec=True
     )
@@ -170,29 +180,26 @@ def test_percolate_query_display_labels(
         "learning_resources_search.indexing_api._update_document_by_id", autospec=True
     )
 
-    channel = ChannelFactory.create(
-        search_filter="offered_by=mitx", channel_type="unit"
-    )
-    original_query = {
-        "q": "testing search filter",
-        "free": None,
-        "department": ["physics"],
-        "topic": ["math"],
-        "professional": None,
-        "certification": None,
-        "yearly_decay_percent": None,
-    }
-    test_label = "new courses about cats"
+    if is_channel_query:
+        original_query = {"department": ["physics"]}
+        channel = ChannelFactory.create(
+            search_filter=encode_params(original_query), channel_type="unit"
+        )
+    else:
+        original_query = {
+            "q": "testing search filter",
+            "certification": None,
+            "yearly_decay_percent": None,
+        }
+
     query = PercolateQueryFactory.create(
         original_query=original_query,
         query=original_query,
         display_label=test_label,
     )
-    assert (
-        query.original_url_params()
-        == "q=testing+search+filter&department=physics&topic=math"
-    )
-    assert query.source_label() == "saved_search"
+    assert query.original_url_params() == encode_params(original_query)
+    if not is_channel_query:
+        assert query.source_label() == "saved_search"
     assert query.source_description() == (
         test_label
         if test_label
