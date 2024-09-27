@@ -1,3 +1,4 @@
+import { Link } from "ol-components"
 import React from "react"
 
 const PUBLIC_URL = APP_SETTINGS.PUBLIC_URL
@@ -12,7 +13,7 @@ interface Props {
 }
 
 const MITLogoLink: React.FC<Props> = ({ href, src, className }) => (
-  <a
+  <Link
     href={href ? href : MIT_URL}
     title="Link to Homepage"
     className={className}
@@ -22,7 +23,7 @@ const MITLogoLink: React.FC<Props> = ({ href, src, className }) => (
     rel="noreferrer"
   >
     <img src={src ? `${PUBLIC_URL}${src}` : MIT_LOGO_URL} alt="MIT Logo" />
-  </a>
+  </Link>
 )
 
 export default MITLogoLink
