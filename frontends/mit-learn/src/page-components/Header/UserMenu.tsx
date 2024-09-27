@@ -31,7 +31,7 @@ const UserMenuContainer = styled.button(({ theme }) => ({
   height: "42px",
   border: `1px solid ${theme.custom.colors.silverGrayDark}`,
   borderRadius: "4px",
-  padding: "4px 8px",
+  padding: "2px 8px",
   gap: "8px",
   font: "inherit",
   margin: "0 16px",

@@ -43,15 +43,14 @@ import { useUserMe } from "api/hooks/user"
 import MITLogoLink from "../MITLogoLink/MITLogoLink"
 
 const Bar = styled(AppBar)(({ theme }) => ({
-  height: "76px",
   padding: "16px 8px",
   borderBottom: `4px solid ${theme.custom.colors.darkGray2}`,
   backgroundColor: theme.custom.colors.navGray,
   display: "flex",
+  justifyContent: "space-between",
   flexDirection: "column",
   boxShadow: "0px -2px 20px 0px rgba(0, 0, 0, 0.05);",
   [theme.breakpoints.down("sm")]: {
-    height: "61px",
     padding: "0",
     borderBottom: `1px solid ${theme.custom.colors.darkGray2}`,
   },
@@ -107,13 +106,15 @@ const LeftSpacer = styled.div(({ theme }) => ({
 const StyledSearchButton = styled(ActionButtonLink)(({ theme }) => ({
   width: "auto",
   height: "auto",
-  padding: "8px 16px",
+  padding: "4px 16px",
   [theme.breakpoints.down("sm")]: {
     padding: "0",
   },
 }))
 
 const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
+  width: "24px",
+  height: "24px",
   color: theme.custom.colors.white,
   opacity: 0.5,
   margin: "4px 0",
