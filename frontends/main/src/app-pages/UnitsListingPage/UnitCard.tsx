@@ -1,5 +1,6 @@
 import React from "react"
-import { LearningResourceOfferorDetail, OfferedByEnum } from "api"
+import { LearningResourceOfferorDetail } from "api/v0"
+import { OfferedByEnum } from "api/v1"
 import { Card, Skeleton, Typography, styled, theme } from "ol-components"
 import { useChannelDetail } from "api/hooks/channels"
 

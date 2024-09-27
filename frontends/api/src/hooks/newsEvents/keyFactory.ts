@@ -1,5 +1,5 @@
 import { newsEventsApi } from "../../clients"
-import type { NewsEventsApiNewsEventsListRequest } from "../../generated/v0"
+import type { NewsEventsApiNewsEventsListRequest } from "@mitodl/open-api-axios/v0"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
 const newsEvents = createQueryKeys("newsEvents", {

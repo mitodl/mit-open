@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { usersApi } from "../../clients"
-import type { User as UserApi } from "../../generated/v0/api"
+import type { User as UserApi } from "@mitodl/open-api-axios/v0"
 
 interface User extends Partial<UserApi> {
   is_authenticated: boolean

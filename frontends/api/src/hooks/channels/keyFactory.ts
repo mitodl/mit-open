@@ -1,5 +1,5 @@
 import { channelsApi } from "../../clients"
-import type { ChannelsApiChannelsListRequest as FieldsApiListRequest } from "../../generated/v0"
+import type { ChannelsApiChannelsListRequest as FieldsApiListRequest } from "@mitodl/open-api-axios/v0"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
 const channels = createQueryKeys("channel", {

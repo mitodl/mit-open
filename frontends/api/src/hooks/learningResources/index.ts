@@ -34,7 +34,7 @@ import type {
   PaginatedLearningResourceList,
   LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest,
   LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest,
-} from "../../generated/v1"
+} from "@mitodl/open-api-axios/v1"
 import learningResources, {
   invalidateResourceQueries,
   invalidateUserListQueries,

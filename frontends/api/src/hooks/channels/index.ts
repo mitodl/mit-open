@@ -9,7 +9,7 @@ import { channelsApi } from "../../clients"
 import type {
   ChannelsApiChannelsListRequest,
   PatchedChannelWriteRequest,
-} from "../../generated/v0"
+} from "@mitodl/open-api-axios/v0"
 import channels from "./keyFactory"
 
 const useChannelsList = (

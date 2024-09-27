@@ -11,7 +11,7 @@ import {
   LearningResourcesUserSubscriptionApi,
   SchoolsApi,
   FeaturedApi,
-} from "./generated/v1/api"
+} from "@mitodl/open-api-axios/v1"
 
 import {
   ChannelsApi,
@@ -20,7 +20,7 @@ import {
   NewsEventsApi,
   ProfilesApi,
   TestimonialsApi,
-} from "./generated/v0/api"
+} from "@mitodl/open-api-axios/v0"
 
 import axiosInstance from "./axios"
 

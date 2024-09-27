@@ -4,7 +4,7 @@ import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionTo
 import { useChannelDetail } from "api/hooks/channels"
 import ChannelMenu from "@/components/ChannelMenu/ChannelMenu"
 import ChannelAvatar from "@/components/ChannelAvatar/ChannelAvatar"
-import { SourceTypeEnum } from "api"
+import { SourceTypeEnum } from "api/v1"
 import { HOME as HOME_URL } from "../../common/urls"
 import {
   CHANNEL_TYPE_BREADCRUMB_TARGETS,

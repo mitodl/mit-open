@@ -29,7 +29,7 @@ import type {
   FeaturedApiFeaturedListRequest as FeaturedListParams,
   UserListRelationship,
   MicroUserListRelationship,
-} from "../../generated/v1"
+} from "@mitodl/open-api-axios/v1"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
 const learningResources = createQueryKeys("learningResources", {

@@ -9,7 +9,7 @@ import { articlesApi } from "../../clients"
 import type {
   ArticlesApiArticlesListRequest as ArticleListRequest,
   Article,
-} from "../../generated/v1"
+} from "@mitodl/open-api-axios/v1"
 import articles from "./keyFactory"
 
 const useArticleList = (

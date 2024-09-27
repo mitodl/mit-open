@@ -16,7 +16,7 @@ import ChannelMenu from "@/components/ChannelMenu/ChannelMenu"
 import ResourceCarousel, {
   ResourceCarouselProps,
 } from "@/page-components/ResourceCarousel/ResourceCarousel"
-import { SourceTypeEnum } from "api"
+import { SourceTypeEnum } from "api/v1"
 import { getSearchParamMap } from "@/common/utils"
 import { HOME as HOME_URL, UNITS as UNITS_URL } from "../../common/urls"
 import { ChannelTypeEnum } from "api/v0"

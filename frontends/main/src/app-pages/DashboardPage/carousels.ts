@@ -1,5 +1,5 @@
 import type { ResourceCarouselProps } from "@/page-components/ResourceCarousel/ResourceCarousel"
-import { LearningResourcesSearchRetrieveDeliveryEnum } from "api"
+import { LearningResourcesSearchRetrieveDeliveryEnum } from "api/v1"
 import { Profile } from "api/v0"
 
 type TopPicksCarouselConfigProps = (
