@@ -3,6 +3,7 @@ import { RouteObject, Outlet } from "react-router"
 import { ScrollRestoration } from "react-router-dom"
 import HomePage from "@/pages/HomePage/HomePage"
 import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
+import PostHogRoute from "./components/PostHogRoute/PostHogRoute"
 import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPathListingPage"
 import ChannelPage from "@/pages/ChannelPage/ChannelPage"
 import EditChannelPage from "@/pages/ChannelPage/EditChannelPage"
@@ -26,6 +27,7 @@ import DepartmentListingPage from "./pages/DepartmentListingPage/DepartmentListi
 import TopicsListingPage from "./pages/TopicListingPage/TopicsListingPage"
 import UnitsListingPage from "./pages/UnitsListingPage/UnitsListingPage"
 import OnboardingPage from "./pages/OnboardingPage/OnboardingPage"
+import CartPage from "./pages/EcommercePages/CartPage"
 
 import { styled } from "ol-components"
 
@@ -187,6 +189,21 @@ const routes: RouteObject[] = [
           {
             path: urls.ARTICLES_CREATE,
             element: <ArticleCreatePage />,
+          },
+        ],
+      },
+      {
+        element: (
+          <PostHogRoute
+            flag="enable-ecommerce"
+            match={true}
+            requires={Permissions.Authenticated}
+          />
+        ),
+        children: [
+          {
+            path: urls.ECOMMERCE_CART,
+            element: <CartPage />,
           },
         ],
       },

@@ -127,3 +127,5 @@ export const SEARCH_PROGRAM = querifiedSearchUrl({
 export const SEARCH_LEARNING_MATERIAL = querifiedSearchUrl({
   resource_category: "learning_material",
 })
+
+export const ECOMMERCE_CART = "/cart/" as const
