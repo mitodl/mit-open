@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+Version 0.19.6 (Released September 27, 2024)
+--------------
+
+- Add task_reject_on_worker_lost=True to finish_recreate_index, use return instead of raise for replaced tasks (#1608)
+
+Version 0.19.5 (Released September 26, 2024)
+--------------
+
+- Add separate field for ocw topics, use best field to assign related topics (#1600)
+
 Version 0.19.4 (Released September 25, 2024)
 --------------
 
