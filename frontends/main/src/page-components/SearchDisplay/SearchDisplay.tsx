@@ -29,9 +29,6 @@ import {
   ResourceCategoryEnum,
   SearchModeEnumDescriptions
 } from "api/v1"
-// import {
-//   SearchModeEnumDescriptions,
-// } from "api/v0"
 import { useLearningResourcesSearch } from "api/hooks/learningResources"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import {

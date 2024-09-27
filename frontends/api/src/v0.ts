@@ -4,7 +4,7 @@
 
 export * from "@mitodl/open-api-axios/v0"
 
-// TODO belowe items are not in latest published api client yet
+// TODO below items are not in latest published api client yet
 
 export const CertificateDesiredEnumDescriptions = {
   yes: "Yes, I am looking for a certificate",
