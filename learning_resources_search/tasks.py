@@ -220,32 +220,32 @@ def _get_percolated_rows(resources, subscription_type):
         if percolated.count() > 0:
             percolated_users = set(percolated.values_list("users", flat=True))
             all_users.update(percolated_users)
-            query = percolated.first()
-            search_url = _infer_percolate_group_url(query)
-            req = PreparedRequest()
-            req.prepare_url(search_url, {"resource": resource.id})
-            resource_url = req.url
-            source_channel = query.source_channel()
-            rows.extend(
-                [
-                    {
-                        "resource_url": resource_url,
-                        "resource_title": resource.title,
-                        "resource_image_url": resource.image.url
-                        if resource.image
-                        else "",
-                        "resource_type": resource.resource_type,
-                        "user_id": user,
-                        "source_label": query.source_label(),
-                        "source_channel_type": source_channel.channel_type
-                        if source_channel
-                        else "saved_search",
-                        "group": _infer_percolate_group(query),
-                        "search_url": search_url,
-                    }
-                    for user in percolated_users
-                ]
-            )
+            for query in percolated:
+                search_url = _infer_percolate_group_url(query)
+                req = PreparedRequest()
+                req.prepare_url(search_url, {"resource": resource.id})
+                resource_url = req.url
+                source_channel = query.source_channel()
+                rows.extend(
+                    [
+                        {
+                            "resource_url": resource_url,
+                            "resource_title": resource.title,
+                            "resource_image_url": resource.image.url
+                            if resource.image
+                            else "",
+                            "resource_type": resource.resource_type,
+                            "user_id": user,
+                            "source_label": query.source_label(),
+                            "source_channel_type": source_channel.channel_type
+                            if source_channel
+                            else "saved_search",
+                            "group": _infer_percolate_group(query),
+                            "search_url": search_url,
+                        }
+                        for user in query.users.all().values_list("id", flat=True)
+                    ]
+                )
 
     return rows
 
@@ -886,6 +886,9 @@ def _generate_subscription_digest_subject(
     prefix = "" if shortform else "MIT Learn: "
 
     if sample_course["source_channel_type"] == "saved_search":
+        if shortform:
+            resource_type = unique_resource_types.pop().capitalize()
+            return f"New {resource_type}{pluralize(total_count)} from MIT Learn"
         return (
             f"{prefix}New"
             f" {unique_resource_types.pop().capitalize()}{pluralize(total_count)}: "
