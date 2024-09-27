@@ -128,6 +128,16 @@ type UserMenuProps = {
   variant?: DeviceType
 }
 
+const MITHomeLink: React.FC = () => {
+  return (
+    <StyledMITLogoLink
+      src="/static/images/mit-logo-white.svg"
+      href="https://mit.edu"
+      target="_blank"
+    />
+  )
+}
+
 const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
   const [visible, setVisible] = useState(false)
   const location = useLocation()
@@ -209,7 +219,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
             </UserMenuContainer>
           }
         />
-        <StyledMITLogoLink src="/static/images/mit-logo-white.svg" />
+        <MITHomeLink />
       </>
     )
   } else {
@@ -226,7 +236,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
             >
               Log In
             </DesktopLoginButton>
-            <StyledMITLogoLink src="/static/images/mit-logo-white.svg" />
+            <MITHomeLink />
           </FlexContainer>
         ) : (
           ""
@@ -243,7 +253,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
             >
               <UserIcon data-testid="UserIcon" />
             </MobileLoginButton>
-            <StyledMITLogoLink src="/static/images/mit-logo-white.svg" />
+            <MITHomeLink />
           </FlexContainer>
         ) : (
           ""

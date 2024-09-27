@@ -40,7 +40,7 @@ import {
   SEARCH_LEARNING_MATERIAL,
 } from "@/common/urls"
 import { useUserMe } from "api/hooks/user"
-import MITLearnLogoLink from "../MITLogoLink/MITLearnLogoLink"
+import MITLogoLink from "../MITLogoLink/MITLogoLink"
 
 const Bar = styled(AppBar)(({ theme }) => ({
   height: "76px",
@@ -83,6 +83,15 @@ const MobileOnly = styled(FlexContainer)(({ theme }) => ({
 const StyledToolbar = styled(Toolbar)({
   flex: 1,
 })
+
+const StyledMITLogoLink = styled(MITLogoLink)(({ theme }) => ({
+  img: {
+    height: "24px",
+    [theme.breakpoints.down("sm")]: {
+      height: "16px",
+    },
+  },
+}))
 
 const Spacer = styled.div({
   flex: "1",
@@ -260,7 +269,7 @@ const Header: FunctionComponent = () => {
       <Bar position="fixed">
         <StyledToolbar variant="dense">
           <DesktopOnly>
-            <MITLearnLogoLink />
+            <StyledMITLogoLink src="/static/images/mit-learn-logo.svg" />
             <LeftSpacer />
             <MenuButton
               text="Explore MIT"
@@ -271,7 +280,7 @@ const Header: FunctionComponent = () => {
           <MobileOnly>
             <MenuButton onClick={toggler} drawerOpen={drawerOpen} />
             <LeftSpacer />
-            <MITLearnLogoLink />
+            <StyledMITLogoLink src="/static/images/mit-learn-logo.svg" />
           </MobileOnly>
           <Spacer />
           <UserView />
