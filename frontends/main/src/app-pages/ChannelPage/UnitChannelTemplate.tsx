@@ -105,11 +105,6 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
 
   return (
     <>
-      {/* TODO <MetaTags
-        title={channel.data?.title}
-        description={channel.data?.configuration.heading}
-        // no image for now. Channel images are svg and not suitable for social sharing
-      /> */}
       <StyledBannerBackground
         backgroundUrl={
           displayConfiguration?.banner_background ??

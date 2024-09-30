@@ -37,6 +37,7 @@ const meta: Meta<StoryProps> = {
             </Grid>
             <Grid item xs={8}>
               <SizedPlatformLogo
+                height={27}
                 iconHeight={iconHeight}
                 showIconBackground={showIconBackground}
                 platformCode={platformCode as PlatformEnum}

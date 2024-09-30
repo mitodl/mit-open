@@ -1,9 +1,8 @@
 import React from "react"
-
 import { RiAccountCircleFill } from "@remixicon/react"
-
 import { TruncateText, styled, theme } from "ol-components"
 import type { Attestation } from "api/v0"
+import Image from "next/image"
 
 type AttestantAvatarPosition = "start" | "end"
 type AttestantBlockColor = "light" | "dark"
@@ -139,7 +138,12 @@ const AttestantBlock: React.FC<AttestantBlockProps> = ({
         avatarStyle={avatar}
       >
         {attestation.avatar_medium ? (
-          <img src={attestation.avatar_medium} alt="" />
+          <Image
+            src={attestation.avatar_medium}
+            alt=""
+            width={40}
+            height={40}
+          />
         ) : (
           <StyledRiAccountCircleFill />
         )}

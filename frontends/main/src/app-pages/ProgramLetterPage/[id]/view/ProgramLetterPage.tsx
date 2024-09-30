@@ -5,6 +5,7 @@ import { styled } from "ol-components"
 import { useProgramLettersDetail } from "api/hooks/programLetters"
 import { useParams } from "next/navigation"
 import { CkeditorDisplay } from "ol-ckeditor"
+import Image from "next/image"
 
 type RouteParams = {
   id: string
@@ -122,9 +123,10 @@ const ProgramLetterPage: React.FC = () => {
           />
         </div>
         <div className="letter-logo">
-          <img
+          <Image
             src={templateFields?.program_letter_logo?.meta?.download_url}
             alt=""
+            fill
           />
         </div>
       </ProgramLetterHeader>
@@ -139,9 +141,10 @@ const ProgramLetterPage: React.FC = () => {
           {templateFields?.program_letter_signatories?.map((signatory) => (
             <div key={signatory.id} className="signatory">
               <div className="sig-image">
-                <img
+                <Image
                   src={signatory.signature_image?.meta?.download_url}
                   alt="Signature"
+                  fill
                 />
               </div>
               <div className="name">
@@ -159,9 +162,10 @@ const ProgramLetterPage: React.FC = () => {
       <ProgramLetterFooter>
         <div className="program-footer">
           {templateFields?.program_letter_footer ? (
-            <img
+            <Image
               src={templateFields.program_letter_footer?.meta?.download_url}
               alt=""
+              fill
             />
           ) : (
             <p>MITx MicroMasters program in {templateFields?.title}</p>
