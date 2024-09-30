@@ -28,7 +28,7 @@ const UserMenuContainer = styled.button(({ theme }) => ({
   cursor: "pointer",
   background: "none",
   color: theme.custom.colors.white,
-  height: "42px",
+  height: "40px",
   border: `1px solid ${theme.custom.colors.silverGrayDark}`,
   borderRadius: "4px",
   padding: "2px 8px",
