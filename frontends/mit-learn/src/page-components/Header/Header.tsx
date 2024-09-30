@@ -49,7 +49,7 @@ const Bar = styled(AppBar)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
   flexDirection: "column",
-  boxShadow: "0px -2px 20px 0px rgba(0, 0, 0, 0.05);",
+  boxShadow: "0px 3px 35px 0px rgba(23, 30, 42, 0.50)",
   ".MuiToolbar-root": {
     minHeight: "auto",
   },
