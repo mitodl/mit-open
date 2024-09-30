@@ -50,6 +50,9 @@ const Bar = styled(AppBar)(({ theme }) => ({
   justifyContent: "space-between",
   flexDirection: "column",
   boxShadow: "0px -2px 20px 0px rgba(0, 0, 0, 0.05);",
+  ".MuiToolbar-root": {
+    minHeight: "auto",
+  },
   [theme.breakpoints.down("sm")]: {
     padding: "0",
     borderBottom: `1px solid ${theme.custom.colors.darkGray2}`,
@@ -107,6 +110,11 @@ const StyledSearchButton = styled(ActionButtonLink)(({ theme }) => ({
   width: "auto",
   height: "auto",
   padding: "4px 16px",
+  "&:hover": {
+    svg: {
+      opacity: 1,
+    },
+  },
   [theme.breakpoints.down("sm")]: {
     padding: "0",
   },
@@ -119,9 +127,6 @@ const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
   opacity: 0.5,
   margin: "4px 0",
   [theme.breakpoints.down("sm")]: {
-    opacity: 1,
-  },
-  "&:hover": {
     opacity: 1,
   },
 }))
