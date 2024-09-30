@@ -3,12 +3,19 @@ import LearningPathListingPage from "@/app-pages/LearningPathListingPage/Learnin
 
 import { Metadata } from "next"
 import { standardizeMetadata } from "@/common/metadata"
+import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
+import { Permissions } from "@/common/permissions"
+
 export const metadata: Metadata = standardizeMetadata({
   title: "Learning Paths",
 })
 
 const Page: React.FC = () => {
-  return <LearningPathListingPage />
+  return (
+    <RestrictedRoute requires={Permissions.LearningPathEditor}>
+      <LearningPathListingPage />
+    </RestrictedRoute>
+  )
 }
 
 export default Page

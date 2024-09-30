@@ -1,16 +1,7 @@
 import React from "react"
-import { waitFor } from "@testing-library/react"
 import { renderWithProviders, screen } from "@/test-utils"
 import { HOME } from "@/common/urls"
 import NotFoundPage from "./NotFoundPage"
-
-test.skip("The NotFoundPage loads with meta", async () => {
-  renderWithProviders(<NotFoundPage />, {})
-  await waitFor(() => {
-    const meta = document.head.querySelector('meta[name="robots"]')
-    expect(meta).toHaveProperty("content", "noindex,noarchive")
-  })
-})
 
 test("The NotFoundPage loads with Correct Title", () => {
   renderWithProviders(<NotFoundPage />, {})
