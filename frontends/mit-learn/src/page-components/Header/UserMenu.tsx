@@ -42,6 +42,9 @@ const UserMenuContainer = styled.button(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     border: "none",
     opacity: 1,
+    gap: "2px",
+    padding: "4px 0",
+    margin: "0px 24px",
   },
 }))
 
@@ -75,12 +78,12 @@ const DesktopLoginButton = styled(ButtonLink)({
 })
 
 const MobileLoginButton = styled(ActionButtonLink)({
+  width: "24px",
+  height: "24px",
   margin: "0 24px",
 })
 
 const UserIcon = styled(RiAccountCircleFill)(({ theme }) => ({
-  width: "24px",
-  height: "24px",
   color: theme.custom.colors.white,
 }))
 

@@ -45,6 +45,7 @@ const StyledMenuButton = styled.button(({ theme }) => ({
     color: theme.custom.colors.white,
   },
   [theme.breakpoints.down("sm")]: {
+    padding: "4px 0",
     opacity: 1,
   },
   "&:hover": {
