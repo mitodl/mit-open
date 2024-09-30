@@ -276,7 +276,7 @@ def send_subscription_emails(self, subscription_type, period="daily"):
 
 
 @app.task(
-    autoretry_for=(RetryError, SystemExit),
+    autoretry_for=(RetryError,),
     retry_backoff=True,
     rate_limit="600/m",
     acks_late=True,
@@ -355,7 +355,7 @@ def bulk_deindex_percolators(ids):
 
 
 @app.task(
-    autoretry_for=(RetryError, SystemExit),
+    autoretry_for=(RetryError,),
     retry_backoff=True,
     rate_limit="600/m",
     acks_late=True,
@@ -410,7 +410,7 @@ def index_course_content_files(course_ids, index_types):
 
 
 @app.task(
-    autoretry_for=(RetryError, SystemExit),
+    autoretry_for=(RetryError,),
     retry_backoff=True,
     rate_limit="600/m",
     acks_late=True,
@@ -643,7 +643,7 @@ def start_recreate_index(self, indexes, remove_existing_reindexing_tags):
 
     # Use self.replace so that code waiting on this task will also wait on the indexing
     #  and finish tasks
-    return self.replace(
+    raise self.replace(
         celery.chain(index_tasks, finish_recreate_index.s(new_backing_indices))
     )
 

@@ -24,6 +24,7 @@ services:
     profiles:
       - backend
     image: redis:7.4.0
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
     healthcheck:
       test: ["CMD", "redis-cli", "ping", "|", "grep", "PONG"]
       interval: 3s
