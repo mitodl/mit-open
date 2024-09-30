@@ -8,9 +8,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    extends:
-      file: docker-compose.opensearch.${OPENSEARCH_CLUSTER_TYPE:-single-node}.apps.yml
-      service: web
     mem_limit: 1gb
     cpus: 2
     command: ./scripts/run-django-dev.sh
@@ -50,9 +47,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    extends:
-      file: docker-compose.opensearch.${OPENSEARCH_CLUSTER_TYPE:-single-node}.apps.yml
-      service: web
     command: >
       /bin/bash -c '
       sleep 3;
