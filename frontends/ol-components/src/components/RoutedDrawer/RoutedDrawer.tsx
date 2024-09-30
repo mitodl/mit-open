@@ -84,7 +84,7 @@ const RoutedDrawer = <K extends string, R extends K = K>(
       return newSearchParams
     }
     const newParams = getNewParams(searchParams)
-    router.push(`?${newParams}${window.location.hash}`)
+    router.push(`?${newParams}${window.location.hash}`, {scroll: false})
   }, [router, searchParams, params])
 
   return (
