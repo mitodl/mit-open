@@ -18,6 +18,7 @@ from django.template.defaultfilters import pluralize
 from opensearchpy.exceptions import NotFoundError, RequestError
 from requests.models import PreparedRequest
 
+from learning_resources.constants import LearningResourceType
 from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES
 from learning_resources.models import (
     ContentFile,
@@ -887,11 +888,12 @@ def _generate_subscription_digest_subject(
 
     if sample_course["source_channel_type"] == "saved_search":
         if shortform:
-            resource_type = unique_resource_types.pop().capitalize()
+            resource_type = LearningResourceType[unique_resource_types.pop()].value
             return f"New {resource_type}{pluralize(total_count)} from MIT Learn"
+        resource_type_display = LearningResourceType[unique_resource_types.pop()].value
         return (
             f"{prefix}New"
-            f" {unique_resource_types.pop().capitalize()}{pluralize(total_count)}: "
+            f" {resource_type_display}{pluralize(total_count)}: "
             f"{sample_course['resource_title']}"
         )
     preposition = "from"
@@ -899,10 +901,10 @@ def _generate_subscription_digest_subject(
         preposition = "in"
 
     suffix = "" if shortform else f": {sample_course['resource_title']}"
-
+    resource_type_display = LearningResourceType[unique_resource_types.pop()].value
     return (
         f"{prefix}New"
-        f" {unique_resource_types.pop().capitalize()}{pluralize(total_count)} "
+        f" {resource_type_display}{pluralize(total_count)} "
         f"{preposition} {source_name}{suffix}"
     )
 
