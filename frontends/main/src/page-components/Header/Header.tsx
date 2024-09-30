@@ -115,14 +115,22 @@ const Spacer = styled.div`
   flex: 1;
 `
 
+const StyledActionButtonLink = styled(ActionButtonLink)`
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+`
+
 const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
   margin: "4px 0",
 }))
 
+
+
 const SearchButton: FunctionComponent = () => {
   return (
-    <ActionButtonLink
+    <StyledActionButtonLink
       edge="circular"
       variant="text"
       rawAnchor={true}
@@ -130,7 +138,7 @@ const SearchButton: FunctionComponent = () => {
       aria-label="Search"
     >
       <StyledSearchIcon />
-    </ActionButtonLink>
+    </StyledActionButtonLink>
   )
 }
 
