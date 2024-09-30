@@ -179,12 +179,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
   ]
 
   const menuOverrideProps: MenuOverrideProps = {
-    anchorOrigin: { horizontal: "right", vertical: "bottom" },
-    transformOrigin: { horizontal: "right", vertical: "top" },
+    anchorOrigin: { horizontal: "left", vertical: "bottom" },
+    transformOrigin: { horizontal: "left", vertical: "top" },
     slotProps: {
       paper: {
         sx: {
-          width: "165px",
           borderRadius: "0px 0px 5px 5px",
           backgroundColor: theme.custom.colors.darkGray1,
           padding: "0 16px",
