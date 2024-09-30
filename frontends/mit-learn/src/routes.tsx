@@ -1,9 +1,9 @@
 import React from "react"
 import { RouteObject, Outlet } from "react-router"
 import { ScrollRestoration } from "react-router-dom"
+
 import HomePage from "@/pages/HomePage/HomePage"
 import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
-import PostHogRoute from "./components/PostHogRoute/PostHogRoute"
 import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPathListingPage"
 import ChannelPage from "@/pages/ChannelPage/ChannelPage"
 import EditChannelPage from "@/pages/ChannelPage/EditChannelPage"
@@ -193,13 +193,7 @@ const routes: RouteObject[] = [
         ],
       },
       {
-        element: (
-          <PostHogRoute
-            flag="enable-ecommerce"
-            match={true}
-            requires={Permissions.Authenticated}
-          />
-        ),
+        element: <RestrictedRoute requires={Permissions.Authenticated} />,
         children: [
           {
             path: urls.ECOMMERCE_CART,
