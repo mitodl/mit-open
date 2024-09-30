@@ -46,3 +46,5 @@ services:
       # DEPRECATED: legacy .env file at the repo root
       - path: .env
         required: false
+    environment:
+      REMAP_SIGTERM: SIGQUIT

@@ -296,7 +296,7 @@ def index_learning_resources(ids, resource_type, index_types):
     try:
         with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
             api.index_learning_resources(ids, resource_type, index_types)
-    except (RetryError, Ignore):
+    except (RetryError, Ignore, SystemExit):
         raise
     except:  # noqa: E722
         error = "index_courses threw an error"
@@ -378,7 +378,7 @@ def bulk_index_percolate_queries(percolate_ids, index_types):
             PERCOLATE_INDEX_TYPE,
             index_types,
         )
-    except (RetryError, Ignore):
+    except (RetryError, Ignore, SystemExit):
         raise
     except:  # noqa: E722
         error = "bulk_index_percolate_queries threw an error"
@@ -436,7 +436,7 @@ def index_content_files(
             api.index_content_files(
                 content_file_ids, learning_resource_id, index_types=index_types
             )
-    except (RetryError, Ignore):
+    except (RetryError, Ignore, SystemExit):
         raise
     except:  # noqa: E722
         error = "index_content_files threw an error"
@@ -643,7 +643,7 @@ def start_recreate_index(self, indexes, remove_existing_reindexing_tags):
 
     # Use self.replace so that code waiting on this task will also wait on the indexing
     #  and finish tasks
-    raise self.replace(
+    return self.replace(
         celery.chain(index_tasks, finish_recreate_index.s(new_backing_indices))
     )
 
@@ -861,7 +861,7 @@ def get_update_learning_resource_tasks(resource_type):
 @app.task(
     acks_late=True,
     reject_on_worker_lost=True,
-    autoretry_for=(RetryError, SystemExit),
+    autoretry_for=(RetryError,),
     retry_backoff=True,
     rate_limit="600/m",
 )

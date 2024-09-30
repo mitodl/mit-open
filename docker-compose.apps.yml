@@ -60,4 +60,4 @@ services:
       - .:/src
       - django_media:/var/media
     environment:
-      REMAP_SIGTERM: "SIGQUIT"
+      REMAP_SIGTERM: SIGQUIT
