@@ -3,6 +3,7 @@ import { RiSearch2Line, RiCloseLine } from "@remixicon/react"
 import { Input, AdornmentButton } from "../Input/Input"
 import type { InputProps } from "../Input/Input"
 import styled from "@emotion/styled"
+import { usePostHog } from "posthog-js/react"
 
 const StyledInput = styled(Input)(({ theme }) => ({
   boxShadow: "0px 8px 20px 0px rgba(120, 147, 172, 0.10)",
@@ -53,18 +54,32 @@ const muiInputProps = { "aria-label": "Search for" }
 
 const SearchInput: React.FC<SearchInputProps> = (props) => {
   const { onSubmit, value } = props
-  const handleSubmit = useCallback(() => {
-    const event = {
-      target: { value },
-      preventDefault: () => null,
-    }
-    onSubmit(event)
-  }, [onSubmit, value])
+  const posthog = usePostHog()
+  const { POSTHOG } = APP_SETTINGS
+
+  const handleSubmit = useCallback(
+    (
+      ev:
+        | React.SyntheticEvent<HTMLInputElement>
+        | React.SyntheticEvent<HTMLButtonElement, MouseEvent>,
+      isEnter: boolean = false,
+    ) => {
+      const event = {
+        target: { value },
+        preventDefault: () => null,
+      }
+      if (!(!POSTHOG?.api_key || POSTHOG.api_key.length < 1)) {
+        posthog.capture("search_update", { isEnter: isEnter })
+      }
+      onSubmit(event)
+    },
+    [onSubmit, value, posthog, POSTHOG],
+  )
   const onInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> =
     useCallback(
       (e) => {
         if (e.key !== "Enter") return
-        handleSubmit()
+        handleSubmit(e, true)
       },
       [handleSubmit],
     )

@@ -20,6 +20,7 @@ import type { LearningResourceOfferor } from "api"
 import { useOfferorsList } from "api/hooks/learningResources"
 import { capitalize } from "ol-utilities"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
+import { usePostHog } from "posthog-js/react"
 
 const cssGradient = `
   linear-gradient(
@@ -175,6 +176,8 @@ const useFacetManifest = (resourceCategory: string | null) => {
 const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const facetManifest = useFacetManifest(searchParams.get("resource_category"))
+  const posthog = usePostHog()
+  const { POSTHOG } = APP_SETTINGS
 
   const setPage = useCallback(
     (newPage: number) => {
@@ -191,8 +194,11 @@ const SearchPage: React.FC = () => {
     [setSearchParams],
   )
   const onFacetsChange = useCallback(() => {
+    if (!(!POSTHOG?.api_key || POSTHOG.api_key.length < 1)) {
+      posthog.capture("search_update")
+    }
     setPage(1)
-  }, [setPage])
+  }, [setPage, posthog, POSTHOG])
 
   const {
     params,

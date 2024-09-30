@@ -10,6 +10,7 @@ import {
 } from "ol-components"
 
 import { RiAddLine } from "@remixicon/react"
+import { usePostHog } from "posthog-js/react"
 
 import * as NiceModal from "@ebay/nice-modal-react"
 
@@ -67,6 +68,7 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
     isLoading: isSavingLearningPathRelationships,
     mutateAsync: setLearningPathRelationships,
   } = useLearningResourceSetLearningPathRelationships()
+  const posthog = usePostHog()
   const isSaving =
     isSavingLearningPathRelationships || isSavingUserListRelationships
   let dialogTitle = "Add to list"
@@ -93,6 +95,9 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
         : null,
     )
     .filter((value) => value !== null)
+
+  const { POSTHOG } = APP_SETTINGS
+
   const formik = useFormik({
     enableReinitialize: true,
     validateOnChange: false,
@@ -103,6 +108,15 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
     },
     onSubmit: async (values) => {
       if (resource) {
+        if (!(!POSTHOG?.api_key || POSTHOG.api_key.length < 1)) {
+          posthog.capture("lr_add_to_list", {
+            listType: listType,
+            resourceId: resource?.id,
+            readableId: resource?.readable_id,
+            platformCode: resource?.platform?.code,
+            resourceType: resource?.resource_type,
+          })
+        }
         if (listType === ListType.LearningPath) {
           const newParents = values.learning_paths.map((id) => parseInt(id))
           await setLearningPathRelationships({
