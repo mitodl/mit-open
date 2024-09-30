@@ -3,18 +3,23 @@ import Footer from "./Footer"
 import React from "react"
 import { ThemeProvider } from "ol-components"
 import * as urls from "@/common/urls"
+import { MemoryRouter } from "react-router"
 
 describe("Footer", () => {
   test("Renders the appropriate text and links", async () => {
-    render(<Footer />, {
-      wrapper: ThemeProvider,
-    })
+    render(
+      <MemoryRouter>
+        <ThemeProvider>
+          <Footer />
+        </ThemeProvider>
+      </MemoryRouter>,
+    )
     interface Links {
       [key: string]: string
     }
     const expectedLinks: Links = {
       // key is blank here because the link is an image
-      "": "https://mit.edu/",
+      "": "https://www.mit.edu/",
       Home: urls.HOME,
       "About Us": urls.ABOUT,
       Accessibility: urls.ACCESSIBILITY,
