@@ -615,6 +615,7 @@ def test_serialize_bulk_learning_resources(mocker):
             "resource_age_date": mocker.ANY,
             "is_learning_material": mocker.ANY,
             "featured_rank": None,
+            "is_incomplete_or_stale": mocker.ANY,
             **LearningResourceSerializer(instance=resource).data,
         }
 
@@ -637,29 +638,46 @@ def test_serialize_bulk_learning_resources(mocker):
 @pytest.mark.parametrize("is_professional", [True, False])
 @pytest.mark.parametrize("no_price", [True, False])
 @pytest.mark.parametrize("has_featured_rank", [True, False])
-def test_serialize_learning_resource_for_bulk(
-    mocker, resource_type, is_professional, no_price, has_featured_rank
+@pytest.mark.parametrize("is_stale", [True, False])
+@pytest.mark.parametrize("is_incomplete", [True, False])
+def test_serialize_learning_resource_for_bulk(  # noqa: PLR0913
+    mocker,
+    resource_type,
+    is_professional,
+    no_price,
+    has_featured_rank,
+    is_stale,
+    is_incomplete,
 ):
     """
     Test that serialize_program_for_bulk yields a valid LearningResourceSerializer for resource types other than "course"
     The "course" resource type is tested by `test_serialize_course_numbers_for_bulk` below.
     """
+    completeness = 0.24 if is_incomplete else 0.75
     resource = factories.LearningResourceFactory.create(
-        resource_type=resource_type, professional=is_professional, runs=[]
+        resource_type=resource_type,
+        professional=is_professional,
+        runs=[],
+        completeness=completeness,
     )
+
     LearningResourceRunFactory.create(
         learning_resource=resource, prices=[Decimal(0.00 if no_price else 1.00)]
+    )
+
+    resource_age_date = datetime(
+        2009 if is_stale else 2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC
+    )
+
+    mocker.patch(
+        "learning_resources_search.serializers.get_resource_age_date",
+        return_value=resource_age_date,
     )
     free_dict = {
         "free": resource_type
         not in [LearningResourceType.program.name, LearningResourceType.course.name]
         or (no_price and not is_professional)
     }
-
-    mocker.patch(
-        "learning_resources_search.serializers.get_resource_age_date",
-        return_value=datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
-    )
 
     if has_featured_rank:
         mocker.patch(
@@ -692,8 +710,9 @@ def test_serialize_learning_resource_for_bulk(
         "resource_relations": {"name": "resource"},
         "created_on": resource.created_on,
         "is_learning_material": resource.resource_type not in ["course", "program"],
-        "resource_age_date": datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
+        "resource_age_date": resource_age_date,
         "featured_rank": 3.4 if has_featured_rank else None,
+        "is_incomplete_or_stale": is_incomplete or is_stale,
         **free_dict,
         **LearningResourceSerializer(resource).data,
     }
@@ -818,6 +837,7 @@ def test_serialize_course_numbers_for_bulk(
         "is_learning_material": False,
         "resource_age_date": datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
         "featured_rank": None,
+        "is_incomplete_or_stale": False,
         **LearningResourceSerializer(resource).data,
     }
     expected_data["course"]["course_numbers"][0] = {
