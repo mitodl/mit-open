@@ -244,6 +244,7 @@ const FacetStyles = styled.div`
           color: ${({ theme }) => theme.custom.colors.silverGrayLight};
           width: 20px;
           height: 20px;
+
           :hover {
             color: ${({ theme }) => theme.custom.colors.darkGray2};
           }
