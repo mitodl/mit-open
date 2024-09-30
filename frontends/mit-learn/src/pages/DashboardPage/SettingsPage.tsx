@@ -113,7 +113,7 @@ const ListItemBody: React.FC<ListItemBodyProps> = ({
   )
 }
 
-interface UnfollowDialogProps {
+type UnfollowDialogProps = {
   subscriptionIds?: number[]
   subscriptionName?: string
 }
@@ -125,15 +125,15 @@ const UnfollowDialog = NiceModal.create(
     return (
       <Dialog
         {...NiceModal.muiDialogV5(modal)}
-        onConfirm={() =>
-          subscriptionIds.map((subscriptionId) => unsubscribe(subscriptionId))
-        }
+        onConfirm={async () => {
+          subscriptionIds?.map((subscriptionId) => unsubscribe(subscriptionId))
+        }}
         title="Unfollow"
         confirmText={
-          subscriptionIds.length === 1 ? "Yes, Unfollow" : "Yes, Unfollow All"
+          subscriptionIds?.length === 1 ? "Yes, Unfollow" : "Yes, Unfollow All"
         }
       >
-        {subscriptionIds.length === 1 ? (
+        {subscriptionIds?.length === 1 ? (
           <>
             Are you sure you want to unfollow <b>{subscriptionName}</b>?
           </>
@@ -158,10 +158,6 @@ const SettingsPage: React.FC = () => {
 
   if (!user || subscriptionList.isLoading) return null
 
-  const showDialog = (subscriptionIds, subscriptionName) => {
-    return NiceModal.show(UnfollowDialog, { subscriptionIds, subscriptionName })
-  }
-
   return (
     <>
       <SettingsHeader>
@@ -175,12 +171,13 @@ const SettingsPage: React.FC = () => {
           <Button
             variant="tertiary"
             onClick={() =>
-              showDialog(
-                subscriptionList?.data?.map(
+              NiceModal.show(UnfollowDialog, {
+                subscriptionIds: subscriptionList?.data?.map(
                   (subscriptionItem) => subscriptionItem.id,
                 ),
-                "All",
-              )
+                subscriptionName: "All",
+                id: "all",
+              })
             }
           >
             Unfollow All
@@ -200,10 +197,11 @@ const SettingsPage: React.FC = () => {
             />
             <StyledLink
               onClick={() =>
-                showDialog(
-                  [subscriptionItem.id],
-                  subscriptionItem.source_description,
-                )
+                NiceModal.show(UnfollowDialog, {
+                  subscriptionIds: [subscriptionItem.id],
+                  subscriptionName: subscriptionItem.source_description,
+                  id: subscriptionItem.id.toString(),
+                })
               }
             >
               Unfollow
