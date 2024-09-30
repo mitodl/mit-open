@@ -330,7 +330,7 @@ const DashboardPage: React.FC = () => {
             {isLoadingUser ? (
               <Skeleton variant="text" width={128} height={32} />
             ) : (
-              <UserNameText>{`${user?.first_name} ${user?.last_name}`}</UserNameText>
+              <UserNameText>{`${user?.profile?.name}`}</UserNameText>
             )}
           </UserNameContainer>
         </ProfilePhotoContainer>
