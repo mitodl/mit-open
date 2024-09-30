@@ -1,5 +1,5 @@
 import React from "react"
-import { PlainList, Typography, Link, styled } from "ol-components"
+import { PlainList, Typography, Link, styled, Button } from "ol-components"
 import { useUserMe } from "api/hooks/user"
 import {
   useSearchSubscriptionDelete,
@@ -35,6 +35,29 @@ const SubTitleText = styled(Typography)(({ theme }) => ({
   marginBottom: "16px",
   color: theme.custom.colors.darkGray2,
   ...theme.typography.body2,
+}))
+
+const SettingsHeader = styled.div(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  alignSelf: "stretch",
+  [theme.breakpoints.down("md")]: {
+    paddingBottom: "8px",
+  },
+}))
+
+const SettingsHeaderLeft = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  flex: "1 0 0",
+})
+
+const SettingsHeaderRight = styled.div(({ theme }) => ({
+  display: "flex",
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
 }))
 
 const ListItem = styled.li(({ theme }) => [
@@ -95,10 +118,17 @@ const SettingsPage: React.FC = () => {
 
   return (
     <>
-      <TitleText>Following</TitleText>
-      <SubTitleText>
-        All topics, academic departments, and MIT units you are following.
-      </SubTitleText>
+      <SettingsHeader>
+        <SettingsHeaderLeft>
+          <TitleText>Following</TitleText>
+          <SubTitleText>
+            All topics, academic departments, and MIT units you are following.
+          </SubTitleText>
+        </SettingsHeaderLeft>
+        <SettingsHeaderRight>
+          <Button variant="tertiary">Unfollow All</Button>
+        </SettingsHeaderRight>
+      </SettingsHeader>
       <FollowList data-testid="follow-list">
         {subscriptionList?.data?.map((subscriptionItem) => (
           <ListItem key={subscriptionItem.id}>
