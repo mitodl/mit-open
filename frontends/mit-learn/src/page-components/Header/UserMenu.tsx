@@ -193,6 +193,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
               backgroundColor: theme.custom.colors.darkGray1,
               color: theme.custom.colors.white,
               padding: "8px 0",
+              "&:hover": {
+                textDecoration: "underline",
+              },
             },
           },
           ...theme.typography.body2,
