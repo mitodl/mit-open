@@ -130,7 +130,7 @@ const UnfollowDialog = NiceModal.create(
     return (
       <Dialog
         {...NiceModal.muiDialogV5(modal)}
-        title="Unfollow"
+        title={subscriptionIds?.length === 1 ? "Unfollow" : "Unfollow All"}
         actions={
           <Actions>
             <Button variant="secondary" onClick={() => modal.remove()}>

@@ -87,4 +87,14 @@ describe("SettingsPage", () => {
       expect(makeRequest).toHaveBeenCalledWith("delete", unsubUrl, undefined)
     }
   })
+  test("Unsubscribe from all is hidden if there are no subscriptions", async () => {
+    setupApis({
+      isAuthenticated: true,
+      isSubscribed: false,
+      subscriptionRequest: {},
+    })
+    renderWithProviders(<SettingsPage />)
+    const unfollowButton = screen.queryByText("Unfollow All")
+    expect(unfollowButton).not.toBeInTheDocument()
+  })
 })
