@@ -50,8 +50,7 @@ services:
     command: >
       /bin/bash -c '
       sleep 3;
-      celery -A main.celery:app worker -Q default -B -l ${MITOL_LOG_LEVEL:-INFO} &
-      celery -A main.celery:app worker -Q edx_content,default -l ${MITOL_LOG_LEVEL:-INFO}'
+      celery -A main.celery:app worker -E -Q default,edx_content -B -l ${MITOL_LOG_LEVEL:-INFO}'
     depends_on:
       db:
         condition: service_healthy

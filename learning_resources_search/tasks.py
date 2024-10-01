@@ -280,7 +280,13 @@ def send_subscription_emails(self, subscription_type, period="daily"):
     return self.replace(email_tasks)
 
 
-@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+@app.task(
+    acks_late=True,
+    reject_on_worker_lost=True,
+    autoretry_for=(RetryError, SystemExit),
+    retry_backoff=True,
+    rate_limit="600/m",
+)
 def index_learning_resources(ids, resource_type, index_types):
     """
     Index courses
@@ -295,7 +301,7 @@ def index_learning_resources(ids, resource_type, index_types):
     try:
         with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
             api.index_learning_resources(ids, resource_type, index_types)
-    except (RetryError, Ignore):
+    except (RetryError, Ignore, SystemExit):
         raise
     except:  # noqa: E722
         error = "index_courses threw an error"
@@ -353,7 +359,13 @@ def bulk_deindex_percolators(ids):
         return error
 
 
-@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+@app.task(
+    acks_late=True,
+    reject_on_worker_lost=True,
+    autoretry_for=(RetryError, SystemExit),
+    retry_backoff=True,
+    rate_limit="600/m",
+)
 def bulk_index_percolate_queries(percolate_ids, index_types):
     """
     Bulk index percolate queries for provided percolate query Ids
@@ -371,7 +383,7 @@ def bulk_index_percolate_queries(percolate_ids, index_types):
             PERCOLATE_INDEX_TYPE,
             index_types,
         )
-    except (RetryError, Ignore):
+    except (RetryError, Ignore, SystemExit):
         raise
     except:  # noqa: E722
         error = "bulk_index_percolate_queries threw an error"
@@ -402,7 +414,13 @@ def index_course_content_files(course_ids, index_types):
         return error
 
 
-@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+@app.task(
+    acks_late=True,
+    reject_on_worker_lost=True,
+    autoretry_for=(RetryError, SystemExit),
+    retry_backoff=True,
+    rate_limit="600/m",
+)
 def index_content_files(
     content_file_ids,
     learning_resource_id,
@@ -423,7 +441,7 @@ def index_content_files(
             api.index_content_files(
                 content_file_ids, learning_resource_id, index_types=index_types
             )
-    except (RetryError, Ignore):
+    except (RetryError, Ignore, SystemExit):
         raise
     except:  # noqa: E722
         error = "index_content_files threw an error"
@@ -848,7 +866,7 @@ def get_update_learning_resource_tasks(resource_type):
 @app.task(
     acks_late=True,
     reject_on_worker_lost=True,
-    autoretry_for=(RetryError,),
+    autoretry_for=(RetryError, SystemExit),
     retry_backoff=True,
     rate_limit="600/m",
 )
