@@ -190,7 +190,7 @@ const SettingsPage: React.FC = () => {
             All topics, academic departments, and MIT units you are following.
           </SubTitleText>
         </SettingsHeaderLeft>
-        {subscriptionList?.data.length > 1 ? (
+        {subscriptionList?.data?.length > 1 ? (
           <SettingsHeaderRight>
             <Button
               data-testid="unfollow-all"
