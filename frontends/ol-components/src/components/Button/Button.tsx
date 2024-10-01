@@ -3,7 +3,8 @@ import styled from "@emotion/styled"
 import { pxToRem } from "../ThemeProvider/typography"
 import tinycolor from "tinycolor2"
 import Link from "next/link"
-import type { Theme } from "@mui/material/styles"
+import type { Theme, ThemeOptions } from "@mui/material/styles"
+
 
 type ButtonVariant =
   | "primary"
@@ -43,7 +44,7 @@ const styleProps: Record<string, boolean> = {
 
 const shouldForwardProp = (prop: string) => !styleProps[prop]
 
-const defaultProps: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
+const DEFAULT_PROPS: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
   {
     variant: "primary",
     size: "medium",
@@ -51,22 +52,23 @@ const defaultProps: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
     responsive: false,
   }
 
-const borderWidths = {
+const BORDER_WIDTHS = {
   small: 1,
   medium: 1,
   large: 2,
 }
-const responsiveSize: Record<ButtonSize, ButtonSize> = {
+
+const RESPONSIVE_SIZES: Record<ButtonSize, ButtonSize> = {
   small: "small",
   medium: "small",
   large: "medium",
 }
 
-const sizeStyles = (size: ButtonSize, hasBorder: boolean, theme: Theme) => {
-  const paddingAdjust = hasBorder ? borderWidths[size] : 0
+const sizeStyles = (size: ButtonSize, hasBorder: boolean, theme: Theme): Partial<ThemeOptions["typography"]>[] => {
+  const paddingAdjust = hasBorder ? BORDER_WIDTHS[size] : 0
   return [
     {
-      borderWidth: borderWidths[size],
+      borderWidth: BORDER_WIDTHS[size],
     },
     size === "large" && {
       padding: `${14 - paddingAdjust}px 24px`,
@@ -83,11 +85,15 @@ const sizeStyles = (size: ButtonSize, hasBorder: boolean, theme: Theme) => {
   ]
 }
 
-const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>((
-  props,
+type ButtonProps = ButtonStyleProps & React.ComponentProps<"button">
+type AnchorProps = ButtonStyleProps & React.ComponentProps<"a">
+type LinkProps = ButtonStyleProps & React.ComponentProps<typeof Link>
+
+const buildStyles = (
+  props: (ButtonProps | AnchorProps | LinkProps) & { theme: Theme },
 ) => {
   const { size, variant, edge, theme, color, responsive } = {
-    ...defaultProps,
+    ...DEFAULT_PROPS,
     ...props,
   }
   const { colors } = theme.custom
@@ -114,7 +120,7 @@ const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>((
     // responsive
     responsive && {
       [theme.breakpoints.down("sm")]: sizeStyles(
-        responsiveSize[size],
+        RESPONSIVE_SIZES[size],
         hasBorder,
         theme,
       ),
@@ -228,7 +234,11 @@ const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>((
       },
     },
   ]
-})
+}
+
+const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>(buildStyles)
+const AnchorStyled = styled("a", { shouldForwardProp })<ButtonStyleProps>(buildStyles)
+const LinkStyled = styled(Link, { shouldForwardProp })<ButtonStyleProps>(buildStyles)
 
 const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ({ size, side }) => [
@@ -266,12 +276,12 @@ const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ],
 )
 
-type ButtonProps = ButtonStyleProps & React.ComponentProps<"button">
+
 
 const ButtonInner: React.FC<
   ButtonStyleProps & { children?: React.ReactNode }
 > = (props) => {
-  const { children, size = defaultProps.size } = props
+  const { children, size = DEFAULT_PROPS.size } = props
   return (
     <>
       {props.startIcon ? (
@@ -293,11 +303,13 @@ const ButtonInner: React.FC<
  * Our styled button. If you need a link that looks like a button, use ButtonLink
  */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, ...props }, ref) => (
-    <ButtonStyled ref={ref} type="button" {...props}>
-      <ButtonInner {...props}>{children}</ButtonInner>
-    </ButtonStyled>
-  ),
+  ({ children, ...props }, ref) => {
+    return (
+      <ButtonStyled ref={ref} type="button" {...props}>
+        <ButtonInner {...props}>{children}</ButtonInner>
+      </ButtonStyled>
+    )
+  }
 )
 
 type ButtonLinkProps = ButtonStyleProps &
@@ -306,18 +318,17 @@ type ButtonLinkProps = ButtonStyleProps &
     href: string
   }
 
-const ButtonLink = ButtonStyled.withComponent(
-  React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
-    ({ children, rawAnchor, ...props }: ButtonLinkProps, ref) => {
-      const Component = rawAnchor ? "a" : Link
-      return (
-        <Component ref={ref} {...props}>
-          <ButtonInner {...props}>{children}</ButtonInner>
-        </Component>
-      )
-    },
-  ),
+const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
+  ({ children, rawAnchor, ...props }: ButtonLinkProps, ref) => {
+    const Component = rawAnchor ? AnchorStyled : LinkStyled
+    return (
+      <Component ref={ref} {...props}>
+        <ButtonInner {...props}>{children}</ButtonInner>
+      </Component>
+    )
+  },
 )
+
 ButtonLink.displayName = "ButtonLink"
 
 type ActionButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &
@@ -359,11 +370,11 @@ const ActionButton = styled(
   React.forwardRef<HTMLButtonElement, ActionButtonProps>((props, ref) => (
     <ButtonStyled ref={ref} type="button" {...props} />
   )),
-)(({ theme, size = defaultProps.size, responsive }) => {
+)(({ theme, size = DEFAULT_PROPS.size, responsive }) => {
   return [
     actionStyles(size),
     responsive && {
-      [theme.breakpoints.down("sm")]: actionStyles(responsiveSize[size]),
+      [theme.breakpoints.down("sm")]: actionStyles(RESPONSIVE_SIZES[size]),
     },
   ]
 })
