@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.20.1
+--------------
+
+- fix Safari MIT logo bug (#1631)
+- Retry recreate_index subtasks on worker exit (#1615)
+- Email for saved searches (#1619)
+
 Version 0.20.0 (Released October 01, 2024)
 --------------
 
