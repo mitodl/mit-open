@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.20.2
+--------------
+
+- remove border and shadow (#1636)
+- set card root to auto height (#1633)
+
 Version 0.20.1 (Released October 01, 2024)
 --------------
 
