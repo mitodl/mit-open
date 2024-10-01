@@ -48,7 +48,7 @@ export const logoBanner: Story = {
       <Banner
         avatar={
           <img
-            src="https://learn.mit.edu/static/images/mit-logo-transparent5.svg"
+            src="https://learn.mit.edu/static/images/mit-logo-black.svg"
             alt="MIT Logo"
             style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
           />
@@ -66,7 +66,7 @@ export const logoBannerWithExtras: Story = {
       <Banner
         avatar={
           <img
-            src="https://learn.mit.edu/static/images/mit-logo-transparent5.svg"
+            src="https://learn.mit.edu/static/images/mit-logo-black.svg"
             alt="MIT Logo"
             style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
           />

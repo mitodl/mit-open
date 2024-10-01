@@ -24,6 +24,7 @@ interface CustomTheme {
     silverGrayLight: string
     lightGray2: string
     lightGray1: string
+    navGray: string
     darkPink: string
     pink: string
     lightPink: string
