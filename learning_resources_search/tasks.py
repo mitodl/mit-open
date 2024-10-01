@@ -898,15 +898,13 @@ def _generate_subscription_digest_subject(
 
     """
     prefix = "" if shortform else "MIT Learn: "
-
+    resource_type = unique_resource_types.pop().title()
     if sample_course["source_channel_type"] == "saved_search":
         if shortform:
-            resource_type = unique_resource_types.pop()
             return f"New {resource_type}{pluralize(total_count)} from MIT Learn"
-        resource_type_display = unique_resource_types.pop()
         return (
             f"{prefix}New"
-            f" {resource_type_display}{pluralize(total_count)}: "
+            f" {resource_type}{pluralize(total_count)}: "
             f"{sample_course['resource_title']}"
         )
     preposition = "from"
@@ -914,10 +912,9 @@ def _generate_subscription_digest_subject(
         preposition = "in"
 
     suffix = "" if shortform else f": {sample_course['resource_title']}"
-    resource_type_display = unique_resource_types.pop()
     return (
         f"{prefix}New"
-        f" {resource_type_display}{pluralize(total_count)} "
+        f" {resource_type}{pluralize(total_count)} "
         f"{preposition} {source_name}{suffix}"
     )
 
