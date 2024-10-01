@@ -40,16 +40,11 @@ const StyledMenuButton = styled.button(({ theme }) => ({
   transition: `background ${theme.transitions.duration.short}ms`,
   cursor: "pointer",
   borderStyle: "none",
-  opacity: 0.5,
   svg: {
     color: theme.custom.colors.white,
   },
   [theme.breakpoints.down("sm")]: {
     padding: "4px 0",
-    opacity: 1,
-  },
-  "&:hover": {
-    opacity: 1,
   },
 }))
 
