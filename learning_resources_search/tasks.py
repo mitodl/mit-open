@@ -235,7 +235,9 @@ def _get_percolated_rows(resources, subscription_type):
                         "resource_image_url": resource.image.url
                         if resource.image
                         else "",
-                        "resource_type": resource.resource_type,
+                        "resource_type": LearningResourceType[
+                            resource.resource_type
+                        ].value,
                         "user_id": user,
                         "source_label": query.source_label(),
                         "source_channel_type": source_channel.channel_type
@@ -884,13 +886,24 @@ def finish_recreate_index(results, backing_indices):
 def _generate_subscription_digest_subject(
     sample_course, source_name, unique_resource_types, total_count, shortform
 ):
+    """
+    Generate the subject line and/or content header for subscription emails
+    Args:
+        sample_course (a learning resource): A sample resource to reference
+        source_name (string): the subscription type (saved_search etc)
+        unique_resource_types (list): set of unique resource types in the email
+        total_count (int): total number of resources in the email
+        shortform (bool): if False return the (longer) email subject
+                          otherwise short content header
+
+    """
     prefix = "" if shortform else "MIT Learn: "
 
     if sample_course["source_channel_type"] == "saved_search":
         if shortform:
-            resource_type = LearningResourceType[unique_resource_types.pop()].value
+            resource_type = unique_resource_types.pop()
             return f"New {resource_type}{pluralize(total_count)} from MIT Learn"
-        resource_type_display = LearningResourceType[unique_resource_types.pop()].value
+        resource_type_display = unique_resource_types.pop()
         return (
             f"{prefix}New"
             f" {resource_type_display}{pluralize(total_count)}: "
@@ -901,7 +914,7 @@ def _generate_subscription_digest_subject(
         preposition = "in"
 
     suffix = "" if shortform else f": {sample_course['resource_title']}"
-    resource_type_display = LearningResourceType[unique_resource_types.pop()].value
+    resource_type_display = unique_resource_types.pop()
     return (
         f"{prefix}New"
         f" {resource_type_display}{pluralize(total_count)} "
