@@ -108,13 +108,15 @@ const UserMenuChevron: React.FC<{ open: boolean }> = ({ open }) => {
 }
 
 const StyledMITLogoLink = styled(MITLogoLink)(({ theme }) => ({
-  width: "64px",
-  height: "32px",
-  marginLeft: "16px",
-  [theme.breakpoints.down("sm")]: {
-    width: "48px",
-    height: "24px",
-    marginLeft: "0",
+  img: {
+    width: "64px",
+    height: "32px",
+    marginLeft: "16px",
+    [theme.breakpoints.down("sm")]: {
+      width: "48px",
+      height: "24px",
+      marginLeft: "0",
+    },
   },
 }))
 
