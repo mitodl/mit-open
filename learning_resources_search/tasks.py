@@ -3,7 +3,6 @@
 import datetime
 import itertools
 import logging
-import time
 from collections import OrderedDict
 from contextlib import contextmanager
 from itertools import groupby
@@ -277,14 +276,13 @@ def send_subscription_emails(self, subscription_type, period="daily"):
 
 
 @app.task(
-    bind=True,
-    max_retries=3,
-    retry_backoff=True,
-    rate_limit="600/m",
     acks_late=True,
     reject_on_worker_lost=True,
+    autoretry_for=(RetryError, SystemExit),
+    retry_backoff=True,
+    rate_limit="600/m",
 )
-def index_learning_resources(self, ids, resource_type, index_types):
+def index_learning_resources(ids, resource_type, index_types):
     """
     Index courses
 
@@ -296,10 +294,14 @@ def index_learning_resources(self, ids, resource_type, index_types):
 
     """
     try:
-        api.index_learning_resources(ids, resource_type, index_types)
-        time.sleep(5)
-    except Exception as exc:  # noqa: BLE001
-        raise self.retry(exc=exc, countdown=5)  # noqa: B904
+        with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
+            api.index_learning_resources(ids, resource_type, index_types)
+    except (RetryError, Ignore, SystemExit):
+        raise
+    except:  # noqa: E722
+        error = "index_courses threw an error"
+        log.exception(error)
+        return error
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
@@ -353,14 +355,13 @@ def bulk_deindex_percolators(ids):
 
 
 @app.task(
-    bind=True,
-    max_retries=3,
-    retry_backoff=True,
-    rate_limit="600/m",
     acks_late=True,
     reject_on_worker_lost=True,
+    autoretry_for=(RetryError, SystemExit),
+    retry_backoff=True,
+    rate_limit="600/m",
 )
-def bulk_index_percolate_queries(self, percolate_ids, index_types):
+def bulk_index_percolate_queries(percolate_ids, index_types):
     """
     Bulk index percolate queries for provided percolate query Ids
 
@@ -377,9 +378,12 @@ def bulk_index_percolate_queries(self, percolate_ids, index_types):
             PERCOLATE_INDEX_TYPE,
             index_types,
         )
-        time.sleep(5)
-    except Exception as exc:  # noqa: BLE001
-        raise self.retry(exc=exc, countdown=5)  # noqa: B904
+    except (RetryError, Ignore, SystemExit):
+        raise
+    except:  # noqa: E722
+        error = "bulk_index_percolate_queries threw an error"
+        log.exception(error)
+        return error
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
@@ -406,15 +410,13 @@ def index_course_content_files(course_ids, index_types):
 
 
 @app.task(
-    bind=True,
-    max_retries=3,
-    retry_backoff=True,
-    rate_limit="600/m",
     acks_late=True,
     reject_on_worker_lost=True,
+    autoretry_for=(RetryError, SystemExit),
+    retry_backoff=True,
+    rate_limit="600/m",
 )
 def index_content_files(
-    self,
     content_file_ids,
     learning_resource_id,
     index_types=IndexestoUpdate.all_indexes.value,
@@ -430,12 +432,16 @@ def index_content_files(
 
     """
     try:
-        api.index_content_files(
-            content_file_ids, learning_resource_id, index_types=index_types
-        )
-        time.sleep(5)
-    except Exception as exc:  # noqa: BLE001
-        raise self.retry(exc=exc, countdown=5)  # noqa: B904
+        with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
+            api.index_content_files(
+                content_file_ids, learning_resource_id, index_types=index_types
+            )
+    except (RetryError, Ignore, SystemExit):
+        raise
+    except:  # noqa: E722
+        error = "index_content_files threw an error"
+        log.exception(error)
+        return error
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
@@ -853,14 +859,13 @@ def get_update_learning_resource_tasks(resource_type):
 
 
 @app.task(
-    bind=True,
-    max_retries=3,
-    retry_backoff=True,
-    rate_limit="600/m",
     acks_late=True,
     reject_on_worker_lost=True,
+    autoretry_for=(RetryError, SystemExit),
+    retry_backoff=True,
+    rate_limit="600/m",
 )
-def finish_recreate_index(self, results, backing_indices):
+def finish_recreate_index(results, backing_indices):
     """
     Swap reindex backing index with default backing index
 
@@ -868,30 +873,27 @@ def finish_recreate_index(self, results, backing_indices):
         results (list or bool): Results saying whether the error exists
         backing_indices (dict): The backing OpenSearch indices keyed by object type
     """
-    try:
-        errors = merge_strings(results)
-        if errors:
-            try:
-                api.delete_orphaned_indexes(
-                    list(backing_indices.keys()), delete_reindexing_tags=True
-                )
-            except RequestError as ex:
-                raise RetryError(str(ex)) from ex
-            msg = f"Errors occurred during recreate_index: {errors}"
-            raise ReindexError(msg)  # noqa: TRY301
+    errors = merge_strings(results)
+    if errors:
+        try:
+            api.delete_orphaned_indexes(
+                list(backing_indices.keys()), delete_reindexing_tags=True
+            )
+        except RequestError as ex:
+            raise RetryError(str(ex)) from ex
+        msg = f"Errors occurred during recreate_index: {errors}"
+        raise ReindexError(msg)
 
-        log.info(
-            "Done with temporary index. Pointing default aliases to newly created backing indexes..."  # noqa: E501
-        )
-        for obj_type, backing_index in backing_indices.items():
-            try:
-                api.switch_indices(backing_index, obj_type)
-            except RequestError as ex:
-                raise RetryError(str(ex)) from ex
-        log.info("recreate_index has finished successfully!")
-        clear_search_cache()
-    except Exception as exc:  # noqa: BLE001
-        raise self.retry(exc=exc, countdown=5)  # noqa: B904
+    log.info(
+        "Done with temporary index. Pointing default aliases to newly created backing indexes..."  # noqa: E501
+    )
+    for obj_type, backing_index in backing_indices.items():
+        try:
+            api.switch_indices(backing_index, obj_type)
+        except RequestError as ex:
+            raise RetryError(str(ex)) from ex
+    log.info("recreate_index has finished successfully!")
+    clear_search_cache()
 
 
 def _generate_subscription_digest_subject(
