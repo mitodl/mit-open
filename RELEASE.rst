@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.20.1
+Version 0.20.1 (Released October 01, 2024)
 --------------
 
 - fix Safari MIT logo bug (#1631)
