@@ -126,8 +126,6 @@ const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
   margin: "4px 0",
 }))
 
-
-
 const SearchButton: FunctionComponent = () => {
   return (
     <StyledActionButtonLink

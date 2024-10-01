@@ -150,7 +150,9 @@ const useOpenLearningResourceDrawer = () => {
 
   const openLearningResourceDrawer = useCallback(
     (resourceId: number) => {
-      router.push(`?${getOpenDrawerSearchParams(searchParams, resourceId)}`, {scroll: false})
+      router.push(`?${getOpenDrawerSearchParams(searchParams, resourceId)}`, {
+        scroll: false,
+      })
     },
     [router, searchParams],
   )

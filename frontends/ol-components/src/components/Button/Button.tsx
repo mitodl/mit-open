@@ -5,7 +5,6 @@ import tinycolor from "tinycolor2"
 import Link from "next/link"
 import type { Theme, ThemeOptions } from "@mui/material/styles"
 
-
 type ButtonVariant =
   | "primary"
   | "secondary"
@@ -64,7 +63,11 @@ const RESPONSIVE_SIZES: Record<ButtonSize, ButtonSize> = {
   large: "medium",
 }
 
-const sizeStyles = (size: ButtonSize, hasBorder: boolean, theme: Theme): Partial<ThemeOptions["typography"]>[] => {
+const sizeStyles = (
+  size: ButtonSize,
+  hasBorder: boolean,
+  theme: Theme,
+): Partial<ThemeOptions["typography"]>[] => {
   const paddingAdjust = hasBorder ? BORDER_WIDTHS[size] : 0
   return [
     {
@@ -236,9 +239,15 @@ const buildStyles = (
   ]
 }
 
-const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>(buildStyles)
-const AnchorStyled = styled("a", { shouldForwardProp })<ButtonStyleProps>(buildStyles)
-const LinkStyled = styled(Link, { shouldForwardProp })<ButtonStyleProps>(buildStyles)
+const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>(
+  buildStyles,
+)
+const AnchorStyled = styled("a", { shouldForwardProp })<ButtonStyleProps>(
+  buildStyles,
+)
+const LinkStyled = styled(Link, { shouldForwardProp })<ButtonStyleProps>(
+  buildStyles,
+)
 
 const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ({ size, side }) => [
@@ -276,8 +285,6 @@ const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ],
 )
 
-
-
 const ButtonInner: React.FC<
   ButtonStyleProps & { children?: React.ReactNode }
 > = (props) => {
@@ -309,7 +316,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <ButtonInner {...props}>{children}</ButtonInner>
       </ButtonStyled>
     )
-  }
+  },
 )
 
 type ButtonLinkProps = ButtonStyleProps &
