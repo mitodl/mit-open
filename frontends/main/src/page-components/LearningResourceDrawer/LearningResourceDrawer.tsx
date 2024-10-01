@@ -144,15 +144,20 @@ const getOpenDrawerSearchParams = (
   return newSearchParams
 }
 
+// TODO Not used anywhere in project. Remove?
 const useOpenLearningResourceDrawer = () => {
   const searchParams = useSearchParams()
   const router = useRouter()
 
   const openLearningResourceDrawer = useCallback(
     (resourceId: number) => {
-      router.push(`?${getOpenDrawerSearchParams(searchParams, resourceId)}`, {
-        scroll: false,
-      })
+      const hash = window?.location.hash
+      router.push(
+        `?${getOpenDrawerSearchParams(searchParams, resourceId)}${hash ? `#${hash}` : ""}`,
+        {
+          scroll: false,
+        },
+      )
     },
     [router, searchParams],
   )
@@ -164,7 +169,8 @@ const useResourceDrawerHref = () => {
 
   return useCallback(
     (resourceId: number) => {
-      return `?${getOpenDrawerSearchParams(searchParams, resourceId)}`
+      const hash = window?.location.hash
+      return `?${getOpenDrawerSearchParams(searchParams, resourceId)}${hash || ""}`
     },
     [searchParams],
   )

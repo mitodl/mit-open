@@ -231,7 +231,6 @@ const OnboardingPage: React.FC = () => {
         }
         values={formik.values.goals}
         onChange={(event) => {
-          console.log(event)
           formik.handleChange(event)
         }}
       />
