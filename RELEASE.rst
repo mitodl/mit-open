@@ -1,6 +1,20 @@
 Release Notes
 =============
 
+Version 0.20.0 (Released October 01, 2024)
+--------------
+
+- updated header (#1622)
+- Switch to using full name (#1621)
+- Update dependency lxml to v5 (#1554)
+- Remove health checks against opensearch (#1620)
+- Add additional event capturing for some interactions (#1596)
+- Revert "changes for formatting search subscription emails"
+- changes for formatting search subscription emails
+- Add custom label for percolate query subscriptions (#1610)
+- Update Python to v3.12.6 (#1593)
+- [pre-commit.ci] pre-commit autoupdate (#1601)
+
 Version 0.19.6 (Released September 27, 2024)
 --------------
 
