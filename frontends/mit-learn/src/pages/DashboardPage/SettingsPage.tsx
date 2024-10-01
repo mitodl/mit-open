@@ -164,7 +164,7 @@ const UnfollowDialog = NiceModal.create(
           <>
             Are you sure you want to <b>Unfollow All</b>? You will stop getting
             emails for all topics, academic departments, and MIT units you are
-            following.?
+            following.
           </>
         )}
       </Dialog>
