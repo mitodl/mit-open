@@ -6,6 +6,7 @@ import {
   styled,
   Button,
   Dialog,
+  DialogActions,
 } from "ol-components"
 import { useUserMe } from "api/hooks/user"
 import {
@@ -20,6 +21,10 @@ const SOURCE_LABEL_DISPLAY = {
   saved_search: "Saved Search",
 }
 
+const Actions = styled(DialogActions)({
+  display: "flex",
+  "> *": { flex: 1 },
+})
 const FollowList = styled(PlainList)(({ theme }) => ({
   borderRadius: "8px",
   background: theme.custom.colors.white,
@@ -125,12 +130,29 @@ const UnfollowDialog = NiceModal.create(
     return (
       <Dialog
         {...NiceModal.muiDialogV5(modal)}
-        onConfirm={async () => {
-          subscriptionIds?.map((subscriptionId) => unsubscribe(subscriptionId))
-        }}
         title="Unfollow"
-        confirmText={
-          subscriptionIds?.length === 1 ? "Yes, Unfollow" : "Yes, Unfollow All"
+        actions={
+          <Actions>
+            <Button variant="secondary" onClick={() => modal.remove()}>
+              Cancel
+            </Button>
+
+            <Button
+              onClick={async () =>
+                subscriptionIds?.map((subscriptionId) =>
+                  unsubscribe(subscriptionId, {
+                    onSuccess: () => {
+                      modal.remove()
+                    },
+                  }),
+                )
+              }
+            >
+              {subscriptionIds?.length === 1
+                ? "Yes, Unfollow"
+                : "Yes, Unfollow All"}
+            </Button>
+          </Actions>
         }
       >
         {subscriptionIds?.length === 1 ? (
@@ -141,7 +163,7 @@ const UnfollowDialog = NiceModal.create(
           <>
             Are you sure you want to <b>Unfollow All</b>? You will stop getting
             emails for all topics, academic departments, and MIT units you are
-            following.{" "}
+            following.?
           </>
         )}
       </Dialog>
@@ -167,22 +189,26 @@ const SettingsPage: React.FC = () => {
             All topics, academic departments, and MIT units you are following.
           </SubTitleText>
         </SettingsHeaderLeft>
-        <SettingsHeaderRight>
-          <Button
-            variant="tertiary"
-            onClick={() =>
-              NiceModal.show(UnfollowDialog, {
-                subscriptionIds: subscriptionList?.data?.map(
-                  (subscriptionItem) => subscriptionItem.id,
-                ),
-                subscriptionName: "All",
-                id: "all",
-              })
-            }
-          >
-            Unfollow All
-          </Button>
-        </SettingsHeaderRight>
+        {subscriptionList?.data.length > 1 ? (
+          <SettingsHeaderRight>
+            <Button
+              variant="tertiary"
+              onClick={() =>
+                NiceModal.show(UnfollowDialog, {
+                  subscriptionIds: subscriptionList?.data?.map(
+                    (subscriptionItem) => subscriptionItem.id,
+                  ),
+                  subscriptionName: "All",
+                  id: "all",
+                })
+              }
+            >
+              Unfollow All
+            </Button>
+          </SettingsHeaderRight>
+        ) : (
+          <></>
+        )}
       </SettingsHeader>
       <FollowList data-testid="follow-list">
         {subscriptionList?.data?.map((subscriptionItem) => (
