@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.20.0
+Version 0.20.0 (Released October 01, 2024)
 --------------
 
 - updated header (#1622)
