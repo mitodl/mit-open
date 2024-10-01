@@ -44,20 +44,17 @@ import MITLogoLink from "../MITLogoLink/MITLogoLink"
 
 const Bar = styled(AppBar)(({ theme }) => ({
   padding: "16px 8px",
-  borderBottom: `4px solid ${theme.custom.colors.darkGray2}`,
   backgroundColor: theme.custom.colors.navGray,
+  boxShadow: "none",
   display: "flex",
   justifyContent: "space-between",
   flexDirection: "column",
-  boxShadow: "0px 3px 35px 0px rgba(23, 30, 42, 0.50)",
   ".MuiToolbar-root": {
     minHeight: "auto",
   },
   [theme.breakpoints.down("sm")]: {
     height: "60px",
     padding: "0",
-    borderBottom: `1px solid ${theme.custom.colors.darkGray2}`,
-    boxShadow: "0px -2px 20px 0px rgba(0, 0, 0, 0.05)",
   },
 }))
 
