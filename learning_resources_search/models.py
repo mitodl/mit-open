@@ -45,14 +45,17 @@ class PercolateQuery(TimestampedModel):
         channel = self.source_channel()
         if self.display_label:
             return self.display_label
-        if channel:
+        if channel and self.source_type == self.CHANNEL_SUBSCRIPTION_TYPE:
             return channel.title
         return self.original_url_params()
 
     def source_channel(self):
         original_query_params = self.original_url_params()
         channels_filtered = Channel.objects.filter(search_filter=original_query_params)
-        if channels_filtered.exists():
+        if (
+            channels_filtered.exists()
+            and self.source_type == self.CHANNEL_SUBSCRIPTION_TYPE
+        ):
             return channels_filtered.first()
         return None
 

@@ -18,6 +18,7 @@ from django.template.defaultfilters import pluralize
 from opensearchpy.exceptions import NotFoundError, RequestError
 from requests.models import PreparedRequest
 
+from learning_resources.constants import LearningResourceType
 from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES
 from learning_resources.models import (
     ContentFile,
@@ -167,7 +168,7 @@ def _infer_percolate_group(percolate_query):
             elif key == "offered_by":
                 return LearningResourceOfferor.objects.get(code=val[0]).name
             return val[0]
-    return None
+    return percolate_query.original_url_params()
 
 
 def _infer_percolate_group_url(percolate_query):
@@ -181,6 +182,8 @@ def _infer_percolate_group_url(percolate_query):
     query_string_params = {k: v for k, v in original_query.items() if v}
     if "endpoint" in query_string_params:
         query_string_params.pop("endpoint")
+    if "sortby" not in query_string_params:
+        query_string_params["sortby"] = "new"
     query_string = urlencode(query_string_params, doseq=True)
     return frontend_absolute_url(f"/search?{query_string}")
 
@@ -232,7 +235,9 @@ def _get_percolated_rows(resources, subscription_type):
                         "resource_image_url": resource.image.url
                         if resource.image
                         else "",
-                        "resource_type": resource.resource_type,
+                        "resource_type": LearningResourceType[
+                            resource.resource_type
+                        ].value,
                         "user_id": user,
                         "source_label": query.source_label(),
                         "source_channel_type": source_channel.channel_type
@@ -881,23 +886,35 @@ def finish_recreate_index(results, backing_indices):
 def _generate_subscription_digest_subject(
     sample_course, source_name, unique_resource_types, total_count, shortform
 ):
-    prefix = "" if shortform else "MIT Learn: "
+    """
+    Generate the subject line and/or content header for subscription emails
+    Args:
+        sample_course (a learning resource): A sample resource to reference
+        source_name (string): the subscription type (saved_search etc)
+        unique_resource_types (list): set of unique resource types in the email
+        total_count (int): total number of resources in the email
+        shortform (bool): if False return the (longer) email subject
+                          otherwise short content header
 
+    """
+    prefix = "" if shortform else "MIT Learn: "
+    resource_type = unique_resource_types.pop()
     if sample_course["source_channel_type"] == "saved_search":
+        if shortform:
+            return f"New {resource_type}{pluralize(total_count)} from MIT Learn"
         return (
             f"{prefix}New"
-            f' "{source_name}" '
-            f"{unique_resource_types.pop().capitalize()}{pluralize(total_count)}"
+            f" {resource_type}{pluralize(total_count)}: "
+            f"{sample_course['resource_title']}"
         )
     preposition = "from"
     if sample_course["source_channel_type"] == "topic":
         preposition = "in"
 
     suffix = "" if shortform else f": {sample_course['resource_title']}"
-
     return (
         f"{prefix}New"
-        f" {unique_resource_types.pop().capitalize()}{pluralize(total_count)} "
+        f" {resource_type}{pluralize(total_count)} "
         f"{preposition} {source_name}{suffix}"
     )
 
