@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.20.2
+Version 0.20.2 (Released October 01, 2024)
 --------------
 
 - remove border and shadow (#1636)
