@@ -951,7 +951,7 @@ def test_subscription_digest_subject():
         total_count=1,
         shortform=False,
     )
-    assert subject_line == "MIT Learn: New Program in electronics: robotics"
+    assert subject_line == "MIT Learn: New program in electronics: robotics"
 
     sample_course = {"source_channel_type": "podcast", "resource_title": "robotics"}
     resource_types = {"program"}
@@ -963,7 +963,7 @@ def test_subscription_digest_subject():
         total_count=9,
         shortform=False,
     )
-    assert subject_line == "MIT Learn: New Programs from xpro: robotics"
+    assert subject_line == "MIT Learn: New programs from xpro: robotics"
 
     resource_types = {"podcast"}
     subject_line = _generate_subscription_digest_subject(
@@ -973,13 +973,13 @@ def test_subscription_digest_subject():
         total_count=19,
         shortform=False,
     )
-    assert subject_line == "MIT Learn: New Podcasts from engineering: robotics"
+    assert subject_line == "MIT Learn: New podcasts from engineering: robotics"
 
     resource_types = {"course"}
     subject_line = _generate_subscription_digest_subject(
         sample_course, "management", resource_types, 19, shortform=True
     )
-    assert subject_line == "New Courses from management"
+    assert subject_line == "New courses from management"
 
 
 def test_update_featured_rank(mocker, offeror_featured_lists):
