@@ -138,6 +138,7 @@ const UnfollowDialog = NiceModal.create(
             </Button>
 
             <Button
+              data-testid="dialog-unfollow"
               onClick={async () =>
                 subscriptionIds?.map((subscriptionId) =>
                   unsubscribe(subscriptionId, {
@@ -192,6 +193,7 @@ const SettingsPage: React.FC = () => {
         {subscriptionList?.data.length > 1 ? (
           <SettingsHeaderRight>
             <Button
+              data-testid="unfollow-all"
               variant="tertiary"
               onClick={() =>
                 NiceModal.show(UnfollowDialog, {
