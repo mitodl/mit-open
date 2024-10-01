@@ -20,12 +20,7 @@ from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.utils import (
     transform_delivery,
 )
-from learning_resources.etl.xpro import _parse_datetime, parse_topics
-from learning_resources.factories import (
-    LearningResourceOfferorFactory,
-    LearningResourceTopicFactory,
-    LearningResourceTopicMappingFactory,
-)
+from learning_resources.etl.xpro import _parse_datetime
 from learning_resources.test_utils import set_up_topics
 from main.test_utils import any_instance_of
 
@@ -109,7 +104,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
             "published": bool(program_data["current_price"]),
             "url": program_data["url"],
             "availability": Availability.dated.name,
-            "topics": parse_topics(program_data),
+            "topics": program_data["topics"],
             "platform": PlatformType.xpro.name,
             "resource_type": LearningResourceType.program.name,
             "delivery": transform_delivery(program_data.get("format")),
@@ -156,7 +151,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                         for course_run in course_data["courseruns"]
                     ),
                     "availability": Availability.dated.name,
-                    "topics": parse_topics(course_data),
+                    "topics": course_data["topics"],
                     "resource_type": LearningResourceType.course.name,
                     "continuing_ed_credits": course_data.get("credits"),
                     "pace": [Pace.self_paced.name],
@@ -233,7 +228,7 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                 for course_run in course_data["courseruns"]
             ),
             "availability": Availability.dated.name,
-            "topics": parse_topics(course_data),
+            "topics": course_data["topics"],
             "resource_type": LearningResourceType.course.name,
             "runs": [
                 {
@@ -323,46 +318,4 @@ def test_program_run_start_date_value(
     transformed_programs = xpro.transform_programs(mock_xpro_programs_data)
     assert transformed_programs[0]["runs"][0]["start_date"] == _parse_datetime(
         expected_dt
-    )
-
-
-@pytest.mark.parametrize(
-    ("raw_topics", "expected_topics"),
-    [
-        (["Technology:AI/Machine Learning", "Management"], ["Management"]),
-        (
-            ["Technology:AI/Machine Learning", "Business:Management"],
-            ["AI", "Machine Learning", "Management"],
-        ),
-        (["Machine Learning", "Management"], ["Machine Learning", "Management"]),
-        (["AI", "Machine Learning"], ["AI", "Machine Learning"]),
-        (
-            ["AI", "Machine Learning", "Technology:AI/Machine Learning"],
-            ["AI", "Machine Learning"],
-        ),
-    ],
-)
-def test_parse_topics_data(raw_topics, expected_topics):
-    """Test that topics are correctly parsed from the xpro data"""
-    offeror = LearningResourceOfferorFactory.create(is_xpro=True)
-    LearningResourceTopicMappingFactory.create(
-        offeror=offeror,
-        topic=LearningResourceTopicFactory.create(name="AI"),
-        topic_name="AI/Machine Learning",
-    )
-    LearningResourceTopicMappingFactory.create(
-        offeror=offeror,
-        topic=LearningResourceTopicFactory.create(name="Machine Learning"),
-        topic_name="AI/Machine Learning",
-    )
-    LearningResourceTopicMappingFactory.create(
-        offeror=offeror,
-        topic=LearningResourceTopicFactory.create(name="Management"),
-        topic_name="Management",
-    )
-    course_data = {
-        "topics": [{"name": topic} for topic in raw_topics],
-    }
-    assert sorted(parse_topics(course_data), key=lambda topic: topic["name"]) == sorted(
-        [{"name": topic} for topic in expected_topics], key=lambda topic: topic["name"]
     )

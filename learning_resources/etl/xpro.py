@@ -20,7 +20,6 @@ from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
     generate_course_numbers_json,
     transform_delivery,
-    transform_topics,
 )
 from main.utils import clean_data
 
@@ -50,35 +49,6 @@ def _parse_datetime(value):
         datetime: the parsed datetime
     """  # noqa: D401
     return parse(value).replace(tzinfo=UTC) if value else None
-
-
-def parse_topics(resource_data: dict) -> list[dict]:
-    """
-    Get a list containing {"name": <topic>} dict objects.
-    May be a mix of prolearn and mit-learn topics.
-    If all prolearn topics, transform them to mit-learn topics.
-    Otherwise, ignore the prolearn topics and return only mit-learn topics
-
-    Args:
-        resource_data: course or program data
-    Returns:
-        list of dict: list containing topic dicts with a name attribute
-    """
-    extracted_topics = resource_data["topics"]
-    if not extracted_topics:
-        return []
-    prolearn_topics = [topic for topic in extracted_topics if ":" in topic["name"]]
-    if len(prolearn_topics) == len(extracted_topics):
-        return transform_topics(
-            [
-                {"name": topic["name"].split(":")[-1].strip()}
-                for topic in extracted_topics
-                if topic
-            ],
-            OfferedBy.xpro.name,
-        )
-    else:
-        return [topic for topic in extracted_topics if ":" not in topic["name"]]
 
 
 def extract_programs():
@@ -155,7 +125,7 @@ def _transform_learning_resource_course(course):
         "published": any(
             course_run.get("current_price", None) for course_run in course["courseruns"]
         ),
-        "topics": parse_topics(course),
+        "topics": course["topics"],
         "runs": [
             _transform_run(course_run, course) for course_run in course["courseruns"]
         ],
@@ -205,7 +175,7 @@ def transform_programs(programs):
                 program["current_price"]
             ),  # a program is only considered published if it has a product/price
             "url": program["url"],
-            "topics": parse_topics(program),
+            "topics": program["topics"],
             "platform": XPRO_PLATFORM_TRANSFORM.get(program["platform"], None),
             "resource_type": LearningResourceType.program.name,
             "delivery": transform_delivery(program.get("format")),
