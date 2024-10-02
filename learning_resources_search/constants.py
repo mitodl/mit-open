@@ -115,6 +115,7 @@ LEARNING_RESOURCE_MAP = {
     },
     "free": {"type": "boolean"},
     "is_learning_material": {"type": "boolean"},
+    "is_incomplete_or_stale": {"type": "boolean"},
     "delivery": {
         "type": "nested",
         "properties": {
@@ -416,6 +417,7 @@ SOURCE_EXCLUDED_FIELDS = [
     "is_learning_material",
     "resource_age_date",
     "featured_rank",
+    "is_incomplete_or_stale",
 ]
 
 LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS = {
