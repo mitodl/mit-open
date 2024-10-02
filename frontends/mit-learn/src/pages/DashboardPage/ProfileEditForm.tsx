@@ -37,11 +37,15 @@ const FormContainer = styled.div(({ theme }) => ({
   },
 }))
 
-const NameRow = styled.div({
+const NameRow = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
   gap: "24px",
-})
+  width: "50%",
+  [theme.breakpoints.down("md")]: {
+    width: " 100%",
+  },
+}))
 
 const RadioChoiceFieldStyled = styled(RadioChoiceField)(({ theme }) => ({
   label: {
@@ -104,7 +108,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
         <NameRow>
           <TextField
             label="Full Name"
-            name="full_name"
+            name="name"
             fullWidth
             value={user?.profile?.name}
             disabled

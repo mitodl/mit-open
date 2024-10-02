@@ -203,8 +203,8 @@ const OnboardingPage: React.FC = () => {
               <Skeleton variant="text" width="100%" height={40} />
             ) : (
               <Title variant="h4">
-                Welcome{user?.first_name ? `, ${user.first_name}` : ""}! What
-                are you interested in learning about?
+                Welcome{user?.profile?.name ? `, ${user.profile.name}` : ""}!
+                What are you interested in learning about?
               </Title>
             )}
             <Prompt component="p">Select all that apply:</Prompt>
