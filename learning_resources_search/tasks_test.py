@@ -119,6 +119,18 @@ def test_wrap_retry_exception_matching(matching):
         raise_thing()
 
 
+def test_system_exit_retry(mocker):
+    """Task should raise a retry error on system exit"""
+    mocker.patch(
+        "learning_resources_search.tasks.wrap_retry_exception", side_effect=SystemExit
+    )
+    with pytest.raises(Retry) as exc:
+        index_learning_resources.delay(
+            [1], COURSE_TYPE, IndexestoUpdate.current_index.value
+        )
+    assert str(exc.value.args[1]) == "SystemExit"
+
+
 @pytest.mark.parametrize(
     "indexes",
     [["course"], ["program"]],
