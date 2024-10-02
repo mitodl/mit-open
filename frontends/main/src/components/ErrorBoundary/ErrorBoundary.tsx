@@ -1,7 +1,6 @@
 "use client"
 
 import React, { Component } from "react"
-import NotFoundPage from "@/app-pages/ErrorPage/NotFoundPage"
 import ForbiddenPage from "@/app-pages/ErrorPage/ForbiddenPage"
 import { ForbiddenError } from "@/common/permissions"
 import { usePathname } from "next/navigation"
@@ -57,12 +56,9 @@ class ErrorBoundaryHandler extends Component<
   }
 
   render() {
-    if (this.state.hasError) {
-      if (isForbiddenError(this.state.error)) {
-        return <ForbiddenPage />
-      } else {
-        return <NotFoundPage />
-      }
+    console.log("ERROR", this.state.error)
+    if (this.state.hasError && isForbiddenError(this.state.error)) {
+      return <ForbiddenPage />
     }
 
     return this.props.children
