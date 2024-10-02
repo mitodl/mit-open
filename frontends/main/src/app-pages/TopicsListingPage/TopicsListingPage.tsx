@@ -149,7 +149,7 @@ const TopicBox = ({
               size="large"
               variant="outlinedWhite"
               key={c.id}
-              href={c.channel_url}
+              href={c.channel_url && new URL(c.channel_url).pathname}
               label={c.name}
             />
           ))}
@@ -160,7 +160,7 @@ const TopicBox = ({
               size="medium"
               variant="outlinedWhite"
               key={c.id}
-              href={c.channel_url}
+              href={c.channel_url && new URL(c.channel_url).pathname}
               label={c.name}
             />
           ))}
