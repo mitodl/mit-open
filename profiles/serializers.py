@@ -7,6 +7,7 @@ import re
 import ulid
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.urls import reverse
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -367,6 +368,31 @@ class ProgramCertificateSerializer(serializers.ModelSerializer):
     """
     Serializer for Program Certificates
     """
+
+    program_letter_generate_url = serializers.SerializerMethodField()
+    program_letter_share_url = serializers.SerializerMethodField()
+
+    def get_program_letter_generate_url(self, instance) -> str:
+        request = self.context.get("request")
+        letter_url = reverse(
+            "profile:program-letter-intercept",
+            kwargs={"program_id": instance.micromasters_program_id},
+        )
+        if request:
+            return request.build_absolute_uri(letter_url)
+        return letter_url
+
+    def get_program_letter_share_url(self, instance) -> str:
+        request = self.context.get("request")
+
+        user = User.objects.get(email=instance.user_email)
+        letter, created = ProgramLetter.objects.get_or_create(
+            user=user, certificate=instance
+        )
+        letter_url = letter.get_absolute_url()
+        if request:
+            return request.build_absolute_uri(letter_url)
+        return letter_url
 
     class Meta:
         model = ProgramCertificate
