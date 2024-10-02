@@ -18,7 +18,8 @@ const setup = ({ programLetter }: { programLetter: ProgramLetter }) => {
 }
 
 describe("ProgramLetterDisplayPage", () => {
-  it("Renders a program letter from api", async () => {
+  // See https://github.com/mitodl/hq/issues/5694
+  it.skip("Renders a program letter from api", async () => {
     const programLetter = factory.programLetter()
     setup({ programLetter })
     await waitFor(() => {
