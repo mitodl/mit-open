@@ -2696,6 +2696,7 @@ def test_document_percolation(opensearch, mocker):
             [
                 "featured_rank",
                 "is_learning_material",
+                "is_incomplete_or_stale",
                 {"created_on": {"order": "desc"}},
             ],
         ),
