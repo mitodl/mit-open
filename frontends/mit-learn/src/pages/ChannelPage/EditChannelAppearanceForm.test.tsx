@@ -41,6 +41,10 @@ const setupApis = (channelOverrides: Partial<Channel>) => {
       urls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
       factories.learningResources.topics({ count: 5 }),
     )
+    setMockResponse.get(
+      urls.topics.list({ is_toplevel: true }),
+      factories.learningResources.topics({ count: 5 }),
+    )
   }
 
   return channel

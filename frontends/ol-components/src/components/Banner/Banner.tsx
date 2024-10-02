@@ -8,11 +8,7 @@ import { Theme } from "../ThemeProvider/ThemeProvider"
 const SubHeader = styled(Typography)({
   maxWidth: "700px",
   marginTop: "8px",
-  marginBottom: "16px",
-})
-
-const ExtraHeader = styled(Typography)({
-  marginBottom: "16px",
+  marginBottom: "8px",
 })
 
 type BannerBackgroundProps = {
@@ -69,12 +65,15 @@ type BannerProps = BannerBackgroundProps & {
   backgroundDim?: number
   navText: React.ReactNode
   avatar?: React.ReactNode
+  title?: React.ReactNode
+  titleTypography?: ResponsiveStyleValue<string | undefined>
+  titleStyles?: SxProps<Theme>
   header: React.ReactNode
   headerTypography?: ResponsiveStyleValue<string | undefined>
   headerStyles?: SxProps<Theme>
-  subheader?: React.ReactNode
-  subheaderTypography?: ResponsiveStyleValue<string | undefined>
-  subheaderStyles?: SxProps<Theme>
+  subHeader?: React.ReactNode
+  subHeaderTypography?: ResponsiveStyleValue<string | undefined>
+  subHeaderStyles?: SxProps<Theme>
   extraHeader?: React.ReactNode
   extraRight?: React.ReactNode
 }
@@ -93,12 +92,13 @@ const Banner = ({
   backgroundDim = 0,
   navText,
   avatar,
+  title,
+  titleTypography = TYPOGRAPHY_DEFAULTS.defaultHeaderTypography,
+  titleStyles,
   header,
-  headerTypography = TYPOGRAPHY_DEFAULTS.defaultHeaderTypography,
-  headerStyles,
-  subheader,
-  subheaderTypography = TYPOGRAPHY_DEFAULTS.defaultSubHeaderTypography,
-  subheaderStyles,
+  subHeader,
+  subHeaderTypography = TYPOGRAPHY_DEFAULTS.defaultSubHeaderTypography,
+  subHeaderStyles,
   extraHeader,
   extraRight,
 }: BannerProps) => {
@@ -116,25 +116,30 @@ const Banner = ({
             <Typography
               component="h1"
               variant="h1"
-              typography={headerTypography}
-              sx={headerStyles}
+              typography={titleTypography}
+              sx={titleStyles}
             >
-              {header}
+              {title}
             </Typography>
-            <SubHeader
-              variant="body1"
-              typography={subheaderTypography}
-              sx={subheaderStyles}
-            >
-              {subheader}
-            </SubHeader>
-            <ExtraHeader
-              variant="body1"
-              typography={subheaderTypography}
-              sx={subheaderStyles}
-            >
-              {extraHeader}
-            </ExtraHeader>
+            {header && (
+              <SubHeader
+                variant="body1"
+                typography={subHeaderTypography}
+                sx={subHeaderStyles}
+              >
+                {header}
+              </SubHeader>
+            )}
+            {subHeader && (
+              <SubHeader
+                variant="body1"
+                typography={subHeaderTypography}
+                sx={subHeaderStyles}
+              >
+                {subHeader}
+              </SubHeader>
+            )}
+            {extraHeader ? extraHeader : null}
           </HeaderContainer>
           <RightContainer>{extraRight}</RightContainer>
         </InnerContainer>

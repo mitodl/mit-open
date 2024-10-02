@@ -1,5 +1,11 @@
 import React from "react"
-import { styled, Breadcrumbs, Banner } from "ol-components"
+import {
+  styled,
+  Breadcrumbs,
+  Banner,
+  ChipLink,
+  Typography,
+} from "ol-components"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { useChannelDetail } from "api/hooks/channels"
 import ChannelMenu from "@/components/ChannelMenu/ChannelMenu"
@@ -11,6 +17,9 @@ import {
   ChannelControls,
 } from "./ChannelPageTemplate"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
+import { ChannelTypeEnum } from "api/v0"
+import { useLearningResourceTopics } from "api/hooks/learningResources"
+import { propsNotNil } from "ol-utilities"
 
 const ChildrenContainer = styled.div(({ theme }) => ({
   paddingTop: "40px",
@@ -39,6 +48,66 @@ const ChannelControlsContainer = styled.div(({ theme }) => ({
     width: "15%",
   },
 }))
+
+const SubTopicsContainer = styled.div(({ theme }) => ({
+  paddingTop: "30px",
+  [theme.breakpoints.down("md")]: {
+    paddingTop: "16px",
+    paddingBottom: "16px",
+  },
+}))
+
+const SubTopicsHeader = styled(Typography)(({ theme }) => ({
+  marginBottom: "16px",
+  ...theme.typography.subtitle1,
+}))
+
+const ChipsContainer = styled.div({
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "12px",
+})
+
+type SubTopicDisplayProps = {
+  parentTopicId: number
+}
+
+const SubTopicsDisplay: React.FC<SubTopicDisplayProps> = (props) => {
+  const { parentTopicId } = props
+  const topLevelTopics = useLearningResourceTopics({
+    is_toplevel: true,
+  })
+  const topicsQuery = useLearningResourceTopics({
+    parent_topic_id: [parentTopicId],
+  })
+  const isTopLevelTopic = topLevelTopics.data?.results.some(
+    (topic) => topic.id === parentTopicId,
+  )
+  const totalSubtopics = topicsQuery.data?.results.length ?? 0
+  const subTopics = topicsQuery.data?.results.filter(
+    propsNotNil(["channel_url"]),
+  )
+  return (
+    totalSubtopics > 0 && (
+      <SubTopicsContainer>
+        <SubTopicsHeader>
+          {isTopLevelTopic ? "Subtopics" : "Related Topics"}
+        </SubTopicsHeader>
+        <ChipsContainer>
+          {subTopics?.map((topic) => (
+            <ChipLink
+              size="large"
+              variant="darker"
+              key={topic.id}
+              href={topic.channel_url}
+              label={topic.name}
+            />
+          ))}
+        </ChipsContainer>
+      </SubTopicsContainer>
+    )
+  )
+}
 
 interface DefaultChannelTemplateProps {
   children: React.ReactNode
@@ -87,9 +156,17 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
             />
           )
         }
-        header={channel.data?.title}
-        subheader={displayConfiguration?.heading}
-        extraHeader={displayConfiguration?.sub_heading}
+        title={channel.data?.title}
+        header={displayConfiguration?.heading}
+        subHeader={displayConfiguration?.sub_heading}
+        extraHeader={
+          channel.data?.channel_type === ChannelTypeEnum.Topic &&
+          channel.data?.topic_detail?.topic ? (
+            <SubTopicsDisplay
+              parentTopicId={channel.data?.topic_detail?.topic}
+            />
+          ) : null
+        }
         backgroundUrl={
           displayConfiguration?.banner_background ??
           "/static/images/background_steps.jpeg"

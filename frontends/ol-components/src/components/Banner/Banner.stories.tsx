@@ -28,8 +28,8 @@ const meta: Meta<typeof Banner> = {
         current={"Text"}
       />
     ),
-    header: "Banner Title",
-    subheader: lipsum,
+    title: "Banner Title",
+    subHeader: lipsum,
   },
 }
 export default meta
