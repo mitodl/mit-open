@@ -14,7 +14,8 @@ import type {
 } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
-import { Container, SearchInput, styled, VisuallyHidden } from "ol-components"
+import { Container, styled, VisuallyHidden } from "ol-components"
+import { SearchField } from "@/page-components/SearchField/SearchField"
 
 import { getFacetManifest } from "@/pages/SearchPage/SearchPage"
 
@@ -30,7 +31,7 @@ const SearchInputContainer = styled(Container)(({ theme }) => ({
   },
 }))
 
-const StyledSearchInput = styled(SearchInput)({
+const StyledSearchField = styled(SearchField)({
   width: "624px",
 })
 
@@ -172,7 +173,7 @@ const ChannelSearch: React.FC<ChannelSearchProps> = ({
     <section>
       <VisuallyHidden as="h2">Search within {channelTitle}</VisuallyHidden>
       <SearchInputContainer>
-        <StyledSearchInput
+        <StyledSearchField
           value={currentText}
           size="large"
           onChange={(e) => setCurrentText(e.target.value)}
@@ -182,6 +183,7 @@ const ChannelSearch: React.FC<ChannelSearchProps> = ({
           onClear={() => {
             setCurrentTextAndQuery("")
           }}
+          setPage={setPage}
         />
       </SearchInputContainer>
 

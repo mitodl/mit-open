@@ -1,9 +1,8 @@
-import React, { useCallback } from "react"
+import React from "react"
 import { RiSearch2Line, RiCloseLine } from "@remixicon/react"
 import { Input, AdornmentButton } from "../Input/Input"
 import type { InputProps } from "../Input/Input"
 import styled from "@emotion/styled"
-import { usePostHog } from "posthog-js/react"
 
 const StyledInput = styled(Input)(({ theme }) => ({
   boxShadow: "0px 8px 20px 0px rgba(120, 147, 172, 0.10)",
@@ -34,7 +33,10 @@ export interface SearchSubmissionEvent {
   preventDefault: () => void
 }
 
-type SearchSubmitHandler = (event: SearchSubmissionEvent) => void
+type SearchSubmitHandler = (
+  event: SearchSubmissionEvent,
+  opts?: { isEnter?: boolean },
+) => void
 
 interface SearchInputProps {
   className?: string
@@ -54,35 +56,15 @@ const muiInputProps = { "aria-label": "Search for" }
 
 const SearchInput: React.FC<SearchInputProps> = (props) => {
   const { onSubmit, value } = props
-  const posthog = usePostHog()
-  const { POSTHOG } = APP_SETTINGS
+  const event = {
+    target: { value },
+    preventDefault: () => null,
+  }
 
-  const handleSubmit = useCallback(
-    (
-      ev:
-        | React.SyntheticEvent<HTMLInputElement>
-        | React.SyntheticEvent<HTMLButtonElement, MouseEvent>,
-      isEnter: boolean = false,
-    ) => {
-      const event = {
-        target: { value },
-        preventDefault: () => null,
-      }
-      if (!(!POSTHOG?.api_key || POSTHOG.api_key.length < 1)) {
-        posthog.capture("search_update", { isEnter: isEnter })
-      }
-      onSubmit(event)
-    },
-    [onSubmit, value, posthog, POSTHOG],
-  )
-  const onInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> =
-    useCallback(
-      (e) => {
-        if (e.key !== "Enter") return
-        handleSubmit(e, true)
-      },
-      [handleSubmit],
-    )
+  const onInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key !== "Enter") return
+    onSubmit(event, { isEnter: true })
+  }
 
   return (
     <StyledInput
@@ -114,7 +96,7 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
           <AdornmentButton
             aria-label="Search"
             className={props.classNameSearch}
-            onClick={handleSubmit}
+            onClick={() => onSubmit(event, { isEnter: false })}
           >
             <RiSearch2Line fontSize="inherit" />
           </AdornmentButton>
