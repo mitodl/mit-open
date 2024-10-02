@@ -3,6 +3,22 @@ const { validateEnv } = require("./validateEnv")
 
 validateEnv()
 
+const processFeatureFlags = () => {
+  const featureFlagPrefix =
+    process.env.NEXT_PUBLIC_POSTHOG_FEATURE_PREFIX || "FEATURE_"
+  const bootstrapFeatureFlags = {}
+
+  for (const [key, value] of Object.entries(process.env)) {
+    if (key.startsWith(`NEXT_PUBLIC_${featureFlagPrefix}`)) {
+      bootstrapFeatureFlags[
+        key.replace(`NEXT_PUBLIC_${featureFlagPrefix}`, "")
+      ] = value === "True" ? true : JSON.stringify(value)
+    }
+  }
+
+  return { FEATURE_FLAGS: JSON.stringify(bootstrapFeatureFlags) }
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config, { webpack }) => {
@@ -13,6 +29,7 @@ const nextConfig = {
       new webpack.IgnorePlugin({
         resourceRegExp: /mockAxios\.ts/,
       }),
+      new webpack.EnvironmentPlugin(processFeatureFlags()),
     )
 
     // Do not do this. Added to fix "import type", but causes a strage issue where
