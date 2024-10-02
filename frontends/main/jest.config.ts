@@ -8,8 +8,8 @@ const config: Config.InitialOptions = {
     "./test-utils/setupJest.ts",
   ],
   moduleNameMapper: {
-    "^@/(.*)$": path.resolve(__dirname, "src/$1"),
     ...baseConfig.moduleNameMapper,
+    "^@/(.*)$": path.resolve(__dirname, "src/$1"),
   },
 }
 export default config
