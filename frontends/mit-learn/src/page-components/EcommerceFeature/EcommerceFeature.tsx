@@ -16,7 +16,8 @@ type EcommerceFeatureProps = {
  * because it seemed to be inconsistent - sometimes having the flag enabled
  * resulted in it tossing to the error page.
  *
- * If the feature flag for this changes, this is where this needs to be set.
+ * Set the feature flag here using the enum, and then make sure it's also
+ * defined in commmon/feature_flags too.
  */
 
 const EcommerceFeature: React.FC<EcommerceFeatureProps> = ({ children }) => {
