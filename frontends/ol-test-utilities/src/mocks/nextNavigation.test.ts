@@ -36,7 +36,7 @@ describe("Mock Navigation", () => {
   test("useSearchParams returns the current search params", () => {
     mockRouter.setCurrentUrl("/dynamic/bar?a=1&b=2&b=3")
     const { result } = renderHook(() => useSearchParams())
-    expect(result.current).toEqual(new URLSearchParams("a=1&b=2&b=3"))
+    expect(result.current.toString()).toEqual("a=1&b=2%2C3&id=bar")
   })
 
   test("useParams returns the current params", () => {

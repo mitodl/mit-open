@@ -94,8 +94,7 @@ describe("LearningResourceDrawer", () => {
       openDrawer(123)
     })
 
-    const params = new URLSearchParams(location.current.search)
-    expect(Object.fromEntries(params)).toEqual({
+    expect(Object.fromEntries(location.current.searchParams)).toEqual({
       [RESOURCE_DRAWER_QUERY_PARAM]: "123",
       dog: "woof",
     })
