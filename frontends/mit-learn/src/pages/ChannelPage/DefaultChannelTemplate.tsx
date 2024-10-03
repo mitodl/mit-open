@@ -68,45 +68,54 @@ const ChipsContainer = styled.div({
   gap: "12px",
 })
 
-type SubTopicDisplayProps = {
-  parentTopicId: number
+type TopicChipsInternalProps = {
+  title: string
+  topicId: number
 }
 
-const SubTopicsDisplay: React.FC<SubTopicDisplayProps> = (props) => {
-  const { parentTopicId } = props
-  const topLevelTopics = useLearningResourceTopics({
-    is_toplevel: true,
+const TopicChipsInternal: React.FC<TopicChipsInternalProps> = (props) => {
+  const { title, topicId } = props
+  const subTopicsQuery = useLearningResourceTopics({
+    parent_topic_id: [topicId],
   })
-  const topicsQuery = useLearningResourceTopics({
-    parent_topic_id: [parentTopicId],
+  const topics = subTopicsQuery.data?.results
+    ?.filter(propsNotNil(["channel_url"]))
+    .filter((t) => t.id !== topicId)
+  const totalTopics = topics?.length ?? 0
+  return totalTopics > 0 ? (
+    <SubTopicsContainer>
+      <SubTopicsHeader data-testid="sub-topics-header">{title}</SubTopicsHeader>
+      <ChipsContainer>
+        {topics?.map((topic) => (
+          <ChipLink
+            size="large"
+            variant="darker"
+            key={topic.id}
+            href={topic.channel_url ?? ""}
+            label={topic.name}
+          />
+        ))}
+      </ChipsContainer>
+    </SubTopicsContainer>
+  ) : null
+}
+
+type TopicChipsProps = {
+  topicId: number
+}
+
+const TopicChips: React.FC<TopicChipsProps> = (props) => {
+  const { topicId } = props
+  const topicQuery = useLearningResourceTopics({
+    id: [topicId],
   })
-  const isTopLevelTopic = topLevelTopics.data?.results.some(
-    (topic) => topic.id === parentTopicId,
-  )
-  const totalSubtopics = topicsQuery.data?.results.length ?? 0
-  const subTopics = topicsQuery.data?.results.filter(
-    propsNotNil(["channel_url"]),
-  )
-  return (
-    totalSubtopics > 0 && (
-      <SubTopicsContainer>
-        <SubTopicsHeader>
-          {isTopLevelTopic ? "Subtopics" : "Related Topics"}
-        </SubTopicsHeader>
-        <ChipsContainer>
-          {subTopics?.map((topic) => (
-            <ChipLink
-              size="large"
-              variant="darker"
-              key={topic.id}
-              href={topic.channel_url}
-              label={topic.name}
-            />
-          ))}
-        </ChipsContainer>
-      </SubTopicsContainer>
-    )
-  )
+  const topic = topicQuery.data?.results?.[0]
+  const isTopLevelTopic = topic?.parent === null
+  if (isTopLevelTopic) {
+    return <TopicChipsInternal title="Subtopics" topicId={topicId} />
+  } else if (topic?.parent) {
+    return <TopicChipsInternal title="Related Topics" topicId={topic?.parent} />
+  } else return null
 }
 
 interface DefaultChannelTemplateProps {
@@ -162,9 +171,7 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
         extraHeader={
           channel.data?.channel_type === ChannelTypeEnum.Topic &&
           channel.data?.topic_detail?.topic ? (
-            <SubTopicsDisplay
-              parentTopicId={channel.data?.topic_detail?.topic}
-            />
+            <TopicChips topicId={channel.data?.topic_detail?.topic} />
           ) : null
         }
         backgroundUrl={

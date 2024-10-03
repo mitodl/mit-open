@@ -81,11 +81,11 @@ const setMockApiResponses = ({
     channel.topic_detail.topic
   ) {
     setMockResponse.get(
-      urls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
-      factories.learningResources.topics({ count: 5 }),
+      urls.topics.list({ id: [channel.topic_detail.topic] }),
+      factories.learningResources.topic(),
     )
     setMockResponse.get(
-      urls.topics.list({ is_toplevel: true }),
+      urls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
       factories.learningResources.topics({ count: 5 }),
     )
   }

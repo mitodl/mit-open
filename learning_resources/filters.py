@@ -260,6 +260,10 @@ class ContentFileFilter(FilterSet):
 class TopicFilter(FilterSet):
     """Filterset for learning resource topics."""
 
+    id = NumberInFilter(
+        label="Topic ID",
+        method="filter_id",
+    )
     name = CharInFilter(
         label="Topic name",
         method="filter_name",
@@ -272,6 +276,10 @@ class TopicFilter(FilterSet):
         label="Filter top-level topics",
         method="filter_toplevel",
     )
+
+    def filter_id(self, queryset, _, values):
+        """Filter by topic ID"""
+        return multi_or_filter(queryset, "id", values)
 
     def filter_name(self, queryset, _, values):
         """Filter by topic name"""

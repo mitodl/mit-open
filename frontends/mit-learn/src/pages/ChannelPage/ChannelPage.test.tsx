@@ -109,17 +109,45 @@ const setupApis = (
     channel.channel_type === ChannelTypeEnum.Topic &&
     channel.topic_detail.topic
   ) {
+    const topic = factories.learningResources.topic()
+    channel.channel_url = `/c/${channel.channel_type}/${channel.name.replace(" ", "-")}`
+    topic.channel_url = channel.channel_url
+    topic.id = channel.topic_detail.topic
     const subTopics = factories.learningResources.topics({ count: 5 })
+    setMockResponse.get(urls.topics.list({ id: [topic.id] }), {
+      results: [topic],
+    })
     setMockResponse.get(
-      urls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
+      urls.topics.list({ parent_topic_id: [topic.id] }),
       subTopics,
     )
-    setMockResponse.get(
-      urls.topics.list({ is_toplevel: true }),
-      factories.learningResources.topics({ count: 5 }),
-    )
+    const subTopicChannels = subTopics.results.map((subTopic) => {
+      subTopic.parent = topic.id
+      const subTopicChannel = factories.channels.channel({
+        channel_type: ChannelTypeEnum.Topic,
+        name: subTopic.name.replace(" ", "-"),
+        title: subTopic.name,
+        topic_detail: { topic: subTopic.id },
+      })
+      const channelUrl = `/c/${subTopicChannel.channel_type}/${subTopicChannel.name.replace(" ", "-")}`
+      subTopic.channel_url = channelUrl
+      subTopicChannel.channel_url = channelUrl
+      setMockResponse.get(urls.topics.list({ id: [subTopic.id] }), {
+        results: [subTopic],
+      })
+      setMockResponse.get(
+        urls.channels.details(
+          subTopicChannel.channel_type,
+          subTopicChannel.name.replace(" ", "-"),
+        ),
+        subTopicChannel,
+      )
+      return subTopicChannel
+    })
     return {
       channel,
+      subTopicChannels,
+      topic,
       subTopics,
     }
   }
@@ -272,18 +300,44 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
 
 describe("Channel Pages, Topic only", () => {
   test("Subtopics display", async () => {
-    const { channel, subTopics } = setupApis({
+    const { channel, topic, subTopics } = setupApis({
       search_filter: "topic=Physics",
       channel_type: ChannelTypeEnum.Topic,
     })
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    invariant(topic)
+    renderTestApp({
+      url: `/c/${channel.channel_type}/${channel.name.replace(" ", "-")}`,
+    })
 
-    invariant(subTopics)
+    const subTopicsTitle = await screen.findByText("Subtopics")
+    expect(subTopicsTitle).toBeInTheDocument()
     const links = await screen.findAllByRole("link", {
       // name arg can be string, regex, or function
       name: (name) => subTopics?.results.map((t) => t.name).includes(name),
     })
-    links.forEach((link, i) => {
+    links.forEach(async (link, i) => {
+      expect(link).toHaveAttribute("href", subTopics.results[i].channel_url)
+    })
+  })
+
+  test("Related topics display", async () => {
+    const { subTopicChannels, subTopics } = setupApis({
+      search_filter: "topic=Physics",
+      channel_type: ChannelTypeEnum.Topic,
+    })
+    invariant(subTopicChannels)
+    const subTopicChannel = subTopicChannels[0]
+    renderTestApp({
+      url: `/c/${subTopicChannel.channel_type}/${subTopicChannel.name.replace(" ", "-")}`,
+    })
+
+    const relatedTopicsTitle = await screen.findByText("Related Topics")
+    expect(relatedTopicsTitle).toBeInTheDocument()
+    const links = await screen.findAllByRole("link", {
+      // name arg can be string, regex, or function
+      name: (name) => subTopics?.results.map((t) => t.name).includes(name),
+    })
+    links.forEach(async (link, i) => {
       expect(link).toHaveAttribute("href", subTopics.results[i].channel_url)
     })
   })

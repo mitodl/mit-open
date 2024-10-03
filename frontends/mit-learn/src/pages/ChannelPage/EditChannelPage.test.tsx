@@ -57,12 +57,12 @@ describe("EditChannelPage", () => {
     setMockResponse.get(apiUrls.testimonials.details(channel.id), channel)
     if (channel.channel_type === "topic" && channel.topic_detail.topic) {
       setMockResponse.get(
-        apiUrls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
+        apiUrls.topics.list({ id: [channel.topic_detail.topic] }),
         factories.learningResources.topics({ count: 0 }),
       )
       setMockResponse.get(
-        apiUrls.topics.list({ is_toplevel: true }),
-        factories.learningResources.topics({ count: 5 }),
+        apiUrls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
+        factories.learningResources.topics({ count: 0 }),
       )
     }
     renderTestApp({
