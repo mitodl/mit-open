@@ -9,13 +9,8 @@ import {
   getDepartmentName,
 } from "@mitodl/course-search-utils"
 import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
-import {
-  SearchInput,
-  styled,
-  Container,
-  theme,
-  VisuallyHidden,
-} from "ol-components"
+import { styled, Container, theme, VisuallyHidden } from "ol-components"
+import { SearchField } from "@/page-components/SearchField/SearchField"
 import type { LearningResourceOfferor } from "api"
 import { useOfferorsList } from "api/hooks/learningResources"
 import { capitalize } from "ol-utilities"
@@ -56,7 +51,7 @@ const SearchFieldContainer = styled(Container)({
   justifyContent: "center",
 })
 
-const SearchField = styled(SearchInput)(({ theme }) => ({
+const StyledSearchField = styled(SearchField)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     width: "100%",
   },
@@ -216,14 +211,6 @@ const SearchPage: React.FC = () => {
     onFacetsChange,
   })
 
-  const onSearchTermSubmit = useCallback(
-    (term: string) => {
-      setCurrentTextAndQuery(term)
-      setPage(1)
-    },
-    [setPage, setCurrentTextAndQuery],
-  )
-
   const page = +(searchParams.get("page") ?? "1")
 
   return (
@@ -234,16 +221,17 @@ const SearchPage: React.FC = () => {
       </VisuallyHidden>
       <Header>
         <SearchFieldContainer>
-          <SearchField
+          <StyledSearchField
             value={currentText}
             size="large"
             onChange={(e) => setCurrentText(e.target.value)}
             onSubmit={(e) => {
-              onSearchTermSubmit(e.target.value)
+              setCurrentTextAndQuery(e.target.value)
             }}
             onClear={() => {
-              onSearchTermSubmit("")
+              setCurrentTextAndQuery("")
             }}
+            setPage={setPage}
           />
         </SearchFieldContainer>
       </Header>
