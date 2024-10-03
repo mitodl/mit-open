@@ -115,17 +115,17 @@ describe("TopicsListingPage", () => {
     expect(subtopics1[1]).toHaveTextContent(sortedSubtopics1[0].name)
     expect(subtopics1[2]).toHaveTextContent(sortedSubtopics1[1].name)
     expect(subtopics1[3]).toHaveTextContent(sortedSubtopics1[2].name)
-    expect(subtopics1.map((el) => el.href)).toEqual([
-      topics.t1.channel_url,
-      ...sortedSubtopics1.map((t) => t.channel_url),
+    expect(subtopics1.map((el) => new URL(el.href).pathname)).toEqual([
+      new URL(topics.t1.channel_url!).pathname,
+      ...sortedSubtopics1.map((t) => new URL(t.channel_url!).pathname),
     ])
 
     expect(subtopics2[0]).toHaveTextContent(topics.t2.name)
     expect(subtopics2[1]).toHaveTextContent(sortedSubtopics2[0].name)
     expect(subtopics2[2]).toHaveTextContent(sortedSubtopics2[1].name)
-    expect(subtopics2.map((el) => el.href)).toEqual([
-      topics.t2.channel_url,
-      ...sortedSubtopics2.map((t) => t.channel_url),
+    expect(subtopics2.map((el) => new URL(el.href).pathname)).toEqual([
+      new URL(topics.t2.channel_url!).pathname,
+      ...sortedSubtopics2.map((t) => new URL(t.channel_url!).pathname),
     ])
   })
 

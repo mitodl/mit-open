@@ -101,7 +101,7 @@ const learningResourceBaseDepartment: Factory<
   return {
     department_id: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
     name: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
-    channel_url: faker.internet.url(),
+    channel_url: `${faker.internet.url({ appendSlash: false })}${faker.system.directoryPath()}`,
     ...overrides,
   }
 }

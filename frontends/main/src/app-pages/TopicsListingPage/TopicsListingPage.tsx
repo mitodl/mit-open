@@ -132,6 +132,7 @@ const TopicBox = ({
     { label: "Programs", count: programCount },
   ].filter((item) => item.count)
   const { title, href, icon, channels } = topicGroup
+
   return (
     <li className={className}>
       <TopicBoxHeader title={title} href={href} icon={icon} />
