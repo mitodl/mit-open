@@ -10,3 +10,16 @@ class OlOpenIdConnectAuth(OpenIdConnectAuth):
     """
 
     name = "ol-oidc"
+
+    def get_user_details(self, response):
+        """Get the user details from the API response"""
+        username_key = self.setting("USERNAME_KEY", self.USERNAME_KEY)
+        return {
+            "username": response.get(username_key),
+            "email": response.get("email"),
+            "first_name": response.get("given_name"),
+            "last_name": response.get("family_name"),
+            "profile": {
+                "name": response.get("fullName"),
+            },
+        }

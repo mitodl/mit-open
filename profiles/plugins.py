@@ -9,11 +9,18 @@ class CreateProfilePlugin:
     hookimpl = apps.get_app_config("authentication").hookimpl
 
     @hookimpl
-    def user_created(self, user):
+    def user_created(self, user, user_data=None):
         """
         Perform functions on a newly created user
 
         Args:
-            user(User): The user to create the list for
+            user(User): the user that was created
+            user_data(dict): the user data
         """
-        Profile.objects.get_or_create(user=user)
+        profile_data = (user_data or {}).get("profile", {})
+        Profile.objects.get_or_create(
+            user=user,
+            defaults={
+                "name": profile_data["name"],
+            },
+        )
