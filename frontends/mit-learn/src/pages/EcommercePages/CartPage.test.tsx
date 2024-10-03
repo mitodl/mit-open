@@ -6,7 +6,7 @@ import { login } from "@/common/urls"
 import { useFeatureFlagEnabled } from "posthog-js/react"
 
 jest.mock("posthog-js/react")
-const mockedUseFatureFlagEnabled = jest.mocked(useFeatureFlagEnabled)
+const mockedUseFeatureFlagEnabled = jest.mocked(useFeatureFlagEnabled)
 
 const oldWindowLocation = window.location
 
@@ -33,7 +33,7 @@ describe("CartPage", () => {
       setMockResponse.get(urls.userMe.get(), {
         [Permissions.Authenticated]: true,
       })
-      mockedUseFatureFlagEnabled.mockReturnValue(testCase === "on")
+      mockedUseFeatureFlagEnabled.mockReturnValue(testCase === "on")
 
       renderTestApp({
         url: commonUrls.ECOMMERCE_CART,

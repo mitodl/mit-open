@@ -1,6 +1,7 @@
 import React from "react"
 import { useFeatureFlagEnabled } from "posthog-js/react"
 import { ForbiddenError } from "@/common/permissions"
+import { FeatureFlags } from "@/common/feature_flags"
 
 type EcommerceFeatureProps = {
   children: React.ReactNode
@@ -19,13 +20,13 @@ type EcommerceFeatureProps = {
  */
 
 const EcommerceFeature: React.FC<EcommerceFeatureProps> = ({ children }) => {
-  const ecommFlag = useFeatureFlagEnabled("enable-ecommerce")
+  const ecommFlag = useFeatureFlagEnabled(FeatureFlags.EnableEcommerce)
 
   if (ecommFlag === false) {
     throw new ForbiddenError("Not enabled.")
   }
 
-  return <>{ecommFlag ? children : null}</>
+  return ecommFlag ? children : null
 }
 
 export default EcommerceFeature
