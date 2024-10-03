@@ -6,7 +6,6 @@ import { ResponsiveStyleValue, SxProps } from "@mui/system"
 import { Theme } from "../ThemeProvider/ThemeProvider"
 
 const SubHeader = styled(Typography)({
-  maxWidth: "700px",
   marginTop: "8px",
   marginBottom: "8px",
 })
