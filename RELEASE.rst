@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.20.3
+Version 0.20.3 (Released October 03, 2024)
 --------------
 
 - add is_incomplete_or_stale (#1627)
