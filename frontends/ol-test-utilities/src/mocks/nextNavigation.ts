@@ -44,8 +44,10 @@ export const nextNavigationMocks = {
   },
   useSearchParams: () => {
     const router = nextNavigationMocks.useRouter()
-    const url = new URL(router.asPath, "http://localhost")
-    return url.searchParams
+    const search = new URLSearchParams(
+      router.query as unknown as URLSearchParams,
+    )
+    return search
   },
   useParams: () => {
     const router = nextNavigationMocks.useRouter()
