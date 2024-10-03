@@ -139,7 +139,7 @@ const {
   }),
   DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF: num({
     desc: "The default search minimum score cutoff",
-    default: 0,
+    default: 5,
   }),
   DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY: num({
     desc: "The default search max incompleteness penalty",
