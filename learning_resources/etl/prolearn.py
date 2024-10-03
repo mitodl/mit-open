@@ -11,7 +11,12 @@ from django.conf import settings
 
 from learning_resources.constants import Availability, CertificationType, Format, Pace
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import transform_delivery, transform_topics
+from learning_resources.etl.utils import (
+    parse_resource_commitment,
+    parse_resource_duration,
+    transform_delivery,
+    transform_topics,
+)
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
 from main.utils import clean_data, now_in_utc
 
@@ -327,6 +332,10 @@ def _transform_runs(resource: dict) -> list[dict]:
                     "availability": Availability.dated.name,
                     "pace": [Pace.instructor_paced.name],
                     "format": [Format.asynchronous.name],
+                    "duration": parse_resource_duration(resource["field_duration"]),
+                    "time_commitment": parse_resource_commitment(
+                        resource["field_time_commitment"]
+                    ),
                 }
             )
     return runs
@@ -369,6 +378,10 @@ def _transform_course(
             "availability": Availability.dated.name,
             "pace": [Pace.instructor_paced.name],
             "format": [Format.asynchronous.name],
+            "duration": parse_resource_duration(course["field_duration"]),
+            "time_commitment": parse_resource_commitment(
+                course["field_time_commitment"]
+            ),
         }
     return None
 

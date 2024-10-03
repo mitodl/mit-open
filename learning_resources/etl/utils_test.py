@@ -477,8 +477,43 @@ def test_get_department_id_by_name(dept_name, dept_id):
         ("PTBarnum", None),
     ],
 )
-def test_parse_duration(mocker, duration_str, expected):
+def test_parse_iso8601_duration(mocker, duration_str, expected):
     """Test that parse_duration returns the expected duration"""
     mock_warn = mocker.patch("learning_resources.etl.utils.log.warning")
     assert utils.iso8601_duration(duration_str) == expected
     assert mock_warn.call_count == (1 if duration_str and expected is None else 0)
+
+
+@pytest.mark.parametrize(
+    ("raw_value", "parsed_value"),
+    [
+        ("3 Days", "3 days"),
+        ("3-4 Weeks, no weekends", "3-4 weeks"),
+        ("5 - 6 MoNths", "5-6 months"),
+        ("1 WEEK", "1 week"),
+        ("1 month more or less", "1 month"),
+    ],
+)
+def test_parse_resource_duration(raw_value, parsed_value):
+    """Test that parse_resource_duration returns the expected duration"""
+    assert utils.parse_resource_duration(raw_value) == parsed_value
+
+
+@pytest.mark.parametrize(
+    ("raw_value", "parsed_value"),
+    [
+        ("5 Hours", "5 hours"),
+        ("3-4 Hours per Week", "3-4 hours/week"),
+        ("15 - 16 Hours per Week", "15-16 hours/week"),
+        ("1 hour per Day, no Weekends", "1 hour/day"),
+        ("3 hours/Day with lunch breaks", "3 hours/day"),
+        ("5-8 hrs per week", "5-8 hours/week"),
+        ("5 - 10", "5-10 hours"),
+        ("6 semanas", "6 hours"),
+        ("3", "3 hours"),
+        ("1", "1 hour"),
+    ],
+)
+def test_parse_resource_commitment(raw_value, parsed_value):
+    """Test that parse_resource_duration returns the expected duration"""
+    assert utils.parse_resource_commitment(raw_value) == parsed_value

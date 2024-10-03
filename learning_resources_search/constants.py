@@ -284,6 +284,8 @@ LEARNING_RESOURCE_MAP = {
                 },
             },
             "prices": {"type": "scaled_float", "scaling_factor": 100},
+            "duration": {"type": "keyword"},
+            "time_commitment": {"type": "keyword"},
         },
     },
     "next_start_date": {"type": "date"},
@@ -292,6 +294,8 @@ LEARNING_RESOURCE_MAP = {
     "completeness": {"type": "float"},
     "license_cc": {"type": "boolean"},
     "continuing_ed_credits": {"type": "float"},
+    "duration": {"type": "keyword"},
+    "time_commitment": {"type": "keyword"},
 }
 
 

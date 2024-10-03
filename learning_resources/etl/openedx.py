@@ -298,6 +298,111 @@ def _parse_course_dates(program, date_field):
     return dates
 
 
+def _transform_course_duration(course_run):
+    """
+    Determine the duration of a course run
+
+    Args:
+        course_run (dict): the course run data
+
+    Returns:
+        str: the duration of the course run in weeks
+    """
+    duration = course_run.get("weeks_to_complete")
+    if duration:
+        return f"{duration} weeks"
+    return ""
+
+
+def _transform_program_duration(program_data):
+    """
+    Determine the duration of a program
+
+    Args:
+        program_data (dict): the program data
+
+    Returns:
+        str: the duration of the program in weeks
+    """
+    weeks_cutoff = 8
+    duration_weeks = [
+        course_run.get("weeks_to_complete", 0)
+        for course in program_data.get("courses", [])
+        for course_run in course.get("course_runs", [])
+        if _get_run_published(course_run)
+    ]
+    duration_weeks = sum(duration_weeks)
+    if not duration_weeks:
+        return ""
+    elif duration_weeks < weeks_cutoff:
+        return f"{duration_weeks} weeks"
+    else:
+        # Add a small value to round up .5 to the next whole number
+        # because apparently this is how edx program durations are
+        # calculated, ie 4.5 => 5 instead of 4
+        return f"{round((duration_weeks / 4) + 0.00000001)} months"
+
+
+def _transform_program_commitment(program_data):
+    """
+    Determine the time commitment of a program
+
+    Args:
+        program_data (dict): the program data
+
+    Returns:
+        str: the time commitment of the program in hours per week
+    """
+    course_ids = [course["key"] for course in program_data.get("courses", [])]
+    courses = LearningResource.objects.filter(
+        published=True, readable_id__in=course_ids, platform__code=PlatformType.edx.name
+    ).only("time_commitment")
+    min_efforts = []
+    max_efforts = []
+    for course in courses:
+        commitment_hours = re.match(r"(\d+)-?(\d+)? hours/week", course.time_commitment)
+        if commitment_hours:
+            if commitment_hours.group(2):
+                max_efforts.append(int(commitment_hours.group(2)))
+                min_efforts.append(int(commitment_hours.group(1)))
+            elif commitment_hours.group(1):
+                max_efforts.append(int(commitment_hours.group(1)))
+    if min_efforts or max_efforts:
+        return _transform_course_commitment(
+            {
+                "min_effort": round(sum(min_efforts) / len(min_efforts))
+                if min_efforts
+                else None,
+                "max_effort": round(sum(max_efforts) / len(max_efforts))
+                if max_efforts
+                else None,
+            }
+        )
+    return ""
+
+
+def _transform_course_commitment(course_run):
+    """
+    Determine the time commitment of a course run
+
+    Args:
+        course_run (dict): the course run data
+
+    Returns:
+        str: the time commitment of the course run in hours per week
+    """
+
+    min_effort = course_run.get("min_effort")
+    max_effort = course_run.get("max_effort")
+    if min_effort and max_effort and min_effort != max_effort:
+        min_effort = f"{str(min_effort) + '-'}"
+    else:
+        min_effort = ""
+    if min_effort or max_effort:
+        return f"{min_effort}{max_effort} hours/week"
+    return ""
+
+
 def _sum_course_prices(program: dict) -> Decimal:
     """
     Sum all the course run price values for the program
@@ -372,6 +477,8 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
             }
             for person in course_run.get("staff")
         ],
+        "duration": _transform_course_duration(course_run),
+        "time_commitment": _transform_course_commitment(course_run),
     }
 
 
@@ -490,6 +597,8 @@ def _transform_program_run(
                 for pace in _parse_course_pace(course.get("course_runs", []))
             }
         ),
+        "duration": _transform_program_duration(program),
+        "time_commitment": _transform_program_commitment(program),
     }
 
 
