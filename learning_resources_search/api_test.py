@@ -235,11 +235,10 @@ def test_generate_learning_resources_text_clause(search_mode, slop):
                                                         "multi_match": {
                                                             "query": "math",
                                                             "fields": [
-                                                                "runs.instructors.first_name",
                                                                 "runs.instructors.last_name^5",
                                                                 "runs.instructors.full_name^5",
                                                             ],
-                                                            **extra_params,
+                                                            "type": "best_fields",
                                                         }
                                                     },
                                                 }
@@ -350,11 +349,10 @@ def test_generate_learning_resources_text_clause(search_mode, slop):
                                     "multi_match": {
                                         "query": "math",
                                         "fields": [
-                                            "runs.instructors.first_name",
                                             "runs.instructors.last_name^5",
                                             "runs.instructors.full_name^5",
                                         ],
-                                        **extra_params,
+                                        "type": "best_fields",
                                     }
                                 },
                             }
@@ -468,10 +466,10 @@ def test_generate_learning_resources_text_clause(search_mode, slop):
                                                         "query_string": {
                                                             "query": '"math"',
                                                             "fields": [
-                                                                "runs.instructors.first_name",
                                                                 "runs.instructors.last_name^5",
                                                                 "runs.instructors.full_name^5",
                                                             ],
+                                                            "type": "best_fields",
                                                         }
                                                     },
                                                 }
@@ -576,10 +574,10 @@ def test_generate_learning_resources_text_clause(search_mode, slop):
                                     "query_string": {
                                         "query": '"math"',
                                         "fields": [
-                                            "runs.instructors.first_name",
                                             "runs.instructors.last_name^5",
                                             "runs.instructors.full_name^5",
                                         ],
+                                        "type": "best_fields",
                                     }
                                 },
                             }
@@ -1155,7 +1153,6 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                             "multi_match": {
                                                                                 "query": "math",
                                                                                 "fields": [
-                                                                                    "runs.instructors.first_name",
                                                                                     "runs.instructors.last_name^5",
                                                                                     "runs.instructors.full_name^5",
                                                                                 ],
@@ -1275,7 +1272,6 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                     "multi_match": {
                                                         "query": "math",
                                                         "fields": [
-                                                            "runs.instructors.first_name",
                                                             "runs.instructors.last_name^5",
                                                             "runs.instructors.full_name^5",
                                                         ],
@@ -1626,11 +1622,10 @@ def test_execute_learn_search_with_script_score(
                                                                                     "multi_match": {
                                                                                         "query": "math",
                                                                                         "fields": [
-                                                                                            "runs.instructors.first_name",
                                                                                             "runs.instructors.last_name^5",
                                                                                             "runs.instructors.full_name^5",
                                                                                         ],
-                                                                                        "type": "phrase",
+                                                                                        "type": "best_fields",
                                                                                     }
                                                                                 },
                                                                             }
@@ -1746,11 +1741,10 @@ def test_execute_learn_search_with_script_score(
                                                             "multi_match": {
                                                                 "query": "math",
                                                                 "fields": [
-                                                                    "runs.instructors.first_name",
                                                                     "runs.instructors.last_name^5",
                                                                     "runs.instructors.full_name^5",
                                                                 ],
-                                                                "type": "phrase",
+                                                                "type": "best_fields",
                                                             }
                                                         },
                                                     }
@@ -2057,7 +2051,6 @@ def test_execute_learn_search_with_min_score(mocker, settings, opensearch):
                                                                                     "multi_match": {
                                                                                         "query": "math",
                                                                                         "fields": [
-                                                                                            "runs.instructors.first_name",
                                                                                             "runs.instructors.last_name^5",
                                                                                             "runs.instructors.full_name^5",
                                                                                         ],
@@ -2177,7 +2170,6 @@ def test_execute_learn_search_with_min_score(mocker, settings, opensearch):
                                                             "multi_match": {
                                                                 "query": "math",
                                                                 "fields": [
-                                                                    "runs.instructors.first_name",
                                                                     "runs.instructors.last_name^5",
                                                                     "runs.instructors.full_name^5",
                                                                 ],
