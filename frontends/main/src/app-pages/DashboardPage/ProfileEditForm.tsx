@@ -103,17 +103,10 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
       <FormContainer>
         <NameRow>
           <TextField
-            label="First Name"
-            name="first_name"
+            label="Full Name"
+            name="full_name"
             fullWidth
-            value={user?.first_name}
-            disabled
-          />
-          <TextField
-            label="Last Name"
-            fullWidth
-            name="last_name"
-            value={user?.last_name}
+            value={user?.profile?.name}
             disabled
           />
         </NameRow>

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React from "react"
 import { RiSearch2Line, RiCloseLine } from "@remixicon/react"
 import { Input, AdornmentButton } from "../Input/Input"
 import type { InputProps } from "../Input/Input"
@@ -33,7 +33,10 @@ export interface SearchSubmissionEvent {
   preventDefault: () => void
 }
 
-type SearchSubmitHandler = (event: SearchSubmissionEvent) => void
+type SearchSubmitHandler = (
+  event: SearchSubmissionEvent,
+  opts?: { isEnter?: boolean },
+) => void
 
 interface SearchInputProps {
   className?: string
@@ -53,21 +56,15 @@ const muiInputProps = { "aria-label": "Search for" }
 
 const SearchInput: React.FC<SearchInputProps> = (props) => {
   const { onSubmit, value } = props
-  const handleSubmit = useCallback(() => {
-    const event = {
-      target: { value },
-      preventDefault: () => null,
-    }
-    onSubmit(event)
-  }, [onSubmit, value])
-  const onInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> =
-    useCallback(
-      (e) => {
-        if (e.key !== "Enter") return
-        handleSubmit()
-      },
-      [handleSubmit],
-    )
+  const event = {
+    target: { value },
+    preventDefault: () => null,
+  }
+
+  const onInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key !== "Enter") return
+    onSubmit(event, { isEnter: true })
+  }
 
   return (
     <StyledInput
@@ -99,7 +96,7 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
           <AdornmentButton
             aria-label="Search"
             className={props.classNameSearch}
-            onClick={handleSubmit}
+            onClick={() => onSubmit(event, { isEnter: false })}
           >
             <RiSearch2Line fontSize="inherit" />
           </AdornmentButton>

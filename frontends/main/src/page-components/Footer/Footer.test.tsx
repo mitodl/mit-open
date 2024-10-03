@@ -6,15 +6,17 @@ import * as urls from "@/common/urls"
 
 describe("Footer", () => {
   test("Renders the appropriate text and links", async () => {
-    render(<Footer />, {
-      wrapper: ThemeProvider,
-    })
+    render(
+      <ThemeProvider>
+        <Footer />
+      </ThemeProvider>,
+    )
     interface Links {
       [key: string]: string
     }
     const expectedLinks: Links = {
       // key is blank here because the link is an image
-      "": "https://mit.edu/",
+      "": "https://www.mit.edu/",
       Home: urls.HOME,
       "About Us": urls.ABOUT,
       Accessibility: urls.ACCESSIBILITY,

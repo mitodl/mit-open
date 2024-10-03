@@ -8,9 +8,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    extends:
-      file: docker-compose.opensearch.${OPENSEARCH_CLUSTER_TYPE:-single-node}.apps.yml
-      service: web
     mem_limit: 1gb
     cpus: 2
     command: ./scripts/run-django-dev.sh
@@ -54,14 +51,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    extends:
-      file: docker-compose.opensearch.${OPENSEARCH_CLUSTER_TYPE:-single-node}.apps.yml
-      service: web
     command: >
       /bin/bash -c '
       sleep 3;
-      celery -A main.celery:app worker -Q default -B -l ${MITOL_LOG_LEVEL:-INFO} &
-      celery -A main.celery:app worker -Q edx_content,default -l ${MITOL_LOG_LEVEL:-INFO}'
+      celery -A main.celery:app worker -E -Q default,edx_content -B -l ${MITOL_LOG_LEVEL:-INFO}'
     depends_on:
       db:
         condition: service_healthy

@@ -31,10 +31,7 @@ describe("UserMenu", () => {
     return screen.findByRole("menu")
   }
 
-  test.each([
-    { first_name: "", last_name: "" },
-    { first_name: null, last_name: null },
-  ])(
+  test.each([{}, { profile: null }, { profile: {} }])(
     "Trigger button shows UserIcon for authenticated users w/o initials",
     async (userSettings) => {
       setMockResponse.get(urls.userMe.get(), userSettings)
@@ -46,29 +43,13 @@ describe("UserMenu", () => {
     },
   )
 
-  test.each([
-    {
-      userSettings: { first_name: "Alice", last_name: "Bee" },
-      expectedName: "Alice Bee",
-    },
-    {
-      userSettings: { first_name: "Alice", last_name: "" },
-      expectedName: "Alice",
-    },
-    {
-      userSettings: { first_name: "", last_name: "Bee" },
-      expectedName: "Bee",
-    },
-  ])(
-    "Trigger button shows name if available",
-    async ({ userSettings, expectedName }) => {
-      setMockResponse.get(urls.userMe.get(), userSettings)
+  test("Trigger button shows name if available", async () => {
+    setMockResponse.get(urls.userMe.get(), { profile: { name: "Alice Bee" } })
 
-      renderWithProviders(<Header />)
-      const trigger = await screen.findByRole("button", { name: "User Menu" })
-      expect(trigger.textContent).toBe(expectedName)
-    },
-  )
+    renderWithProviders(<Header />)
+    const trigger = await screen.findByRole("button", { name: "User Menu" })
+    expect(trigger.textContent).toBe("Alice Bee")
+  })
 
   test("Unauthenticated users see the Sign Up / Login link", async () => {
     const isAuthenticated = false
