@@ -16,7 +16,7 @@ const processFeatureFlags = () => {
     }
   }
 
-  return { FEATURE_FLAGS: JSON.stringify(bootstrapFeatureFlags) }
+  return bootstrapFeatureFlags
 }
 
 /** @type {import('next').NextConfig} */
@@ -29,7 +29,6 @@ const nextConfig = {
       new webpack.IgnorePlugin({
         resourceRegExp: /mockAxios\.ts/,
       }),
-      new webpack.EnvironmentPlugin(processFeatureFlags()),
     )
 
     // Do not do this. Added to fix "import type", but causes a strage issue where
@@ -73,6 +72,10 @@ const nextConfig = {
         pathname: "**",
       },
     ],
+  },
+
+  env: {
+    FEATURE_FLAGS: JSON.stringify(processFeatureFlags()),
   },
 }
 
