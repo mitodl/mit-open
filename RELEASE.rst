@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.20.3 (Released October 03, 2024)
+--------------
+
+- add is_incomplete_or_stale (#1627)
+- "unfollow" confirmation modal and "Unfollow All" button  (#1628)
+- raise SystemExit as a RetryError (#1635)
+
 Version 0.20.2 (Released October 01, 2024)
 --------------
 
