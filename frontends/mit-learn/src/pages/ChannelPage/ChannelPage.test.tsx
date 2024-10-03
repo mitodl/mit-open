@@ -110,7 +110,7 @@ const setupApis = (
     channel.topic_detail.topic
   ) {
     const topic = factories.learningResources.topic()
-    channel.channel_url = `/c/${channel.channel_type}/${channel.name.replace(" ", "-")}`
+    channel.channel_url = `/c/${channel.channel_type}/${channel.name.replace(/\s/g, "-")}`
     topic.channel_url = channel.channel_url
     topic.id = channel.topic_detail.topic
     const subTopics = factories.learningResources.topics({ count: 5 })
@@ -125,11 +125,11 @@ const setupApis = (
       subTopic.parent = topic.id
       const subTopicChannel = factories.channels.channel({
         channel_type: ChannelTypeEnum.Topic,
-        name: subTopic.name.replace(" ", "-"),
+        name: subTopic.name.replace(/\s/g, "-"),
         title: subTopic.name,
         topic_detail: { topic: subTopic.id },
       })
-      const channelUrl = `/c/${subTopicChannel.channel_type}/${subTopicChannel.name.replace(" ", "-")}`
+      const channelUrl = `/c/${subTopicChannel.channel_type}/${subTopicChannel.name.replace(/\s/g, "-")}`
       subTopic.channel_url = channelUrl
       subTopicChannel.channel_url = channelUrl
       setMockResponse.get(urls.topics.list({ id: [subTopic.id] }), {
@@ -138,7 +138,7 @@ const setupApis = (
       setMockResponse.get(
         urls.channels.details(
           subTopicChannel.channel_type,
-          subTopicChannel.name.replace(" ", "-"),
+          subTopicChannel.name.replace(/\s/g, "-"),
         ),
         subTopicChannel,
       )
@@ -306,7 +306,7 @@ describe("Channel Pages, Topic only", () => {
     })
     invariant(topic)
     renderTestApp({
-      url: `/c/${channel.channel_type}/${channel.name.replace(" ", "-")}`,
+      url: `/c/${channel.channel_type}/${channel.name.replace(/\s/g, "-")}`,
     })
 
     const subTopicsTitle = await screen.findByText("Subtopics")
@@ -327,18 +327,22 @@ describe("Channel Pages, Topic only", () => {
     })
     invariant(subTopicChannels)
     const subTopicChannel = subTopicChannels[0]
+    const filteredSubTopics = subTopics?.results.filter(
+      (t) =>
+        t.name.replace(/\s/g, "-") !== subTopicChannel.name.replace(/\s/g, "-"),
+    )
     renderTestApp({
-      url: `/c/${subTopicChannel.channel_type}/${subTopicChannel.name.replace(" ", "-")}`,
+      url: `/c/${subTopicChannel.channel_type}/${subTopicChannel.name.replace(/\s/g, "-")}`,
     })
 
     const relatedTopicsTitle = await screen.findByText("Related Topics")
     expect(relatedTopicsTitle).toBeInTheDocument()
     const links = await screen.findAllByRole("link", {
       // name arg can be string, regex, or function
-      name: (name) => subTopics?.results.map((t) => t.name).includes(name),
+      name: (name) => filteredSubTopics?.map((t) => t.name).includes(name),
     })
     links.forEach(async (link, i) => {
-      expect(link).toHaveAttribute("href", subTopics.results[i].channel_url)
+      expect(link).toHaveAttribute("href", filteredSubTopics[i].channel_url)
     })
   })
 })

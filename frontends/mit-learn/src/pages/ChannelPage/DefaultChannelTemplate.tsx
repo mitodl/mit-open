@@ -71,12 +71,13 @@ const ChipsContainer = styled.div({
 type TopicChipsInternalProps = {
   title: string
   topicId: number
+  parentTopicId: number
 }
 
 const TopicChipsInternal: React.FC<TopicChipsInternalProps> = (props) => {
-  const { title, topicId } = props
+  const { title, topicId, parentTopicId } = props
   const subTopicsQuery = useLearningResourceTopics({
-    parent_topic_id: [topicId],
+    parent_topic_id: [parentTopicId],
   })
   const topics = subTopicsQuery.data?.results
     ?.filter(propsNotNil(["channel_url"]))
@@ -112,9 +113,21 @@ const TopicChips: React.FC<TopicChipsProps> = (props) => {
   const topic = topicQuery.data?.results?.[0]
   const isTopLevelTopic = topic?.parent === null
   if (isTopLevelTopic) {
-    return <TopicChipsInternal title="Subtopics" topicId={topicId} />
+    return (
+      <TopicChipsInternal
+        title="Subtopics"
+        topicId={topicId}
+        parentTopicId={topicId}
+      />
+    )
   } else if (topic?.parent) {
-    return <TopicChipsInternal title="Related Topics" topicId={topic?.parent} />
+    return (
+      <TopicChipsInternal
+        title="Related Topics"
+        topicId={topicId}
+        parentTopicId={topic?.parent}
+      />
+    )
   } else return null
 }
 
