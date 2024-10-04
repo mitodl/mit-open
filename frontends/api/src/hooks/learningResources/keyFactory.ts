@@ -30,7 +30,17 @@ import type {
   UserListRelationship,
   MicroUserListRelationship,
 } from "../../generated/v1"
+
 import { createQueryKeys } from "@lukemorales/query-key-factory"
+
+const shuffle = ([...arr]) => {
+  let m = arr.length
+  while (m) {
+    const i = Math.floor(Math.random() * m--)
+    ;[arr[m], arr[i]] = [arr[i], arr[m]]
+  }
+  return arr
+}
 
 const learningResources = createQueryKeys("learningResources", {
   detail: (id: number) => ({
@@ -49,7 +59,12 @@ const learningResources = createQueryKeys("learningResources", {
   }),
   featured: (params: FeaturedListParams = {}) => ({
     queryKey: [params],
-    queryFn: () => featuredApi.featuredList(params).then((res) => res.data),
+    queryFn: () => {
+      return featuredApi.featuredList(params).then((res) => {
+        res.data.results = shuffle(res.data.results)
+        return res.data
+      })
+    },
   }),
   topics: (params: TopicsListRequest) => ({
     queryKey: [params],
