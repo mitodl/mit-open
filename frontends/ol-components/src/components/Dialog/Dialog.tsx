@@ -118,12 +118,7 @@ const Dialog: React.FC<DialogProps> = ({
       aria-labelledby={titleId}
     >
       <Close>
-        <ActionButton
-          variant="text"
-          color="primary"
-          onClick={onClose}
-          aria-label="Close"
-        >
+        <ActionButton variant="text" onClick={onClose} aria-label="Close">
           <RiCloseLine />
         </ActionButton>
       </Close>
