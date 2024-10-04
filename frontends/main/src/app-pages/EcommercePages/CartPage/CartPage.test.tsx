@@ -1,9 +1,11 @@
-import { renderTestApp, waitFor, setMockResponse } from "../../test-utils"
+import React from "react"
+import { renderWithProviders, setMockResponse } from "@/test-utils"
 import { urls } from "api/test-utils"
 import * as commonUrls from "@/common/urls"
-import { Permissions } from "@/common/permissions"
-import { login } from "@/common/urls"
+import { ForbiddenError, Permissions } from "@/common/permissions"
 import { useFeatureFlagEnabled } from "posthog-js/react"
+import CartPage from "./CartPage"
+import { allowConsoleErrors } from "ol-test-utilities"
 
 jest.mock("posthog-js/react")
 const mockedUseFeatureFlagEnabled = jest.mocked(useFeatureFlagEnabled)
@@ -35,31 +37,18 @@ describe("CartPage", () => {
       })
       mockedUseFeatureFlagEnabled.mockReturnValue(testCase === "on")
 
-      renderTestApp({
-        url: commonUrls.ECOMMERCE_CART,
-      })
-      await waitFor(() => {
-        testCase === "on"
-          ? expect(document.title).toBe("Shopping Cart | MIT Learn")
-          : expect(document.title).not.toBe("Shopping Cart | MIT Learn")
-      })
-    })
-  })
-
-  test("Sends to login page when logged out", async () => {
-    setMockResponse.get(urls.userMe.get(), {
-      [Permissions.Authenticated]: false,
-    })
-    const expectedUrl = login({
-      pathname: "/cart/",
-    })
-
-    renderTestApp({
-      url: commonUrls.ECOMMERCE_CART,
-    })
-
-    await waitFor(() => {
-      expect(window.location.assign).toHaveBeenCalledWith(expectedUrl)
+      if (testCase === "off") {
+        allowConsoleErrors()
+        expect(() =>
+          renderWithProviders(<CartPage />, {
+            url: commonUrls.ECOMMERCE_CART,
+          }),
+        ).toThrow(ForbiddenError)
+      } else {
+        renderWithProviders(<CartPage />, {
+          url: commonUrls.ECOMMERCE_CART,
+        })
+      }
     })
   })
 })

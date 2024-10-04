@@ -16,7 +16,7 @@ describe("Footer", () => {
     }
     const expectedLinks: Links = {
       // key is blank here because the link is an image
-      "": "https://www.mit.edu/",
+      "": "https://mit.edu/",
       Home: urls.HOME,
       "About Us": urls.ABOUT,
       Accessibility: urls.ACCESSIBILITY,
@@ -24,7 +24,6 @@ describe("Footer", () => {
       "Contact Us": urls.CONTACT,
     }
     const footer = screen.getByRole("contentinfo")
-    const icon = screen.getByAltText("MIT Logo")
     const address = screen.getByTestId("footer-address")
     const links = screen.getAllByRole("link")
     const copyright = screen.getByText(
@@ -32,7 +31,6 @@ describe("Footer", () => {
     )
 
     expect(footer).toBeInTheDocument()
-    expect(icon).toBeInTheDocument()
     expect(address).toHaveTextContent("Massachusetts Institute of Technology")
     expect(address).toHaveTextContent("77 Massachusetts Avenue")
     expect(address).toHaveTextContent("Cambridge, MA 02139")

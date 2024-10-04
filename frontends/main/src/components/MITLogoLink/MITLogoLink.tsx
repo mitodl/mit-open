@@ -25,14 +25,15 @@ const StyledImage = styled(Image)({
 const linkProps = {
   learn: {
     href: "/",
+    title: "MIT Learn Homepage",
   },
   mit_black: {
-    href: "https://mit.edu",
+    href: "https://mit.edu/",
     title: "MIT Homepage",
     target: "_blank",
   },
   mit_white: {
-    href: "https://mit.edu",
+    href: "https://mit.edu/",
     title: "MIT Homepage",
     target: "_blank",
   },
