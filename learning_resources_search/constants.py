@@ -387,9 +387,10 @@ RUN_INSTRUCTORS_QUERY_FIELDS = [
 ]
 
 RESOURCEFILE_QUERY_FIELDS = [
-    "content",
-    "title.english^3",
-    "short_description.english^2",
+    "content.english",
+    "title.english",
+    "content_title.english",
+    "description.english",
     "content_feature_type",
 ]
 

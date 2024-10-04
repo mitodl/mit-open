@@ -456,6 +456,16 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
             "search term."
         ),
     )
+    content_file_score_weight = serializers.FloatField(
+        max_value=1,
+        min_value=0,
+        required=False,
+        allow_null=True,
+        help_text=(
+            "Score weight for content file data.  1 is the default."
+            " 0 means content files are ignored"
+        ),
+    )
 
 
 class ContentFileSearchRequestSerializer(SearchRequestSerializer):

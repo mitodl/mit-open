@@ -562,6 +562,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
       max_incompleteness_penalty: searchParams.get(
         "max_incompleteness_penalty",
       ),
+      content_file_score_weight: searchParams.get("content_file_score_weight"),
       ...requestParams,
       aggregations: (facetNames || []).concat([
         "resource_category",
@@ -738,6 +739,26 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               Partially complete courses have a linear penalty proportional to
               the degree of incompleteness. Only affects results if there is a
               search term.
+            </ExplanationContainer>
+            <AdminTitleContainer>
+              Content File Score Weight Adjustment
+            </AdminTitleContainer>
+            <SliderInput
+              currentValue={
+                searchParams.get("content_file_score_weight")
+                  ? Number(searchParams.get("content_file_score_weight"))
+                  : 1
+              }
+              setSearchParams={setSearchParams}
+              urlParam="content_file_score_weight"
+              min={0}
+              max={1}
+              step={0.1}
+            />
+            <ExplanationContainer>
+              Score weight adjustment for content file matches. 1 means no
+              adjustment. 0 means content file matches are not counted in the
+              score. Only affects the results if there is a search term.
             </ExplanationContainer>
           </div>
         ) : null}
