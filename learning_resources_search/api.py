@@ -289,7 +289,7 @@ def generate_learning_resources_text_clause(text, search_mode, slop):
                                     query_type: {
                                         "query": text,
                                         "fields": RUN_INSTRUCTORS_QUERY_FIELDS,
-                                        **extra_params,
+                                        "type": "best_fields",
                                     }
                                 },
                             }

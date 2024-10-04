@@ -380,7 +380,6 @@ RUNS_QUERY_FIELDS = [
 ]
 
 RUN_INSTRUCTORS_QUERY_FIELDS = [
-    "runs.instructors.first_name",
     "runs.instructors.last_name^5",
     "runs.instructors.full_name^5",
 ]
