@@ -260,10 +260,6 @@ class ContentFileFilter(FilterSet):
 class TopicFilter(FilterSet):
     """Filterset for learning resource topics."""
 
-    id = NumberInFilter(
-        label="Topic ID",
-        method="filter_id",
-    )
     name = CharInFilter(
         label="Topic name",
         method="filter_name",

@@ -2,10 +2,14 @@ import { renderTestApp, screen } from "../../test-utils"
 import { channels as factory } from "api/test-utils/factories"
 import { setMockResponse, urls as apiUrls, factories } from "api/test-utils"
 import { makeChannelEditPath } from "@/common/urls"
+import { ChannelTypeEnum } from "api/v0"
 
 describe("EditChannelPage", () => {
   const setup = () => {
-    const channel = factory.channel({ is_moderator: true })
+    const channel = factory.channel({
+      is_moderator: true,
+      channel_type: ChannelTypeEnum.Topic,
+    })
     setMockResponse.get(
       apiUrls.channels.details(channel.channel_type, channel.name),
       channel,
@@ -20,6 +24,20 @@ describe("EditChannelPage", () => {
       }),
       factories.percolateQueries,
     )
+    if (channel.channel_type === ChannelTypeEnum.Topic) {
+      const topicId = channel.topic_detail.topic
+        ? [channel.topic_detail.topic]
+        : []
+      setMockResponse.get(apiUrls.topics.list({ id: [] }), null)
+      setMockResponse.get(
+        apiUrls.topics.list({ id: topicId }),
+        factories.learningResources.topic(),
+      )
+      setMockResponse.get(
+        apiUrls.topics.list({ parent_topic_id: topicId }),
+        factories.learningResources.topics({ count: 0 }),
+      )
+    }
     return channel
   }
 
@@ -34,6 +52,7 @@ describe("EditChannelPage", () => {
   })
 
   it("Displays message and no tabs for non-moderators", async () => {
+    setup()
     const channel = factory.channel({ is_moderator: false })
     setMockResponse.get(apiUrls.userMe.get(), {})
     setMockResponse.get(
@@ -55,16 +74,6 @@ describe("EditChannelPage", () => {
       channel,
     )
     setMockResponse.get(apiUrls.testimonials.details(channel.id), channel)
-    if (channel.channel_type === "topic" && channel.topic_detail.topic) {
-      setMockResponse.get(
-        apiUrls.topics.list({ id: [channel.topic_detail.topic] }),
-        factories.learningResources.topics({ count: 0 }),
-      )
-      setMockResponse.get(
-        apiUrls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
-        factories.learningResources.topics({ count: 0 }),
-      )
-    }
     renderTestApp({
       url: `${makeChannelEditPath(channel.channel_type, channel.name)}/`,
     })

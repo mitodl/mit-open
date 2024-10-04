@@ -22018,7 +22018,6 @@ export const TopicsApiAxiosParamCreator = function (
     /**
      * Topics covered by learning resources
      * @summary List
-     * @param {Array<number>} [id] Multiple values may be separated by commas.
      * @param {boolean} [is_toplevel] Filter top-level topics
      * @param {number} [limit] Number of results to return per page.
      * @param {Array<string>} [name] Multiple values may be separated by commas.
@@ -22028,7 +22027,6 @@ export const TopicsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     topicsList: async (
-      id?: Array<number>,
       is_toplevel?: boolean,
       limit?: number,
       name?: Array<string>,
@@ -22051,10 +22049,6 @@ export const TopicsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      if (id) {
-        localVarQueryParameter["id"] = id.join(COLLECTION_FORMATS.csv)
-      }
 
       if (is_toplevel !== undefined) {
         localVarQueryParameter["is_toplevel"] = is_toplevel
@@ -22151,7 +22145,6 @@ export const TopicsApiFp = function (configuration?: Configuration) {
     /**
      * Topics covered by learning resources
      * @summary List
-     * @param {Array<number>} [id] Multiple values may be separated by commas.
      * @param {boolean} [is_toplevel] Filter top-level topics
      * @param {number} [limit] Number of results to return per page.
      * @param {Array<string>} [name] Multiple values may be separated by commas.
@@ -22161,7 +22154,6 @@ export const TopicsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async topicsList(
-      id?: Array<number>,
       is_toplevel?: boolean,
       limit?: number,
       name?: Array<string>,
@@ -22175,7 +22167,6 @@ export const TopicsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedLearningResourceTopicList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.topicsList(
-        id,
         is_toplevel,
         limit,
         name,
@@ -22252,7 +22243,6 @@ export const TopicsApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceTopicList> {
       return localVarFp
         .topicsList(
-          requestParameters.id,
           requestParameters.is_toplevel,
           requestParameters.limit,
           requestParameters.name,
@@ -22286,13 +22276,6 @@ export const TopicsApiFactory = function (
  * @interface TopicsApiTopicsListRequest
  */
 export interface TopicsApiTopicsListRequest {
-  /**
-   * Multiple values may be separated by commas.
-   * @type {Array<number>}
-   * @memberof TopicsApiTopicsList
-   */
-  readonly id?: Array<number>
-
   /**
    * Filter top-level topics
    * @type {boolean}
@@ -22364,7 +22347,6 @@ export class TopicsApi extends BaseAPI {
   ) {
     return TopicsApiFp(this.configuration)
       .topicsList(
-        requestParameters.id,
         requestParameters.is_toplevel,
         requestParameters.limit,
         requestParameters.name,

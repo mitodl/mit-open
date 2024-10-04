@@ -109,6 +109,7 @@ const setupApis = (
     channel.channel_type === ChannelTypeEnum.Topic &&
     channel.topic_detail.topic
   ) {
+    setMockResponse.get(urls.topics.list({ id: [] }), [])
     const topic = factories.learningResources.topic()
     channel.channel_url = `/c/${channel.channel_type}/${channel.name.replace(/\s/g, "-")}`
     topic.channel_url = channel.channel_url
