@@ -33,19 +33,15 @@ const setupApis = (channelOverrides: Partial<Channel>) => {
     results: [],
   })
 
-  setMockResponse.get(urls.topics.list({ id: [] }), null)
   if (channel.channel_type === ChannelTypeEnum.Topic) {
     const topicId = channel.topic_detail.topic
-      ? [channel.topic_detail.topic]
-      : []
-    setMockResponse.get(
-      urls.topics.list({ id: topicId }),
-      factories.learningResources.topic(),
-    )
-    setMockResponse.get(
-      urls.topics.list({ parent_topic_id: topicId }),
-      factories.learningResources.topics({ count: 5 }),
-    )
+    if (topicId) {
+      setMockResponse.get(urls.topics.get(topicId), null)
+      setMockResponse.get(
+        urls.topics.list({ parent_topic_id: [topicId] }),
+        null,
+      )
+    }
   }
 
   return channel

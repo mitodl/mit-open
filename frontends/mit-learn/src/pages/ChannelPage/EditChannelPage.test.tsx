@@ -26,17 +26,13 @@ describe("EditChannelPage", () => {
     )
     if (channel.channel_type === ChannelTypeEnum.Topic) {
       const topicId = channel.topic_detail.topic
-        ? [channel.topic_detail.topic]
-        : []
-      setMockResponse.get(apiUrls.topics.list({ id: [] }), null)
-      setMockResponse.get(
-        apiUrls.topics.list({ id: topicId }),
-        factories.learningResources.topic(),
-      )
-      setMockResponse.get(
-        apiUrls.topics.list({ parent_topic_id: topicId }),
-        factories.learningResources.topics({ count: 0 }),
-      )
+      if (topicId) {
+        setMockResponse.get(apiUrls.topics.get(topicId), null)
+        setMockResponse.get(
+          apiUrls.topics.list({ parent_topic_id: [topicId] }),
+          null,
+        )
+      }
     }
     return channel
   }

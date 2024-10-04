@@ -111,11 +111,14 @@ const TopicChipsInternal: React.FC<TopicChipsInternalProps> = (props) => {
 }
 
 type TopicChipsProps = {
-  topic: LearningResourceTopic | undefined
+  topic: LearningResourceTopic | null | undefined
 }
 
 const TopicChips: React.FC<TopicChipsProps> = (props) => {
   const { topic } = props
+  if (!topic) {
+    return null
+  }
   const isTopLevelTopic = topic?.parent === null
   if (isTopLevelTopic) {
     return (
@@ -213,9 +216,7 @@ const TopicChannelTemplateInternal: React.FC<
   TopicChannelTemplateInternalProps
 > = ({ channel, name, children }) => {
   invariant(channel.topic_detail.topic, "Topic channel must have a topic")
-  const topicQuery = useLearningResourceTopic(channel.topic_detail.topic, {
-    enabled: !!channel.topic_detail.topic,
-  })
+  const topicQuery = useLearningResourceTopic(channel.topic_detail.topic)
   const topicQueryLoading = topicQuery.isLoading
   const topic = topicQuery.data
   const parentTopicId = topic?.parent

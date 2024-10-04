@@ -109,15 +109,12 @@ const setupApis = (
     channel.channel_type === ChannelTypeEnum.Topic &&
     channel.topic_detail.topic
   ) {
-    setMockResponse.get(urls.topics.list({ id: [] }), [])
     const topic = factories.learningResources.topic()
     channel.channel_url = `/c/${channel.channel_type}/${channel.name.replace(/\s/g, "-")}`
     topic.channel_url = channel.channel_url
     topic.id = channel.topic_detail.topic
     const subTopics = factories.learningResources.topics({ count: 5 })
-    setMockResponse.get(urls.topics.list({ id: [topic.id] }), {
-      results: [topic],
-    })
+    setMockResponse.get(urls.topics.get(topic.id), topic)
     setMockResponse.get(
       urls.topics.list({ parent_topic_id: [topic.id] }),
       subTopics,
@@ -133,9 +130,7 @@ const setupApis = (
       const channelUrl = `/c/${subTopicChannel.channel_type}/${subTopicChannel.name.replace(/\s/g, "-")}`
       subTopic.channel_url = channelUrl
       subTopicChannel.channel_url = channelUrl
-      setMockResponse.get(urls.topics.list({ id: [subTopic.id] }), {
-        results: [subTopic],
-      })
+      setMockResponse.get(urls.topics.get(subTopic.id), subTopic)
       setMockResponse.get(
         urls.channels.details(
           subTopicChannel.channel_type,
