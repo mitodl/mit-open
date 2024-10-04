@@ -2,7 +2,6 @@
 
 import copy
 import logging
-import re
 from datetime import UTC
 
 import requests
@@ -25,6 +24,7 @@ from learning_resources.etl.utils import (
     transform_delivery,
     transform_topics,
 )
+from learning_resources.models import LearningResource
 from main.utils import clean_data
 
 log = logging.getLogger(__name__)
@@ -87,19 +87,27 @@ def parse_program_duration(program_data: dict) -> str:
     Returns:
         str: the parsed duration
     """
-
-    def multiply(match, num_courses):
-        return str(int(match.group()) * num_courses)
-
     raw_duration = program_data["duration"]
-    transformed_duration = parse_resource_duration(raw_duration)
-    if "per course" in raw_duration.lower():
-        transformed_duration = re.sub(
-            r"\d+",
-            lambda match: multiply(match, len(program_data["courses"])),
-            transformed_duration,
+    duration = parse_resource_duration(raw_duration)
+    if duration and "per course" in raw_duration.lower():
+        # Sum the individual course durations instead
+        course_ids = [course["readable_id"] for course in program_data["courses"]]
+        courses = LearningResource.objects.filter(
+            published=True, readable_id__in=course_ids
         )
-    return transformed_duration
+        duration["min_weeks"] = sum(
+            course.duration["min_weeks"] for course in courses if course.duration
+        )
+        duration["max_weeks"] = sum(
+            course.duration["max_weeks"] for course in courses if course.duration
+        )
+        if duration["min_weeks"] == duration["max_weeks"]:
+            duration["duration"] = f"{duration['max_weeks']} weeks"
+        else:
+            duration["duration"] = (
+                f"{duration['min_weeks']}-{duration['max_weeks']} weeks"
+            )
+    return duration
 
 
 def extract_programs():
