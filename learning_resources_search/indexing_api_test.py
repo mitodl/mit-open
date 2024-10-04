@@ -354,8 +354,18 @@ def test_index_items_size_limits(settings, mocker, max_size, chunks, exceeds_siz
     assert mock_log.call_count == (10 if exceeds_size else 0)
 
 
-@pytest.mark.parametrize("delete_reindexing_tags", [True, False])
-def test_delete_orphaned_indexes(mocker, mocked_es, delete_reindexing_tags):
+@pytest.mark.parametrize(
+    ("delete_reindexing_tags", "alias_404", "index_404"),
+    [
+        (True, True, False),
+        (True, False, True),
+        (True, True, True),
+        (False, False, True),
+    ],
+)
+def test_delete_orphaned_indexes(
+    mocker, mocked_es, delete_reindexing_tags, alias_404, index_404
+):
     """
     Delete any indices without aliases and any reindexing aliases
     """
@@ -390,7 +400,9 @@ def test_delete_orphaned_indexes(mocker, mocked_es, delete_reindexing_tags):
         },
     }
     mocked_es.conn.indices = mocker.Mock(
-        delete_alias=mocker.Mock(), get_alias=mocker.Mock(return_value=mock_aliases)
+        delete_alias=mocker.Mock(side_effect=NotFoundError if alias_404 else None),
+        get_alias=mocker.Mock(return_value=mock_aliases),
+        delete=mocker.Mock(side_effect=NotFoundError if index_404 else None),
     )
     delete_orphaned_indexes(["program"], delete_reindexing_tags=delete_reindexing_tags)
     mocked_es.conn.indices.get_alias.assert_called_once_with(index="*")

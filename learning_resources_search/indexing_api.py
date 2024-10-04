@@ -579,14 +579,20 @@ def delete_orphaned_indexes(obj_types, delete_reindexing_tags):
             for alias in aliases:
                 if "reindexing" in alias:
                     log.info("Deleting alias %s for index %s", alias, index)
-                    conn.indices.delete_alias(name=alias, index=index)
+                    try:
+                        conn.indices.delete_alias(name=alias, index=index)
+                    except NotFoundError:
+                        log.info("Alias %s not found for index %s", alias, index)
                     keys.remove(alias)
 
         if not keys and not index.startswith("."):
             for object_type in obj_types:
                 if object_type in index:
                     log.info("Deleting orphaned index %s", index)
-                    conn.indices.delete(index)
+                    try:
+                        conn.indices.delete(index)
+                    except NotFoundError:
+                        log.info("Index %s not found", index)
                     break
 
 
