@@ -7900,10 +7900,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-        position:
-          type: integer
-          readOnly: true
-          nullable: true
         offered_by:
           allOf:
           - $ref: '#/components/schemas/LearningResourceOfferor'
@@ -8110,7 +8106,6 @@ components:
       - offered_by
       - pace
       - platform
-      - position
       - prices
       - professional
       - readable_id
@@ -8390,10 +8385,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-        position:
-          type: integer
-          readOnly: true
-          nullable: true
         offered_by:
           allOf:
           - $ref: '#/components/schemas/LearningResourceOfferor'
@@ -8599,7 +8590,6 @@ components:
       - offered_by
       - pace
       - platform
-      - position
       - prices
       - readable_id
       - resource_category
@@ -10493,10 +10483,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-        position:
-          type: integer
-          readOnly: true
-          nullable: true
         offered_by:
           allOf:
           - $ref: '#/components/schemas/LearningResourceOfferor'
@@ -10703,7 +10689,6 @@ components:
       - pace
       - platform
       - podcast_episode
-      - position
       - prices
       - professional
       - readable_id
@@ -10823,10 +10808,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-        position:
-          type: integer
-          readOnly: true
-          nullable: true
         offered_by:
           allOf:
           - $ref: '#/components/schemas/LearningResourceOfferor'
@@ -11033,7 +11014,6 @@ components:
       - pace
       - platform
       - podcast
-      - position
       - prices
       - professional
       - readable_id
@@ -11283,10 +11263,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-        position:
-          type: integer
-          readOnly: true
-          nullable: true
         offered_by:
           allOf:
           - $ref: '#/components/schemas/LearningResourceOfferor'
@@ -11492,7 +11468,6 @@ components:
       - offered_by
       - pace
       - platform
-      - position
       - prices
       - professional
       - program
@@ -11885,10 +11860,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-        position:
-          type: integer
-          readOnly: true
-          nullable: true
         offered_by:
           allOf:
           - $ref: '#/components/schemas/LearningResourceOfferor'
@@ -12094,7 +12065,6 @@ components:
       - offered_by
       - pace
       - platform
-      - position
       - prices
       - professional
       - readable_id
@@ -12201,10 +12171,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResourceTopic'
-        position:
-          type: integer
-          readOnly: true
-          nullable: true
         offered_by:
           allOf:
           - $ref: '#/components/schemas/LearningResourceOfferor'
@@ -12410,7 +12376,6 @@ components:
       - offered_by
       - pace
       - platform
-      - position
       - prices
       - professional
       - readable_id

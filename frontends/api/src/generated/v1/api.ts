@@ -598,12 +598,6 @@ export interface CourseResource {
   topics?: Array<LearningResourceTopic>
   /**
    *
-   * @type {number}
-   * @memberof CourseResource
-   */
-  position: number | null
-  /**
-   *
    * @type {LearningResourceOfferor}
    * @memberof CourseResource
    */
@@ -1372,12 +1366,6 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   topics?: Array<LearningResourceTopic>
-  /**
-   *
-   * @type {number}
-   * @memberof LearningPathResource
-   */
-  position: number | null
   /**
    *
    * @type {LearningResourceOfferor}
@@ -4107,12 +4095,6 @@ export interface PodcastEpisodeResource {
   topics?: Array<LearningResourceTopic>
   /**
    *
-   * @type {number}
-   * @memberof PodcastEpisodeResource
-   */
-  position: number | null
-  /**
-   *
    * @type {LearningResourceOfferor}
    * @memberof PodcastEpisodeResource
    */
@@ -4481,12 +4463,6 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   topics?: Array<LearningResourceTopic>
-  /**
-   *
-   * @type {number}
-   * @memberof PodcastResource
-   */
-  position: number | null
   /**
    *
    * @type {LearningResourceOfferor}
@@ -5077,12 +5053,6 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   topics?: Array<LearningResourceTopic>
-  /**
-   *
-   * @type {number}
-   * @memberof ProgramResource
-   */
-  position: number | null
   /**
    *
    * @type {LearningResourceOfferor}
@@ -5934,12 +5904,6 @@ export interface VideoPlaylistResource {
   topics?: Array<LearningResourceTopic>
   /**
    *
-   * @type {number}
-   * @memberof VideoPlaylistResource
-   */
-  position: number | null
-  /**
-   *
    * @type {LearningResourceOfferor}
    * @memberof VideoPlaylistResource
    */
@@ -6296,12 +6260,6 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   topics?: Array<LearningResourceTopic>
-  /**
-   *
-   * @type {number}
-   * @memberof VideoResource
-   */
-  position: number | null
   /**
    *
    * @type {LearningResourceOfferor}
