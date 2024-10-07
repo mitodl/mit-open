@@ -560,9 +560,12 @@ def switch_indices(backing_index, object_type):
         conn.indices.delete(index)
 
     # Finally, remove the link to the reindexing alias
-    conn.indices.delete_alias(
-        name=get_reindexing_alias_name(object_type), index=backing_index
-    )
+    try:
+        conn.indices.delete_alias(
+            name=get_reindexing_alias_name(object_type), index=backing_index
+        )
+    except NotFoundError:
+        log.warning("Reindex alias not found for %s", object_type)
 
 
 def delete_orphaned_indexes(obj_types, delete_reindexing_tags):
