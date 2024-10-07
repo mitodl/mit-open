@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.21.0
+Version 0.21.0 (Released October 07, 2024)
 --------------
 
 - update og:image to use new logo (#1658)
