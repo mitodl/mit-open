@@ -47,7 +47,6 @@ const randomizeResults = ([...results]) => {
     [position: string]: (LearningResource & { position?: string })[] | undefined
   } = {}
   const randomizedResults: LearningResource[] = []
-
   results.forEach((result) => {
     if (!resultsByPosition[result?.position]) {
       resultsByPosition[result?.position] = []
