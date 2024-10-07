@@ -48,8 +48,8 @@ describe("EditChannelPage", () => {
   })
 
   it("Displays message and no tabs for non-moderators", async () => {
-    setup()
-    const channel = factory.channel({ is_moderator: false })
+    const channel = setup()
+    channel.is_moderator = false
     setMockResponse.get(apiUrls.userMe.get(), {})
     setMockResponse.get(
       apiUrls.learningResources.featured({ limit: 12 }),
