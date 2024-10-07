@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.20.4
+Version 0.20.4 (Released October 07, 2024)
 --------------
 
 - add is_incomplete_or_stale to default sort (#1641)
