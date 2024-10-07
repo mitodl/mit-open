@@ -244,8 +244,8 @@ const RootTopicList = styled(PlainList)(({ theme }) => ({
     paddingTop: "32px",
   },
 }))
-
-const ToopicsListingPage: React.FC = () => {
+  
+const TopicsListingPage: React.FC = () => {
   const channelCountQuery = useChannelCounts("topic")
   const topicsQuery = useLearningResourceTopics()
 
@@ -305,4 +305,4 @@ const ToopicsListingPage: React.FC = () => {
   )
 }
 
-export default ToopicsListingPage
+export default TopicsListingPage
