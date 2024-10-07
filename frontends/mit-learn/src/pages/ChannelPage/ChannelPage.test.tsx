@@ -236,8 +236,8 @@ describe.each(ALL_CHANNEL_TYPES)(
           setupTopicApis(channel)
         }
         renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-        const subscribedButton = await screen.findByText("Follow")
-        expect(subscribedButton).toBeVisible()
+        const subscribedButton = await screen.findAllByText("Follow")
+        expect(subscribedButton[0]).toBeVisible()
       },
       10000,
     )
