@@ -108,11 +108,13 @@ def test_clear_and_create_index(mocked_es, object_type, skip_mapping, already_ex
 
 @pytest.mark.parametrize("object_type", [COURSE_TYPE, PROGRAM_TYPE])
 @pytest.mark.parametrize("default_exists", [True, False])
-def test_switch_indices(mocked_es, mocker, default_exists, object_type):
+@pytest.mark.parametrize("alias_exists", [True, False])
+def test_switch_indices(mocked_es, mocker, default_exists, alias_exists, object_type):
     """
     switch_indices should atomically remove the old backing index
     for the default alias and replace it with the new one
     """
+    mock_log = mocker.patch("learning_resources_search.indexing_api.log.warning")
     refresh_mock = mocker.patch(
         "learning_resources_search.indexing_api.refresh_index", autospec=True
     )
@@ -120,7 +122,9 @@ def test_switch_indices(mocked_es, mocker, default_exists, object_type):
     conn_mock.indices.exists_alias.return_value = default_exists
     old_backing_index = "old_backing"
     conn_mock.indices.get_alias.return_value.keys.return_value = [old_backing_index]
-
+    conn_mock.indices.delete_alias.side_effect = (
+        None if alias_exists else NotFoundError()
+    )
     backing_index = "backing"
     switch_indices(backing_index, object_type)
 
@@ -155,6 +159,10 @@ def test_switch_indices(mocked_es, mocker, default_exists, object_type):
     conn_mock.indices.delete_alias.assert_called_once_with(
         name=get_reindexing_alias_name(object_type), index=backing_index
     )
+    if not alias_exists:
+        mock_log.assert_called_once_with("Reindex alias not found for %s", object_type)
+    else:
+        mock_log.assert_not_called()
 
 
 @pytest.mark.parametrize("temp_alias_exists", [True, False])
@@ -354,18 +362,8 @@ def test_index_items_size_limits(settings, mocker, max_size, chunks, exceeds_siz
     assert mock_log.call_count == (10 if exceeds_size else 0)
 
 
-@pytest.mark.parametrize(
-    ("delete_reindexing_tags", "alias_404", "index_404"),
-    [
-        (True, True, False),
-        (True, False, True),
-        (True, True, True),
-        (False, False, True),
-    ],
-)
-def test_delete_orphaned_indexes(
-    mocker, mocked_es, delete_reindexing_tags, alias_404, index_404
-):
+@pytest.mark.parametrize("delete_reindexing_tags", [True, False])
+def test_delete_orphaned_indexes(mocker, mocked_es, delete_reindexing_tags):
     """
     Delete any indices without aliases and any reindexing aliases
     """
@@ -400,9 +398,7 @@ def test_delete_orphaned_indexes(
         },
     }
     mocked_es.conn.indices = mocker.Mock(
-        delete_alias=mocker.Mock(side_effect=NotFoundError if alias_404 else None),
-        get_alias=mocker.Mock(return_value=mock_aliases),
-        delete=mocker.Mock(side_effect=NotFoundError if index_404 else None),
+        delete_alias=mocker.Mock(), get_alias=mocker.Mock(return_value=mock_aliases)
     )
     delete_orphaned_indexes(["program"], delete_reindexing_tags=delete_reindexing_tags)
     mocked_es.conn.indices.get_alias.assert_called_once_with(index="*")
