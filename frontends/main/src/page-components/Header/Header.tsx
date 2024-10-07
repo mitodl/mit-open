@@ -5,7 +5,6 @@ import type { NavData } from "ol-components"
 import {
   styled,
   AppBar,
-  Divider,
   NavDrawer,
   Toolbar,
   ClickAwayListener,
@@ -46,15 +45,17 @@ import {
 import { useUserMe } from "api/hooks/user"
 
 const Bar = styled(AppBar)(({ theme }) => ({
-  height: "60px",
-  padding: "0 8px",
-  borderBottom: `1px solid ${theme.custom.colors.lightGray2}`,
-  backgroundColor: theme.custom.colors.white,
-  color: theme.custom.colors.darkGray1,
+  padding: "16px 8px",
+  backgroundColor: theme.custom.colors.navGray,
+  boxShadow: "none",
   display: "flex",
+  justifyContent: "space-between",
   flexDirection: "column",
-  boxShadow: "0 2px 10px rgba(120 169 197 / 15%)",
+  ".MuiToolbar-root": {
+    minHeight: "auto",
+  },
   [theme.breakpoints.down("sm")]: {
+    height: "60px",
     padding: "0",
   },
 }))
@@ -86,43 +87,55 @@ const StyledToolbar = styled(Toolbar)({
   flex: 1,
 })
 
-const LogoLink = styled(MITLogoLink)(({ theme }) => ({
-  border: "none",
-  position: "relative",
-  width: 109,
-  height: 40,
-  [theme.breakpoints.down("sm")]: {
-    marginLeft: "16px",
+const StyledMITLogoLink = styled(MITLogoLink)(({ theme }) => ({
+  img: {
+    height: "24px",
+    width: "auto",
+    [theme.breakpoints.down("sm")]: {
+      height: "16px",
+    },
   },
 }))
 
-const LeftDivider = styled(Divider)({
-  margin: "0 24px",
-  height: "24px",
-  alignSelf: "auto",
+const Spacer = styled.div({
+  flex: "1",
 })
 
-const RightDivider = styled(Divider)(({ theme }) => ({
-  margin: "0 32px",
-  height: "24px",
-  alignSelf: "auto",
+const LeftSpacer = styled.div(({ theme }) => ({
+  width: "24px",
   [theme.breakpoints.down("sm")]: {
-    margin: "0 16px",
+    width: "16px",
   },
 }))
 
-const Spacer = styled.div`
-  flex: 1;
-`
+const StyledSearchButton = styled(ActionButtonLink)(({ theme }) => ({
+  width: "auto",
+  height: "auto",
+  padding: "4px 16px",
+  "&:hover": {
+    svg: {
+      opacity: 1,
+    },
+  },
+  [theme.breakpoints.down("sm")]: {
+    padding: "0",
+  },
+}))
 
 const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
-  color: theme.custom.colors.darkGray2,
+  width: "24px",
+  height: "24px",
+  color: theme.custom.colors.white,
+  opacity: 0.5,
   margin: "4px 0",
+  [theme.breakpoints.down("sm")]: {
+    opacity: 1,
+  },
 }))
 
 const SearchButton: FunctionComponent = () => {
   return (
-    <ActionButtonLink
+    <StyledSearchButton
       edge="circular"
       variant="text"
       rawAnchor={true}
@@ -130,7 +143,7 @@ const SearchButton: FunctionComponent = () => {
       aria-label="Search"
     >
       <StyledSearchIcon />
-    </ActionButtonLink>
+    </StyledSearchButton>
   )
 }
 
@@ -143,7 +156,6 @@ const LoggedOutView: FunctionComponent = () => {
       </DesktopOnly>
       <MobileOnly>
         <SearchButton />
-        <RightDivider orientation="vertical" flexItem />
         <UserMenu variant="mobile" />
       </MobileOnly>
     </FlexContainer>
@@ -154,7 +166,6 @@ const LoggedInView: FunctionComponent = () => {
   return (
     <FlexContainer>
       <SearchButton />
-      <RightDivider orientation="vertical" flexItem />
       <UserMenu />
     </FlexContainer>
   )
@@ -220,7 +231,7 @@ const navData: NavData = {
       title: "DISCOVER LEARNING RESOURCES",
       items: [
         {
-          title: "New",
+          title: "Recently Added",
           icon: <RiFileAddLine />,
           href: SEARCH_NEW,
         },
@@ -266,8 +277,8 @@ const Header: FunctionComponent = () => {
       <Bar position="fixed">
         <StyledToolbar variant="dense">
           <DesktopOnly>
-            <LogoLink />
-            <LeftDivider orientation="vertical" flexItem />
+            <StyledMITLogoLink logo="learn" />
+            <LeftSpacer />
             <MenuButton
               text="Explore MIT"
               onClick={toggler}
@@ -276,7 +287,8 @@ const Header: FunctionComponent = () => {
           </DesktopOnly>
           <MobileOnly>
             <MenuButton onClick={toggler} drawerOpen={drawerOpen} />
-            <LogoLink />
+            <LeftSpacer />
+            <StyledMITLogoLink logo="learn" />
           </MobileOnly>
           <Spacer />
           <UserView />

@@ -14,7 +14,6 @@ const CloseMenuIcon = styled(RiCloseLargeLine)(({ theme }) => ({
 
 const MenuButtonText = styled.div(({ theme }) => ({
   alignSelf: "center",
-  color: theme.custom.colors.darkGray2,
   paddingLeft: "16px",
   textTransform: "none",
   [theme.breakpoints.down("sm")]: {
@@ -25,12 +24,11 @@ const MenuButtonText = styled.div(({ theme }) => ({
 
 const MenuButtonInner = styled.div({
   display: "flex",
-  padding: "8px 0",
   alignItems: "flex-start",
 })
 
 const StyledMenuButton = styled.button(({ theme }) => ({
-  padding: "0",
+  padding: "8px 16px",
   background: "transparent",
   "&:hover:not(:disabled)": {
     background: "transparent",
@@ -40,10 +38,16 @@ const StyledMenuButton = styled.button(({ theme }) => ({
   display: "inline-flex",
   justifyContent: "center",
   alignItems: "center",
-  color: theme.palette.text.primary,
+  color: theme.custom.colors.white,
   transition: `background ${theme.transitions.duration.short}ms`,
   cursor: "pointer",
   borderStyle: "none",
+  svg: {
+    color: theme.custom.colors.white,
+  },
+  [theme.breakpoints.down("sm")]: {
+    padding: "4px 0",
+  },
 }))
 
 interface MenuButtonProps {

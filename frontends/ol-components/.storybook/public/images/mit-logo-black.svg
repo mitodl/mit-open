@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1360 720">
+  <!-- Generator: Adobe Illustrator 28.6.0, SVG Export Plug-In . SVG Version: 1.2.0 Build 709)  -->
+  <g>
+    <g id="Layer_1">
+      <g id="Layer_1-2" data-name="Layer_1">
+        <path d="M720,720h160V240h-160v480ZM960,160h400V0h-400v160ZM720,0h160v160h-160V0ZM480,720h160V0h-160v720ZM240,560h160V0h-160v560ZM0,720h160V0H0v720ZM960,720h160V240h-160v480Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

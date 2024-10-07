@@ -1,6 +1,56 @@
 Release Notes
 =============
 
+Version 0.20.3 (Released October 03, 2024)
+--------------
+
+- add is_incomplete_or_stale (#1627)
+- "unfollow" confirmation modal and "Unfollow All" button  (#1628)
+- raise SystemExit as a RetryError (#1635)
+
+Version 0.20.2 (Released October 01, 2024)
+--------------
+
+- remove border and shadow (#1636)
+- set card root to auto height (#1633)
+
+Version 0.20.1 (Released October 01, 2024)
+--------------
+
+- fix Safari MIT logo bug (#1631)
+- Retry recreate_index subtasks on worker exit (#1615)
+- Email for saved searches (#1619)
+
+Version 0.20.0 (Released October 01, 2024)
+--------------
+
+- updated header (#1622)
+- Switch to using full name (#1621)
+- Update dependency lxml to v5 (#1554)
+- Remove health checks against opensearch (#1620)
+- Add additional event capturing for some interactions (#1596)
+- Revert "changes for formatting search subscription emails"
+- changes for formatting search subscription emails
+- Add custom label for percolate query subscriptions (#1610)
+- Update Python to v3.12.6 (#1593)
+- [pre-commit.ci] pre-commit autoupdate (#1601)
+
+Version 0.19.6 (Released September 27, 2024)
+--------------
+
+- Add task_reject_on_worker_lost=True to finish_recreate_index, use return instead of raise for replaced tasks (#1608)
+
+Version 0.19.5 (Released September 26, 2024)
+--------------
+
+- Add separate field for ocw topics, use best field to assign related topics (#1600)
+
+Version 0.19.4 (Released September 25, 2024)
+--------------
+
+- new -> recently added (#1594)
+- Pace and format fields for learning resources (#1588)
+
 Version 0.19.3 (Released September 23, 2024)
 --------------
 

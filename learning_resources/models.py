@@ -411,6 +411,7 @@ class LearningResource(TimestampedModel):
         choices=((member.name, member.value) for member in LearningResourceType),
     )
     topics = models.ManyToManyField(LearningResourceTopic)
+    ocw_topics = ArrayField(models.CharField(max_length=128), default=list, blank=True)
     offered_by = models.ForeignKey(
         LearningResourceOfferor, null=True, on_delete=models.SET_NULL
     )

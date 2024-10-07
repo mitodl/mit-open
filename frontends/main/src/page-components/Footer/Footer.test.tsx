@@ -6,9 +6,11 @@ import * as urls from "@/common/urls"
 
 describe("Footer", () => {
   test("Renders the appropriate text and links", async () => {
-    render(<Footer />, {
-      wrapper: ThemeProvider,
-    })
+    render(
+      <ThemeProvider>
+        <Footer />
+      </ThemeProvider>,
+    )
     interface Links {
       [key: string]: string
     }
@@ -22,7 +24,6 @@ describe("Footer", () => {
       "Contact Us": urls.CONTACT,
     }
     const footer = screen.getByRole("contentinfo")
-    const icon = screen.getByAltText("MIT Logo")
     const address = screen.getByTestId("footer-address")
     const links = screen.getAllByRole("link")
     const copyright = screen.getByText(
@@ -30,7 +31,6 @@ describe("Footer", () => {
     )
 
     expect(footer).toBeInTheDocument()
-    expect(icon).toBeInTheDocument()
     expect(address).toHaveTextContent("Massachusetts Institute of Technology")
     expect(address).toHaveTextContent("77 Massachusetts Avenue")
     expect(address).toHaveTextContent("Cambridge, MA 02139")

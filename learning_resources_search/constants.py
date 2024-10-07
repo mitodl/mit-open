@@ -71,6 +71,7 @@ SEARCH_FILTERS = {
     "run_id": FilterConfig("run_id", case_sensitive=True),
     "resource_id": FilterConfig("resource_id", case_sensitive=True),
     "topic": FilterConfig("topics.name"),
+    "ocw_topic": FilterConfig("ocw_topics"),
     "level": FilterConfig("runs.level.code"),
     "department": FilterConfig("departments.department_id"),
     "platform": FilterConfig("platform.code"),
@@ -114,6 +115,7 @@ LEARNING_RESOURCE_MAP = {
     },
     "free": {"type": "boolean"},
     "is_learning_material": {"type": "boolean"},
+    "is_incomplete_or_stale": {"type": "boolean"},
     "delivery": {
         "type": "nested",
         "properties": {
@@ -184,6 +186,7 @@ LEARNING_RESOURCE_MAP = {
             "channel_url": {"type": "keyword"},
         },
     },
+    "ocw_topics": {"type": "keyword"},
     "offered_by": {
         "type": "nested",
         "properties": {
@@ -414,6 +417,7 @@ SOURCE_EXCLUDED_FIELDS = [
     "is_learning_material",
     "resource_age_date",
     "featured_rank",
+    "is_incomplete_or_stale",
 ]
 
 LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS = {

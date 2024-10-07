@@ -119,6 +119,18 @@ def test_wrap_retry_exception_matching(matching):
         raise_thing()
 
 
+def test_system_exit_retry(mocker):
+    """Task should raise a retry error on system exit"""
+    mocker.patch(
+        "learning_resources_search.tasks.wrap_retry_exception", side_effect=SystemExit
+    )
+    with pytest.raises(Retry) as exc:
+        index_learning_resources.delay(
+            [1], COURSE_TYPE, IndexestoUpdate.current_index.value
+        )
+    assert str(exc.value.args[1]) == "SystemExit"
+
+
 @pytest.mark.parametrize(
     "indexes",
     [["course"], ["program"]],
@@ -951,7 +963,7 @@ def test_subscription_digest_subject():
         total_count=1,
         shortform=False,
     )
-    assert subject_line == "MIT Learn: New Program in electronics: robotics"
+    assert subject_line == "MIT Learn: New program in electronics: robotics"
 
     sample_course = {"source_channel_type": "podcast", "resource_title": "robotics"}
     resource_types = {"program"}
@@ -963,7 +975,7 @@ def test_subscription_digest_subject():
         total_count=9,
         shortform=False,
     )
-    assert subject_line == "MIT Learn: New Programs from xpro: robotics"
+    assert subject_line == "MIT Learn: New programs from xpro: robotics"
 
     resource_types = {"podcast"}
     subject_line = _generate_subscription_digest_subject(
@@ -973,13 +985,13 @@ def test_subscription_digest_subject():
         total_count=19,
         shortform=False,
     )
-    assert subject_line == "MIT Learn: New Podcasts from engineering: robotics"
+    assert subject_line == "MIT Learn: New podcasts from engineering: robotics"
 
     resource_types = {"course"}
     subject_line = _generate_subscription_digest_subject(
         sample_course, "management", resource_types, 19, shortform=True
     )
-    assert subject_line == "New Courses from management"
+    assert subject_line == "New courses from management"
 
 
 def test_update_featured_rank(mocker, offeror_featured_lists):
