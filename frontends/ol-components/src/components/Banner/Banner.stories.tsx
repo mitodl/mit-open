@@ -71,11 +71,7 @@ export const logoBannerWithExtras: Story = {
             style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
           />
         }
-        extraHeader={
-          <Button variant="primary" color="primary">
-            Action Button
-          </Button>
-        }
+        extraHeader={<Button variant="primary">Action Button</Button>}
         extraRight={
           <div>
             <Typography variant="h4">Extra Content</Typography>
