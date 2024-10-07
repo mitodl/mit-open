@@ -50,11 +50,25 @@ const HeaderContainer = styled.div({
   flexDirection: "column",
 })
 
-const RightContainer = styled.div(({ theme }) => ({
+const ActionsContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
   [theme.breakpoints.down("md")]: {
-    width: "100%",
+    display: "none",
+  },
+}))
+
+const ActionsContainerDesktop = styled(ActionsContainer)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+}))
+
+const ActionsContainerMobile = styled.div(({ theme }) => ({
+  paddingTop: "16px",
+  paddingBottom: "8px",
+  [theme.breakpoints.up("md")]: {
+    display: "none",
   },
 }))
 
@@ -74,7 +88,7 @@ type BannerProps = BannerBackgroundProps & {
   subHeaderTypography?: ResponsiveStyleValue<string | undefined>
   subHeaderStyles?: SxProps<Theme>
   extraHeader?: React.ReactNode
-  extraRight?: React.ReactNode
+  extraActions?: React.ReactNode
 }
 
 /**
@@ -99,7 +113,7 @@ const Banner = ({
   subHeaderTypography = TYPOGRAPHY_DEFAULTS.defaultSubHeaderTypography,
   subHeaderStyles,
   extraHeader,
-  extraRight,
+  extraActions,
 }: BannerProps) => {
   return (
     <BannerBackground
@@ -120,6 +134,7 @@ const Banner = ({
             >
               {title}
             </Typography>
+            <ActionsContainerMobile>{extraActions}</ActionsContainerMobile>
             {header && (
               <SubHeader
                 variant="body1"
@@ -140,7 +155,7 @@ const Banner = ({
             )}
             {extraHeader ? extraHeader : null}
           </HeaderContainer>
-          <RightContainer>{extraRight}</RightContainer>
+          <ActionsContainerDesktop>{extraActions}</ActionsContainerDesktop>
         </InnerContainer>
       </Container>
     </BannerBackground>

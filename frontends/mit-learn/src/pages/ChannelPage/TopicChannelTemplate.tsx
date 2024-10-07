@@ -257,7 +257,7 @@ const TopicChannelTemplateInternal: React.FC<
           displayConfiguration?.banner_background ??
           "/static/images/background_steps.jpeg"
         }
-        extraRight={
+        extraActions={
           <ChannelControlsContainer>
             <ChannelControls>
               {channel.search_filter ? (

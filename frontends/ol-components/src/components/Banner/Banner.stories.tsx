@@ -76,7 +76,7 @@ export const logoBannerWithExtras: Story = {
             Action Button
           </Button>
         }
-        extraRight={
+        extraActions={
           <div>
             <Typography variant="h4">Extra Content</Typography>
             <div>

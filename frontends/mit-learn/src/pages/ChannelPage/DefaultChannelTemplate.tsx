@@ -94,7 +94,7 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
           displayConfiguration?.banner_background ??
           "/static/images/background_steps.jpeg"
         }
-        extraRight={
+        extraActions={
           <ChannelControlsContainer>
             <ChannelControls>
               {channel.data?.search_filter ? (
