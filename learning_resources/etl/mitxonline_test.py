@@ -35,6 +35,8 @@ from learning_resources.etl.mitxonline import (
 from learning_resources.etl.utils import (
     get_department_id_by_name,
     parse_certification,
+    parse_resource_commitment,
+    parse_resource_duration,
 )
 from learning_resources.test_utils import set_up_topics
 from main.test_utils import any_instance_of
@@ -132,7 +134,9 @@ def test_mitxonline_transform_programs(
             "etl_source": ETLSource.mitxonline.name,
             "platform": PlatformType.mitxonline.name,
             "resource_type": LearningResourceType.program.name,
-            "departments": [get_department_id_by_name(program_data["departments"][0])]
+            "departments": [
+                get_department_id_by_name(program_data["departments"][0]["name"])
+            ]
             if program_data["departments"]
             else [],
             "professional": False,
@@ -141,7 +145,9 @@ def test_mitxonline_transform_programs(
             ),
             "certification_type": parse_certificate_type(
                 program_data["certificate_type"]
-            ),
+            )
+            if bool(program_data.get("page", {}).get("page_url", None) is not None)
+            else None,
             "image": _transform_image(program_data),
             "description": clean_data(
                 program_data.get("page", {}).get("description", None)
@@ -153,7 +159,11 @@ def test_mitxonline_transform_programs(
             "availability": program_data["availability"],
             "topics": transform_topics(program_data["topics"], OFFERED_BY["code"]),
             "format": [Format.asynchronous.name],
-            "pace": [Pace.self_paced.name],
+            "pace": [Pace.instructor_paced.name],
+            "duration": parse_resource_duration(program_data.get("duration")),
+            "time_commitment": parse_resource_commitment(
+                program_data.get("time_commitment")
+            ),
             "runs": [
                 {
                     "run_id": program_data["readable_id"],
@@ -176,7 +186,11 @@ def test_mitxonline_transform_programs(
                     else RunStatus.archived.value,
                     "availability": program_data["availability"],
                     "format": [Format.asynchronous.name],
-                    "pace": [Pace.self_paced.name],
+                    "pace": [Pace.instructor_paced.name],
+                    "duration": parse_resource_duration(program_data.get("duration")),
+                    "time_commitment": parse_resource_commitment(
+                        program_data.get("time_commitment")
+                    ),
                 }
             ],
             "courses": [
@@ -207,14 +221,26 @@ def test_mitxonline_transform_programs(
                         )
                         > 0
                     ),
-                    "certification": True,
-                    "certification_type": CertificationType.completion.name,
+                    "certification": bool(
+                        course_data.get("page", {}).get("page_url", None) is not None
+                    ),
+                    "certification_type": parse_certificate_type(
+                        course_data["certificate_type"]
+                    )
+                    if bool(
+                        course_data.get("page", {}).get("page_url", None) is not None
+                    )
+                    else None,
                     "url": parse_page_attribute(course_data, "page_url", is_url=True),
                     "availability": course_data["availability"],
                     "format": [Format.asynchronous.name],
-                    "pace": [Pace.self_paced.name],
+                    "pace": [Pace.instructor_paced.name],
                     "topics": transform_topics(
                         course_data["topics"], OFFERED_BY["code"]
+                    ),
+                    "duration": parse_resource_duration(course_data.get("duration")),
+                    "time_commitment": parse_resource_commitment(
+                        course_data.get("time_commitment")
                     ),
                     "runs": [
                         {
@@ -251,7 +277,7 @@ def test_mitxonline_transform_programs(
                             "instructors": [
                                 {"full_name": instructor["name"]}
                                 for instructor in parse_page_attribute(
-                                    course_run_data, "instructors", is_list=True
+                                    course_data, "instructors", is_list=True
                                 )
                             ],
                             "status": RunStatus.current.value
@@ -259,7 +285,13 @@ def test_mitxonline_transform_programs(
                             else RunStatus.archived.value,
                             "availability": course_data["availability"],
                             "format": [Format.asynchronous.name],
-                            "pace": [Pace.self_paced.name],
+                            "pace": [Pace.instructor_paced.name],
+                            "duration": parse_resource_duration(
+                                course_data.get("duration")
+                            ),
+                            "time_commitment": parse_resource_commitment(
+                                course_data.get("time_commitment")
+                            ),
                         }
                         for course_run_data in course_data["courseruns"]
                     ],
@@ -286,17 +318,6 @@ def test_mitxonline_transform_programs(
     ]
     result = sorted(result, key=lambda x: x["readable_id"])
     expected = sorted(expected, key=lambda x: x["readable_id"])
-    for i in range(len(expected)):
-        expected[i]["courses"] = sorted(
-            expected[i]["courses"], key=lambda x: x["readable_id"]
-        )
-        result[i]["courses"] = sorted(
-            result[i]["courses"], key=lambda x: x["readable_id"]
-        )
-        for j in range(len(expected[i]["courses"])):
-            course = result[i]["courses"][j]
-            for key in course:
-                assert result[i]["courses"][j][key] == expected[i]["courses"][j][key]
     assert result == expected
 
 
@@ -382,7 +403,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                     "instructors": [
                         {"full_name": instructor["name"]}
                         for instructor in parse_page_attribute(
-                            course_run_data, "instructors", is_list=True
+                            course_data, "instructors", is_list=True
                         )
                     ],
                     "status": RunStatus.current.value
@@ -390,7 +411,11 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                     else RunStatus.archived.value,
                     "availability": course_data["availability"],
                     "format": [Format.asynchronous.name],
-                    "pace": [Pace.self_paced.name],
+                    "pace": [Pace.instructor_paced.name],
+                    "duration": parse_resource_duration(course_data.get("duration")),
+                    "time_commitment": parse_resource_commitment(
+                        course_data.get("time_commitment")
+                    ),
                 }
                 for course_run_data in course_data["courseruns"]
             ],
@@ -407,7 +432,11 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             },
             "availability": course_data["availability"],
             "format": [Format.asynchronous.name],
-            "pace": [Pace.self_paced.name],
+            "pace": [Pace.instructor_paced.name],
+            "duration": parse_resource_duration(course_data.get("duration")),
+            "time_commitment": parse_resource_commitment(
+                course_data.get("time_commitment")
+            ),
         }
         for course_data in mock_mitxonline_courses_data["results"]
         if "PROCTORED EXAM" not in course_data["title"]

@@ -19,9 +19,12 @@ from learning_resources.constants import (
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
     generate_course_numbers_json,
+    parse_resource_commitment,
+    parse_resource_duration,
     transform_delivery,
     transform_topics,
 )
+from learning_resources.models import LearningResource
 from main.utils import clean_data
 
 log = logging.getLogger(__name__)
@@ -73,6 +76,40 @@ def parse_topics(resource_data: dict) -> list[dict]:
     )
 
 
+def parse_program_duration(program_data: dict) -> str:
+    """
+    xPro often returns duration as "per course".  If so,
+    multiply the duration by the number of courses in the program.
+
+    Args:
+        duration (str): the duration of the program
+
+    Returns:
+        str: the parsed duration
+    """
+    raw_duration = program_data["duration"]
+    duration = parse_resource_duration(raw_duration)
+    if duration and "per course" in raw_duration.lower():
+        # Sum the individual course durations instead
+        course_ids = [course["readable_id"] for course in program_data["courses"]]
+        courses = LearningResource.objects.filter(
+            published=True, readable_id__in=course_ids
+        )
+        duration["min_weeks"] = sum(
+            course.duration["min_weeks"] for course in courses if course.duration
+        )
+        duration["max_weeks"] = sum(
+            course.duration["max_weeks"] for course in courses if course.duration
+        )
+        if duration["min_weeks"] == duration["max_weeks"]:
+            duration["duration"] = f"{duration['max_weeks']} weeks"
+        else:
+            duration["duration"] = (
+                f"{duration['min_weeks']}-{duration['max_weeks']} weeks"
+            )
+    return duration
+
+
 def extract_programs():
     """Loads the xPro catalog data"""  # noqa: D401
     if settings.XPRO_CATALOG_API_URL:
@@ -121,6 +158,8 @@ def _transform_run(course_run: dict, course: dict) -> dict:
         "delivery": transform_delivery(course.get("format")),
         "pace": [Pace.self_paced.name],
         "format": [Format.asynchronous.name],
+        "duration": parse_resource_duration(course["duration"]),
+        "time_commitment": parse_resource_commitment(course["time_commitment"]),
     }
 
 
@@ -164,6 +203,8 @@ def _transform_learning_resource_course(course):
         "continuing_ed_credits": course["credits"],
         "pace": [Pace.self_paced.name],
         "format": [Format.asynchronous.name],
+        "duration": parse_resource_duration(course["duration"]),
+        "time_commitment": parse_resource_commitment(course["time_commitment"]),
     }
 
 
@@ -201,6 +242,8 @@ def transform_programs(programs):
             "platform": XPRO_PLATFORM_TRANSFORM.get(program["platform"], None),
             "resource_type": LearningResourceType.program.name,
             "delivery": transform_delivery(program.get("format")),
+            "duration": parse_program_duration(program),
+            "time_commitment": parse_resource_commitment(program["time_commitment"]),
             "runs": [
                 {
                     "prices": (
@@ -224,6 +267,10 @@ def transform_programs(programs):
                     "availability": program["availability"],
                     "pace": [Pace.self_paced.name],
                     "format": [Format.asynchronous.name],
+                    "duration": parse_program_duration(program),
+                    "time_commitment": parse_resource_commitment(
+                        program["time_commitment"]
+                    ),
                 }
             ],
             "courses": transform_courses(program["courses"]),

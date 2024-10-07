@@ -1,693 +1,263 @@
 {
-  "count": 97,
+  "count": 3,
   "next": null,
   "previous": null,
   "results": [
     {
-      "id": 13,
-      "title": "14.100x - PROCTORED EXAM",
-      "readable_id": "course-v1:MITxT+14.100PEx",
-      "next_run_id": null,
-      "departments": [],
-      "certificate_type": "Certificate of Completion",
+      "id": 62,
+      "title": "Introduction to Differential Equations",
+      "readable_id": "course-v1:MITxT+18.03.1x",
+      "next_run_id": 256,
+      "departments": [
+        {
+          "name": "Mathematics"
+        }
+      ],
       "page": {
-        "feature_image_src": "/media/original_images/14.100x_xGKvQiK.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
-        "page_url": "/courses/course-v1:MITxT+14.100PEx/",
-        "description": "do not publish",
-        "live": false,
-        "length": "do not publish",
-        "effort": null
+        "feature_image_src": "/media/original_images/18031_about_image_MITxO.png?v=41481accea58165c33bab53898e5eccf6f96bc39",
+        "page_url": "/courses/course-v1:MITxT+18.03.1x/",
+        "description": "Scientists and engineers understand the world through differential equations. You can too.",
+        "live": true,
+        "length": "14 weeks",
+        "effort": "7 hrs/wk",
+        "financial_assistance_form_url": "",
+        "current_price": 100,
+        "instructors": [
+          {
+            "name": "David Jerison",
+            "description": ""
+          },
+          {
+            "name": "Gigliola Staffilani",
+            "description": ""
+          },
+          {
+            "name": "Jennifer French",
+            "description": ""
+          }
+        ]
       },
       "programs": null,
-      "topics": [],
+      "topics": [
+        {
+          "name": "Mathematics"
+        }
+      ],
+      "certificate_type": "Certificate of Completion",
+      "required_prerequisites": true,
+      "duration": "14 weeks",
+      "time_commitment": "7 hrs/wk",
+      "availability": "dated",
       "courseruns": [
         {
-          "title": "Microeconomics - PROCTORED EXAM",
-          "start_date": "2022-08-17T15:00:00Z",
-          "end_date": "2022-09-08T15:00:00Z",
-          "enrollment_start": "2022-08-17T13:30:00Z",
-          "enrollment_end": "2022-08-26T15:00:00Z",
+          "title": "Introduction to Differential Equations",
+          "start_date": "2024-09-04T15:00:00Z",
+          "end_date": "2024-12-18T16:00:00Z",
+          "enrollment_start": "2024-08-15T00:00:00Z",
+          "enrollment_end": "2024-12-14T00:00:00Z",
           "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/learn/course/course-v1:MITxT+14.100PEx+2T2022",
-          "courseware_id": "course-v1:MITxT+14.100PEx+2T2022",
-          "certificate_available_date": "2022-01-21T15:00:00Z",
-          "upgrade_deadline": "2022-08-29T15:00:00Z",
-          "is_upgradable": false,
-          "is_enrollable": false,
+          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+18.03.1x+2T2024/course",
+          "courseware_id": "course-v1:MITxT+18.03.1x+2T2024",
+          "certificate_available_date": "2024-12-18T16:00:00Z",
+          "upgrade_deadline": "2024-12-03T23:59:00Z",
+          "is_upgradable": true,
+          "is_enrollable": true,
+          "is_archived": false,
           "is_self_paced": false,
-          "run_tag": "2T2022",
-          "id": 48,
+          "run_tag": "2T2024",
+          "id": 256,
           "live": true,
-          "course_number": "14.100PEx",
-          "products": [],
+          "course_number": "18.03.1x",
+          "products": [
+            {
+              "id": 227,
+              "price": "100.00",
+              "description": "course-v1:MITxT+18.03.1x+2T2024",
+              "is_active": true,
+              "product_flexible_price": null
+            }
+          ],
           "approved_flexible_price_exists": false
         },
         {
-          "title": "Microeconomics - PROCTORED EXAM",
-          "start_date": "2022-01-03T15:00:00Z",
-          "end_date": "2022-01-24T15:00:00Z",
-          "enrollment_start": "2022-01-03T15:00:00Z",
-          "enrollment_end": "2022-01-10T23:59:00Z",
-          "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.100PEx+1T2022/course/",
-          "courseware_id": "course-v1:MITxT+14.100PEx+1T2022",
-          "certificate_available_date": "2022-01-21T15:00:00Z",
-          "upgrade_deadline": "2022-01-24T15:00:00Z",
-          "is_upgradable": false,
-          "is_enrollable": false,
-          "is_self_paced": false,
-          "run_tag": "1T2022",
-          "id": 16,
-          "live": true,
-          "course_number": "14.100PEx",
-          "products": [],
-          "approved_flexible_price_exists": false
-        }
-      ],
-      "availability": "anytime"
-    },
-    {
-      "id": 47,
-      "title": "Analysis of Transport Phenomena: Asymptotics",
-      "readable_id": "course-v1:MITxT+10.50.CH04x",
-      "next_run_id": 152,
-      "departments": [
-        {
-          "name": "Chemical Engineering"
-        }
-      ],
-      "certificate_type": "Certificate of Completion",
-      "page": {
-        "feature_image_src": "/media/original_images/4-drkpurple.jpg?v=b6024e4bdf229b618e36f2e942f2ae6f173dd9d3",
-        "page_url": "/courses/course-v1:MITxT+10.50.CH04x/",
-        "description": "Graduate-level introduction to mathematical modeling of heat and mass transfer (diffusion and convection), fluid dynamics, chemical reactions, and phase transformations.",
-        "live": true,
-        "length": "2 weeks",
-        "effort": "10-12 hours/week"
-      },
-      "programs": null,
-      "topics": [],
-      "courseruns": [
-        {
-          "title": "Analysis of Transport Phenomena: Asymptotics",
-          "start_date": "2023-03-01T14:00:00Z",
-          "end_date": "2025-02-26T14:00:00Z",
+          "title": "Introduction to Differential Equations",
+          "start_date": "2023-05-31T15:00:00Z",
+          "end_date": "2023-09-06T16:00:00Z",
           "enrollment_start": null,
           "enrollment_end": null,
           "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+10.50.CH04x+1T2023",
-          "courseware_id": "course-v1:MITxT+10.50.CH04x+1T2023",
-          "certificate_available_date": "2025-02-26T14:00:00Z",
-          "upgrade_deadline": "2025-02-16T14:00:00Z",
-          "is_upgradable": true,
-          "is_enrollable": true,
-          "is_self_paced": true,
-          "run_tag": "1T2023",
-          "id": 152,
-          "live": true,
-          "course_number": "10.50.CH04x",
-          "products": [
-            {
-              "id": 133,
-              "price": "29.00",
-              "description": "course-v1:MITxT+10.50.CH04x+1T2023",
-              "is_active": true,
-              "product_flexible_price": null
-            }
-          ],
-          "approved_flexible_price_exists": false
-        }
-      ],
-      "availability": "dated"
-    },
-    {
-      "id": 50,
-      "title": "Analysis of Transport Phenomena: Convection",
-      "readable_id": "course-v1:MITxT+10.50.CH07x",
-      "next_run_id": 155,
-      "departments": [
-        {
-          "name": "Chemical Engineering"
-        }
-      ],
-      "certificate_type": "Certificate of Completion",
-      "page": {
-        "feature_image_src": "/media/original_images/7-drkBlue_5uVzT1f.jpg?v=0f9790b2ce8c75e91f5fbf01c5373d36fb75a81e",
-        "page_url": "/courses/course-v1:MITxT+10.50.CH07x/",
-        "description": "Graduate-level introduction to mathematical modeling of heat and mass transfer (diffusion and convection), fluid dynamics, chemical reactions, and phase transformations.",
-        "live": true,
-        "length": "6 weeks",
-        "effort": "10-12 hours/week"
-      },
-      "programs": null,
-      "topics": [],
-      "courseruns": [
-        {
-          "title": "Analysis of Transport Phenomena: Convection",
-          "start_date": "2023-03-01T14:00:00Z",
-          "end_date": "2025-02-26T14:00:00Z",
-          "enrollment_start": "2023-01-03T14:00:00Z",
-          "enrollment_end": null,
-          "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/learn/course/course-v1:MITxT+10.50.CH07x+1T2023/home",
-          "courseware_id": "course-v1:MITxT+10.50.CH07x+1T2023",
-          "certificate_available_date": "2025-02-26T14:00:00Z",
-          "upgrade_deadline": "2025-02-16T14:00:00Z",
-          "is_upgradable": true,
-          "is_enrollable": true,
-          "is_self_paced": true,
-          "run_tag": "1T2023",
-          "id": 155,
-          "live": true,
-          "course_number": "10.50.CH07x",
-          "products": [
-            {
-              "id": 136,
-              "price": "79.00",
-              "description": "course-v1:MITxT+10.50.CH07x+1T2023",
-              "is_active": true,
-              "product_flexible_price": null
-            }
-          ],
-          "approved_flexible_price_exists": false
-        }
-      ],
-      "availability": "dated"
-    },
-    {
-      "id": 52,
-      "title": "Analysis of Transport Phenomena: Electrochemical Transport",
-      "readable_id": "course-v1:MITxT+10.50.CH09x",
-      "next_run_id": 157,
-      "departments": [
-        {
-          "name": "Chemical Engineering"
-        }
-      ],
-      "certificate_type": "Certificate of Completion",
-      "page": {
-        "feature_image_src": "/media/original_images/9-red.jpg?v=71fc9e04b14d210d7f5062dee34dc4e32db6967a",
-        "page_url": "/courses/course-v1:MITxT+10.50.CH09x/",
-        "description": "Graduate-level introduction to mathematical modeling of heat and mass transfer (diffusion and convection), fluid dynamics, chemical reactions, and phase transformations.",
-        "live": true,
-        "length": "2 weeks",
-        "effort": "10-12 hours/week"
-      },
-      "programs": null,
-      "topics": [],
-      "courseruns": [
-        {
-          "title": "Analysis of Transport Phenomena: Electrochemical Transport",
-          "start_date": "2023-03-01T14:00:00Z",
-          "end_date": "2025-02-26T14:00:00Z",
-          "enrollment_start": "2023-01-03T14:00:00Z",
-          "enrollment_end": null,
-          "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+10.50.CH09x+1T2023",
-          "courseware_id": "course-v1:MITxT+10.50.CH09x+1T2023",
-          "certificate_available_date": "2025-02-26T14:00:00Z",
-          "upgrade_deadline": "2025-02-16T14:00:00Z",
-          "is_upgradable": true,
-          "is_enrollable": true,
-          "is_self_paced": true,
-          "run_tag": "1T2023",
-          "id": 157,
-          "live": true,
-          "course_number": "10.50.CH09x",
-          "products": [
-            {
-              "id": 138,
-              "price": "29.00",
-              "description": "course-v1:MITxT+10.50.CH09x+1T2023",
-              "is_active": true,
-              "product_flexible_price": null
-            }
-          ],
-          "approved_flexible_price_exists": false
-        }
-      ],
-      "availability": "dated"
-    },
-    {
-      "id": 49,
-      "title": "Analysis of Transport Phenomena: Fluid Mechanics",
-      "readable_id": "course-v1:MITxT+10.50.CH06x",
-      "next_run_id": 154,
-      "departments": [
-        {
-          "name": "Chemical Engineering"
-        }
-      ],
-      "certificate_type": "Certificate of Completion",
-      "page": {
-        "feature_image_src": "/media/original_images/6-ltBlue.jpg?v=af26cc60badb0a7b289813f9ccbf4c8f77ad8490",
-        "page_url": "/courses/course-v1:MITxT+10.50.CH06x/",
-        "description": "Graduate-level introduction to mathematical modeling of heat and mass transfer (diffusion and convection), fluid dynamics, chemical reactions, and phase transformations.",
-        "live": true,
-        "length": "9 weeks",
-        "effort": "10-12 hours/week"
-      },
-      "programs": null,
-      "topics": [],
-      "courseruns": [
-        {
-          "title": "Analysis of Transport Phenomena: Fluid Mechanics",
-          "start_date": "2023-03-01T14:00:00Z",
-          "end_date": "2025-02-26T14:00:00Z",
-          "enrollment_start": "2023-01-03T14:00:00Z",
-          "enrollment_end": null,
-          "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+10.50.CH06x+1T2023",
-          "courseware_id": "course-v1:MITxT+10.50.CH06x+1T2023",
-          "certificate_available_date": "2025-02-26T14:00:00Z",
-          "upgrade_deadline": "2025-02-16T14:00:00Z",
-          "is_upgradable": true,
-          "is_enrollable": true,
-          "is_self_paced": true,
-          "run_tag": "1T2023",
-          "id": 154,
-          "live": true,
-          "course_number": "10.50.CH06x",
-          "products": [
-            {
-              "id": 135,
-              "price": "129.00",
-              "description": "course-v1:MITxT+10.50.CH06x+1T2023",
-              "is_active": true,
-              "product_flexible_price": null
-            }
-          ],
-          "approved_flexible_price_exists": false
-        }
-      ],
-      "availability": "dated"
-    },
-    {
-      "id": 45,
-      "title": "Analysis of Transport Phenomena: Mathematical Formulation",
-      "readable_id": "course-v1:MITxT+10.50.CH02x",
-      "next_run_id": 150,
-      "departments": [
-        {
-          "name": "Chemical Engineering"
-        }
-      ],
-      "certificate_type": "Certificate of Completion",
-      "page": {
-        "feature_image_src": "/media/original_images/drkGreen_375.png?v=67357416dbff6268f5463acc4ea8847b8a08428a",
-        "page_url": "/courses/course-v1:MITxT+10.50.CH02x/",
-        "description": "Graduate-level introduction to mathematical modeling of heat and mass transfer (diffusion and convection), fluid dynamics, chemical reactions, and phase transformations.",
-        "live": true,
-        "length": "4 weeks",
-        "effort": "10-12 hours/week"
-      },
-      "programs": null,
-      "topics": [],
-      "courseruns": [
-        {
-          "title": "Analysis of Transport Phenomena: Mathematical Formulation",
-          "start_date": "2023-03-01T14:00:00Z",
-          "end_date": "2025-02-26T14:00:00Z",
-          "enrollment_start": "2023-01-03T14:00:00Z",
-          "enrollment_end": null,
-          "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+10.50.CH02x+1T2023",
-          "courseware_id": "course-v1:MITxT+10.50.CH02x+1T2023",
-          "certificate_available_date": "2025-02-26T14:00:00Z",
-          "upgrade_deadline": "2025-02-16T14:00:00Z",
-          "is_upgradable": true,
-          "is_enrollable": true,
-          "is_self_paced": true,
-          "run_tag": "1T2023",
-          "id": 150,
-          "live": true,
-          "course_number": "10.50.CH02x",
-          "products": [
-            {
-              "id": 131,
-              "price": "59.00",
-              "description": "course-v1:MITxT+10.50.CH02x+1T2023",
-              "is_active": true,
-              "product_flexible_price": null
-            }
-          ],
-          "approved_flexible_price_exists": false
-        }
-      ],
-      "availability": "anytime"
-    },
-    {
-      "id": 44,
-      "title": "Analysis of Transport Phenomena: Models",
-      "readable_id": "course-v1:MITxT+10.50.CH01x",
-      "next_run_id": 149,
-      "departments": [
-        {
-          "name": "Chemical Engineering"
-        }
-      ],
-      "certificate_type": "Certificate of Completion",
-      "page": {
-        "feature_image_src": "/media/original_images/1-ltGreen.jpg?v=f40e3581924ca77414ae3977c8cdb1a94765e46e",
-        "page_url": "/courses/course-v1:MITxT+10.50.CH01x/",
-        "description": "Graduate-level introduction to mathematical modeling of heat and mass transfer (diffusion and convection), fluid dynamics, chemical reactions, and phase transformations.",
-        "live": true,
-        "length": "2 Weeks",
-        "effort": "10-12 hrs/week"
-      },
-      "programs": null,
-      "topics": [],
-      "courseruns": [
-        {
-          "title": "Analysis of Transport Phenomena: Models",
-          "start_date": "2023-03-01T14:00:00Z",
-          "end_date": "2025-02-26T14:00:00Z",
-          "enrollment_start": "2023-01-03T14:00:00Z",
-          "enrollment_end": null,
-          "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+10.50.CH01x+1T2023",
-          "courseware_id": "course-v1:MITxT+10.50.CH01x+1T2023",
-          "certificate_available_date": "2025-02-26T14:00:00Z",
-          "upgrade_deadline": "2025-02-16T14:00:00Z",
-          "is_upgradable": true,
-          "is_enrollable": true,
-          "is_self_paced": true,
-          "run_tag": "1T2023",
-          "id": 149,
-          "live": true,
-          "course_number": "10.50.CH01x",
-          "products": [
-            {
-              "id": 130,
-              "price": "29.00",
-              "description": "course-v1:MITxT+10.50.CH01x+1T2023",
-              "is_active": true,
-              "product_flexible_price": null
-            }
-          ],
-          "approved_flexible_price_exists": false
-        }
-      ],
-      "availability": "anytime"
-    },
-    {
-      "id": 51,
-      "title": "Analysis of Transport Phenomena: Nonequilibrium Thermodynamics",
-      "readable_id": "course-v1:MITxT+10.50.CH08x",
-      "next_run_id": 156,
-      "departments": [
-        {
-          "name": "Chemical Engineering"
-        }
-      ],
-      "certificate_type": "Certificate of Completion",
-      "page": {
-        "feature_image_src": "/media/original_images/8-orange.jpg?v=0be48100571b661b7c8a5b8de061f25232d91301",
-        "page_url": "/courses/course-v1:MITxT+10.50.CH08x/",
-        "description": "Graduate-level introduction to mathematical modeling of heat and mass transfer (diffusion and convection), fluid dynamics, chemical reactions, and phase transformations.",
-        "live": true,
-        "length": "2 weeks",
-        "effort": "10-12 hours/week"
-      },
-      "programs": null,
-      "topics": [],
-      "courseruns": [
-        {
-          "title": "Analysis of Transport Phenomena: Nonequilibrium Thermodynamics",
-          "start_date": "2023-03-01T14:00:00Z",
-          "end_date": "2025-02-26T14:00:00Z",
-          "enrollment_start": "2023-01-03T14:00:00Z",
-          "enrollment_end": null,
-          "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+10.50.CH08x+1T2023",
-          "courseware_id": "course-v1:MITxT+10.50.CH08x+1T2023",
-          "certificate_available_date": "2025-02-26T14:00:00Z",
-          "upgrade_deadline": "2025-02-16T14:00:00Z",
-          "is_upgradable": true,
-          "is_enrollable": true,
-          "is_self_paced": true,
-          "run_tag": "1T2023",
-          "id": 156,
-          "live": true,
-          "course_number": "10.50.CH08x",
-          "products": [
-            {
-              "id": 137,
-              "price": "29.00",
-              "description": "course-v1:MITxT+10.50.CH08x+1T2023",
-              "is_active": true,
-              "product_flexible_price": null
-            }
-          ],
-          "approved_flexible_price_exists": false
-        }
-      ],
-      "availability": "anytime"
-    },
-    {
-      "id": 46,
-      "title": "Analysis of Transport Phenomena: Scaling",
-      "readable_id": "course-v1:MITxT+10.50.CH03x",
-      "next_run_id": 151,
-      "departments": [
-        {
-          "name": "Chemical Engineering"
-        }
-      ],
-      "certificate_type": "Certificate of Completion",
-      "page": {
-        "feature_image_src": "/media/original_images/3-purple.jpg?v=82c25a37e88b44529a7f4439348f07f099308d1a",
-        "page_url": "/courses/course-v1:MITxT+10.50.CH03x/",
-        "description": "Graduate-level introduction to mathematical modeling of heat and mass transfer (diffusion and convection), fluid dynamics, chemical reactions, and phase transformations.",
-        "live": true,
-        "length": "3 weeks",
-        "effort": "10-12 hours/week"
-      },
-      "programs": null,
-      "topics": [],
-      "courseruns": [
-        {
-          "title": "Analysis of Transport Phenomena: Scaling",
-          "start_date": "2023-03-01T14:00:00Z",
-          "end_date": "2025-02-26T14:00:00Z",
-          "enrollment_start": "2023-01-03T14:00:00Z",
-          "enrollment_end": null,
-          "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+10.50.CH03x+1T2023",
-          "courseware_id": "course-v1:MITxT+10.50.CH03x+1T2023",
-          "certificate_available_date": "2025-02-26T14:00:00Z",
-          "upgrade_deadline": "2025-02-16T14:00:00Z",
-          "is_upgradable": true,
-          "is_enrollable": true,
-          "is_self_paced": true,
-          "run_tag": "1T2023",
-          "id": 151,
-          "live": true,
-          "course_number": "10.50.CH03x",
-          "products": [
-            {
-              "id": 132,
-              "price": "39.00",
-              "description": "course-v1:MITxT+10.50.CH03x+1T2023",
-              "is_active": true,
-              "product_flexible_price": null
-            }
-          ],
-          "approved_flexible_price_exists": false
-        }
-      ],
-      "availability": "dated"
-    },
-    {
-      "id": 48,
-      "title": "Analysis of Transport Phenomena: Series Expansions",
-      "readable_id": "course-v1:MITxT+10.50.CH05x",
-      "next_run_id": 153,
-      "departments": [
-        {
-          "name": "Chemical Engineering"
-        }
-      ],
-      "certificate_type": "Certificate of Completion",
-      "page": {
-        "feature_image_src": "/media/original_images/5-brown_2.2.jpg?v=ff1b83927266cef6dcfe8c0c30c0adf18205847b",
-        "page_url": "/courses/course-v1:MITxT+10.50.CH05x/",
-        "description": "Graduate-level introduction to mathematical modeling of heat and mass transfer (diffusion and convection), fluid dynamics, chemical reactions, and phase transformations.",
-        "live": true,
-        "length": "6 weeks",
-        "effort": "10-12 hours/week"
-      },
-      "programs": null,
-      "topics": [],
-      "courseruns": [
-        {
-          "title": "Analysis of Transport Phenomena: Series Expansions",
-          "start_date": "2023-03-01T14:00:00Z",
-          "end_date": "2025-02-26T14:00:00Z",
-          "enrollment_start": "2023-01-03T14:00:00Z",
-          "enrollment_end": null,
-          "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+10.50.CH05x+1T2023",
-          "courseware_id": "course-v1:MITxT+10.50.CH05x+1T2023",
-          "certificate_available_date": "2025-02-26T14:00:00Z",
-          "upgrade_deadline": "2025-02-16T14:00:00Z",
-          "is_upgradable": true,
-          "is_enrollable": true,
-          "is_self_paced": true,
-          "run_tag": "1T2023",
-          "id": 153,
-          "live": true,
-          "course_number": "10.50.CH05x",
-          "products": [
-            {
-              "id": 134,
-              "price": "79.00",
-              "description": "course-v1:MITxT+10.50.CH05x+1T2023",
-              "is_active": true,
-              "product_flexible_price": null
-            }
-          ],
-          "approved_flexible_price_exists": false
-        }
-      ],
-      "availability": "dated"
-    },
-    {
-      "id": 54,
-      "title": "AP® Microeconomics",
-      "readable_id": "course-v1:MITxT+14.01x",
-      "next_run_id": 184,
-      "departments": [
-        {
-          "name": "Economics"
-        }
-      ],
-      "certificate_type": "Certificate of Completion",
-      "page": {
-        "feature_image_src": "/media/original_images/14.01x_Course_Image_MITxO.png?v=f6aacc1df41d983b5cda78201a7fc86751229a62",
-        "page_url": "/courses/course-v1:MITxT+14.01x/",
-        "description": "An overview of introductory microeconomics. Learn the key principles of economics and how to apply them to the real world - and the AP® exam!",
-        "live": true,
-        "length": "12 Weeks",
-        "effort": "4 Hours / Week"
-      },
-      "programs": null,
-      "topics": [],
-      "courseruns": [
-        {
-          "title": "AP® Microeconomics",
-          "start_date": "2023-03-07T15:00:00Z",
-          "end_date": "2023-08-25T15:00:00Z",
-          "enrollment_start": "2023-02-07T15:00:00Z",
-          "enrollment_end": "2023-08-25T00:00:00Z",
-          "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.01x+1T2023/course",
-          "courseware_id": "course-v1:MITxT+14.01x+1T2023",
-          "certificate_available_date": "2023-08-25T15:00:00Z",
-          "upgrade_deadline": "2023-08-15T15:00:00Z",
+          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+18.03.1x+2T2023/course",
+          "courseware_id": "course-v1:MITxT+18.03.1x+2T2023",
+          "certificate_available_date": "2023-09-06T16:00:00Z",
+          "upgrade_deadline": "2024-05-08T14:00:00Z",
           "is_upgradable": false,
           "is_enrollable": false,
-          "is_self_paced": true,
-          "run_tag": "1T2023",
-          "id": 159,
-          "live": true,
-          "course_number": "14.01x",
-          "products": [
-            {
-              "id": 140,
-              "price": "49.00",
-              "description": "course-v1:MITxT+14.01x+1T2023",
-              "is_active": true,
-              "product_flexible_price": null
-            }
-          ],
-          "approved_flexible_price_exists": false
-        },
-        {
-          "title": "AP® Microeconomics",
-          "start_date": "2023-08-29T15:00:00Z",
-          "end_date": "2024-08-23T15:00:00Z",
-          "enrollment_start": "2023-07-11T15:00:00Z",
-          "enrollment_end": "2024-08-23T00:00:00Z",
-          "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.01x+2T2023/course",
-          "courseware_id": "course-v1:MITxT+14.01x+2T2023",
-          "certificate_available_date": "2024-08-23T15:00:00Z",
-          "upgrade_deadline": "2024-08-13T23:59:00Z",
-          "is_upgradable": true,
-          "is_enrollable": true,
-          "is_self_paced": true,
+          "is_archived": false,
+          "is_self_paced": false,
           "run_tag": "2T2023",
-          "id": 184,
+          "id": 174,
           "live": true,
-          "course_number": "14.01x",
+          "course_number": "18.03.1x",
           "products": [
             {
-              "id": 163,
-              "price": "49.00",
-              "description": "course-v1:MITxT+14.01x+2T2023",
+              "id": 153,
+              "price": "100.00",
+              "description": "course-v1:MITxT+18.03.1x+2T2023",
               "is_active": true,
               "product_flexible_price": null
             }
           ],
           "approved_flexible_price_exists": false
         }
-      ],
-      "availability": "anytime"
+      ]
     },
     {
-      "id": 96,
-      "title": "Bootstrapping for Entrepreneurs",
-      "readable_id": "course-v1:MITxT+15.356.2x",
-      "next_run_id": 240,
+      "id": 74,
+      "title": "Differential Equations: 2x2 Systems",
+      "readable_id": "course-v1:MITxT+18.03.2x",
+      "next_run_id": null,
       "departments": [
         {
-          "name": "Management"
+          "name": "Mathematics"
+        }
+      ],
+      "page": {
+        "feature_image_src": "/media/original_images/18.032x_courseimage_MITxO.png?v=bb0e1eaeb2bc4ff5f079d479ece6954bd8f22ca6",
+        "page_url": "/courses/course-v1:MITxT+18.03.2x/",
+        "description": "In order to understand most phenomena in the world, we need to understand not just single equations, but systems of differential equations. In this course, we start with 2x2 systems.",
+        "live": true,
+        "length": "9 weeks",
+        "effort": "5-8 hrs/wk",
+        "financial_assistance_form_url": "",
+        "current_price": null,
+        "instructors": [
+          {
+            "name": "David Jerison",
+            "description": ""
+          },
+          {
+            "name": "Gigliola Staffilani",
+            "description": ""
+          },
+          {
+            "name": "Jennifer French",
+            "description": ""
+          }
+        ]
+      },
+      "programs": null,
+      "topics": [
+        {
+          "name": "Mathematics"
         }
       ],
       "certificate_type": "Certificate of Completion",
-      "page": {
-        "feature_image_src": "/media/original_images/15-356-2x_Image.jpg?v=3a1d8836abb252670315f0cf70875d8a2feda19a",
-        "page_url": "/courses/course-v1:MITxT+15.356.2x/",
-        "description": "Not every entrepreneur has the resources to grow a venture. In fact, most don’t. But growth in resource scarcity is possible – and even can be advantageous. The goal of this course is to show you how.",
-        "live": true,
-        "length": "4 weeks",
-        "effort": "2-3 hrs/week"
-      },
-      "programs": null,
-      "topics": [],
+      "required_prerequisites": true,
+      "duration": "9 weeks",
+      "time_commitment": "5-8 hrs/wk",
+      "availability": "anytime",
       "courseruns": [
         {
-          "title": "User Innovation in Resource Scarcity",
-          "start_date": "2024-01-16T16:00:00Z",
-          "end_date": "2025-01-14T16:00:00Z",
-          "enrollment_start": "2023-12-14T16:00:00Z",
-          "enrollment_end": "2024-12-19T16:00:00Z",
+          "title": "Differential Equations: 2x2 Systems",
+          "start_date": "2023-09-13T15:00:00Z",
+          "end_date": "2023-11-22T16:00:00Z",
+          "enrollment_start": "2023-06-07T00:00:00Z",
+          "enrollment_end": "2023-11-15T00:00:00Z",
           "expiration_date": null,
-          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+15.356.2x+2T2023/course",
-          "courseware_id": "course-v1:MITxT+15.356.2x+2T2023",
-          "certificate_available_date": "2025-01-14T16:00:00Z",
-          "upgrade_deadline": "2024-12-19T23:59:00Z",
-          "is_upgradable": true,
+          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+18.03.2x+3T2023/course",
+          "courseware_id": "course-v1:MITxT+18.03.2x+3T2023",
+          "certificate_available_date": "2023-11-22T16:00:00Z",
+          "upgrade_deadline": "2023-10-31T23:59:00Z",
+          "is_upgradable": false,
           "is_enrollable": true,
-          "is_self_paced": true,
-          "run_tag": "2T2023",
-          "id": 240,
+          "is_archived": false,
+          "is_self_paced": false,
+          "run_tag": "3T2023",
+          "id": 195,
           "live": true,
-          "course_number": "15.356.2x",
+          "course_number": "18.03.2x",
           "products": [
             {
-              "id": 211,
-              "price": "49.00",
-              "description": "course-v1:MITxT+15.356.2x+2T2023",
+              "id": 174,
+              "price": "75.00",
+              "description": "course-v1:MITxT+18.03.2x+3T2023",
               "is_active": true,
               "product_flexible_price": null
             }
           ],
           "approved_flexible_price_exists": false
         }
+      ]
+    },
+    {
+      "id": 79,
+      "title": "Linear Algebra and NxN Systems",
+      "readable_id": "course-v1:MITxT+18.03.3x",
+      "next_run_id": null,
+      "departments": [
+        {
+          "name": "Mathematics"
+        }
       ],
-      "availability": "dated"
+      "page": {
+        "feature_image_src": "/media/original_images/18.033x_CourseImage_MITxO.jpg?v=2cec25b47f7adc2971b9287e723445b02093523a",
+        "page_url": "/courses/course-v1:MITxT+18.03.3x/",
+        "description": "Learn how to use algebra and MATLAB to solve large systems of differential equations.",
+        "live": true,
+        "length": "11 weeks",
+        "effort": "5-8 hours per week",
+        "financial_assistance_form_url": "",
+        "current_price": null,
+        "instructors": [
+          {
+            "name": "David Jerison",
+            "description": ""
+          }
+        ]
+      },
+      "programs": null,
+      "topics": [
+        {
+          "name": "Mathematics"
+        }
+      ],
+      "certificate_type": "Certificate of Completion",
+      "required_prerequisites": true,
+      "duration": "11 weeks",
+      "time_commitment": "5-8 hours per week",
+      "availability": "anytime",
+      "courseruns": [
+        {
+          "title": "Linear Algebra and NxN Systems",
+          "start_date": "2024-01-10T17:00:00Z",
+          "end_date": "2024-03-14T17:00:00Z",
+          "enrollment_start": "2023-08-09T17:00:00Z",
+          "enrollment_end": "2024-02-14T17:00:00Z",
+          "expiration_date": null,
+          "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+18.03.3x+1T2024/course",
+          "courseware_id": "course-v1:MITxT+18.03.3x+1T2024",
+          "certificate_available_date": "2024-03-14T17:00:00Z",
+          "upgrade_deadline": "2024-02-14T23:59:00Z",
+          "is_upgradable": false,
+          "is_enrollable": true,
+          "is_archived": false,
+          "is_self_paced": false,
+          "run_tag": "1T2024",
+          "id": 200,
+          "live": true,
+          "course_number": "18.03.3x",
+          "products": [
+            {
+              "id": 179,
+              "price": "75.00",
+              "description": "course-v1:MITxT+18.03.3x+1T2024",
+              "is_active": true,
+              "product_flexible_price": null
+            }
+          ],
+          "approved_flexible_price_exists": false
+        }
+      ]
     }
   ]
 }

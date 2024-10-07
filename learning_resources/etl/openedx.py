@@ -6,6 +6,7 @@ import json
 import logging
 import re
 from collections import namedtuple
+from dataclasses import asdict
 from datetime import UTC, datetime
 from decimal import Decimal
 from pathlib import Path
@@ -24,7 +25,11 @@ from learning_resources.constants import (
     PlatformType,
     RunStatus,
 )
-from learning_resources.etl.constants import COMMON_HEADERS
+from learning_resources.etl.constants import (
+    COMMON_HEADERS,
+    CommitmentConfig,
+    DurationConfig,
+)
 from learning_resources.etl.utils import (
     extract_valid_department_from_id,
     generate_course_numbers_json,
@@ -298,6 +303,112 @@ def _parse_course_dates(program, date_field):
     return dates
 
 
+def _transform_course_duration(course_run):
+    """
+    Determine the duration of a course run
+
+    Args:
+        course_run (dict): the course run data
+
+    Returns:
+        str: the duration of the course run in weeks
+    """
+    duration = course_run.get("weeks_to_complete")
+    if duration:
+        return asdict(
+            DurationConfig(
+                duration=f"{duration} weeks", min_weeks=duration, max_weeks=duration
+            )
+        )
+    return None
+
+
+def _transform_program_duration(program_data):
+    """
+    Determine the duration of a program
+
+    Args:
+        program_data (dict): the program data
+
+    Returns:
+        str: the duration of the program in weeks
+    """
+    duration_weeks = [
+        course_run.get("weeks_to_complete", 0)
+        for course in program_data.get("courses", [])
+        for course_run in course.get("course_runs", [])
+        if _get_run_published(course_run)
+    ]
+    duration_weeks = sum(duration_weeks)
+    if duration_weeks:
+        return _transform_course_duration({"weeks_to_complete": duration_weeks})
+    return None
+
+
+def _transform_program_commitment(program_data):
+    """
+    Determine the time commitment of a program
+
+    Args:
+        program_data (dict): the program data
+
+    Returns:
+        str: the time commitment of the program in hours per week
+    """
+    course_ids = [course["key"] for course in program_data.get("courses", [])]
+    courses = LearningResource.objects.filter(
+        published=True, readable_id__in=course_ids, platform__code=PlatformType.edx.name
+    ).only("time_commitment")
+    min_efforts = [
+        course.time_commitment["min_hours"]
+        for course in courses
+        if course.time_commitment
+    ]
+    max_efforts = [
+        course.time_commitment["min_hours"]
+        for course in courses
+        if course.time_commitment
+    ]
+    return _transform_course_commitment(
+        {
+            "min_effort": round(sum(min_efforts) / len(min_efforts))
+            if min_efforts
+            else None,
+            "max_effort": round(sum(max_efforts) / len(max_efforts))
+            if max_efforts
+            else None,
+        }
+    )
+
+
+def _transform_course_commitment(course_run):
+    """
+    Determine the time commitment of a course run
+
+    Args:
+        course_run (dict): the course run data
+
+    Returns:
+        str: the time commitment of the course run in hours per week
+    """
+
+    min_effort = course_run.get("min_effort") or 0
+    max_effort = course_run.get("max_effort") or 0
+    if min_effort and max_effort and min_effort != max_effort:
+        commit_str_prefix = f"{min_effort}-"
+    else:
+        commit_str_prefix = ""
+    if min_effort or max_effort:
+        return asdict(
+            CommitmentConfig(
+                commitment=f"{commit_str_prefix}{max_effort or min_effort} hours/week",
+                min_hours=min(min_effort, max_effort),
+                max_hours=max(min_effort, max_effort),
+            )
+        )
+    return None
+
+
 def _sum_course_prices(program: dict) -> Decimal:
     """
     Sum all the course run price values for the program
@@ -372,6 +483,8 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
             }
             for person in course_run.get("staff")
         ],
+        "duration": _transform_course_duration(course_run),
+        "time_commitment": _transform_course_commitment(course_run),
     }
 
 
@@ -490,6 +603,8 @@ def _transform_program_run(
                 for pace in _parse_course_pace(course.get("course_runs", []))
             }
         ),
+        "duration": _transform_program_duration(program),
+        "time_commitment": _transform_program_commitment(program),
     }
 
 

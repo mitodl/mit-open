@@ -20,7 +20,12 @@ from learning_resources.constants import (
     RunStatus,
 )
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import generate_course_numbers_json, transform_levels
+from learning_resources.etl.utils import (
+    generate_course_numbers_json,
+    parse_resource_commitment,
+    parse_resource_duration,
+    transform_levels,
+)
 from learning_resources.utils import get_year_and_semester
 
 log = logging.getLogger(__name__)
@@ -147,6 +152,14 @@ def transform_run(course_data: dict) -> list[dict]:
             "availability": Availability.anytime.name,
             "pace": [Pace.self_paced.name],
             "format": [Format.asynchronous.name],
+            "duration": parse_resource_duration(
+                f"{round(float(course_data["Duration"]))!s} days"
+            ),
+            "time_commitment": parse_resource_commitment(
+                str(round(float(course_data["Student Effort"])))
+            )
+            if course_data["Student Effort"]
+            else "",
         }
     ]
 

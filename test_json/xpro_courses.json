@@ -1,169 +1,189 @@
 [
   {
     "id": 18,
-    "title": "SEED Architecture of Complex Systems",
-    "description": "<p>Course 1 of 4 that comprises the Architecture and Systems Engineering Professional Certificate Program.</p>",
-    "url": "https://xpro.mit.edu/courses/course-v1:xPRO+SysEngxB1",
-    "thumbnail_url": "/static/images/mit-dome.png",
-    "readable_id": "course-v1:xPRO+SysEngxB1",
-    "courseruns": [],
-    "next_run_id": null,
-    "platform": "xPRO",
-    "topics": [{ "name": "Business:Leadership & Organizations" }],
-    "format": "Online",
-    "availability": "dated",
-    "credits": "1.25"
-  },
-  {
-    "id": 20,
-    "title": "SEED Model-Based Systems Engineering: Documentation and Analysis",
-    "description": "<p>Course 3 of 4 that comprises the Architecture and Systems Engineering Professional Certificate Program. This course may be taken individually, without enrolling in the professional certificate program.</p>",
-    "thumbnail_url": "/static/images/mit-dome.png",
-    "readable_id": "course-v1:xPRO+SysEngxB3",
-    "platform": "xPRO",
+    "title": "Discovering and Implementing Your Leadership Strengths",
+    "description": "<p>A three-week online course for technical professionals</p>",
+    "url": "https://xpro.mit.edu/courses/course-v1:xPRO+LASERx4/",
+    "external_marketing_url": null,
+    "marketing_hubspot_form_id": "",
+    "thumbnail_url": "https://ol-xpro-app-production.s3.amazonaws.com/original_images/NEW-LP-Course-4_New.jpg",
+    "readable_id": "course-v1:xPRO+LASERx4",
     "courseruns": [
       {
-        "title": "SEED Model-Based Systems Engineering: Documentation and Analysis - Fall 2020",
-        "start_date": "2020-08-15T00:00:00Z",
-        "end_date": "2020-12-15T00:00:00Z",
-        "enrollment_start": null,
-        "enrollment_end": "2020-08-29T00:00:00Z",
-        "expiration_date": "2021-03-15T00:00:00Z",
-        "courseware_url": "http://172.22.0.1:18000/courses/course-v1:TestX+SysEngxB3+1T2019/course/",
-        "courseware_id": "course-v1:TestX+SysEngxB3+1T2019",
-        "current_price": 849,
-        "instructors": [],
-        "id": 49,
-        "product_id": 13
-      }
-    ],
-    "next_run_id": 49,
-    "topics": [{ "name": "Business:Leadership & Organizations" }],
-    "format": "In person",
-    "availability": "dated",
-    "credits": "2.25"
-  },
-  {
-    "id": 19,
-    "title": "SEED Models in Engineering",
-    "description": "<p>Course 2 of 4 that comprises the Architecture and Systems Engineering Professional Certificate Program. This course may be taken individually, without enrolling in the professional certificate program.</p>",
-    "thumbnail_url": "/static/images/mit-dome.png",
-    "readable_id": "course-v1:xPRO+SysEngxB2",
-    "url": "https://xpro.mit.edu/courses/course-v1:xPRO+SysEngxB2",
-    "platform": "xPRO",
-    "courseruns": [
-      {
-        "title": "SEED Models in Engineering - Spring 2020",
-        "start_date": "2020-01-15T00:00:00Z",
-        "end_date": "2020-05-15T00:00:00Z",
-        "enrollment_start": null,
-        "enrollment_end": "2020-01-29T00:00:00Z",
-        "expiration_date": "2020-08-13T00:00:00Z",
-        "courseware_url": "http://172.22.0.1:18000/courses/course-v1:TestX+SysEngxB2+1T2019/course/",
-        "courseware_id": "course-v1:TestX+SysEngxB2+1T2019",
-        "current_price": 848,
-        "instructors": [],
-        "id": 48,
-        "product_id": 12
-      }
-    ],
-    "next_run_id": 48,
-    "topics": [{ "name": "Business:Leadership & Organizations" }],
-    "format": "Online",
-    "availability": "dated",
-    "credits": "3.25"
-  },
-  {
-    "id": 21,
-    "title": "SEED Quantitative Methods in Systems Engineering",
-    "description": "<p>The course where the methods are quantitative and the systems are engineered.</p>",
-    "thumbnail_url": "/static/images/mit-dome.png",
-    "readable_id": "course-v1:xPRO+SysEngxB4",
-    "courseruns": [],
-    "next_run_id": null,
-    "topics": [{ "name": "Business:Leadership & Organizations" }],
-    "platform": "xPRO",
-    "format": "Online",
-    "availability": "dated",
-    "credits": "4.25"
-  },
-  {
-    "id": 30,
-    "title": "SEED Digital Learning 100",
-    "description": "<p>An introductory course to Digital Learning</p>",
-    "thumbnail_url": "/static/images/mit-dome.png",
-    "readable_id": "course-v1:xPRO+DgtlLearn1",
-    "platform": "xPRO",
-    "format": "Online",
-    "courseruns": [
-      {
-        "title": "SEED Digital Learning 100 - August 2020",
-        "start_date": "2020-08-15T00:00:00Z",
-        "end_date": "2020-12-15T00:00:00Z",
-        "enrollment_start": null,
-        "enrollment_end": "2020-08-29T00:00:00Z",
-        "expiration_date": "2021-03-15T00:00:00Z",
+        "title": "Discovering and Implementing Your Leadership Strengths",
+        "start_date": "2025-02-10T05:00:00Z",
+        "end_date": "2025-03-03T23:59:00Z",
+        "enrollment_start": "2024-03-06T00:00:00Z",
+        "enrollment_end": "2025-02-17T23:59:00Z",
+        "expiration_date": null,
         "courseware_url": null,
-        "courseware_id": "course-v1:MITx+Digital+Learning+100+Aug_2020",
-        "current_price": null,
+        "courseware_id": "course-v1:xPRO+LASERx4+R16",
+        "run_tag": "R16",
+        "id": 687,
+        "product_id": 641,
         "instructors": [
           {
-            "name": "Joe Smith"
+            "name": "David Niño"
           }
         ],
-        "id": 73,
-        "product_id": null
+        "current_price": 999.0
       },
       {
-        "title": "SEED Digital Learning 100 - August 2021",
-        "start_date": "2021-08-15T00:00:00Z",
-        "end_date": "2021-12-15T00:00:00Z",
-        "enrollment_start": null,
-        "enrollment_end": "2021-08-29T00:00:00Z",
-        "expiration_date": "2022-03-15T00:00:00Z",
-        "courseware_url": null,
-        "courseware_id": "course-v1:MITx+Digital+Learning+100+Aug_2021",
-        "current_price": null,
+        "title": "Discovering and Implementing Your Leadership Strengths",
+        "start_date": "2025-05-05T05:00:00Z",
+        "end_date": "2025-05-26T23:59:00Z",
+        "enrollment_start": "2024-03-06T00:00:00Z",
+        "enrollment_end": "2025-05-12T23:59:00Z",
+        "expiration_date": null,
+        "courseware_url": "https://courses.xpro.mit.edu/courses/course-v1:xPRO+LASERx4+R17/course/",
+        "courseware_id": "course-v1:xPRO+LASERx4+R17",
+        "run_tag": "R17",
+        "id": 691,
+        "product_id": 645,
         "instructors": [
           {
-            "name": "Joe Smith"
+            "name": "David Niño"
           }
         ],
-        "id": 72,
-        "product_id": null
+        "current_price": 999.0
+      },
+      {
+        "title": "Discovering and Implementing Your Leadership Strengths",
+        "start_date": "2025-07-14T05:00:00Z",
+        "end_date": "2025-08-04T23:59:00Z",
+        "enrollment_start": "2024-03-06T00:00:00Z",
+        "enrollment_end": "2025-07-21T23:59:00Z",
+        "expiration_date": null,
+        "courseware_url": null,
+        "courseware_id": "course-v1:xPRO+LASERx4+R18",
+        "run_tag": "R18",
+        "id": 695,
+        "product_id": 649,
+        "instructors": [
+          {
+            "name": "David Niño"
+          }
+        ],
+        "current_price": 999.0
       }
     ],
-    "next_run_id": 73,
-    "topics": [{ "name": "Business:Leadership & Organizations" }],
-    "availability": "dated",
-    "credits": "1.25"
+    "next_run_id": 687,
+    "topics": [
+      {
+        "name": "Business:Leadership & Organizations"
+      },
+      {
+        "name": "Organization & Leadership"
+      }
+    ],
+    "time_commitment": "5 Hours per Week",
+    "duration": "3 Weeks",
+    "video_url": null,
+    "format": "Online",
+    "credits": "1.25",
+    "is_external": false,
+    "platform": "xPRO",
+    "availability": "dated"
   },
   {
-    "id": 31,
-    "title": "SEED Digital Learning 200",
-    "description": "<p>A more advanced course in Digital Learning</p>",
-    "thumbnail_url": "/static/images/mit-dome.png",
-    "readable_id": "course-v1:xPRO+DgtlLearn2",
-    "courseruns": [],
-    "next_run_id": null,
-    "topics": [{ "name": "Business:Leadership & Organizations" }],
+    "id": 17,
+    "title": "Navigating and Leveraging Culture and Networks",
+    "description": "<p>A three-week online course for technical professionals.</p>",
+    "url": "https://xpro.mit.edu/courses/course-v1:xPRO+LASERx3/",
+    "external_marketing_url": null,
+    "marketing_hubspot_form_id": "",
+    "thumbnail_url": "https://ol-xpro-app-production.s3.amazonaws.com/original_images/NEW-LP-Course-3_New.jpg",
+    "readable_id": "course-v1:xPRO+LASERx3",
+    "courseruns": [
+      {
+        "title": "Navigating and Leveraging Culture and Networks",
+        "start_date": "2025-01-13T05:00:00Z",
+        "end_date": "2025-02-03T23:59:00Z",
+        "enrollment_start": "2024-03-06T00:00:00Z",
+        "enrollment_end": "2025-01-20T23:59:00Z",
+        "expiration_date": null,
+        "courseware_url": "https://courses.xpro.mit.edu/courses/course-v1:xPRO+LASERx3+R16/course/",
+        "courseware_id": "course-v1:xPRO+LASERx3+R16",
+        "run_tag": "R16",
+        "id": 686,
+        "product_id": 640,
+        "instructors": [
+          {
+            "name": "John Van Maanen"
+          },
+          {
+            "name": "David Niño"
+          },
+          {
+            "name": "Ray Reagans"
+          }
+        ],
+        "current_price": 999.0
+      },
+      {
+        "title": "Navigating and Leveraging Culture and Networks",
+        "start_date": "2025-04-07T05:00:00Z",
+        "end_date": "2025-04-28T23:59:00Z",
+        "enrollment_start": "2024-03-06T00:00:00Z",
+        "enrollment_end": "2025-04-14T23:59:00Z",
+        "expiration_date": null,
+        "courseware_url": "https://courses.xpro.mit.edu/courses/course-v1:xPRO+LASERx3+R17/course/",
+        "courseware_id": "course-v1:xPRO+LASERx3+R17",
+        "run_tag": "R17",
+        "id": 690,
+        "product_id": 644,
+        "instructors": [
+          {
+            "name": "John Van Maanen"
+          },
+          {
+            "name": "David Niño"
+          },
+          {
+            "name": "Ray Reagans"
+          }
+        ],
+        "current_price": 999.0
+      },
+      {
+        "title": "Navigating and Leveraging Culture and Networks",
+        "start_date": "2025-06-16T05:00:00Z",
+        "end_date": "2025-07-07T23:59:00Z",
+        "enrollment_start": "2024-03-06T00:00:00Z",
+        "enrollment_end": "2025-06-23T23:59:00Z",
+        "expiration_date": null,
+        "courseware_url": "https://courses.xpro.mit.edu/courses/course-v1:xPRO+LASERx3+R18course/",
+        "courseware_id": "course-v1:xPRO+LASERx3+R18",
+        "run_tag": "R18",
+        "id": 694,
+        "product_id": 648,
+        "instructors": [
+          {
+            "name": "John Van Maanen"
+          },
+          {
+            "name": "David Niño"
+          },
+          {
+            "name": "Ray Reagans"
+          }
+        ],
+        "current_price": 999.0
+      }
+    ],
+    "next_run_id": 686,
+    "topics": [
+      {
+        "name": "Business:Leadership & Organizations"
+      }
+    ],
+    "time_commitment": "5 Hours per Week",
+    "duration": "3 Weeks",
+    "video_url": null,
     "format": "Online",
+    "credits": "1.25",
+    "is_external": false,
     "platform": "xPRO",
-    "availability": "dated",
-    "credits": "2.00"
-  },
-  {
-    "id": 32,
-    "title": "SEED Digital Learning 300",
-    "description": "<p>The most advancedest course in Digital Learning</p>",
-    "thumbnail_url": "/static/images/mit-dome.png",
-    "readable_id": "course-v1:xPRO+DgtlLearn3",
-    "courseruns": [],
-    "next_run_id": null,
-    "topics": [{ "name": "Business:Leadership & Organizations" }],
-    "format": "Online",
-    "platform": "xPRO",
-    "availability": "dated",
-    "credits": "9.99"
+    "availability": "dated"
   }
 ]

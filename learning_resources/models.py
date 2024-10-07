@@ -455,6 +455,8 @@ class LearningResource(TimestampedModel):
         ),
         default=default_format,
     )
+    duration = JSONField(null=True, blank=True)
+    time_commitment = JSONField(null=True, blank=True)
 
     @property
     def audience(self) -> str | None:
@@ -606,6 +608,8 @@ class LearningResourceRun(TimestampedModel):
         ),
         default=default_format,
     )
+    duration = JSONField(null=True, blank=True)
+    time_commitment = JSONField(null=True, blank=True)
 
     def __str__(self):
         return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"  # noqa: E501

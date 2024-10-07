@@ -24,6 +24,8 @@ from learning_resources.etl.utils import (
     generate_course_numbers_json,
     get_department_id_by_name,
     parse_certification,
+    parse_resource_commitment,
+    parse_resource_duration,
     transform_topics,
 )
 from main.utils import clean_data
@@ -245,6 +247,8 @@ def _transform_run(course_run: dict, course: dict) -> dict:
             if course_run.get("is_self_paced", False)
             else Pace.instructor_paced.name
         ],
+        "duration": parse_resource_duration(course.get("duration")),
+        "time_commitment": parse_resource_commitment(course.get("time_commitment")),
     }
 
 
@@ -293,6 +297,8 @@ def _transform_course(course):
         "availability": course.get("availability"),
         "format": [Format.asynchronous.name],
         "pace": sorted({pace for run in runs for pace in run["pace"]}),
+        "duration": parse_resource_duration(course.get("duration")),
+        "time_commitment": parse_resource_commitment(course.get("time_commitment")),
     }
 
 
@@ -376,6 +382,10 @@ def transform_programs(programs: list[dict]) -> list[dict]:
             ),  # a program is only considered published if it has a page url
             "format": [Format.asynchronous.name],
             "pace": pace,
+            "duration": parse_resource_duration(program.get("duration")),
+            "time_commitment": parse_resource_commitment(
+                program.get("time_commitment")
+            ),
             "runs": [
                 {
                     "run_id": program["readable_id"],
@@ -403,6 +413,10 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                     "availability": program.get("availability"),
                     "format": [Format.asynchronous.name],
                     "pace": pace,
+                    "duration": parse_resource_duration(program.get("duration")),
+                    "time_commitment": parse_resource_commitment(
+                        program.get("time_commitment")
+                    ),
                 }
             ],
             "courses": courses,

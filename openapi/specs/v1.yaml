@@ -8091,6 +8091,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - certification
       - certification_type
@@ -8181,6 +8187,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - readable_id
       - title
@@ -8575,6 +8587,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - certification
       - certification_type
@@ -8662,6 +8680,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - title
     LearningPathResourceResourceTypeEnum:
@@ -9194,6 +9218,12 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - delivery
       - format
@@ -9305,6 +9335,12 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - level
       - run_id
@@ -10047,6 +10083,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
     PatchedLearningResourceRelationshipRequest:
       type: object
       description: CRUD serializer for LearningResourceRelationship
@@ -10674,6 +10716,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - certification
       - certification_type
@@ -10764,6 +10812,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - readable_id
       - title
@@ -10999,6 +11053,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - certification
       - certification_type
@@ -11089,6 +11149,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - readable_id
       - title
@@ -11454,6 +11520,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - certification
       - certification_type
@@ -11544,6 +11616,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - readable_id
       - title
@@ -12051,6 +12129,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - certification
       - certification_type
@@ -12141,6 +12225,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - readable_id
       - title
@@ -12362,6 +12452,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - certification
       - certification_type
@@ -12452,6 +12548,12 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        duration:
+          type: string
+          maxLength: 128
+        time_commitment:
+          type: string
+          maxLength: 128
       required:
       - readable_id
       - title

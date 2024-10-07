@@ -130,6 +130,8 @@ def test_transform_run(
         "instructors": [{"full_name": name.strip()} for name in faculty_names],
         "pace": [Pace.instructor_paced.name],
         "format": [Format.synchronous.name],
+        "duration": run_data["Duration"],
+        "time_commitment": run_data["Time_Commitment"],
     }
 
 

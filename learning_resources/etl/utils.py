@@ -9,6 +9,7 @@ import tarfile
 import uuid
 from collections import Counter
 from collections.abc import Generator
+from dataclasses import asdict
 from datetime import UTC, datetime
 from hashlib import md5
 from pathlib import Path
@@ -38,7 +39,10 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import (
     RESOURCE_DELIVERY_MAPPING,
+    TIME_INTERVAL_MAPPING,
+    CommitmentConfig,
     CourseNumberType,
+    DurationConfig,
     ETLSource,
 )
 from learning_resources.models import (
@@ -746,3 +750,117 @@ def iso8601_duration(duration_str: str) -> str or None:
         second_duration = f"{int(seconds)}S" if seconds else ""
         return f"PT{hour_duration}{minute_duration}{second_duration}"
     return "PT0S"
+
+
+def calculate_weeks(num: int, from_unit: str) -> int:
+    """
+    Transform any # of days or months to weeks
+
+    Args:
+        num (int): the numerical value
+        from_unit (str): the time unit
+
+    Returns:
+        int: the number of weeks
+    """
+    if "day" in from_unit:
+        return max(int(num / 5), 1)  # Assuming weekends should be excluded
+    elif "month" in from_unit:
+        return num * 4
+    return num
+
+
+def transform_interval(interval_txt: str) -> str or None:
+    """
+    Transform any interval units to standard English units
+    Only languages currently supported are English and Spanish
+
+    Args:
+        interval_txt (str): the interval text
+
+    Returns:
+        str: the interval text with intervals translated to English
+    """
+    english_matches = re.search(
+        rf"{'|'.join(TIME_INTERVAL_MAPPING.keys())}(\s|\/|$)",
+        interval_txt,
+        re.IGNORECASE,
+    )
+    if english_matches:
+        return english_matches.group(0)
+    reverse_map = {
+        interval: k for k, v in TIME_INTERVAL_MAPPING.items() for interval in v
+    }
+    other_matches = re.search(
+        rf"{'|'.join(reverse_map.keys())}(\s|\/|$)", interval_txt, re.IGNORECASE
+    )
+    if other_matches:
+        return reverse_map[other_matches.group(0)]
+    return None
+
+
+def parse_resource_duration(duration_str: str) -> dict or None:
+    """
+    Standardize duration string and return it if it is valid,
+    otherwise return an empty string
+
+    Args:
+        course_data (str): the course data
+
+    Returns:
+        str: the standardized duration str, min, and max in weeks
+    """
+    if duration_str:
+        duration_regex = re.compile(r"(\d+)\s*-?\s*(\d+)?\s*(\w+)?", re.IGNORECASE)
+        interval = transform_interval(duration_str)
+        match = duration_regex.match(duration_str.lower().strip())
+        if match and interval:
+            dmin = match.group(1)
+            dmax = match.group(2)
+            return asdict(
+                DurationConfig(
+                    duration=f"{dmin}{'-' if dmax else ''}{dmax or ''} {interval}",
+                    min_weeks=calculate_weeks(int(dmin), interval),
+                    max_weeks=calculate_weeks(
+                        int(dmax or dmin),
+                        interval,
+                    ),
+                )
+            )
+        else:
+            log.warning("Invalid duration: %s", duration_str)
+    return None
+
+
+def parse_resource_commitment(commitment_str: str) -> dict or None:
+    """
+    Standardize time commitment value and return it if it is valid,
+    otherwise return an empty string
+
+    Args:
+        course_data (str): the course data
+
+    Returns:
+        str: the standardized time commitment, min, and max in hours
+    """
+    if commitment_str:
+        commitment_regex = re.compile(
+            r"(\d+)\s*-?\s*(\d+)?\s*(\w+)?",
+            re.IGNORECASE,
+        )
+        match = commitment_regex.match(commitment_str.strip())
+        if match:
+            cmin = match.group(1)
+            cmax = match.group(2)
+            return asdict(
+                CommitmentConfig(
+                    commitment=f"{cmin}{'-' if cmax else ''}{cmax or ''} hours/week",
+                    min_hours=int(match.group(1)),
+                    max_hours=int(match.group(2))
+                    if match.group(2)
+                    else int(match.group(1)),
+                )
+            )
+        else:
+            log.warning("Invalid commitment: %s", commitment_str)
+    return None
