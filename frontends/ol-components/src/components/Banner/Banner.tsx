@@ -25,12 +25,13 @@ const BannerBackground = styled.div<BannerBackgroundProps>(
     backgroundImage: backgroundDim
       ? `linear-gradient(rgba(0 0 0 / ${backgroundDim}%), rgba(0 0 0 / ${backgroundDim}%)), url('${backgroundUrl}')`
       : `url(${backgroundUrl})`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
+    backgroundPosition: "center top",
+    backgroundSize: "140%",
     backgroundRepeat: "no-repeat",
     color: theme.custom.colors.white,
     padding: "48px 0 48px 0",
     [theme.breakpoints.down("sm")]: {
+      backgroundSize: "contain",
       padding: "32px 0 32px 0",
     },
   }),
