@@ -18,7 +18,7 @@ import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 import { aggregateProgramCounts, aggregateCourseCounts } from "@/common/utils"
 
-const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
+const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpg"
 const DESKTOP_WIDTH = "1056px"
 
 const sortUnits = (

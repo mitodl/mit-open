@@ -25,6 +25,7 @@ const BannerBackground = styled.div<BannerBackgroundProps>(
     backgroundImage: backgroundDim
       ? `linear-gradient(rgba(0 0 0 / ${backgroundDim}%), rgba(0 0 0 / ${backgroundDim}%)), url('${backgroundUrl}')`
       : `url(${backgroundUrl})`,
+    backgroundPosition: "center",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     color: theme.custom.colors.white,

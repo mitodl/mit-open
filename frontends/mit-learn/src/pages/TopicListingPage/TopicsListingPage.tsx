@@ -22,7 +22,7 @@ import { HOME } from "@/common/urls"
 import { aggregateProgramCounts, aggregateCourseCounts } from "@/common/utils"
 import { useChannelCounts } from "api/hooks/channels"
 
-const TOPICS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
+const TOPICS_BANNER_IMAGE = "/static/images/background_steps.jpg"
 
 type ChannelSummary = {
   id: number | string

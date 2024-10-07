@@ -92,7 +92,7 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
         subHeader={displayConfiguration?.sub_heading}
         backgroundUrl={
           displayConfiguration?.banner_background ??
-          "/static/images/background_steps.jpeg"
+          "/static/images/background_steps.jpg"
         }
         extraActions={
           <ChannelControlsContainer>
