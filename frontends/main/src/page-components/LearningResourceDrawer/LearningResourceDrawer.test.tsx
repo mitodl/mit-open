@@ -37,17 +37,16 @@ jest.mock("posthog-js/react", () => ({
 }))
 
 describe("LearningResourceDrawer", () => {
-  it.skip.each([
+  it.each([
     { descriptor: "is enabled", enablePostHog: true },
     { descriptor: "is not enabled", enablePostHog: false },
   ])(
     "Renders drawer content when resource=id is in the URL and captures the view if PostHog $descriptor",
     async ({ enablePostHog }) => {
       setMockResponse.get(urls.userMe.get(), {})
-      // @ts-expect-error reinstante posthog
-      APP_SETTINGS.POSTHOG = {
-        api_key: enablePostHog ? "test1234" : "", // pragma: allowlist secret
-      }
+      process.env.NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY = enablePostHog
+        ? "12345abcdef" // pragma: allowlist secret
+        : ""
       const resource = factories.learningResources.resource()
       setMockResponse.get(
         urls.learningResources.details({ id: resource.id }),

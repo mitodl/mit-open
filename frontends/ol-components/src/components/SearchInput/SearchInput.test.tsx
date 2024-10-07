@@ -66,7 +66,17 @@ describe("SearchInput", () => {
   it("Calls onSubmit when search is clicked", async () => {
     const { user, spies } = renderSearchInput({ value: "chemistry" })
     await user.click(getSearchButton())
-    expect(spies.onSubmit).toHaveBeenCalledWith(searchEvent("chemistry"))
+    expect(spies.onSubmit).toHaveBeenCalledWith(searchEvent("chemistry"), {
+      isEnter: false,
+    })
+  })
+
+  it("Calls onSubmit when 'Enter' is pressed", async () => {
+    const { user, spies } = renderSearchInput({ value: "chemistry" })
+    await user.type(getSearchInput(), "{enter}")
+    expect(spies.onSubmit).toHaveBeenCalledWith(searchEvent("chemistry"), {
+      isEnter: true,
+    })
   })
 
   it("Calls onClear clear is clicked", async () => {

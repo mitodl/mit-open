@@ -50,7 +50,6 @@ def test_serialize_create_user(db, mocker):
     Test creating a user
     """
     profile = {
-        "name": "name",
         "email_optin": True,
         "toc_optin": True,
         "bio": "bio",
@@ -67,6 +66,7 @@ def test_serialize_create_user(db, mocker):
 
     profile.update(
         {
+            "name": "",
             "image": None,
             "image_small": None,
             "image_medium": None,
@@ -100,7 +100,6 @@ def test_serialize_create_user(db, mocker):
 @pytest.mark.parametrize(
     ("key", "value"),
     [
-        ("name", "name_value"),
         ("email_optin", True),
         ("email_optin", False),
         ("bio", "bio_value"),
@@ -191,7 +190,6 @@ def test_location_validation(user, data, is_valid):
 @pytest.mark.parametrize(
     ("key", "value"),
     [
-        ("name", "name_value"),
         ("bio", "bio_value"),
         ("headline", "headline_value"),
         ("location", {"value": "Hobbiton, The Shire, Middle-Earth"}),

@@ -1893,9 +1893,6 @@ components:
       type: object
       description: Serializer for Profile
       properties:
-        name:
-          type: string
-          nullable: true
         image:
           type: string
           nullable: true
@@ -2096,7 +2093,8 @@ components:
       properties:
         name:
           type: string
-          nullable: true
+          description: Get the user's name
+          readOnly: true
         image:
           type: string
           nullable: true
@@ -2179,6 +2177,7 @@ components:
       - image_file
       - image_medium_file
       - image_small_file
+      - name
       - placename
       - preference_search_filters
       - profile_image_medium
@@ -2188,9 +2187,6 @@ components:
       type: object
       description: Serializer for Profile
       properties:
-        name:
-          type: string
-          nullable: true
         image:
           type: string
           nullable: true

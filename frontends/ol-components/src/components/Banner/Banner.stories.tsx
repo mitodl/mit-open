@@ -45,7 +45,7 @@ export const logoBanner: Story = {
       <Banner
         avatar={
           <Image
-            src="/mit-logo-transparent5.svg"
+            src="/images/mit-logo-black.svg"
             alt="MIT Logo"
             width={70}
             height={37}
@@ -64,18 +64,14 @@ export const logoBannerWithExtras: Story = {
       <Banner
         avatar={
           <Image
-            src="/mit-logo-transparent5.svg"
+            src="/images/mit-logo-black.svg"
             alt="MIT Logo"
             width={70}
             height={37}
             style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
           />
         }
-        extraHeader={
-          <Button variant="primary" color="primary">
-            Action Button
-          </Button>
-        }
+        extraHeader={<Button variant="primary">Action Button</Button>}
         extraRight={
           <div>
             <Typography variant="h4">Extra Content</Typography>

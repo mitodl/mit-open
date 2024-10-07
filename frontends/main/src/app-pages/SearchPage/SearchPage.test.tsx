@@ -202,25 +202,24 @@ describe("SearchPage", () => {
     await within(facetsContainer).findByText("Resource Type")
   })
 
-  test.each([{ withPage: false }, { withPage: true }])(
-    "Submitting text updates URL",
-    async ({ withPage }) => {
-      setMockApiResponses({})
-      const urlQueryString = withPage ? "?q=meow&page=2" : "?q=meow"
-      const { location } = renderWithProviders(<SearchPage />, {
-        url: urlQueryString,
-      })
-      const queryInput = await screen.findByRole<HTMLInputElement>("textbox", {
-        name: "Search for",
-      })
-      expect(queryInput.value).toBe("meow")
-      await user.clear(queryInput)
-      await user.paste("woof")
-      expect(location.current.search).toBe(urlQueryString)
-      await user.click(screen.getByRole("button", { name: "Search" }))
-      expect(location.current.search).toBe("?q=woof")
-    },
-  )
+  test.each([
+    { initialQuery: "?q=meow&page=2", finalQuery: "?q=woof" },
+    { initialQuery: "?q=meow", finalQuery: "?q=woof" },
+  ])("Submitting text updates URL", async ({ initialQuery, finalQuery }) => {
+    setMockApiResponses({})
+    const { location } = renderWithProviders(<SearchPage />, {
+      url: initialQuery,
+    })
+    const queryInput = await screen.findByRole<HTMLInputElement>("textbox", {
+      name: "Search for",
+    })
+    expect(queryInput.value).toBe("meow")
+    await user.clear(queryInput)
+    await user.paste("woof")
+    expect(location.current.search).toBe(initialQuery)
+    await user.click(screen.getByRole("button", { name: "Search" }))
+    expect(location.current.search).toBe(finalQuery)
+  })
 
   test("unathenticated users do not see admin options", async () => {
     setMockApiResponses({

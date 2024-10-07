@@ -85,12 +85,12 @@
     "Exams with Solutions"
   ],
   "topics": [
-    ["Engineering", "Aerospace Engineering", "Materials Selection"],
-    ["Engineering", "Aerospace Engineering", "Propulsion Systems"],
-    ["Science", "Physics", "Thermodynamics"],
-    ["Engineering", "Mechanical Engineering", "Fluid Mechanics"],
-    ["Engineering", "Aerospace Engineering"],
-    ["Business", "Project Management"]
+    ["Social Science", "Anthropology", "Ethnography"],
+    ["Humanities", "Philosophy", "Political Philosophy"]
+  ],
+  "mit_learn_topics": [
+    ["Social Sciences", "Anthropology"],
+    ["Social Sciences", "Political Science"]
   ],
   "primary_course_number": "16.01",
   "extra_course_numbers": "16.02, 16.03, 16.04",

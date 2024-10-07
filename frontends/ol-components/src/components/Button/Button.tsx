@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "@emotion/styled"
+import { css } from "@emotion/react"
 import { pxToRem } from "../ThemeProvider/typography"
 import tinycolor from "tinycolor2"
 import Link from "next/link"
@@ -30,6 +31,7 @@ type ButtonStyleProps = {
    *  - small -> small
    */
   responsive?: boolean
+  color?: "secondary"
 }
 
 const styleProps: Record<string, boolean> = {
@@ -39,17 +41,19 @@ const styleProps: Record<string, boolean> = {
   startIcon: true,
   endIcon: true,
   responsive: true,
+  color: true,
 } satisfies Record<keyof ButtonStyleProps, boolean>
 
 const shouldForwardProp = (prop: string) => !styleProps[prop]
 
-const DEFAULT_PROPS: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
-  {
-    variant: "primary",
-    size: "medium",
-    edge: "rounded",
-    responsive: false,
-  }
+const DEFAULT_PROPS: Required<
+  Omit<ButtonStyleProps, "startIcon" | "endIcon" | "color">
+> = {
+  variant: "primary",
+  size: "medium",
+  edge: "rounded",
+  responsive: false,
+}
 
 const BORDER_WIDTHS = {
   small: 1,
@@ -101,8 +105,7 @@ const buildStyles = (
   }
   const { colors } = theme.custom
   const hasBorder = variant === "secondary"
-
-  return [
+  return css([
     {
       color: theme.palette.text.primary,
       textAlign: "center",
@@ -236,7 +239,7 @@ const buildStyles = (
         backgroundColor: theme.custom.colors.lightGray1,
       },
     },
-  ]
+  ])
 }
 
 const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>(
@@ -377,7 +380,7 @@ const ActionButton = styled(
   React.forwardRef<HTMLButtonElement, ActionButtonProps>((props, ref) => (
     <ButtonStyled ref={ref} type="button" {...props} />
   )),
-)(({ theme, size = DEFAULT_PROPS.size, responsive }) => {
+)(({ size = DEFAULT_PROPS.size, responsive, theme }) => {
   return [
     actionStyles(size),
     responsive && {

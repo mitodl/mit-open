@@ -111,6 +111,9 @@ const UnitContainer = styled.section(({ theme }) => ({
   alignItems: "center",
   maxWidth: DESKTOP_WIDTH,
   gap: "32px",
+  ".MitCard-root": {
+    height: "auto",
+  },
   [theme.breakpoints.down("md")]: {
     width: "auto",
     padding: "0 16px",
