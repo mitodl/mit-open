@@ -42,6 +42,25 @@ const shuffle = ([...arr]) => {
   return arr
 }
 
+const randomizeResults = (results) => {
+  const resultsByPosition = {}
+  const randomizedResults = []
+
+  results.forEach((result) => {
+    if (!resultsByPosition[result.position]) {
+      resultsByPosition[result.position] = []
+    }
+    resultsByPosition[result.position].push(result)
+  })
+  Object.keys(resultsByPosition)
+    .sort()
+    .forEach((position) => {
+      const shuffled = shuffle(resultsByPosition[position])
+      randomizedResults.push(...shuffled)
+    })
+  return randomizedResults
+}
+
 const learningResources = createQueryKeys("learningResources", {
   detail: (id: number) => ({
     queryKey: [id],
@@ -61,7 +80,7 @@ const learningResources = createQueryKeys("learningResources", {
     queryKey: [params],
     queryFn: () => {
       return featuredApi.featuredList(params).then((res) => {
-        res.data.results = shuffle(res.data.results)
+        res.data.results = randomizeResults(res.data.results)
         return res.data
       })
     },
