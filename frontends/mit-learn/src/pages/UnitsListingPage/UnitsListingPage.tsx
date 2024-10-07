@@ -15,30 +15,11 @@ import { LearningResourceOfferorDetail } from "api"
 import { HOME } from "@/common/urls"
 import { UnitCards, UnitCardLoading } from "./UnitCard"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
-import { ChannelCounts } from "api/v0"
+
+import { aggregateProgramCounts, aggregateCourseCounts } from "@/common/utils"
 
 const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
-
-const aggregateProgramCounts = (
-  data: Array<ChannelCounts>,
-): Record<string, number> => {
-  return Object.fromEntries(
-    Object.entries(data).map(([_key, value]) => {
-      return [value.name, value.counts.programs]
-    }),
-  )
-}
-
-const aggregateCourseCounts = (
-  data: Array<ChannelCounts>,
-): Record<string, number> => {
-  return Object.fromEntries(
-    Object.entries(data).map(([_key, value]) => {
-      return [value.name, value.counts.courses]
-    }),
-  )
-}
 
 const sortUnits = (
   units: Array<LearningResourceOfferorDetail> | undefined,
@@ -46,10 +27,10 @@ const sortUnits = (
   programCounts: Record<string, number>,
 ) => {
   return units?.sort((a, b) => {
-    const courseCountA = courseCounts[a.code] || 0
-    const programCountA = programCounts[a.code] || 0
-    const courseCountB = courseCounts[b.code] || 0
-    const programCountB = programCounts[b.code] || 0
+    const courseCountA = courseCounts[a.id] || 0
+    const programCountA = programCounts[a.id] || 0
+    const courseCountB = courseCounts[b.id] || 0
+    const programCountB = programCounts[b.id] || 0
     const totalA = courseCountA + programCountA
     const totalB = courseCountB + programCountB
     return totalB - totalA
@@ -221,12 +202,11 @@ const UnitsListingPage: React.FC = () => {
   const channelCountQuery = useChannelCounts("unit")
 
   const courseCounts = channelCountQuery.data
-    ? aggregateCourseCounts(channelCountQuery.data)
+    ? aggregateCourseCounts("name", channelCountQuery.data)
     : {}
   const programCounts = channelCountQuery.data
-    ? aggregateProgramCounts(channelCountQuery.data)
+    ? aggregateProgramCounts("name", channelCountQuery.data)
     : {}
-
   const academicUnits = sortUnits(
     units?.filter((unit) => unit.professional === false),
     courseCounts,

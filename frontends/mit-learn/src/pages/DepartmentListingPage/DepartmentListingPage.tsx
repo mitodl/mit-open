@@ -12,14 +12,8 @@ import {
   Breadcrumbs,
 } from "ol-components"
 import { pluralize } from "ol-utilities"
-import type {
-  LearningResourceSchool,
-  LearningResourcesSearchResponse,
-} from "api"
-import {
-  useLearningResourcesSearch,
-  useSchoolsList,
-} from "api/hooks/learningResources"
+import type { LearningResourceSchool } from "api"
+import { useSchoolsList } from "api/hooks/learningResources"
 import {
   RiPaletteLine,
   RiArrowRightSLine,
@@ -32,6 +26,8 @@ import {
 } from "@remixicon/react"
 import { HOME } from "@/common/urls"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
+import { aggregateProgramCounts, aggregateCourseCounts } from "@/common/utils"
+import { useChannelCounts } from "api/hooks/channels"
 
 const SCHOOL_ICONS: Record<string, React.ReactNode> = {
   // School of Architecture and Planning
@@ -140,8 +136,8 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
       </SchoolTitle>
       <List disablePadding>
         {school.departments.map((department) => {
-          const courses = courseCounts[department.department_id] ?? 0
-          const programs = programCounts[department.department_id] ?? 0
+          const courses = courseCounts[department.name] ?? 0
+          const programs = programCounts[department.name] ?? 0
           const counts = [
             { count: courses, label: pluralize("Course", courses) },
             { count: programs, label: pluralize("Program", programs) },
@@ -183,33 +179,16 @@ const SchoolList = styled.div(({ theme }) => ({
   },
 }))
 
-const aggregateByDepartment = (
-  data: LearningResourcesSearchResponse,
-): Record<string, number> => {
-  const buckets = data.metadata.aggregations["department"] ?? []
-  return Object.fromEntries(
-    buckets.map((bucket) => {
-      return [bucket.key, bucket.doc_count]
-    }),
-  )
-}
-
 const DepartmentListingPage: React.FC = () => {
+  const channelCountQuery = useChannelCounts("department")
+  const courseCounts = channelCountQuery.data
+    ? aggregateCourseCounts("title", channelCountQuery.data)
+    : {}
+  const programCounts = channelCountQuery.data
+    ? aggregateProgramCounts("title", channelCountQuery.data)
+    : {}
+
   const schoolsQuery = useSchoolsList()
-  const courseQuery = useLearningResourcesSearch({
-    resource_type: ["course"],
-    aggregations: ["department"],
-  })
-  const programQuery = useLearningResourcesSearch({
-    resource_type: ["program"],
-    aggregations: ["department"],
-  })
-  const courseCounts = courseQuery.data
-    ? aggregateByDepartment(courseQuery.data)
-    : {}
-  const programCounts = programQuery.data
-    ? aggregateByDepartment(programQuery.data)
-    : {}
 
   return (
     <>
