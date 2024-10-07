@@ -47,12 +47,11 @@ const FooterLeftContainer = styled.div(({ theme }) => ({
 }))
 
 const FooterLogo = styled(MITLogoLink)(({ theme }) => ({
-  position: "relative",
-  width: "95px",
-  height: "48px",
-  [theme.breakpoints.down("md")]: {
-    width: "80px",
-    height: "40px",
+  img: {
+    height: "48px",
+    [theme.breakpoints.down("md")]: {
+      height: "40px",
+    },
   },
 }))
 
@@ -147,7 +146,7 @@ const Footer: FunctionComponent = () => {
         <FooterContainerInner>
           <FooterContent>
             <FooterLeftContainer>
-              <FooterLogo href="https://www.mit.edu/" target="_blank" />
+              <FooterLogo logo="mit_black" />
               <FooterAddress data-testid="footer-address">
                 Massachusetts Institute of Technology
                 <br />

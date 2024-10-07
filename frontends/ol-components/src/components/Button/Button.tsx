@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "@emotion/styled"
+import { css } from "@emotion/react"
 import { pxToRem } from "../ThemeProvider/typography"
 import tinycolor from "tinycolor2"
 import Link from "next/link"
@@ -30,6 +31,7 @@ type ButtonStyleProps = {
    *  - small -> small
    */
   responsive?: boolean
+  color?: "secondary"
 }
 
 const styleProps: Record<string, boolean> = {
@@ -39,17 +41,19 @@ const styleProps: Record<string, boolean> = {
   startIcon: true,
   endIcon: true,
   responsive: true,
+  color: true,
 } satisfies Record<keyof ButtonStyleProps, boolean>
 
 const shouldForwardProp = (prop: string) => !styleProps[prop]
 
-const defaultProps: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
-  {
-    variant: "primary",
-    size: "medium",
-    edge: "rounded",
-    responsive: false,
-  }
+const defaultProps: Required<
+  Omit<ButtonStyleProps, "startIcon" | "endIcon" | "color">
+> = {
+  variant: "primary",
+  size: "medium",
+  edge: "rounded",
+  responsive: false,
+}
 
 const borderWidths = {
   small: 1,
@@ -83,17 +87,14 @@ const sizeStyles = (size: ButtonSize, hasBorder: boolean, theme: Theme) => {
   ]
 }
 
-const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>((
-  props,
-) => {
+const buttonStyles = (props: ButtonStyleProps & { theme: Theme }) => {
   const { size, variant, edge, theme, color, responsive } = {
     ...defaultProps,
     ...props,
   }
   const { colors } = theme.custom
   const hasBorder = variant === "secondary"
-
-  return [
+  return css([
     {
       color: theme.palette.text.primary,
       textAlign: "center",
@@ -227,8 +228,12 @@ const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>((
         backgroundColor: theme.custom.colors.lightGray1,
       },
     },
-  ]
-})
+  ])
+}
+
+const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>(
+  (props) => buttonStyles(props),
+)
 
 const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ({ size, side }) => [
@@ -357,13 +362,15 @@ const actionStyles = (size: ButtonSize) => {
  */
 const ActionButton = styled(
   React.forwardRef<HTMLButtonElement, ActionButtonProps>((props, ref) => (
-    <ButtonStyled ref={ref} type="button" {...props} />
+    <button ref={ref} type="button" {...props} />
   )),
-)(({ theme, size = defaultProps.size, responsive }) => {
+)((props) => {
+  const { size, responsive } = { ...props, ...defaultProps }
   return [
+    buttonStyles(props),
     actionStyles(size),
     responsive && {
-      [theme.breakpoints.down("sm")]: actionStyles(responsiveSize[size]),
+      [props.theme.breakpoints.down("sm")]: actionStyles(responsiveSize[size]),
     },
   ]
 })

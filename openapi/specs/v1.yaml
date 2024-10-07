@@ -176,6 +176,14 @@ paths:
           type: integer
         description: Number of results to return per page
       - in: query
+        name: ocw_topic
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        description: The ocw topic name.
+      - in: query
         name: offered_by
         schema:
           type: array
@@ -2507,6 +2515,14 @@ paths:
           nullable: true
         description: Minimum score value a text query result needs to have to be displayed
       - in: query
+        name: ocw_topic
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        description: The ocw topic name.
+      - in: query
         name: offered_by
         schema:
           type: array
@@ -2986,6 +3002,14 @@ paths:
           minimum: 0
           nullable: true
         description: Minimum score value a text query result needs to have to be displayed
+      - in: query
+        name: ocw_topic
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        description: The ocw topic name.
       - in: query
         name: offered_by
         schema:
@@ -3492,6 +3516,14 @@ paths:
           nullable: true
         description: Minimum score value a text query result needs to have to be displayed
       - in: query
+        name: ocw_topic
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        description: The ocw topic name.
+      - in: query
         name: offered_by
         schema:
           type: array
@@ -3987,6 +4019,14 @@ paths:
           minimum: 0
           nullable: true
         description: Minimum score value a text query result needs to have to be displayed
+      - in: query
+        name: ocw_topic
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        description: The ocw topic name.
       - in: query
         name: offered_by
         schema:
@@ -8024,6 +8064,11 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            maxLength: 128
         professional:
           type: boolean
           readOnly: true
@@ -8111,6 +8156,12 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
         next_start_date:
           type: string
           format: date-time
@@ -8498,6 +8549,11 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            maxLength: 128
         professional:
           type: boolean
         next_start_date:
@@ -8579,6 +8635,12 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
         professional:
           type: boolean
         next_start_date:
@@ -9958,6 +10020,12 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
         professional:
           type: boolean
         next_start_date:
@@ -10038,6 +10106,10 @@ components:
         query: {}
         source_type:
           $ref: '#/components/schemas/SourceTypeEnum'
+        display_label:
+          type: string
+          description: Friendly display label for the query
+          maxLength: 255
       required:
       - id
       - original_query
@@ -10088,6 +10160,12 @@ components:
             type: string
             minLength: 1
           description: The topic name. To see a list of options go to api/v1/topics/
+        ocw_topic:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          description: The ocw topic name.
         dev_mode:
           type: boolean
           nullable: true
@@ -10569,6 +10647,11 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            maxLength: 128
         professional:
           type: boolean
           readOnly: true
@@ -10656,6 +10739,12 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
         next_start_date:
           type: string
           format: date-time
@@ -10883,6 +10972,11 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            maxLength: 128
         professional:
           type: boolean
           readOnly: true
@@ -10970,6 +11064,12 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
         next_start_date:
           type: string
           format: date-time
@@ -11327,6 +11427,11 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            maxLength: 128
         professional:
           type: boolean
           readOnly: true
@@ -11414,6 +11519,12 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
         next_start_date:
           type: string
           format: date-time
@@ -11913,6 +12024,11 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            maxLength: 128
         professional:
           type: boolean
           readOnly: true
@@ -12000,6 +12116,12 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
         next_start_date:
           type: string
           format: date-time
@@ -12213,6 +12335,11 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            maxLength: 128
         professional:
           type: boolean
           readOnly: true
@@ -12300,6 +12427,12 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        ocw_topics:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
         next_start_date:
           type: string
           format: date-time

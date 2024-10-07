@@ -18,7 +18,6 @@ import {
 import { useUserMe, User } from "api/hooks/user"
 import { usePathname, useSearchParams } from "next/navigation"
 import MITLogoLink from "@/components/MITLogoLink/MITLogoLink"
-import whiteLogo from "@/public/images/mit-logo-white.svg"
 
 const FlexContainer = styled.div({
   display: "flex",
@@ -128,16 +127,6 @@ type UserMenuProps = {
   variant?: DeviceType
 }
 
-const MITHomeLink: React.FC = () => {
-  return (
-    <StyledMITLogoLink
-      logo={whiteLogo}
-      href="https://mit.edu"
-      target="_blank"
-    />
-  )
-}
-
 const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
   const [visible, setVisible] = useState(false)
 
@@ -223,7 +212,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
             </UserMenuContainer>
           }
         />
-        <MITHomeLink />
+        <StyledMITLogoLink logo="mit_white" />
       </>
     )
   } else {
@@ -240,7 +229,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
             >
               Log In
             </DesktopLoginButton>
-            <MITHomeLink />
+            <StyledMITLogoLink logo="mit_white" />
           </FlexContainer>
         ) : (
           ""
@@ -257,7 +246,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
             >
               <UserIcon data-testid="UserIcon" />
             </MobileLoginButton>
-            <MITHomeLink />
+            <StyledMITLogoLink logo="mit_white" />
           </FlexContainer>
         ) : (
           ""
