@@ -15,10 +15,7 @@ import { Link } from "react-router-dom"
 import { propsNotNil } from "ol-utilities"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
 
-import {
-  useLearningResourceTopics,
-  useLearningResourcesSearch,
-} from "api/hooks/learningResources"
+import { useLearningResourceTopics } from "api/hooks/learningResources"
 import { LearningResourceTopic } from "api"
 import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 import { HOME } from "@/common/urls"
@@ -251,14 +248,6 @@ const RootTopicList = styled(PlainList)(({ theme }) => ({
 const ToopicsListingPage: React.FC = () => {
   const channelCountQuery = useChannelCounts("topic")
   const topicsQuery = useLearningResourceTopics()
-  const courseQuery = useLearningResourcesSearch({
-    resource_type: ["course"],
-    aggregations: ["topic"],
-  })
-  const programQuery = useLearningResourcesSearch({
-    resource_type: ["program"],
-    aggregations: ["topic"],
-  })
 
   const channelsGroups = useMemo(() => {
     const courseCounts = channelCountQuery.data
@@ -272,7 +261,7 @@ const ToopicsListingPage: React.FC = () => {
       courseCounts,
       programCounts,
     )
-  }, [topicsQuery.data?.results, courseQuery.data, programQuery.data])
+  }, [topicsQuery.data?.results, channelCountQuery.data])
 
   return (
     <Page>
