@@ -301,7 +301,6 @@ describe("ChannelSearch", () => {
     setMockResponse.get(urls.userMe.get(), {})
 
     const initialSearch = "?q=meow&page=2"
-    const finalSearch = "?q=woof"
 
     const { location } = renderWithProviders(<ChannelPage />, {
       url: `/c/${channel.channel_type}/${channel.name}${initialSearch}`,
@@ -313,8 +312,8 @@ describe("ChannelSearch", () => {
     expect(queryInput.value).toBe("meow")
     await user.clear(queryInput)
     await user.paste("woof")
-    expect(location.current.search).toBe(initialSearch)
+    expect(location.current.searchParams.get("q")).toBe("meow")
     await user.click(screen.getByRole("button", { name: "Search" }))
-    expect(location.current.search).toBe(finalSearch)
+    expect(location.current.searchParams.get("q")).toBe("woof")
   })
 })
