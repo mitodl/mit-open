@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.21.0 (Released October 07, 2024)
+--------------
+
+- update og:image to use new logo (#1658)
+- Use a partial match mode as the search mode for instructor fields(#1652)
+
 Version 0.20.4 (Released October 07, 2024)
 --------------
 
