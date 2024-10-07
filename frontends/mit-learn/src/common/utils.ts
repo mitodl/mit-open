@@ -13,7 +13,7 @@ const aggregateProgramCounts = (
 ): Record<string, number> => {
   return Object.fromEntries(
     Object.entries(data).map(([_key, value]) => {
-      return [value[groupBy], value.counts.programs]
+      return [value[groupBy as keyof ChannelCounts], value.counts.programs]
     }),
   )
 }
@@ -24,7 +24,7 @@ const aggregateCourseCounts = (
 ): Record<string, number> => {
   return Object.fromEntries(
     Object.entries(data).map(([_key, value]) => {
-      return [value[groupBy], value.counts.courses]
+      return [value[groupBy as keyof ChannelCounts], value.counts.courses]
     }),
   )
 }

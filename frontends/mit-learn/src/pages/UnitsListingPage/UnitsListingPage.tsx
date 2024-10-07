@@ -27,10 +27,10 @@ const sortUnits = (
   programCounts: Record<string, number>,
 ) => {
   return units?.sort((a, b) => {
-    const courseCountA = courseCounts[a.id] || 0
-    const programCountA = programCounts[a.id] || 0
-    const courseCountB = courseCounts[b.id] || 0
-    const programCountB = programCounts[b.id] || 0
+    const courseCountA = courseCounts[a.code] || 0
+    const programCountA = programCounts[a.code] || 0
+    const courseCountB = courseCounts[b.code] || 0
+    const programCountB = programCounts[b.code] || 0
     const totalA = courseCountA + programCountA
     const totalB = courseCountB + programCountB
     return totalB - totalA
