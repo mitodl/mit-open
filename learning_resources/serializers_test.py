@@ -210,6 +210,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         ).data,
         "prices": sorted([f"{price:.2f}" for price in resource.prices]),
         "professional": resource.professional,
+        "position": None,
         "certification": resource.certification,
         "certification_type": {
             "code": resource.certification_type,
