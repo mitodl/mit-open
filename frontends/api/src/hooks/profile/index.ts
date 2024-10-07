@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { profilesApi } from "../../clients"
-import type { Profile, PatchedProfileRequest } from "../../generated/v0/api"
+import type { Profile, PatchedProfileRequest } from "@mitodl/open-api-axios/v0"
 
 const useProfileQuery = (username: string) =>
   useQuery<Profile>({

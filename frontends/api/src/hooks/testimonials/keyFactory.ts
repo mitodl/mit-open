@@ -1,5 +1,5 @@
 import { testimonialsApi } from "../../clients"
-import type { TestimonialsApiTestimonialsListRequest as TestimonialsListRequest } from "../../generated/v0"
+import type { TestimonialsApiTestimonialsListRequest as TestimonialsListRequest } from "@mitodl/open-api-axios/v0"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
 const testimonials = createQueryKeys("testimonials", {

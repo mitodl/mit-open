@@ -26,7 +26,7 @@ import {
 import { setMockResponse, urls, makeRequest } from "../../test-utils"
 import * as factories from "../../test-utils/factories"
 import { UseQueryResult } from "@tanstack/react-query"
-import { LearningResource } from "../../generated/v1"
+import { LearningResource } from "@mitodl/open-api-axios/v1"
 
 const factory = factories.learningResources
 

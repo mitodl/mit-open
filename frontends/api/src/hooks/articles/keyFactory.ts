@@ -1,5 +1,5 @@
 import { articlesApi } from "../../clients"
-import type { ArticlesApiArticlesListRequest as ArticleListRequest } from "../../generated/v1"
+import type { ArticlesApiArticlesListRequest as ArticleListRequest } from "@mitodl/open-api-axios/v1"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
 const articles = createQueryKeys("articles", {

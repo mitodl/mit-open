@@ -1,6 +1,6 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query"
 
-import type { TestimonialsApiTestimonialsListRequest } from "../../generated/v0"
+import type { TestimonialsApiTestimonialsListRequest } from "@mitodl/open-api-axios/v0"
 import testimonials from "./keyFactory"
 
 const useTestimonialList = (

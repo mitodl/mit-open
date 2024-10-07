@@ -13,7 +13,7 @@ import {
   Button,
 } from "ol-components"
 import * as Yup from "yup"
-import { PrivacyLevelEnum, type LearningPathResource, UserList } from "api"
+import { PrivacyLevelEnum, type LearningPathResource, UserList } from "api/v1"
 
 import {
   useLearningpathCreate,
