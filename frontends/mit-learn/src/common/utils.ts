@@ -13,7 +13,6 @@ const aggregateProgramCounts = (
 ): Record<string, number> => {
   return Object.fromEntries(
     Object.entries(data).map(([_key, value]) => {
-      console.log("value", value)
       return [value[groupBy], value.counts.programs]
     }),
   )
