@@ -31,7 +31,7 @@ const BannerBackground = styled.div<BannerBackgroundProps>(
     color: theme.custom.colors.white,
     padding: "48px 0 48px 0",
     [theme.breakpoints.down("sm")]: {
-      backgroundSize: "contain",
+      backgroundSize: "inherit",
       padding: "32px 0 32px 0",
     },
   }),
