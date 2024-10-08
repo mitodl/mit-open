@@ -101,7 +101,7 @@ const learningResourceBaseDepartment: Factory<
   return {
     department_id: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
     name: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
-    channel_url: faker.internet.url(),
+    channel_url: `${faker.internet.url({ appendSlash: false })}${faker.system.directoryPath()}`,
     ...overrides,
   }
 }
@@ -258,6 +258,7 @@ const _learningResourceShared = (): Partial<
     certification: false,
     departments: [learningResourceDepartment()],
     description: faker.lorem.paragraph(),
+    position: faker.number.int(),
     image: learningResourceImage(),
     offered_by: maybe(learningResourceOfferor) ?? null,
     platform: maybe(learningResourcePlatform) ?? null,

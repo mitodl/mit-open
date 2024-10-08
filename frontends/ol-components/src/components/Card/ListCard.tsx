@@ -211,7 +211,7 @@ const ListCard: Card = ({ children, className, href, draggable }) => {
 
   return (
     <Wrapper className={classNames}>
-      <_Container href={href!}>
+      <_Container href={href!} scroll={!href?.startsWith("?")}>
         {draggable && (
           <DragArea>
             <RiDraggable />

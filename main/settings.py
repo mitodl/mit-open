@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.19.3"
+VERSION = "0.21.0"
 
 log = logging.getLogger()
 
@@ -774,7 +774,7 @@ DEFAULT_SEARCH_STALENESS_PENALTY = get_float(
     name="DEFAULT_SEARCH_STALENESS_PENALTY", default=2.5
 )
 DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF = get_float(
-    name="DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF", default=0
+    name="DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF", default=5
 )
 DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY = get_float(
     name="DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY", default=90

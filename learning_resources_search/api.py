@@ -40,7 +40,12 @@ log = logging.getLogger(__name__)
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
-DEFAULT_SORT = ["featured_rank", "is_learning_material", "-created_on"]
+DEFAULT_SORT = [
+    "featured_rank",
+    "is_learning_material",
+    "is_incomplete_or_stale",
+    "-created_on",
+]
 
 
 def gen_content_file_id(content_file_id):
@@ -284,7 +289,7 @@ def generate_learning_resources_text_clause(text, search_mode, slop):
                                     query_type: {
                                         "query": text,
                                         "fields": RUN_INSTRUCTORS_QUERY_FIELDS,
-                                        **extra_params,
+                                        "type": "best_fields",
                                     }
                                 },
                             }

@@ -210,6 +210,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         ).data,
         "prices": sorted([f"{price:.2f}" for price in resource.prices]),
         "professional": resource.professional,
+        "position": None,
         "certification": resource.certification,
         "certification_type": {
             "code": resource.certification_type,
@@ -254,6 +255,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
             serializers.LearningResourceTopicSerializer(topic).data
             for topic in resource.topics.all()
         ],
+        "ocw_topics": sorted(resource.ocw_topics),
         "runs": [
             serializers.LearningResourceRunSerializer(instance=run).data
             for run in resource.runs.all()

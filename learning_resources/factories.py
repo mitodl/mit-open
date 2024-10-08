@@ -213,6 +213,7 @@ class LearningResourceFactory(DjangoModelFactory):
     departments = factory.PostGeneration(_post_gen_departments)
     topics = factory.PostGeneration(_post_gen_topics)
     content_tags = factory.PostGeneration(_post_gen_tags)
+    completeness = 1
     published = True
     delivery = factory.List(random.choices(LearningResourceDelivery.names()))  # noqa: S311
     professional = factory.LazyAttribute(

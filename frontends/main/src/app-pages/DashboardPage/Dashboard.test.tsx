@@ -206,17 +206,20 @@ describe("DashboardPage", () => {
     setupAPIs()
     setMockResponse.get(urls.userMe.get(), {
       [Permissions.Authenticated]: true,
-      first_name: "User",
-      last_name: "Info",
+      first_name: "Joe",
+      last_name: "Smith",
+      profile: {
+        name: "Jane Smith",
+      },
     })
 
     renderWithProviders(<DashboardPage />)
     await waitFor(() => {
       /**
-       * There should be two instances of "User Info" text,
+       * There should be two instances of "Jane Smith" text,
        * one in the header and one in the main content
        */
-      const userInfoText = screen.getByText("User Info")
+      const userInfoText = screen.getByText("Jane Smith")
       expect(userInfoText).toBeInTheDocument()
     })
   })

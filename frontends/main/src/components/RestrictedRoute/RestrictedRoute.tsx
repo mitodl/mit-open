@@ -1,8 +1,10 @@
+"use client"
+
 import React from "react"
-import { Outlet, useLocation } from "react-router"
 import { ForbiddenError, Permissions } from "@/common/permissions"
 import { useUserMe } from "api/hooks/user"
-import { login } from "@/common/urls"
+import { redirect } from "next/navigation"
+import * as urls from "@/common/urls"
 
 type RestrictedRouteProps = {
   children?: React.ReactNode
@@ -39,23 +41,20 @@ const RestrictedRoute: React.FC<RestrictedRouteProps> = ({
   children,
   requires,
 }) => {
-  const location = useLocation()
   const { isLoading, data: user } = useUserMe()
   if (isLoading) return null
   if (!user?.is_authenticated) {
     // Redirect unauthenticated users to login
-    window.location.assign(login(location))
+    const loginUrl = urls.login()
+    redirect(loginUrl)
     return null
   }
   if (!isLoading && !user?.[requires]) {
     // This error should be caught by an [`errorElement`](https://reactrouter.com/en/main/route/error-element).
     throw new ForbiddenError("Not allowed.")
   }
-  /**
-   * Rendering an Outlet allows this to be used as a layout route grouping many
-   * child routes with the same auth condition.
-   */
-  return children ? children : <Outlet />
+
+  return children
 }
 
 export default RestrictedRoute

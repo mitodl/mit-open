@@ -1,15 +1,12 @@
 import React from "react"
 import {
-  act,
   expectProps,
   renderWithProviders,
   screen,
   waitFor,
   within,
 } from "@/test-utils"
-import LearningResourceDrawer, {
-  useOpenLearningResourceDrawer,
-} from "./LearningResourceDrawer"
+import LearningResourceDrawer from "./LearningResourceDrawer"
 import { urls, factories, setMockResponse } from "api/test-utils"
 import { LearningResourceExpanded } from "ol-components"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
@@ -37,17 +34,16 @@ jest.mock("posthog-js/react", () => ({
 }))
 
 describe("LearningResourceDrawer", () => {
-  it.skip.each([
+  it.each([
     { descriptor: "is enabled", enablePostHog: true },
     { descriptor: "is not enabled", enablePostHog: false },
   ])(
     "Renders drawer content when resource=id is in the URL and captures the view if PostHog $descriptor",
     async ({ enablePostHog }) => {
       setMockResponse.get(urls.userMe.get(), {})
-      // @ts-expect-error reinstante posthog
-      APP_SETTINGS.POSTHOG = {
-        api_key: enablePostHog ? "test1234" : "", // pragma: allowlist secret
-      }
+      process.env.NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY = enablePostHog
+        ? "12345abcdef" // pragma: allowlist secret
+        : ""
       const resource = factories.learningResources.resource()
       setMockResponse.get(
         urls.learningResources.details({ id: resource.id }),
@@ -76,29 +72,6 @@ describe("LearningResourceDrawer", () => {
       url: "?dog=woof",
     })
     expect(LearningResourceExpanded).not.toHaveBeenCalled()
-  })
-
-  test("useOpenLearningResourceDrawer sets correct parameter", () => {
-    let openDrawer = (_id: number): void => {
-      throw new Error("Not implemented")
-    }
-    const TestComponent = () => {
-      openDrawer = useOpenLearningResourceDrawer()
-      return null
-    }
-    const { location } = renderWithProviders(<TestComponent />, {
-      url: "?dog=woof",
-    })
-
-    act(() => {
-      openDrawer(123)
-    })
-
-    const params = new URLSearchParams(location.current.search)
-    expect(Object.fromEntries(params)).toEqual({
-      [RESOURCE_DRAWER_QUERY_PARAM]: "123",
-      dog: "woof",
-    })
   })
 
   test.each([

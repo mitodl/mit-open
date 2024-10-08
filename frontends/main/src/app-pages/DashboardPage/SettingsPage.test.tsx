@@ -25,10 +25,15 @@ const setupApis = ({
     `${urls.userSubscription.check(subscriptionRequest)}`,
     subscribeResponse,
   )
-  const unsubscribeUrl = urls.userSubscription.delete(subscribeResponse[0]?.id)
-  setMockResponse.delete(unsubscribeUrl, subscribeResponse[0])
+  const unsubscribeUrls = []
+  for (const sub of subscribeResponse) {
+    const unsubscribeUrl = urls.userSubscription.delete(sub?.id)
+    unsubscribeUrls.push(unsubscribeUrl)
+    setMockResponse.delete(unsubscribeUrl, sub)
+  }
+
   return {
-    unsubscribeUrl,
+    unsubscribeUrls,
   }
 }
 
@@ -46,7 +51,7 @@ describe("SettingsPage", () => {
   })
 
   test("Clicking 'Unfollow' removes the subscription", async () => {
-    const { unsubscribeUrl } = setupApis({
+    const { unsubscribeUrls } = setupApis({
       isAuthenticated: true,
       isSubscribed: true,
       subscriptionRequest: {},
@@ -54,13 +59,42 @@ describe("SettingsPage", () => {
     renderWithProviders(<SettingsPage />)
 
     const followList = await screen.findByTestId("follow-list")
-    const unsubscribeButton = within(followList).getAllByText("Unfollow")[0]
-    await user.click(unsubscribeButton)
+    const unsubscribeLink = within(followList).getAllByText("Unfollow")[0]
+    await user.click(unsubscribeLink)
 
+    const unsubscribeButton = await screen.findByTestId("dialog-unfollow")
+    await user.click(unsubscribeButton)
     expect(makeRequest).toHaveBeenCalledWith(
       "delete",
-      unsubscribeUrl,
+      unsubscribeUrls[0],
       undefined,
     )
+  })
+
+  test("Clicking 'Unfollow All' removes all subscriptions", async () => {
+    const { unsubscribeUrls } = setupApis({
+      isAuthenticated: true,
+      isSubscribed: true,
+      subscriptionRequest: {},
+    })
+    renderWithProviders(<SettingsPage />)
+    const unsubscribeLink = await screen.findByTestId("unfollow-all")
+    await user.click(unsubscribeLink)
+
+    const unsubscribeButton = await screen.findByTestId("dialog-unfollow")
+    await user.click(unsubscribeButton)
+    for (const unsubUrl of unsubscribeUrls) {
+      expect(makeRequest).toHaveBeenCalledWith("delete", unsubUrl, undefined)
+    }
+  })
+  test("Unsubscribe from all is hidden if there are no subscriptions", async () => {
+    setupApis({
+      isAuthenticated: true,
+      isSubscribed: false,
+      subscriptionRequest: {},
+    })
+    renderWithProviders(<SettingsPage />)
+    const unfollowButton = screen.queryByText("Unfollow All")
+    expect(unfollowButton).not.toBeInTheDocument()
   })
 })

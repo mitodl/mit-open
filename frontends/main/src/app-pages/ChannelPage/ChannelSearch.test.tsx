@@ -1,5 +1,11 @@
 import React from "react"
-import { screen, within, waitFor, renderWithProviders } from "@/test-utils"
+import {
+  screen,
+  within,
+  waitFor,
+  renderWithProviders,
+  user,
+} from "@/test-utils"
 import { setMockResponse, urls, factories, makeRequest } from "api/test-utils"
 import type { LearningResourcesSearchResponse } from "api"
 import invariant from "tiny-invariant"
@@ -270,4 +276,44 @@ describe("ChannelSearch", () => {
       }
     },
   )
+
+  test("Submitting search text updates URL correctly", async () => {
+    const resources = factories.learningResources.resources({
+      count: 10,
+    }).results
+    const { channel } = setMockApiResponses({
+      search: {
+        count: 1000,
+        metadata: {
+          aggregations: {
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 200 },
+              { key: "program", doc_count: 300 },
+              { key: "irrelevant", doc_count: 400 },
+            ],
+          },
+          suggestions: [],
+        },
+        results: resources,
+      },
+    })
+    setMockResponse.get(urls.userMe.get(), {})
+
+    const initialSearch = "?q=meow&page=2"
+
+    const { location } = renderWithProviders(<ChannelPage />, {
+      url: `/c/${channel.channel_type}/${channel.name}${initialSearch}`,
+    })
+
+    const queryInput = await screen.findByRole<HTMLInputElement>("textbox", {
+      name: "Search for",
+    })
+    expect(queryInput.value).toBe("meow")
+    await user.clear(queryInput)
+    await user.paste("woof")
+    expect(location.current.searchParams.get("q")).toBe("meow")
+    await user.click(screen.getByRole("button", { name: "Search" }))
+    expect(location.current.searchParams.get("q")).toBe("woof")
+  })
 })

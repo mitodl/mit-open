@@ -7,6 +7,7 @@
  * See https://github.com/scottrippey/next-router-mock/issues
  */
 import * as mocks from "next-router-mock"
+import { ParsedUrlQuery } from "querystring"
 import { createDynamicRouteParser } from "next-router-mock/dynamic-routes"
 
 const getParams = (template: string, pathname: string) => {
@@ -21,6 +22,20 @@ const getParams = (template: string, pathname: string) => {
     return acc
   }, {})
 }
+
+/* Converts router.query objects with multiple key arrays
+ * e.g. { topic: [ 'Physics', 'Chemistry' ] }
+ * to [ [ 'topic', 'Physics' ], [ 'topic', 'Chemistry' ] ]
+ * so that new URLSearchParams(value).toString()
+ * produces topic=Physics&topic=Chemistry
+ * and not topic=Physics%2CChemistry
+ */
+const convertObjectToUrlParams = (obj: ParsedUrlQuery): [string, string][] =>
+  Object.entries(obj).flatMap(([key, value]) =>
+    Array.isArray(value)
+      ? value.map((v) => [key, v] as [string, string])
+      : [[key, value] as [string, string]],
+  )
 
 export const nextNavigationMocks = {
   ...mocks,
@@ -44,8 +59,10 @@ export const nextNavigationMocks = {
   },
   useSearchParams: () => {
     const router = nextNavigationMocks.useRouter()
-    const url = new URL(router.asPath, "http://localhost")
-    return url.searchParams
+
+    const search = new URLSearchParams(convertObjectToUrlParams(router.query))
+
+    return search
   },
   useParams: () => {
     const router = nextNavigationMocks.useRouter()

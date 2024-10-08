@@ -4,6 +4,7 @@ import { Banner } from "./Banner"
 import { Breadcrumbs } from "../Breadcrumbs/Breadcrumbs"
 import { Button } from "../Button/Button"
 import Typography from "@mui/material/Typography"
+import Image from "next/image"
 
 const lipsum =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo"
@@ -43,10 +44,12 @@ export const logoBanner: Story = {
     return (
       <Banner
         avatar={
-          <img
-            src="/mit-logo-transparent5.svg"
+          <Image
+            src="/images/mit-logo-black.svg"
             alt="MIT Logo"
-            style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
+            width={70}
+            height={37}
+            style={{ filter: "saturate(0%) invert(100%)" }}
           />
         }
         {...args}
@@ -60,17 +63,15 @@ export const logoBannerWithExtras: Story = {
     return (
       <Banner
         avatar={
-          <img
-            src="/mit-logo-transparent5.svg"
+          <Image
+            src="/images/mit-logo-black.svg"
             alt="MIT Logo"
+            width={70}
+            height={37}
             style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
           />
         }
-        extraHeader={
-          <Button variant="primary" color="primary">
-            Action Button
-          </Button>
-        }
+        extraHeader={<Button variant="primary">Action Button</Button>}
         extraRight={
           <div>
             <Typography variant="h4">Extra Content</Typography>

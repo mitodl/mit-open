@@ -125,6 +125,9 @@ def serialize_learning_resource_for_update(
         dict: The serialized and transformed resource data
 
     """
+    STALENESS_CUTOFF = 2010
+    COMPLETENESS_CUTOFF = 0.5
+
     serialized_data = LearningResourceSerializer(instance=learning_resource_obj).data
 
     if learning_resource_obj.resource_type == LearningResourceType.course.name:
@@ -146,15 +149,22 @@ def serialize_learning_resource_for_update(
     else:
         featured_rank = None
 
+    resource_age_date = get_resource_age_date(
+        learning_resource_obj, serialized_data["resource_category"]
+    )
+
+    is_incomplete_or_stale = (
+        resource_age_date and resource_age_date.year <= STALENESS_CUTOFF
+    ) or (learning_resource_obj.completeness < COMPLETENESS_CUTOFF)
+
     return {
         "resource_relations": {"name": "resource"},
         "created_on": learning_resource_obj.created_on,
         "is_learning_material": serialized_data["resource_category"]
         == LEARNING_MATERIAL_RESOURCE_CATEGORY,
-        "resource_age_date": get_resource_age_date(
-            learning_resource_obj, serialized_data["resource_category"]
-        ),
+        "resource_age_date": resource_age_date,
         "featured_rank": featured_rank,
+        "is_incomplete_or_stale": is_incomplete_or_stale,
         **serialized_data,
     }
 
@@ -275,6 +285,11 @@ class SearchRequestSerializer(serializers.Serializer):
         required=False,
         child=serializers.CharField(),
         help_text="The topic name. To see a list of options go to api/v1/topics/",
+    )
+    ocw_topic = serializers.ListField(
+        required=False,
+        child=serializers.CharField(),
+        help_text="The ocw topic name.",
     )
     dev_mode = serializers.BooleanField(
         required=False,

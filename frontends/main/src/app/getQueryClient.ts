@@ -10,6 +10,7 @@ type MaybeHasStatus = {
 
 const RETRY_STATUS_CODES = [408, 429, 502, 503, 504]
 const MAX_RETRIES = 3
+const THROW_ERROR_CODES: (number | undefined)[] = [404, 403, 401]
 
 const makeQueryClient = (): QueryClient => {
   return new QueryClient({
@@ -17,6 +18,14 @@ const makeQueryClient = (): QueryClient => {
       queries: {
         refetchOnWindowFocus: false,
         staleTime: Infinity,
+        // Throw runtime errors instead of marking query as errored.
+        // The runtime error will be caught by an error boundary.
+        // For now, only do this for 404s, 403s, and 401s. Other errors should
+        // be handled locally by components.
+        useErrorBoundary: (error) => {
+          const status = (error as MaybeHasStatus)?.response?.status
+          return THROW_ERROR_CODES.includes(status)
+        },
         retry: (failureCount, error) => {
           const status = (error as MaybeHasStatus)?.response?.status
           /**

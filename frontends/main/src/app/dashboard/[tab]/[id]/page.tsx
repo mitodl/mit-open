@@ -3,6 +3,8 @@ import DashboardPage from "@/app-pages/DashboardPage/DashboardPage"
 
 import { Metadata } from "next"
 import { standardizeMetadata } from "@/common/metadata"
+import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
+import { Permissions } from "@/common/permissions"
 
 export const metadata: Metadata = standardizeMetadata({
   title: "Your MIT Learning Journey",
@@ -10,7 +12,11 @@ export const metadata: Metadata = standardizeMetadata({
 })
 
 const Page: React.FC = () => {
-  return <DashboardPage />
+  return (
+    <RestrictedRoute requires={Permissions.Authenticated}>
+      <DashboardPage />
+    </RestrictedRoute>
+  )
 }
 
 export default Page

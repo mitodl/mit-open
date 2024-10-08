@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback, useMemo } from "react"
+import React, { Suspense, useCallback, useEffect, useMemo } from "react"
 import {
   RoutedDrawer,
   LearningResourceExpanded,
@@ -9,11 +9,7 @@ import type {
   RoutedDrawerProps,
 } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
-import {
-  useSearchParams,
-  useRouter,
-  ReadonlyURLSearchParams,
-} from "next/navigation"
+import { useSearchParams, ReadonlyURLSearchParams } from "next/navigation"
 
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { useUserMe } from "api/hooks/user"
@@ -23,38 +19,35 @@ import {
   AddToUserListDialog,
 } from "../Dialogs/AddToListDialog"
 import { SignupPopover } from "../SignupPopover/SignupPopover"
+import { usePostHog } from "posthog-js/react"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
-/*
 const useCapturePageView = (resourceId: number) => {
   const { data, isSuccess } = useLearningResourcesDetail(Number(resourceId))
   const posthog = usePostHog()
+  const apiKey = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY
 
-  // TODO Provide POSTHOG env vars
-
-  // const { POSTHOG } = APP_SETTINGS
-
-  // useEffect(() => {
-  //   if (!POSTHOG?.api_key || POSTHOG.api_key.length < 1) return
-  //   if (!isSuccess) return
-  //   posthog.capture("lrd_view", {
-  //     resourceId: data?.id,
-  //     readableId: data?.readable_id,
-  //     platformCode: data?.platform?.code,
-  //     resourceType: data?.resource_type,
-  //   })
-  // }, [
-  //   isSuccess,
-  //   posthog,
-  //   data?.id,
-  //   data?.readable_id,
-  //   data?.platform?.code,
-  //   data?.resource_type,
-  //   POSTHOG?.api_key,
-  // ])
+  useEffect(() => {
+    if (!apiKey || apiKey.length < 1) return
+    if (!isSuccess) return
+    posthog.capture("lrd_view", {
+      resourceId: data?.id,
+      readableId: data?.readable_id,
+      platformCode: data?.platform?.code,
+      resourceType: data?.resource_type,
+    })
+  }, [
+    isSuccess,
+    posthog,
+    data?.id,
+    data?.readable_id,
+    data?.platform?.code,
+    data?.resource_type,
+    apiKey,
+  ])
 }
-*/
+
 /**
  * Convert HTML to plaintext, removing any HTML tags.
  * This conversion method has some issues:
@@ -93,6 +86,7 @@ const DrawerContent: React.FC<{
         NiceModal.show(AddToUserListDialog, { resourceId })
       }
     }, [user])
+  useCapturePageView(Number(resourceId))
 
   return (
     <>
@@ -144,29 +138,17 @@ const getOpenDrawerSearchParams = (
   return newSearchParams
 }
 
-const useOpenLearningResourceDrawer = () => {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-
-  const openLearningResourceDrawer = useCallback(
-    (resourceId: number) => {
-      router.push(`?${getOpenDrawerSearchParams(searchParams, resourceId)}`)
-    },
-    [router, searchParams],
-  )
-  return openLearningResourceDrawer
-}
-
 const useResourceDrawerHref = () => {
   const searchParams = useSearchParams()
 
   return useCallback(
     (resourceId: number) => {
-      return `?${getOpenDrawerSearchParams(searchParams, resourceId)}`
+      const hash = window?.location.hash
+      return `?${getOpenDrawerSearchParams(searchParams, resourceId)}${hash || ""}`
     },
     [searchParams],
   )
 }
 
 export default LearningResourceDrawer
-export { useOpenLearningResourceDrawer, useResourceDrawerHref }
+export { useResourceDrawerHref }

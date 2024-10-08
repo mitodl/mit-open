@@ -11,17 +11,13 @@ import {
   getDepartmentName,
 } from "@mitodl/course-search-utils"
 import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
-import {
-  SearchInput,
-  styled,
-  Container,
-  theme,
-  VisuallyHidden,
-} from "ol-components"
+import { styled, Container, theme, VisuallyHidden } from "ol-components"
+import { SearchField } from "@/page-components/SearchField/SearchField"
 import type { LearningResourceOfferor } from "api"
 import { useOfferorsList } from "api/hooks/learningResources"
 import { capitalize } from "ol-utilities"
 import LearningResourceDrawer from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
+import { usePostHog } from "posthog-js/react"
 
 const cssGradient = `
   linear-gradient(
@@ -57,7 +53,7 @@ const SearchFieldContainer = styled(Container)({
   justifyContent: "center",
 })
 
-const SearchField = styled(SearchInput)(({ theme }) => ({
+const StyledSearchField = styled(SearchField)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     width: "100%",
   },
@@ -177,6 +173,7 @@ const useFacetManifest = (resourceCategory: string | null) => {
 const SearchPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const facetManifest = useFacetManifest(searchParams.get("resource_category"))
+  const posthog = usePostHog()
 
   const setPage = useCallback(
     (newPage: number) => {
@@ -193,8 +190,11 @@ const SearchPage: React.FC = () => {
     [setSearchParams],
   )
   const onFacetsChange = useCallback(() => {
+    if (process.env.NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY) {
+      posthog.capture("search_update")
+    }
     setPage(1)
-  }, [setPage])
+  }, [setPage, posthog])
 
   const {
     params,
@@ -212,14 +212,6 @@ const SearchPage: React.FC = () => {
     onFacetsChange,
   })
 
-  const onSearchTermSubmit = useCallback(
-    (term: string) => {
-      setCurrentTextAndQuery(term)
-      setPage(1)
-    },
-    [setPage, setCurrentTextAndQuery],
-  )
-
   const page = +(searchParams.get("page") ?? "1")
 
   return (
@@ -230,16 +222,17 @@ const SearchPage: React.FC = () => {
       </VisuallyHidden>
       <Header>
         <SearchFieldContainer>
-          <SearchField
+          <StyledSearchField
             value={currentText}
             size="large"
             onChange={(e) => setCurrentText(e.target.value)}
             onSubmit={(e) => {
-              onSearchTermSubmit(e.target.value)
+              setCurrentTextAndQuery(e.target.value)
             }}
             onClear={() => {
-              onSearchTermSubmit("")
+              setCurrentTextAndQuery("")
             }}
+            setPage={setPage}
           />
         </SearchFieldContainer>
       </Header>

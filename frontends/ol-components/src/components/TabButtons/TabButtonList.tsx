@@ -67,7 +67,8 @@ const TabLinkInner = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
   },
 )
 
-const TabButton = (props: TabProps<"button">) => (
+type TabButtonProps = Omit<TabProps<"button">, "color">
+const TabButton = (props: TabButtonProps) => (
   <MuiTab {...props} component={TabButtonInner} />
 )
 

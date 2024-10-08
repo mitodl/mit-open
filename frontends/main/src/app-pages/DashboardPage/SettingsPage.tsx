@@ -1,11 +1,19 @@
 import React from "react"
-import { PlainList, Typography, Link, styled } from "ol-components"
+import {
+  PlainList,
+  Typography,
+  Link,
+  styled,
+  Button,
+  Dialog,
+  DialogActions,
+} from "ol-components"
 import { useUserMe } from "api/hooks/user"
 import {
   useSearchSubscriptionDelete,
   useSearchSubscriptionList,
 } from "api/hooks/searchSubscription"
-
+import * as NiceModal from "@ebay/nice-modal-react"
 const SOURCE_LABEL_DISPLAY = {
   topic: "Topic",
   unit: "MIT Unit",
@@ -13,6 +21,10 @@ const SOURCE_LABEL_DISPLAY = {
   saved_search: "Saved Search",
 }
 
+const Actions = styled(DialogActions)({
+  display: "flex",
+  "> *": { flex: 1 },
+})
 const FollowList = styled(PlainList)(({ theme }) => ({
   borderRadius: "8px",
   background: theme.custom.colors.white,
@@ -35,6 +47,29 @@ const SubTitleText = styled(Typography)(({ theme }) => ({
   marginBottom: "16px",
   color: theme.custom.colors.darkGray2,
   ...theme.typography.body2,
+}))
+
+const SettingsHeader = styled.div(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  alignSelf: "stretch",
+  [theme.breakpoints.down("md")]: {
+    paddingBottom: "8px",
+  },
+}))
+
+const SettingsHeaderLeft = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  flex: "1 0 0",
+})
+
+const SettingsHeaderRight = styled.div(({ theme }) => ({
+  display: "flex",
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
 }))
 
 const ListItem = styled.li(({ theme }) => [
@@ -83,22 +118,100 @@ const ListItemBody: React.FC<ListItemBodyProps> = ({
   )
 }
 
+type UnfollowDialogProps = {
+  subscriptionIds?: number[]
+  subscriptionName?: string
+}
+const UnfollowDialog = NiceModal.create(
+  ({ subscriptionIds, subscriptionName }: UnfollowDialogProps) => {
+    const modal = NiceModal.useModal()
+    const subscriptionDelete = useSearchSubscriptionDelete()
+    const unsubscribe = subscriptionDelete.mutate
+    return (
+      <Dialog
+        {...NiceModal.muiDialogV5(modal)}
+        title={subscriptionIds?.length === 1 ? "Unfollow" : "Unfollow All"}
+        actions={
+          <Actions>
+            <Button variant="secondary" onClick={() => modal.remove()}>
+              Cancel
+            </Button>
+
+            <Button
+              data-testid="dialog-unfollow"
+              onClick={async () =>
+                subscriptionIds?.map((subscriptionId) =>
+                  unsubscribe(subscriptionId, {
+                    onSuccess: () => {
+                      modal.remove()
+                    },
+                  }),
+                )
+              }
+            >
+              {subscriptionIds?.length === 1
+                ? "Yes, Unfollow"
+                : "Yes, Unfollow All"}
+            </Button>
+          </Actions>
+        }
+      >
+        {subscriptionIds?.length === 1 ? (
+          <>
+            Are you sure you want to unfollow <b>{subscriptionName}</b>?
+          </>
+        ) : (
+          <>
+            Are you sure you want to <b>Unfollow All</b>? You will stop getting
+            emails for all topics, academic departments, and MIT units you are
+            following.
+          </>
+        )}
+      </Dialog>
+    )
+  },
+)
+
 const SettingsPage: React.FC = () => {
   const { data: user } = useUserMe()
-  const subscriptionDelete = useSearchSubscriptionDelete()
+
   const subscriptionList = useSearchSubscriptionList({
     enabled: !!user?.is_authenticated,
   })
 
-  const unsubscribe = subscriptionDelete.mutate
   if (!user || subscriptionList.isLoading) return null
 
   return (
     <>
-      <TitleText>Following</TitleText>
-      <SubTitleText>
-        All topics, academic departments, and MIT units you are following.
-      </SubTitleText>
+      <SettingsHeader>
+        <SettingsHeaderLeft>
+          <TitleText>Following</TitleText>
+          <SubTitleText>
+            All topics, academic departments, and MIT units you are following.
+          </SubTitleText>
+        </SettingsHeaderLeft>
+        {subscriptionList?.data && subscriptionList?.data?.length > 1 ? (
+          <SettingsHeaderRight>
+            <Button
+              data-testid="unfollow-all"
+              variant="tertiary"
+              onClick={() =>
+                NiceModal.show(UnfollowDialog, {
+                  subscriptionIds: subscriptionList?.data?.map(
+                    (subscriptionItem) => subscriptionItem.id,
+                  ),
+                  subscriptionName: "All",
+                  id: "all",
+                })
+              }
+            >
+              Unfollow All
+            </Button>
+          </SettingsHeaderRight>
+        ) : (
+          <></>
+        )}
+      </SettingsHeader>
       <FollowList data-testid="follow-list">
         {subscriptionList?.data?.map((subscriptionItem) => (
           <ListItem key={subscriptionItem.id}>
@@ -111,10 +224,13 @@ const SettingsPage: React.FC = () => {
               }
             />
             <StyledLink
-              onClick={(event) => {
-                event.preventDefault()
-                unsubscribe(subscriptionItem.id)
-              }}
+              onClick={() =>
+                NiceModal.show(UnfollowDialog, {
+                  subscriptionIds: [subscriptionItem.id],
+                  subscriptionName: subscriptionItem.source_description,
+                  id: subscriptionItem.id.toString(),
+                })
+              }
             >
               Unfollow
             </StyledLink>
