@@ -62,6 +62,48 @@ describe("DepartmentListingPage", () => {
     }
 
     setMockResponse.get(urls.schools.list(), schools)
+    setMockResponse.get(urls.channels.counts("department"), [
+      {
+        name: department1.name,
+        title: department1.name,
+        counts: {
+          programs: 1,
+          courses: 10,
+        },
+      },
+      {
+        name: department2.name,
+        title: department2.name,
+        counts: {
+          programs: 2,
+          courses: 20,
+        },
+      },
+      {
+        name: department3.name,
+        title: department3.name,
+        counts: {
+          programs: 0,
+          courses: 1,
+        },
+      },
+      {
+        name: department4.name,
+        title: department4.name,
+        counts: {
+          programs: 4,
+          courses: 40,
+        },
+      },
+      {
+        name: department5.name,
+        title: department5.name,
+        counts: {
+          programs: 5,
+          courses: 50,
+        },
+      },
+    ])
     setMockResponse.get(
       urls.search.resources({
         resource_type: ["course"],

@@ -15,13 +15,12 @@ import { Link } from "react-router-dom"
 import { propsNotNil } from "ol-utilities"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
 
-import {
-  useLearningResourceTopics,
-  useLearningResourcesSearch,
-} from "api/hooks/learningResources"
-import { LearningResourcesSearchResponse, LearningResourceTopic } from "api"
+import { useLearningResourceTopics } from "api/hooks/learningResources"
+import { LearningResourceTopic } from "api"
 import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 import { HOME } from "@/common/urls"
+import { aggregateProgramCounts, aggregateCourseCounts } from "@/common/utils"
+import { useChannelCounts } from "api/hooks/channels"
 
 const TOPICS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 
@@ -182,17 +181,6 @@ const TopicBoxLoading = () => {
 
 const Page = styled.div({})
 
-const aggregateByTopic = (
-  data: LearningResourcesSearchResponse,
-): Record<string, number> => {
-  const buckets = data.metadata.aggregations["topic"] ?? []
-  return Object.fromEntries(
-    buckets.map((bucket) => {
-      return [bucket.key, bucket.doc_count]
-    }),
-  )
-}
-
 type TopicGroup = {
   id: number
   title: string
@@ -258,28 +246,23 @@ const RootTopicList = styled(PlainList)(({ theme }) => ({
 }))
 
 const ToopicsListingPage: React.FC = () => {
+  const channelCountQuery = useChannelCounts("topic")
   const topicsQuery = useLearningResourceTopics()
-  const courseQuery = useLearningResourcesSearch({
-    resource_type: ["course"],
-    aggregations: ["topic"],
-  })
-  const programQuery = useLearningResourcesSearch({
-    resource_type: ["program"],
-    aggregations: ["topic"],
-  })
+
   const channelsGroups = useMemo(() => {
-    const courseCounts = courseQuery.data
-      ? aggregateByTopic(courseQuery.data)
+    const courseCounts = channelCountQuery.data
+      ? aggregateCourseCounts("title", channelCountQuery.data)
       : {}
-    const programCounts = programQuery.data
-      ? aggregateByTopic(programQuery.data)
+    const programCounts = channelCountQuery.data
+      ? aggregateProgramCounts("title", channelCountQuery.data)
       : {}
     return groupTopics(
       topicsQuery.data?.results ?? [],
       courseCounts,
       programCounts,
     )
-  }, [topicsQuery.data?.results, courseQuery.data, programQuery.data])
+  }, [topicsQuery.data?.results, channelCountQuery.data])
+
   return (
     <Page>
       <MetaTags title="Topics" />
