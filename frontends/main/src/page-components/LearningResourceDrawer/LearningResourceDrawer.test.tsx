@@ -1,15 +1,12 @@
 import React from "react"
 import {
-  act,
   expectProps,
   renderWithProviders,
   screen,
   waitFor,
   within,
 } from "@/test-utils"
-import LearningResourceDrawer, {
-  useOpenLearningResourceDrawer,
-} from "./LearningResourceDrawer"
+import LearningResourceDrawer from "./LearningResourceDrawer"
 import { urls, factories, setMockResponse } from "api/test-utils"
 import { LearningResourceExpanded } from "ol-components"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
@@ -75,28 +72,6 @@ describe("LearningResourceDrawer", () => {
       url: "?dog=woof",
     })
     expect(LearningResourceExpanded).not.toHaveBeenCalled()
-  })
-
-  test("useOpenLearningResourceDrawer sets correct parameter", () => {
-    let openDrawer = (_id: number): void => {
-      throw new Error("Not implemented")
-    }
-    const TestComponent = () => {
-      openDrawer = useOpenLearningResourceDrawer()
-      return null
-    }
-    const { location } = renderWithProviders(<TestComponent />, {
-      url: "?dog=woof",
-    })
-
-    act(() => {
-      openDrawer(123)
-    })
-
-    expect(Object.fromEntries(location.current.searchParams)).toEqual({
-      [RESOURCE_DRAWER_QUERY_PARAM]: "123",
-      dog: "woof",
-    })
   })
 
   test.each([

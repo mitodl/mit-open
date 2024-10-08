@@ -142,26 +142,6 @@ const getOpenDrawerSearchParams = (
   return newSearchParams
 }
 
-// TODO Not used anywhere in project. Remove?
-const useOpenLearningResourceDrawer = () => {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-
-  const openLearningResourceDrawer = useCallback(
-    (resourceId: number) => {
-      const hash = window?.location.hash
-      router.push(
-        `?${getOpenDrawerSearchParams(searchParams, resourceId)}${hash ? `#${hash}` : ""}`,
-        {
-          scroll: false,
-        },
-      )
-    },
-    [router, searchParams],
-  )
-  return openLearningResourceDrawer
-}
-
 const useResourceDrawerHref = () => {
   const searchParams = useSearchParams()
 
