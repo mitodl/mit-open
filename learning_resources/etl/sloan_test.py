@@ -17,6 +17,7 @@ from learning_resources.etl.sloan import (
     parse_datetime,
     parse_format,
     parse_image,
+    parse_location,
     parse_pace,
     transform_course,
     transform_delivery,
@@ -130,6 +131,7 @@ def test_transform_run(
         "instructors": [{"full_name": name.strip()} for name in faculty_names],
         "pace": [Pace.instructor_paced.name],
         "format": [Format.synchronous.name],
+        "location": run_data["Location"],
     }
 
 
@@ -280,3 +282,22 @@ def test_parse_format(delivery, run_format, expected_format):
     }
     assert parse_format(run_data) == expected_format
     assert parse_format(None) == [Format.asynchronous.name]
+
+
+@pytest.mark.parametrize(
+    ("delivery", "location", "result"),
+    [
+        ("Online", "Online", ""),
+        ("In Person", "Cambridge, MA", "Cambridge, MA"),
+        ("Blended", "Boston, MA", "Boston, MA"),
+        ("Online", None, ""),
+    ],
+)
+def test_parse_location(delivery, location, result):
+    """Test that the location is parsed correctly"""
+    run_data = {
+        "Delivery": delivery,
+        "Location": location,
+    }
+    assert parse_location(run_data) == result
+    assert parse_location(None) == ""

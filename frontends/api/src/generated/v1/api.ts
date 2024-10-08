@@ -806,6 +806,12 @@ export interface CourseResource {
    * @memberof CourseResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof CourseResource
+   */
+  location?: string
 }
 
 /**
@@ -1020,6 +1026,12 @@ export interface CourseResourceRequest {
    * @memberof CourseResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof CourseResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -1582,6 +1594,12 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  location?: string
 }
 
 /**
@@ -1680,6 +1698,12 @@ export interface LearningPathResourceRequest {
    * @memberof LearningPathResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -2336,6 +2360,12 @@ export interface LearningResourceRun {
    * @memberof LearningResourceRun
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  location?: string
 }
 
 /**
@@ -2491,6 +2521,12 @@ export interface LearningResourceRunRequest {
    * @memberof LearningResourceRunRequest
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRunRequest
+   */
+  location?: string
 }
 
 /**
@@ -3517,6 +3553,12 @@ export interface PatchedLearningPathResourceRequest {
    * @memberof PatchedLearningPathResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -4315,6 +4357,12 @@ export interface PodcastEpisodeResource {
    * @memberof PodcastEpisodeResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodeResource
+   */
+  location?: string
 }
 
 /**
@@ -4413,6 +4461,12 @@ export interface PodcastEpisodeResourceRequest {
    * @memberof PodcastEpisodeResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodeResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -4691,6 +4745,12 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastResource
+   */
+  location?: string
 }
 
 /**
@@ -4789,6 +4849,12 @@ export interface PodcastResourceRequest {
    * @memberof PodcastResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -5287,6 +5353,12 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramResource
+   */
+  location?: string
 }
 
 /**
@@ -5385,6 +5457,12 @@ export interface ProgramResourceRequest {
    * @memberof ProgramResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -6142,6 +6220,12 @@ export interface VideoPlaylistResource {
    * @memberof VideoPlaylistResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof VideoPlaylistResource
+   */
+  location?: string
 }
 
 /**
@@ -6240,6 +6324,12 @@ export interface VideoPlaylistResourceRequest {
    * @memberof VideoPlaylistResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof VideoPlaylistResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -6506,6 +6596,12 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof VideoResource
+   */
+  location?: string
 }
 
 /**
@@ -6604,6 +6700,12 @@ export interface VideoResourceRequest {
    * @memberof VideoResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof VideoResourceRequest
+   */
+  location?: string
 }
 
 /**
