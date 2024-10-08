@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+Version 0.21.1
+--------------
+
+- Always delete past events during ETL, and filter them out from api results too just in case (#1660)
+- Add location field to LearningResource and LearningResourceRun models (#1604)
+- Cached department and topic page counts (#1661)
+- Shanbady/randomize featured resources (#1653)
+- Ignore NotFoundErrors in switch_indices function (#1654)
+
 Version 0.21.0 (Released October 07, 2024)
 --------------
 
