@@ -25,7 +25,6 @@ const ChannelControlsContainer = styled.div(({ theme }) => ({
   alignItems: "end",
   flexGrow: 0,
   flexShrink: 0,
-  order: 2,
   [theme.breakpoints.down("xs")]: {
     width: "100%",
   },
