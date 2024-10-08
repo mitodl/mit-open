@@ -343,7 +343,7 @@ const useLearningResourceSetUserListRelationships = () => {
     ) => learningResourcesApi.learningResourcesUserlistsPartialUpdate(params),
     onSettled: (_response, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.id, {
-        skipFeatured: false,
+        skipFeatured: true,
       })
       vars.userlist_id?.forEach((userlistId) => {
         invalidateUserListQueries(queryClient, userlistId)
@@ -361,7 +361,7 @@ const useLearningResourceSetLearningPathRelationships = () => {
       learningResourcesApi.learningResourcesLearningPathsPartialUpdate(params),
     onSettled: (_response, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.id, {
-        skipFeatured: false,
+        skipFeatured: true,
       })
       vars.learning_path_id?.forEach((learningPathId) => {
         invalidateResourceQueries(queryClient, learningPathId, {
