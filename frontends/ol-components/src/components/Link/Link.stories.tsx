@@ -21,6 +21,7 @@ const SIZES = [
   { size: "medium", label: "Medium" },
   { size: "large", label: "Large" },
 ] as const
+
 const COLORS = [
   { color: "black", label: "Black" },
   { color: "red", label: "Red" },

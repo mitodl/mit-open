@@ -290,7 +290,10 @@ describe("Channel Pages, Topic only", () => {
       name: (name) => subTopics?.results.map((t) => t.name).includes(name),
     })
     links.forEach((link, i) => {
-      expect(link).toHaveAttribute("href", subTopics.results[i].channel_url)
+      expect(link).toHaveAttribute(
+        "href",
+        new URL(subTopics.results[i].channel_url!).pathname,
+      )
     })
   })
 })

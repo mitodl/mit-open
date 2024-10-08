@@ -11,7 +11,6 @@ const StateWrapper = (props: DialogProps) => {
   }, [props.open])
 
   const close = () => {
-    console.log("close?", open)
     setOpen(false)
     props.onClose()
   }

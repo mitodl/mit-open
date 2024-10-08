@@ -62,7 +62,7 @@ const SubTopicsDisplay: React.FC<SubTopicDisplayProps> = (props) => {
               size="large"
               variant="outlinedWhite"
               key={topic.id}
-              href={topic.channel_url}
+              href={new URL(topic.channel_url).pathname}
               label={topic.name}
             />
           ))}

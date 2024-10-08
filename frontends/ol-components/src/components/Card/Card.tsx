@@ -210,7 +210,7 @@ const Card: Card = ({ children, className, size, href }) => {
 
   return (
     <Wrapper className={allClassNames} size={size}>
-      <_Container href={href!}>
+      <_Container href={href!} scroll={!href?.startsWith("?")}>
         {image && (
           // alt text will be checked on Card.Image
           // eslint-disable-next-line styled-components-a11y/alt-text

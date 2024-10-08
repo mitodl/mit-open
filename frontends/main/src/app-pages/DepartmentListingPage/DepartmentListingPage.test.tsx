@@ -154,7 +154,7 @@ describe("DepartmentListingPage", () => {
       name: (name) => name.includes(dept.name),
     })
 
-    expect(link).toHaveAttribute("href", dept.channel_url)
+    expect(link).toHaveAttribute("href", new URL(dept.channel_url!).pathname)
   })
 
   test("headings", async () => {

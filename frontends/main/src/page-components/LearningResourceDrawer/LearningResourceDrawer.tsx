@@ -9,11 +9,7 @@ import type {
   RoutedDrawerProps,
 } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
-import {
-  useSearchParams,
-  useRouter,
-  ReadonlyURLSearchParams,
-} from "next/navigation"
+import { useSearchParams, ReadonlyURLSearchParams } from "next/navigation"
 
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { useUserMe } from "api/hooks/user"
@@ -142,29 +138,17 @@ const getOpenDrawerSearchParams = (
   return newSearchParams
 }
 
-const useOpenLearningResourceDrawer = () => {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-
-  const openLearningResourceDrawer = useCallback(
-    (resourceId: number) => {
-      router.push(`?${getOpenDrawerSearchParams(searchParams, resourceId)}`)
-    },
-    [router, searchParams],
-  )
-  return openLearningResourceDrawer
-}
-
 const useResourceDrawerHref = () => {
   const searchParams = useSearchParams()
 
   return useCallback(
     (resourceId: number) => {
-      return `?${getOpenDrawerSearchParams(searchParams, resourceId)}`
+      const hash = window?.location.hash
+      return `?${getOpenDrawerSearchParams(searchParams, resourceId)}${hash || ""}`
     },
     [searchParams],
   )
 }
 
 export default LearningResourceDrawer
-export { useOpenLearningResourceDrawer, useResourceDrawerHref }
+export { useResourceDrawerHref }

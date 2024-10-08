@@ -150,7 +150,12 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
           if (!department.channel_url) return null
           return (
             <ListItem disablePadding key={department.department_id}>
-              <DepartmentLink href={department.channel_url}>
+              <DepartmentLink
+                href={
+                  department.channel_url &&
+                  new URL(department.channel_url).pathname
+                }
+              >
                 <ListItemText
                   primary={department.name}
                   secondary={counts

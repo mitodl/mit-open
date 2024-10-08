@@ -81,10 +81,20 @@ const RoutedDrawer = <K extends string, R extends K = K>(
       params.forEach((param) => {
         newSearchParams.delete(param)
       })
+
       return newSearchParams
     }
     const newParams = getNewParams(searchParams)
-    router.push(`?${newParams}${window.location.hash}`)
+
+    const hash = window?.location.hash
+
+    // Note that { scroll: true } and { scroll: false } both remove the hash fragment
+    if (hash) {
+      router.push(`?${newParams}${hash}`)
+    } else {
+      // Prevent scroll to top of page
+      router.push(`?${newParams}`, { scroll: false })
+    }
   }, [router, searchParams, params])
 
   return (

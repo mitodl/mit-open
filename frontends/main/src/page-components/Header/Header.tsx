@@ -120,6 +120,9 @@ const StyledSearchButton = styled(ActionButtonLink)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     padding: "0",
   },
+  alignItems: "center",
+  display: "inline-flex",
+  justifyContent: "center",
 }))
 
 const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({

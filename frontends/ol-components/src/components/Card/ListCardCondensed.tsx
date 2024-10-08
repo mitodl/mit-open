@@ -105,7 +105,7 @@ const ListCardCondensed: Card = ({ children, className, href, draggable }) => {
 
   return (
     <Wrapper className={className}>
-      <_Container href={href!}>
+      <_Container href={href!} scroll={!href?.startsWith("?")}>
         {draggable && (
           <DragArea>
             <RiDraggable />

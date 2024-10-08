@@ -70,6 +70,7 @@ const renderWithProviders = (
     const user = { ...defaultUser, ...allOpts.user }
     queryClient.setQueryData(["userMe"], { ...user })
   }
+
   mockRouter.setCurrentUrl(url)
 
   const view = render(
@@ -78,8 +79,15 @@ const renderWithProviders = (
 
   const location = {
     get current() {
-      const url = new URL(mockRouter.asPath, "http://localhost")
-      return { pathname: mockRouter.pathname, search: url.search }
+      const searchParams = new URLSearchParams(
+        mockRouter.query as unknown as URLSearchParams,
+      )
+      const search = searchParams.toString()
+      return {
+        pathname: mockRouter.pathname,
+        searchParams,
+        search: search ? `?${search}` : "",
+      }
     },
   }
 

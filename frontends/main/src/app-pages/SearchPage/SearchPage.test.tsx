@@ -146,6 +146,7 @@ describe("SearchPage", () => {
         },
       },
     })
+
     const { location } = renderWithProviders(<SearchPage />, {
       url: "?topic=Physics&topic=Chemistry",
     })
