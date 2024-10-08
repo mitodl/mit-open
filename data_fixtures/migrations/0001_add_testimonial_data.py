@@ -15,7 +15,7 @@ from learning_resources.utils import (
     upsert_topic_data_file,
 )
 
-logger = logging.getLoggerI(__name__)
+logger = logging.getLogger(__name__)
 
 """
 Fix an issue with PIL's logger when running in test
