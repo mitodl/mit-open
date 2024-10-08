@@ -244,7 +244,7 @@ const RootTopicList = styled(PlainList)(({ theme }) => ({
     paddingTop: "32px",
   },
 }))
-  
+
 const TopicsListingPage: React.FC = () => {
   const channelCountQuery = useChannelCounts("topic")
   const topicsQuery = useLearningResourceTopics()
