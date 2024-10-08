@@ -92,13 +92,7 @@ const sizeStyles = (
   ]
 }
 
-type ButtonProps = ButtonStyleProps & React.ComponentProps<"button">
-type AnchorProps = ButtonStyleProps & React.ComponentProps<"a">
-type LinkProps = ButtonStyleProps & React.ComponentProps<typeof Link>
-
-const buildStyles = (
-  props: (ButtonProps | AnchorProps | LinkProps) & { theme: Theme },
-) => {
+const buildStyles = (props: ButtonStyleProps & { theme: Theme }) => {
   const { size, variant, edge, theme, color, responsive } = {
     ...DEFAULT_PROPS,
     ...props,
@@ -308,6 +302,8 @@ const ButtonInner: React.FC<
     </>
   )
 }
+
+type ButtonProps = ButtonStyleProps & React.ComponentProps<"button">
 
 /**
  * Our styled button. If you need a link that looks like a button, use ButtonLink

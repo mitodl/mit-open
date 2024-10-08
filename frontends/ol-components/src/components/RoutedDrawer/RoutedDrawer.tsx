@@ -93,7 +93,7 @@ const RoutedDrawer = <K extends string, R extends K = K>(
       router.push(`?${newParams}${hash}`)
     } else {
       // Prevent scroll to top of page
-      router.push(`?${newParams}${hash}`, { scroll: false })
+      router.push(`?${newParams}`, { scroll: false })
     }
   }, [router, searchParams, params])
 
