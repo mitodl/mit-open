@@ -1,11 +1,14 @@
 """Tests for news_events views"""
 
+from datetime import UTC, datetime
+
 import pytest
 from django.urls import reverse
 
 from main.test_utils import assert_json_equal
 from news_events import factories, serializers
 from news_events.constants import FeedType
+from news_events.factories import FeedEventDetailFactory
 
 
 def test_feed_source_viewset_list(client):
@@ -71,6 +74,9 @@ def test_feed_item_viewset_list(client, is_news):
         else x.event_details.event_datetime,
         reverse=True,
     )
+    past_event = FeedEventDetailFactory(
+        event_datetime=datetime(2020, 1, 1, tzinfo=UTC)
+    ).feed_item
     results = (
         client.get(reverse("news_events:v0:news_events_items_api-list"))
         .json()
@@ -79,6 +85,7 @@ def test_feed_item_viewset_list(client, is_news):
     assert_json_equal(
         [serializers.FeedItemSerializer(instance=item).data for item in items], results
     )
+    assert past_event.id not in [item["id"] for item in results]
 
 
 @pytest.mark.parametrize("feed_type", FeedType.names())
