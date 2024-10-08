@@ -9,10 +9,7 @@ import type {
   RoutedDrawerProps,
 } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
-import {
-  useSearchParams,
-  ReadonlyURLSearchParams,
-} from "next/navigation"
+import { useSearchParams, ReadonlyURLSearchParams } from "next/navigation"
 
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { useUserMe } from "api/hooks/user"
