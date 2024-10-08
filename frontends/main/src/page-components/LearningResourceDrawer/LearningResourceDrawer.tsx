@@ -11,7 +11,6 @@ import type {
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
 import {
   useSearchParams,
-  useRouter,
   ReadonlyURLSearchParams,
 } from "next/navigation"
 
@@ -155,4 +154,4 @@ const useResourceDrawerHref = () => {
 }
 
 export default LearningResourceDrawer
-export { useOpenLearningResourceDrawer, useResourceDrawerHref }
+export { useResourceDrawerHref }
