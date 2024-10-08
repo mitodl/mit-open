@@ -138,17 +138,20 @@ def load_run_dependent_values(
         next_upcoming_run
         or resource.runs.filter(published=True).order_by("-start_date").first()
     )
-    resource.availability = best_run.availability if best_run else resource.availability
-    resource.prices = (
-        best_run.prices
-        if resource.certification and best_run and best_run.prices
-        else []
-    )
+    if best_run:
+        resource.availability = best_run.availability
+        resource.prices = (
+            best_run.prices
+            if resource.certification and best_run and best_run.prices
+            else []
+        )
+        resource.location = best_run.location
     resource.save()
     return ResourceNextRunConfig(
         next_start_date=resource.next_start_date,
         prices=resource.prices,
         availability=resource.availability,
+        location=resource.location,
     )
 
 

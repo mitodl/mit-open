@@ -8095,6 +8095,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - certification
       - certification_type
@@ -8186,6 +8189,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - readable_id
       - title
@@ -8584,6 +8590,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - certification
       - certification_type
@@ -8672,6 +8681,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - title
     LearningPathResourceResourceTypeEnum:
@@ -9204,6 +9216,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        location:
+          type: string
+          maxLength: 256
       required:
       - delivery
       - format
@@ -9315,6 +9330,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        location:
+          type: string
+          maxLength: 256
       required:
       - level
       - run_id
@@ -10057,6 +10075,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
     PatchedLearningResourceRelationshipRequest:
       type: object
       description: CRUD serializer for LearningResourceRelationship
@@ -10688,6 +10709,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - certification
       - certification_type
@@ -10779,6 +10803,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - readable_id
       - title
@@ -11018,6 +11045,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - certification
       - certification_type
@@ -11109,6 +11139,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - readable_id
       - title
@@ -11478,6 +11511,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - certification
       - certification_type
@@ -11569,6 +11605,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - readable_id
       - title
@@ -12080,6 +12119,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - certification
       - certification_type
@@ -12171,6 +12213,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - readable_id
       - title
@@ -12396,6 +12441,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - certification
       - certification_type
@@ -12487,6 +12535,9 @@ components:
           format: decimal
           pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
           nullable: true
+        location:
+          type: string
+          maxLength: 256
       required:
       - readable_id
       - title

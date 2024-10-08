@@ -116,3 +116,4 @@ class ResourceNextRunConfig:
     next_start_date: datetime = None
     prices: list[Decimal] = field(default_factory=list)
     availability: str = None
+    location: str = None
