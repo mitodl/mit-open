@@ -2,7 +2,6 @@
 
 import logging
 from hmac import compare_digest
-from random import shuffle
 
 import rapidjson
 from django.conf import settings
@@ -1031,20 +1030,6 @@ class FeaturedViewSet(
     resource_type_name_plural = "Featured Resources"
     serializer_class = LearningResourceSerializer
 
-    @staticmethod
-    def _randomize_results(results):
-        """Randomize the results within each position"""
-        if len(results) > 0:
-            results_by_position = {}
-            randomized_results = []
-            for result in results:
-                results_by_position.setdefault(result.position, []).append(result)
-            for position in sorted(results_by_position.keys()):
-                shuffle(results_by_position[position])
-                randomized_results.extend(results_by_position[position])
-            return randomized_results
-        return results
-
     def get_queryset(self) -> QuerySet:
         """
         Generate a QuerySet for fetching featured LearningResource objects
@@ -1080,8 +1065,8 @@ class FeaturedViewSet(
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = self.get_serializer(self._randomize_results(page), many=True)
+            serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(self._randomize_results(queryset), many=True)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)

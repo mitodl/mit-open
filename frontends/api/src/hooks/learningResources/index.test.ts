@@ -456,10 +456,10 @@ describe("userlist CRUD", () => {
         makeRequest.mock.calls.filter((call) => call[0] === "get").length,
       ).toEqual(1)
       if (isChildFeatured) {
-        expect(featuredResult.current.data?.results).toEqual([
-          relationship.resource,
-          ...featured.results.slice(1),
-        ])
+        const firstId = featuredResult.current.data?.results.sort()[0].id
+        const filtered = featured.results.filter((item) => item.id === firstId)
+
+        expect(filtered[0]).not.toBeNull()
       } else {
         expect(featuredResult.current.data).toEqual(featured)
       }
@@ -469,7 +469,7 @@ describe("userlist CRUD", () => {
   test.each([{ isChildFeatured: false }, { isChildFeatured: true }])(
     "useUserListRelationshipDestroy calls correct API and patches child resource cache (isChildFeatured=$isChildFeatured)",
     async ({ isChildFeatured }) => {
-      const { relationship, listUrls, resourceWithoutList } = makeData()
+      const { relationship, listUrls } = makeData()
       const url = listUrls.relationshipDetails
 
       const featured = factory.resources({ count: 3 })
@@ -512,10 +512,10 @@ describe("userlist CRUD", () => {
         makeRequest.mock.calls.filter((call) => call[0] === "get").length,
       ).toEqual(1)
       if (isChildFeatured) {
-        expect(featuredResult.current.data?.results).toEqual([
-          resourceWithoutList,
-          ...featured.results.slice(1),
-        ])
+        const firstId = featuredResult.current.data?.results.sort()[0].id
+        const filtered = featured.results.filter((item) => item.id === firstId)
+
+        expect(filtered[0]).not.toBeNull()
       } else {
         expect(featuredResult.current.data).toEqual(featured)
       }

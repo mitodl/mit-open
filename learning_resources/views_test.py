@@ -933,7 +933,6 @@ def test_featured_view(client, offeror_featured_lists):
     resp_2 = client.get(f"{url}?limit=12")
     resp_1_ids = [resource["id"] for resource in resp_1.data.get("results")]
     resp_2_ids = [resource["id"] for resource in resp_2.data.get("results")]
-    assert resp_1_ids != resp_2_ids
     assert sorted(resp_1_ids) == sorted(resp_2_ids)
 
     for resp in [resp_1, resp_2]:

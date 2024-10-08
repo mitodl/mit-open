@@ -108,11 +108,13 @@ def test_clear_and_create_index(mocked_es, object_type, skip_mapping, already_ex
 
 @pytest.mark.parametrize("object_type", [COURSE_TYPE, PROGRAM_TYPE])
 @pytest.mark.parametrize("default_exists", [True, False])
-def test_switch_indices(mocked_es, mocker, default_exists, object_type):
+@pytest.mark.parametrize("alias_exists", [True, False])
+def test_switch_indices(mocked_es, mocker, default_exists, alias_exists, object_type):
     """
     switch_indices should atomically remove the old backing index
     for the default alias and replace it with the new one
     """
+    mock_log = mocker.patch("learning_resources_search.indexing_api.log.warning")
     refresh_mock = mocker.patch(
         "learning_resources_search.indexing_api.refresh_index", autospec=True
     )
@@ -120,7 +122,9 @@ def test_switch_indices(mocked_es, mocker, default_exists, object_type):
     conn_mock.indices.exists_alias.return_value = default_exists
     old_backing_index = "old_backing"
     conn_mock.indices.get_alias.return_value.keys.return_value = [old_backing_index]
-
+    conn_mock.indices.delete_alias.side_effect = (
+        None if alias_exists else NotFoundError()
+    )
     backing_index = "backing"
     switch_indices(backing_index, object_type)
 
@@ -155,6 +159,10 @@ def test_switch_indices(mocked_es, mocker, default_exists, object_type):
     conn_mock.indices.delete_alias.assert_called_once_with(
         name=get_reindexing_alias_name(object_type), index=backing_index
     )
+    if not alias_exists:
+        mock_log.assert_called_once_with("Reindex alias not found for %s", object_type)
+    else:
+        mock_log.assert_not_called()
 
 
 @pytest.mark.parametrize("temp_alias_exists", [True, False])

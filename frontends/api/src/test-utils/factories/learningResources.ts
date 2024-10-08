@@ -258,6 +258,7 @@ const _learningResourceShared = (): Partial<
     certification: false,
     departments: [learningResourceDepartment()],
     description: faker.lorem.paragraph(),
+    position: faker.number.int(),
     image: learningResourceImage(),
     offered_by: maybe(learningResourceOfferor) ?? null,
     platform: maybe(learningResourcePlatform) ?? null,
