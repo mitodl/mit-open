@@ -6,6 +6,7 @@ import {
   ChipLink,
   Typography,
   Skeleton,
+  BreadcrumbsProps,
 } from "ol-components"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { useChannelDetail } from "api/hooks/channels"
@@ -151,20 +152,17 @@ const SubTopicBreadcrumbs: React.FC<SubTopicBreadcrumbsProps> = (props) => {
   }
   return parentTopic?.channel_url ? (
     <BreadcrumbsInternal
-      current={parentTopic?.name ?? ""}
+      current={parentTopic?.name}
       currentHref={parentTopic?.channel_url}
     />
   ) : (
-    <BreadcrumbsInternal current={parentTopic?.name ?? ""} />
+    <BreadcrumbsInternal current={parentTopic?.name} />
   )
 }
 
-type BreadcrumbsInternalProps = {
-  current: string
-  currentHref?: string
-}
-
-const BreadcrumbsInternal: React.FC<BreadcrumbsInternalProps> = (props) => {
+const BreadcrumbsInternal: React.FC<
+  Pick<BreadcrumbsProps, "current" | "currentHref">
+> = (props) => {
   return (
     <Breadcrumbs
       variant="dark"

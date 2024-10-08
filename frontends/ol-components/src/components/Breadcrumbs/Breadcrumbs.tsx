@@ -58,8 +58,8 @@ const DarkCurrent = styled(Current)({
 type BreadcrumbsProps = {
   variant: "light" | "dark"
   ancestors: Array<{ href: string; label: string }>
-  current: string | undefined
-  currentHref?: string
+  current?: string | undefined | null
+  currentHref?: string | undefined | null
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
