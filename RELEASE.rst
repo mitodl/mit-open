@@ -1,6 +1,21 @@
 Release Notes
 =============
 
+Version 0.21.0 (Released October 07, 2024)
+--------------
+
+- update og:image to use new logo (#1658)
+- Use a partial match mode as the search mode for instructor fields(#1652)
+
+Version 0.20.4 (Released October 07, 2024)
+--------------
+
+- add is_incomplete_or_stale to default sort (#1641)
+- set default minimum score cutoff (#1642)
+- Adds base infra for the Unified Ecommerce frontend (#1634)
+- reset search page in SearchField (#1647)
+- updating email template with new logo (#1638)
+
 Version 0.20.3 (Released October 03, 2024)
 --------------
 
