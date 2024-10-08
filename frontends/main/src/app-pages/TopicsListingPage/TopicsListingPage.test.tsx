@@ -51,6 +51,25 @@ describe("TopicsListingPage", () => {
       [t2.name]: 20,
     }
 
+    setMockResponse.get(urls.channels.counts("topic"), [
+      {
+        name: t1.name,
+        title: t1.name,
+        counts: {
+          programs: 10,
+          courses: 100,
+        },
+      },
+      {
+        name: t2.name,
+        title: t2.name,
+        counts: {
+          programs: 20,
+          courses: 200,
+        },
+      },
+    ])
+
     setMockResponse.get(urls.topics.list(), {
       count: Object.values(topics).length,
       next: null,
