@@ -30,7 +30,7 @@ def user_created_actions(**kwargs):
     if kwargs.get("is_new"):
         pm = get_plugin_manager()
         hook = pm.hook
-        hook.user_created(user=kwargs["user"], user_data=kwargs.get("user_data", {}))
+        hook.user_created(user=kwargs["user"], user_data=kwargs.get("details"))
 
 
 def user_onboarding(*, backend, **kwargs):

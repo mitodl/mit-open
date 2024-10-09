@@ -2,7 +2,8 @@
 
 from django.apps import apps
 
-from profiles.models import Profile
+from main.utils import filter_dict_keys
+from profiles.api import ensure_profile
 
 
 class CreateProfilePlugin:
@@ -18,9 +19,6 @@ class CreateProfilePlugin:
             user_data(dict): the user data
         """
         profile_data = (user_data or {}).get("profile", {})
-        Profile.objects.get_or_create(
-            user=user,
-            defaults={
-                "name": profile_data["name"],
-            },
+        ensure_profile(
+            user, filter_dict_keys(profile_data, ["name", "email_optin"], optional=True)
         )
