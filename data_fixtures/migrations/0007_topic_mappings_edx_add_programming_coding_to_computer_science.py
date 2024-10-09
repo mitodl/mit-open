@@ -5,7 +5,7 @@ Computer Science and Programming & Coding.
 
 from django.db import migrations
 
-from data_fixtures.utils import upsert_topic_data_string
+from learning_resources.utils import upsert_topic_data_string
 
 map_changes = """
 ---
