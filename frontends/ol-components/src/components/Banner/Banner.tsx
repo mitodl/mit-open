@@ -5,6 +5,8 @@ import Container from "@mui/material/Container"
 import { ResponsiveStyleValue, SxProps } from "@mui/system"
 import { Theme } from "../ThemeProvider/ThemeProvider"
 
+const DEFAULT_BACKGROUND_IMAGE_URL = "/static/images/background_steps.jpg"
+
 const SubHeader = styled(Typography)({
   marginTop: "8px",
   marginBottom: "8px",
@@ -25,13 +27,14 @@ const BannerBackground = styled.div<BannerBackgroundProps>(
     backgroundImage: backgroundDim
       ? `linear-gradient(rgba(0 0 0 / ${backgroundDim}%), rgba(0 0 0 / ${backgroundDim}%)), url('${backgroundUrl}')`
       : `url(${backgroundUrl})`,
-    backgroundSize: "inherit",
+    backgroundSize: "cover",
     backgroundPosition: "center top",
     backgroundRepeat: "no-repeat",
     color: theme.custom.colors.white,
     padding: "48px 0 48px 0",
     [theme.breakpoints.up("lg")]: {
-      backgroundSize: "140%",
+      backgroundSize:
+        backgroundUrl === DEFAULT_BACKGROUND_IMAGE_URL ? "140%" : "cover",
     },
     [theme.breakpoints.down("sm")]: {
       padding: "32px 0 32px 0",
@@ -77,7 +80,7 @@ const ActionsContainerMobile = styled.div(({ theme }) => ({
 }))
 
 type BannerProps = BannerBackgroundProps & {
-  backgroundUrl: string
+  backgroundUrl?: string
   backgroundSize?: string
   backgroundDim?: number
   navText: React.ReactNode
@@ -121,7 +124,7 @@ const Banner = ({
 }: BannerProps) => {
   return (
     <BannerBackground
-      backgroundUrl={backgroundUrl}
+      backgroundUrl={backgroundUrl ?? DEFAULT_BACKGROUND_IMAGE_URL}
       backgroundSize={backgroundSize}
       backgroundDim={backgroundDim}
     >

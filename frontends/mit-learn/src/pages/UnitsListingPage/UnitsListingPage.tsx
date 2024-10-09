@@ -18,7 +18,6 @@ import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 import { aggregateProgramCounts, aggregateCourseCounts } from "@/common/utils"
 
-const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpg"
 const DESKTOP_WIDTH = "1056px"
 
 const sortUnits = (
@@ -250,7 +249,6 @@ const UnitsListingPage: React.FC = () => {
         }
         title="Academic & Professional Learning"
         header="Non-degree learning resources tailored to the needs of students and working professionals."
-        backgroundUrl={UNITS_BANNER_IMAGE}
       />
       <Container>
         <PageContent>

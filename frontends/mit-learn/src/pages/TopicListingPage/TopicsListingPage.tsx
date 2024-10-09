@@ -22,8 +22,6 @@ import { HOME } from "@/common/urls"
 import { aggregateProgramCounts, aggregateCourseCounts } from "@/common/utils"
 import { useChannelCounts } from "api/hooks/channels"
 
-const TOPICS_BANNER_IMAGE = "/static/images/background_steps.jpg"
-
 type ChannelSummary = {
   id: number | string
   name: string
@@ -276,7 +274,6 @@ const TopicsListingPage: React.FC = () => {
         }
         title="Browse by Topic"
         header="Select a topic below to explore relevant learning resources across all Academic and Professional units."
-        backgroundUrl={TOPICS_BANNER_IMAGE}
       />
       <Container>
         <Grid container>
