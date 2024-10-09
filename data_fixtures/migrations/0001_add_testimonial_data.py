@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.files import File
 from django.db import migrations
 
-from learning_resources.utils import (
+from data_fixtures.utils import (
     upsert_department_data,
     upsert_offered_by_data,
     upsert_platform_data,
