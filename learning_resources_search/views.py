@@ -4,6 +4,7 @@ import logging
 from itertools import chain
 
 from django.conf import settings
+from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from opensearchpy.exceptions import TransportError
@@ -265,3 +266,29 @@ class ContentFileSearchView(ESView):
                     errors[key] = list(set(chain(*errors_obj.values())))
 
             return Response(errors, status=400)
+
+
+@action(methods=["GET"], detail=False, name="Search Defaults")
+@extend_schema_view(
+    get=extend_schema(
+        parameters=None,
+    ),
+)
+class LearningResourceSearchDefaultsView(APIView):
+    """Learning resource search default admin param values"""
+
+    authentication_classes = []
+    permission_classes = []
+    serializer_class = None
+
+    def get(self, _):
+        return JsonResponse(
+            {
+                "search_mode": settings.DEFAULT_SEARCH_MODE,
+                "slop": settings.DEFAULT_SEARCH_SLOP,
+                "yearly_decay_percent": settings.DEFAULT_SEARCH_STALENESS_PENALTY,
+                "min_score": settings.DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF,
+                "max_incompleteness_penalty": settings.DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY,  # noqa: E501
+                "content_file_score_weight": settings.DEFAULT_SEARCH_CONTENT_FILE_SCORE_WEIGHT,  # noqa: E501
+            }
+        )
