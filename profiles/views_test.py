@@ -13,6 +13,7 @@ from learning_resources.constants import LearningResourceDelivery
 from learning_resources.factories import LearningResourceTopicFactory
 from learning_resources.serializers import LearningResourceTopicSerializer
 from learning_resources_search.serializers_test import get_request_object
+from main.utils import frontend_absolute_url
 from profiles.factories import ProgramCertificateFactory, ProgramLetterFactory
 from profiles.models import Profile, ProgramLetter
 from profiles.serializers import (
@@ -418,7 +419,9 @@ def test_letter_intercept_view_generates_program_letter(
         )
         assert ProgramLetter.objects.filter(user=user).count() == 1
         letter_id = ProgramLetter.objects.get(user=user, certificate=cert).id
-        assert response.url == f"/program_letter/{letter_id}/view"
+        assert response.url == frontend_absolute_url(
+            f"/program_letter/{letter_id}/view"
+        )
     else:
         cert = ProgramCertificateFactory(
             user_email=user.email, micromasters_program_id=micromasters_program_id
