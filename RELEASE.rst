@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.21.1
+Version 0.21.1 (Released October 09, 2024)
 --------------
 
 - Always delete past events during ETL, and filter them out from api results too just in case (#1660)
