@@ -2321,6 +2321,16 @@ paths:
           \ Credential\n* `professional` - Professional Certificate\n* `completion`\
           \ - Certificate of Completion\n* `none` - No Certificate"
       - in: query
+        name: content_file_score_weight
+        schema:
+          type: number
+          format: double
+          maximum: 1
+          minimum: 0
+          nullable: true
+        description: Score weight for content file data.  1 is the default. 0 means
+          content files are ignored
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -2808,6 +2818,16 @@ paths:
         description: "The type of certificate             \n\n* `micromasters` - Micromasters\
           \ Credential\n* `professional` - Professional Certificate\n* `completion`\
           \ - Certificate of Completion\n* `none` - No Certificate"
+      - in: query
+        name: content_file_score_weight
+        schema:
+          type: number
+          format: double
+          maximum: 1
+          minimum: 0
+          nullable: true
+        description: Score weight for content file data.  1 is the default. 0 means
+          content files are ignored
       - in: query
         name: course_feature
         schema:
@@ -3322,6 +3342,16 @@ paths:
           \ Credential\n* `professional` - Professional Certificate\n* `completion`\
           \ - Certificate of Completion\n* `none` - No Certificate"
       - in: query
+        name: content_file_score_weight
+        schema:
+          type: number
+          format: double
+          maximum: 1
+          minimum: 0
+          nullable: true
+        description: Score weight for content file data.  1 is the default. 0 means
+          content files are ignored
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -3825,6 +3855,16 @@ paths:
         description: "The type of certificate             \n\n* `micromasters` - Micromasters\
           \ Credential\n* `professional` - Professional Certificate\n* `completion`\
           \ - Certificate of Completion\n* `none` - No Certificate"
+      - in: query
+        name: content_file_score_weight
+        schema:
+          type: number
+          format: double
+          maximum: 1
+          minimum: 0
+          nullable: true
+        description: Score weight for content file data.  1 is the default. 0 means
+          content files are ignored
       - in: query
         name: course_feature
         schema:
@@ -10340,6 +10380,14 @@ components:
             An OCW course with completeness = 0 will have this score penalty. Partially
             complete courses have a linear penalty proportional to the degree of incompleteness.
             Only affects results if there is a search term.
+        content_file_score_weight:
+          type: number
+          format: double
+          maximum: 1
+          minimum: 0
+          nullable: true
+          description: Score weight for content file data.  1 is the default. 0 means
+            content files are ignored
         source_type:
           allOf:
           - $ref: '#/components/schemas/SourceTypeEnum'

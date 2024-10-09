@@ -199,7 +199,9 @@ def generate_content_file_text_clause(text):
     return wrap_text_clause(text_query)
 
 
-def generate_learning_resources_text_clause(text, search_mode, slop):
+def generate_learning_resources_text_clause(
+    text, search_mode, slop, content_file_score_weight
+):
     """
     Return text clause for the query
 
@@ -220,6 +222,14 @@ def generate_learning_resources_text_clause(text, search_mode, slop):
 
         if search_mode == "phrase" and slop:
             extra_params["slop"] = slop
+
+    if content_file_score_weight is not None:
+        resourcefile_fields = [
+            f"{field}^{content_file_score_weight}"
+            for field in RESOURCEFILE_QUERY_FIELDS
+        ]
+    else:
+        resourcefile_fields = RESOURCEFILE_QUERY_FIELDS
 
     if text:
         text_query = {
@@ -302,7 +312,7 @@ def generate_learning_resources_text_clause(text, search_mode, slop):
                         "query": {
                             query_type: {
                                 "query": text,
-                                "fields": RESOURCEFILE_QUERY_FIELDS,
+                                "fields": resourcefile_fields,
                                 **extra_params,
                             }
                         },
@@ -557,7 +567,10 @@ def add_text_query_to_search(search, text, search_params, query_type_query):
         text_query = generate_content_file_text_clause(text)
     else:
         text_query = generate_learning_resources_text_clause(
-            text, search_params.get("search_mode"), search_params.get("slop")
+            text,
+            search_params.get("search_mode"),
+            search_params.get("slop"),
+            search_params.get("content_file_score_weight"),
         )
 
     yearly_decay_percent = search_params.get("yearly_decay_percent")
