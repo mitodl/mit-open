@@ -13,7 +13,7 @@ const SubHeader = styled(Typography)({
 })
 
 type BannerBackgroundProps = {
-  backgroundUrl: string
+  backgroundUrl?: string
   backgroundSize?: string
   backgroundDim?: number
 }
@@ -22,19 +22,26 @@ type BannerBackgroundProps = {
  * This is a full-width banner component that takes a background image URL.
  */
 const BannerBackground = styled.div<BannerBackgroundProps>(
-  ({ theme, backgroundUrl, backgroundDim = 0 }) => ({
+  ({
+    theme,
+    backgroundUrl = DEFAULT_BACKGROUND_IMAGE_URL,
+    backgroundSize = "cover",
+    backgroundDim = 0,
+  }) => ({
     backgroundAttachment: "fixed",
     backgroundImage: backgroundDim
       ? `linear-gradient(rgba(0 0 0 / ${backgroundDim}%), rgba(0 0 0 / ${backgroundDim}%)), url('${backgroundUrl}')`
       : `url(${backgroundUrl})`,
-    backgroundSize: "cover",
+    backgroundSize: backgroundSize,
     backgroundPosition: "center top",
     backgroundRepeat: "no-repeat",
     color: theme.custom.colors.white,
     padding: "48px 0 48px 0",
     [theme.breakpoints.up("lg")]: {
       backgroundSize:
-        backgroundUrl === DEFAULT_BACKGROUND_IMAGE_URL ? "140%" : "cover",
+        backgroundUrl === DEFAULT_BACKGROUND_IMAGE_URL
+          ? "140%"
+          : backgroundSize,
     },
     [theme.breakpoints.down("sm")]: {
       padding: "32px 0 32px 0",
@@ -80,9 +87,6 @@ const ActionsContainerMobile = styled.div(({ theme }) => ({
 }))
 
 type BannerProps = BannerBackgroundProps & {
-  backgroundUrl?: string
-  backgroundSize?: string
-  backgroundDim?: number
   navText: React.ReactNode
   avatar?: React.ReactNode
   title?: React.ReactNode
@@ -107,7 +111,7 @@ const TYPOGRAPHY_DEFAULTS = {
   defaultSubHeaderTypography: { xs: "body2", md: "body1" },
 }
 const Banner = ({
-  backgroundUrl,
+  backgroundUrl = DEFAULT_BACKGROUND_IMAGE_URL,
   backgroundSize = "cover",
   backgroundDim = 0,
   navText,
@@ -124,7 +128,7 @@ const Banner = ({
 }: BannerProps) => {
   return (
     <BannerBackground
-      backgroundUrl={backgroundUrl ?? DEFAULT_BACKGROUND_IMAGE_URL}
+      backgroundUrl={backgroundUrl}
       backgroundSize={backgroundSize}
       backgroundDim={backgroundDim}
     >
