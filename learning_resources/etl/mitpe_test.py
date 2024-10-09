@@ -6,7 +6,12 @@ from pathlib import Path
 
 import pytest
 
-from learning_resources.constants import Availability, Format, Pace
+from learning_resources.constants import (
+    Availability,
+    Format,
+    LearningResourceDelivery,
+    Pace,
+)
 from learning_resources.etl import mitpe
 from learning_resources.factories import (
     LearningResourceOfferorFactory,
@@ -32,7 +37,7 @@ EXPECTED_COURSES = [
         },
         "description": "Profissionais de áreas técnicas estão acostumados a falar ou apresentar dados para perfis que compartem os mesmos interesses e campo de atuação, mas podem encontrar dificuldades em transmitir suas ideias para pessoas de outros setores.\n",
         "course": {"course_numbers": []},
-        "delivery": ["online"],
+        "delivery": [LearningResourceDelivery.online.name],
         "published": True,
         "topics": [{"name": "Data Science"}],
         "runs": [
@@ -52,6 +57,8 @@ EXPECTED_COURSES = [
                 "format": [Format.asynchronous.name],
                 "pace": [Pace.instructor_paced.name],
                 "availability": Availability.dated.name,
+                "delivery": [LearningResourceDelivery.online.name],
+                "location": None,
             }
         ],
         "format": [Format.asynchronous.name],
@@ -74,7 +81,7 @@ EXPECTED_COURSES = [
         },
         "description": "Become a stronger leader of innovation and design-thinking in your workplace. Join us for a highly interactive and engaging course that will teach you powerful new approaches for creating innovative solutions, crafting vision that gets buy-in, and developing solutions that people love. You'll learn our proven 10-Step Design Process and gain the strategies and hands-on experience to make your mark as a leader of innovation. Don't miss this opportunity to take your leadership capabilities to the next level.\n\nThis course&nbsp;may be taken individually or as part of the&nbsp;Professional Certificate Program in Innovation and Technology.\n",
         "course": {"course_numbers": []},
-        "delivery": ["in_person"],
+        "delivery": [LearningResourceDelivery.in_person.name],
         "published": True,
         "topics": [{"name": "Data Science"}, {"name": "Product Innovation"}],
         "runs": [
@@ -98,6 +105,8 @@ EXPECTED_COURSES = [
                 "format": [Format.asynchronous.name],
                 "pace": [Pace.instructor_paced.name],
                 "availability": Availability.dated.name,
+                "delivery": [LearningResourceDelivery.in_person.name],
+                "location": "On Campus",
             }
         ],
         "format": [Format.asynchronous.name],
@@ -121,7 +130,7 @@ EXPECTED_PROGRAMS = [
             "url": "https://professional.mit.edu/sites/default/files/2020-08/Smart%20Manufacturing.jpg",
         },
         "description": "A fábrica do futuro já está aqui. Participe do programa online Manufatura Inteligente: Produção na Indústria 4.0 e aproveite a experiência de mais de cem anos de colaboração do MIT com vários setores. Aprenda as chaves para criar uma indústria inteligente em qualquer escala e saiba como software, sensores e sistemas são integrados para essa finalidade. Com este programa interativo, você passará da criação de modelos a sistemas de fabricação e análise avançada de dados para desenvolver estratégias que gerem uma vantagem competitiva.\n",
-        "delivery": ["online"],
+        "delivery": [LearningResourceDelivery.online.name],
         "published": True,
         "topics": [{"name": "Product Innovation"}],
         "runs": [
@@ -141,6 +150,8 @@ EXPECTED_PROGRAMS = [
                 "format": [Format.asynchronous.name],
                 "pace": [Pace.instructor_paced.name],
                 "availability": Availability.dated.name,
+                "location": None,
+                "delivery": [LearningResourceDelivery.online.name],
             }
         ],
         "courses": [EXPECTED_COURSES[0], EXPECTED_COURSES[1]],

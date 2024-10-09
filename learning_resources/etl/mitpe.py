@@ -206,6 +206,21 @@ def parse_resource_type(resource_data: dict) -> str:
         return LearningResourceType.program.name
 
 
+def parse_location(resource_data: dict) -> str:
+    """
+    Return the location of the resource if relevant
+
+    Args:
+        resource_data: course or program data
+
+    Returns:
+        str: location of the resource
+    """
+    if resource_data["learning_format"] in ["In Person", "On Campus", "Blended"]:
+        return resource_data["location"]
+    return None
+
+
 def _transform_runs(resource_data: dict) -> list[dict]:
     """
     Transform course/program runs into our normalized data structure
@@ -239,6 +254,8 @@ def _transform_runs(resource_data: dict) -> list[dict]:
             "format": [Format.asynchronous.name],
             "pace": [Pace.instructor_paced.name],
             "availability": Availability.dated.name,
+            "delivery": transform_delivery(resource_data["learning_format"]),
+            "location": parse_location(resource_data),
         }
         for run_data in runs_data
     ]
