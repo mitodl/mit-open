@@ -273,10 +273,6 @@ class TopicFilter(FilterSet):
         method="filter_toplevel",
     )
 
-    def filter_id(self, queryset, _, values):
-        """Filter by topic ID"""
-        return multi_or_filter(queryset, "id", values)
-
     def filter_name(self, queryset, _, values):
         """Filter by topic name"""
         return multi_or_filter(queryset, "name__iexact", values)
