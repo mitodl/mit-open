@@ -41,6 +41,7 @@ import learningResources, {
   invalidateResourceWithUserListQueries,
   updateListParentsOnAdd,
   updateListParentsOnDestroy,
+  updateListParents,
 } from "./keyFactory"
 import { ListType } from "../../common/constants"
 
@@ -349,6 +350,13 @@ const useLearningResourceSetUserListRelationships = () => {
         invalidateUserListQueries(queryClient, userlistId)
       })
     },
+    onSuccess: (response, vars) => {
+      queryClient.setQueriesData<PaginatedLearningResourceList>(
+        learningResources.featured({}).queryKey,
+        (featured) =>
+          updateListParents(vars.id, featured, response.data, "userlist"),
+      )
+    },
   })
 }
 
@@ -365,9 +373,16 @@ const useLearningResourceSetLearningPathRelationships = () => {
       })
       vars.learning_path_id?.forEach((learningPathId) => {
         invalidateResourceQueries(queryClient, learningPathId, {
-          skipFeatured: false,
+          skipFeatured: true,
         })
       })
+    },
+    onSuccess: (response, vars) => {
+      queryClient.setQueriesData<PaginatedLearningResourceList>(
+        learningResources.featured({}).queryKey,
+        (featured) =>
+          updateListParents(vars.id, featured, response.data, "learningpath"),
+      )
     },
   })
 }
