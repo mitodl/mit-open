@@ -150,13 +150,11 @@ const SubTopicBreadcrumbs: React.FC<SubTopicBreadcrumbsProps> = (props) => {
   if (!topic?.parent) {
     return null
   }
-  return parentTopic?.channel_url ? (
+  return (
     <BreadcrumbsInternal
       current={parentTopic?.name}
       currentHref={parentTopic?.channel_url}
     />
-  ) : (
-    <BreadcrumbsInternal current={parentTopic?.name} />
   )
 }
 
