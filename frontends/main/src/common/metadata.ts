@@ -2,7 +2,7 @@ import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { learningResourcesApi } from "api/clients"
 import type { Metadata } from "next"
 
-const DEFAULT_OG_IMAGE = `${process.env.NEXT_PUBLIC_ORIGIN}/images/learn-og-image.jpg`
+const DEFAULT_OG_IMAGE = "/images/learn-og-image.jpg"
 
 type MetadataAsyncProps = {
   title?: string
