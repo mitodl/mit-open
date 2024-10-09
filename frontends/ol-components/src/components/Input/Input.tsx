@@ -99,9 +99,6 @@ const baseInputStyles = (theme: Theme) => ({
   borderWidth: "1px",
   borderStyle: "solid",
   borderRadius: "4px",
-  ".MuiInputBase-input": {
-    padding: "0",
-  },
   "&.Mui-disabled": {
     backgroundColor: theme.custom.colors.lightGray1,
   },
@@ -133,8 +130,8 @@ const baseInputStyles = (theme: Theme) => ({
     textOverflow: "ellipsis",
   },
   "& textarea": {
-    paddingTop: "6px",
-    paddingBottom: "7px",
+    paddingTop: "8px",
+    paddingBottom: "8px",
   },
   "&.MuiInputBase-adornedStart": {
     paddingLeft: "0",
