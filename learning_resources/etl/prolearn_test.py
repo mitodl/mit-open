@@ -7,6 +7,7 @@ from urllib.parse import urljoin, urlparse
 
 import pytest
 
+from data_fixtures.utils import upsert_topic_data_file
 from learning_resources.constants import (
     Availability,
     CertificationType,
@@ -40,7 +41,6 @@ from learning_resources.factories import (
     LearningResourcePlatformFactory,
 )
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
-from learning_resources.utils import upsert_topic_data_file
 from main.test_utils import assert_json_equal
 from main.utils import clean_data
 
