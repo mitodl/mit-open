@@ -157,7 +157,7 @@ const baseInputStyles = (theme: Theme) => ({
 type CustomInputProps = { responsive?: true }
 const noForward = Object.keys({
   responsive: true,
-} satisfies { [key in keyof CustomInputProps]: boolean })
+} satisfies { [_key in keyof CustomInputProps]: boolean })
 
 const Input = styled(InputBase, {
   shouldForwardProp: (prop) => !noForward.includes(prop),

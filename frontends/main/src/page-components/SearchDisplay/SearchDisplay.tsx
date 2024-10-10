@@ -117,6 +117,10 @@ const FacetStyles = styled.div`
 
     i {
       color: ${({ theme }) => theme.custom.colors.silverGrayLight};
+
+      svg {
+        display: block;
+      }
     }
 
     &:hover i {
@@ -222,6 +226,7 @@ const FacetStyles = styled.div`
 
     .input-wrapper {
       position: relative;
+      margin-bottom: 10px;
 
       .input-postfix-icon {
         display: none;
@@ -230,12 +235,25 @@ const FacetStyles = styled.div`
       .input-postfix-button {
         cursor: pointer;
         position: absolute;
-        right: 5px;
         top: 50%;
         transform: translateY(-50%);
         border: none;
         background: none;
         padding: 0;
+        width: 20px;
+        height: 20px;
+        right: 7px;
+
+        svg {
+          color: ${({ theme }) => theme.custom.colors.silverGrayLight};
+          width: 100%;
+          height: 100%;
+          display: block;
+
+          :hover {
+            color: ${({ theme }) => theme.custom.colors.darkGray2};
+          }
+        }
 
         span {
           color: ${({ theme }) => theme.palette.text.secondary};
@@ -246,9 +264,9 @@ const FacetStyles = styled.div`
 
   input.facet-filter {
     background-color: initial;
-    padding: 10px;
+    padding: 10px 26px 10px 10px;
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     width: 100%;
   }
 
