@@ -18,8 +18,8 @@ class OlOpenIdConnectAuth(OpenIdConnectAuth):
         return {
             **details,
             "profile": {
-                "name": response.get("full_name", ""),
-                "email_optin": bool(response["email_optin"])
+                "name": response.get("name", ""),
+                "email_optin": bool(int(response["email_optin"]))
                 if "email_optin" in response
                 else None,
             },
