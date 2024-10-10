@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.21.2
+Version 0.21.2 (Released October 10, 2024)
 --------------
 
 - Content File Score Adjustment (#1667)
