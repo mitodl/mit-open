@@ -33,6 +33,10 @@ def add_sp(apps, schema_editor):
     department, _ = LearningResourceDepartment.objects.get_or_create(
         department_id="SP",
         name="Special Programs",
+        defaults={
+            "department_id": "SP",
+            "name": "Special Programs",
+        },
     )
     Channel = apps.get_model("channels", "Channel")
 
@@ -43,7 +47,9 @@ def add_sp(apps, schema_editor):
         title=department.name,
     )
     ChannelDepartmentDetail.objects.get_or_create(
-        channel=channel, department=department
+        channel=channel,
+        department=department,
+        defaults={"channel": channel, "department": department},
     )
 
 
