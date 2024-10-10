@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react"
+import { act, renderHook } from "@testing-library/react"
 import { nextNavigationMocks } from "./nextNavigation"
 import mockRouter from "next-router-mock"
 import { createDynamicRouteParser } from "next-router-mock/dynamic-routes"
@@ -50,5 +50,35 @@ describe("Mock Navigation", () => {
     mockRouter.setCurrentUrl("/dynamic/bar/baz?a=1&b=2")
     const { result } = renderHook(() => nextNavigationMocks.useParams())
     expect(result.current).toEqual({ id: "bar", other: "baz" })
+  })
+
+  test("router.push", () => {
+    mockRouter.useParser(createDynamicRouteParser(["x"]))
+    mockRouter.setCurrentUrl("/dynamic/bar/baz?a=1&b=2")
+    const { result } = renderHook(() => nextNavigationMocks.useRouter())
+    act(() => {
+      result.current.push(
+        "/dynamic/foo",
+        // @ts-expect-error The type signature of mockRouter.push is for old pages router.
+        // The 2nd arg here is for what our application uses, the app router
+        { scroll: false },
+      )
+    })
+    expect(mockRouter.asPath).toBe("/dynamic/foo")
+  })
+
+  test("router.replace", () => {
+    mockRouter.useParser(createDynamicRouteParser(["x"]))
+    mockRouter.setCurrentUrl("/dynamic/bar/baz?a=1&b=2")
+    const { result } = renderHook(() => nextNavigationMocks.useRouter())
+    act(() => {
+      result.current.replace(
+        "/dynamic/foo",
+        // @ts-expect-error The type signature of mockRouter.replace is for old pages router.
+        // The 2nd arg here is for what our application uses, the app router
+        { scroll: false },
+      )
+    })
+    expect(mockRouter.asPath).toBe("/dynamic/foo")
   })
 })

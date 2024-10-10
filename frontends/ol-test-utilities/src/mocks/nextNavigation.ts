@@ -37,6 +37,21 @@ const convertObjectToUrlParams = (obj: ParsedUrlQuery): [string, string][] =>
       : [[key, value] as [string, string]],
   )
 
+/**
+ * memoryRouter is a mock for the older pages router
+ * this file adapts it for the app router
+ * but older router had 3-arg push and replace (url, as, options)
+ * new router has 2-arg (url, options).
+ *
+ * Our application code may call the 2-arg version which 2nd arg as options,
+ * which causes problems for the mock. Let's just limit the mock to the first
+ * argument. The options don't really make sense in a JSDom environment anyway.
+ */
+const originalPush = mocks.memoryRouter.push
+const originalReplace = mocks.memoryRouter.replace
+mocks.memoryRouter.push = (url) => originalPush(url)
+mocks.memoryRouter.replace = (url) => originalReplace(url)
+
 export const nextNavigationMocks = {
   ...mocks,
   notFound: jest.fn(),
