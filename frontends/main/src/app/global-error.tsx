@@ -1,6 +1,7 @@
 "use client"
 
-/* This is the catch-all error page for catching everythign including root components (layout).
+/* This is the catch-all error page that receives errors from server rendered root layout
+ * components and metadata.
  * It is only enabled in production so that in development we see the Next.js error overlay.
  * It is passed an error object as an argument, though this has been stripped of everything except
  * the message and a digest for server logs correlation; to prevent leaking anything to the client
