@@ -1,6 +1,7 @@
 """video catalog ETL"""
 
 import logging
+import re
 from collections.abc import Generator
 from datetime import timedelta
 from typing import Optional
@@ -9,6 +10,7 @@ import googleapiclient.errors
 import requests
 import yaml
 from django.conf import settings
+from django.utils.text import slugify
 from googleapiclient.discovery import Resource, build
 from googleapiclient.http import BatchHttpRequest
 from youtube_transcript_api import (
@@ -37,6 +39,7 @@ YOUTUBE_API_VERSION = "v3"
 YOUTUBE_MAX_RESULTS = 50
 WILDCARD_PLAYLIST_ID = "all"
 
+
 log = logging.getLogger()
 
 
@@ -53,6 +56,57 @@ def parse_offered_by(offered_by_code: str) -> dict:
     if offered_by_code in OfferedBy.names():
         return {"code": offered_by_code}
     return None
+
+
+def parse_ocw_topics(title: str, description: str, playlist_title: str) -> list[dict]:
+    """
+    Try to find an OCW course match and return its topics
+
+    Args:
+        title (str): the video title
+        description (str): the video description
+        playlist_title (str): the playlist title
+
+    Returns:
+        list of dict: the OCW course topics
+    """
+
+    # OCW course url is sometimes in the description
+    matching_full_url = re.search(r"https://ocw.mit.edu/courses/([\w-]+)", description)
+    if matching_full_url:
+        ocw_course = LearningResource.objects.filter(
+            url=matching_full_url.group(0)
+        ).first()
+        if ocw_course:
+            return list(ocw_course.topics.all().values("name").order_by("name"))
+
+    # Course num, semester, year may be in the title, description or playlist title
+    matching_course_info = re.search(
+        r"MIT ([\w\-\.]+).+(Fall|Spring|Summer|January IAP)\s(\d{4})",
+        f"{title}\n{playlist_title}\n{description}",
+    )
+    if matching_course_info:
+        course_id, semester, year = matching_course_info.groups()
+        readable_id = f"{course_id}+{slugify(semester)}_{year}"
+        ocw_course = LearningResource.objects.filter(readable_id=readable_id).first()
+        if not ocw_course:
+            # fuzzy match by course id, Youtube sometimes has the wrong semester/year
+            ocw_course = LearningResource.objects.filter(
+                readable_id__startswith=f"{course_id}+"
+            ).first()
+        if ocw_course:
+            return list(ocw_course.topics.all().values("name").order_by("name"))
+
+    # Try by course id only
+    matching_course_num = re.search(r"MIT ([\w\-\.]+)\s+", f"{title}\n{playlist_title}")
+    if matching_course_num:
+        course_id = matching_course_num.group(1)
+        ocw_course = LearningResource.objects.filter(
+            readable_id__startswith=f"{course_id}+"
+        ).first()
+        if ocw_course:
+            return list(ocw_course.topics.all().values("name").order_by("name"))
+    return []
 
 
 def get_youtube_client() -> Resource:
@@ -403,7 +457,9 @@ def extract(*, channel_ids: Optional[str] = None) -> Generator[tuple, None, None
     yield from extract_channels(youtube_client, channel_configs)
 
 
-def transform_video(video_data: dict, offered_by_code: str) -> dict:
+def transform_video(
+    video_data: dict, offered_by_code: str, playlist_title: str
+) -> dict:
     """
     Transform raw video data into normalized data structure for single video
 
@@ -426,6 +482,13 @@ def transform_video(video_data: dict, offered_by_code: str) -> dict:
         "url": f"https://www.youtube.com/watch?v={video_data['id']}",
         "offered_by": parse_offered_by(offered_by_code),
         "published": True,
+        "topics": parse_ocw_topics(
+            video_data["snippet"]["localized"]["title"],
+            video_data["snippet"]["description"],
+            playlist_title,
+        )
+        if offered_by_code == OfferedBy.ocw.name
+        else [],
         "video": {
             "duration": video_data["contentDetails"]["duration"],
         },
@@ -455,7 +518,9 @@ def transform_playlist(
         "offered_by": parse_offered_by(offered_by_code),
         # intentional generator expression
         "videos": (
-            transform_video(extracted_video, offered_by_code)
+            transform_video(
+                extracted_video, offered_by_code, playlist_data["snippet"]["title"]
+            )
             for extracted_video in videos
         ),
         "availability": Availability.anytime.name,

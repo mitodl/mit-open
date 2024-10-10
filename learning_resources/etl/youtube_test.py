@@ -21,8 +21,14 @@ from learning_resources.constants import (
 from learning_resources.etl import youtube
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.exceptions import ExtractException
-from learning_resources.factories import VideoFactory
+from learning_resources.factories import (
+    LearningResourceFactory,
+    LearningResourceTopicFactory,
+    VideoFactory,
+)
 from main.utils import clean_data
+
+pytestmark = [pytest.mark.django_db]
 
 
 @pytest.fixture
@@ -227,6 +233,7 @@ def extracted_and_transformed_values(youtube_api_responses):
                             "video": {
                                 "duration": video["contentDetails"]["duration"],
                             },
+                            "topics": [],
                         }
                         for video in videos
                     ],
@@ -436,7 +443,10 @@ def test_extract_channels_errors(error, raised_exception, message):
 def test_transform_video(extracted_and_transformed_values):
     """Test youtube transform for a video"""
     extracted, transformed = extracted_and_transformed_values
-    result = youtube.transform_video(extracted[0][2][0][1][0], OfferedBy.ocw.name)
+    playlist_title = transformed[0]["playlists"][0]["title"]
+    result = youtube.transform_video(
+        extracted[0][2][0][1][0], OfferedBy.ocw.name, playlist_title
+    )
     assert result == transformed[0]["playlists"][0]["videos"][0]
 
 
@@ -580,3 +590,52 @@ def test_get_youtube_videos_for_transcripts_job(
             assert list(result.order_by("video__id")) == [video2]
         else:
             assert list(result.order_by("video__id")) == [video2, video4, video6]
+
+
+@pytest.mark.parametrize(
+    ("vid_title", "list_title", "desc", "matches"),
+    [
+        (
+            "Lecture 01: Monopoly Pricing, Part 1",
+            "MIT",
+            "View the complete course: https://ocw.mit.edu/courses/14-271-industrial-organization-i-fall-2022/",
+            True,
+        ),
+        (
+            "MIT 14.271 Industrial Organization I, Fall 2022",
+            "MIT",
+            "View the complete course online",
+            True,
+        ),
+        (
+            "Lecture 01: Monopoly Pricing, Part 1",
+            "MIT 14.271 Industrial Organization",
+            "View the complete course online",
+            True,
+        ),
+        (
+            "Lecture 01: Monopoly Pricing, Part 1",
+            "Industrial Organization",
+            "View the complete course online",
+            False,
+        ),
+    ],
+)
+def test_parse_ocw_topics(vid_title, list_title, desc, matches):
+    """parse_ocw_topics should return a matching course's topics"""
+    course = LearningResourceFactory.create(
+        is_course=True,
+        title="Industrial Organization I",
+        readable_id="14.271+fall_2022",
+        url="https://ocw.mit.edu/courses/14-271-industrial-organization-i-fall-2022",
+        topics=LearningResourceTopicFactory.create_batch(3),
+    )
+    video_data = {"title": vid_title, "description": desc}
+
+    video_topics = youtube.parse_ocw_topics(
+        video_data["title"], video_data["description"], list_title
+    )
+    if matches:
+        assert video_topics == list(course.topics.all().values("name").order_by("name"))
+    else:
+        assert video_topics == []
