@@ -4,6 +4,7 @@ import "cross-fetch/polyfill"
 import { configure } from "@testing-library/react"
 import { resetAllWhenMocks } from "jest-when"
 import * as matchers from "jest-extended"
+import { mockRouter } from "ol-test-utilities/mocks/nextNavigation"
 
 expect.extend(matchers)
 
@@ -92,4 +93,6 @@ afterEach(() => {
    */
   jest.clearAllMocks()
   resetAllWhenMocks()
+  mockRouter.setCurrentUrl("/")
+  window.history.replaceState({}, "", "/")
 })
