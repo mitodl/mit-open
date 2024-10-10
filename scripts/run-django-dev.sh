@@ -3,7 +3,7 @@
 # This script runs the django app
 
 python3 manage.py collectstatic --noinput --clear
-python3 manage.py migrate --noinput
+RUN_DATA_MIGRATIONS=true python3 manage.py migrate --noinput
 python3 manage.py createcachetable
 python3 manage.py migrate --noinput
 
