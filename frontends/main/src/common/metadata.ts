@@ -1,6 +1,7 @@
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { learningResourcesApi } from "api/clients"
 import type { Metadata } from "next"
+import handleNotFound from "./handleNotFound"
 
 const DEFAULT_OG_IMAGE = "/images/learn-og-image.jpg"
 
@@ -29,21 +30,16 @@ export const getMetadataAsync = async ({
   // The learning resource drawer is open
   const learningResourceId = searchParams?.[RESOURCE_DRAWER_QUERY_PARAM]
   if (learningResourceId) {
-    try {
-      const { data } = await learningResourcesApi.learningResourcesRetrieve({
+    const { data } = await handleNotFound(
+      learningResourcesApi.learningResourcesRetrieve({
         id: Number(learningResourceId),
-      })
+      }),
+    )
 
-      title = data?.title
-      description = data?.description?.replace(/<\/[^>]+(>|$)/g, "") ?? ""
-      image = data?.image?.url || image
-      imageAlt = image === data?.image?.url ? imageAlt : data?.image?.alt || ""
-    } catch (error) {
-      console.warn("Failed to fetch learning resource", {
-        learningResourceId,
-        error,
-      })
-    }
+    title = data?.title
+    description = data?.description?.replace(/<\/[^>]+(>|$)/g, "") ?? ""
+    image = data?.image?.url || image
+    imageAlt = image === data?.image?.url ? imageAlt : data?.image?.alt || ""
   }
 
   return standardizeMetadata({

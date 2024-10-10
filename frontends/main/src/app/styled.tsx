@@ -9,7 +9,7 @@ import { styled } from "ol-components"
  */
 
 export const PageWrapper = styled.div({
-  height: "calc(100vh - 80px)",
+  height: "100vh",
   display: "flex",
   flexDirection: "column",
 })
