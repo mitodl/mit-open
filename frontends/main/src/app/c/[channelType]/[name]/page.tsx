@@ -25,7 +25,6 @@ export async function generateMetadata({
     searchParams,
     title: `${channelDetails.title}`,
     description: channelDetails.public_description,
-    image: channelDetails.configuration.logo,
   })
 }
 

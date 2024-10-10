@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react"
 import Header from "@/page-components/Header/Header"
 import Footer from "@/page-components/Footer/Footer"
@@ -10,6 +8,15 @@ import Script from "next/script"
 import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary"
 
 import "./GlobalStyles"
+
+const { NEXT_PUBLIC_ORIGIN } = process.env
+
+/**
+ * As part of the root layout, this metadata object is site-wide defaults
+ */
+export const metadata = {
+  metadataBase: NEXT_PUBLIC_ORIGIN ? new URL(NEXT_PUBLIC_ORIGIN) : null,
+}
 
 export default function RootLayout({
   children,
