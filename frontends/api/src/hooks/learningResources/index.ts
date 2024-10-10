@@ -124,9 +124,9 @@ const useLearningpathCreate = () => {
         LearningPathResourceRequest: params,
       }),
     onSettled: () => {
-      // Invalidate everything: this is over-aggressive, but the new resource
-      // could appear in most lists
-      queryClient.invalidateQueries(learningResources._def)
+      queryClient.invalidateQueries(
+        learningResources.learningpaths._ctx.list._def,
+      )
     },
   })
 }
