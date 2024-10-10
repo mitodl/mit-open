@@ -25,9 +25,8 @@ export async function generateMetadata({
 
   return getMetadataAsync({
     searchParams,
-    title: `${data.title}`,
+    title: data.title,
     description: data.public_description,
-    image: data.configuration.logo,
   })
 }
 
