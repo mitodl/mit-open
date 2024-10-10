@@ -24,4 +24,4 @@ echo "-----> Generating cache tables"
 python $MANAGE_FILE createcachetable 2>&1 | indent
 
 # clear cache entries
-python $MANAGE_FILE clear_cache --noinput 2>&1 | indent
+python $MANAGE_FILE clear_cache 2>&1 | indent
