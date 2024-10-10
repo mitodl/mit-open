@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.21.2 (Released October 10, 2024)
+--------------
+
+- Content File Score Adjustment (#1667)
+- remove unnecessary padding adjustment on Input base styles (#1666)
+
 Version 0.21.1 (Released October 09, 2024)
 --------------
 
