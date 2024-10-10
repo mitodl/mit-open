@@ -2,8 +2,6 @@
 
 from social_core.backends.open_id_connect import OpenIdConnectAuth
 
-from main.utils import filter_dict_keys
-
 
 class OlOpenIdConnectAuth(OpenIdConnectAuth):
     """
@@ -15,15 +13,12 @@ class OlOpenIdConnectAuth(OpenIdConnectAuth):
 
     def get_user_details(self, response):
         """Get the user details from the API response"""
-        username_key = self.setting("USERNAME_KEY", self.USERNAME_KEY)
-        profile = filter_dict_keys(
-            response.get("profile", {}), ["name", "email_optin"], optional=True
-        )
-        profile["email_optin"] = "global" in profile.get("email_optin", ["global"])
+        details = super().get_user_details(response)
+
         return {
-            "username": response.get(username_key),
-            "email": response.get("email"),
-            "first_name": response.get("given_name"),
-            "last_name": response.get("family_name"),
-            "profile": profile,
+            **details,
+            "profile": {
+                "name": response.get("full_name", ""),
+                "email_optin": response.get("email_optin", None),
+            },
         }
