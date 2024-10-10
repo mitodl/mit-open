@@ -22,8 +22,6 @@ import { HOME } from "@/common/urls"
 import { aggregateProgramCounts, aggregateCourseCounts } from "@/common/utils"
 import { useChannelCounts } from "api/hooks/channels"
 
-const TOPICS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
-
 type ChannelSummary = {
   id: number | string
   name: string
@@ -245,7 +243,7 @@ const RootTopicList = styled(PlainList)(({ theme }) => ({
   },
 }))
 
-const ToopicsListingPage: React.FC = () => {
+const TopicsListingPage: React.FC = () => {
   const channelCountQuery = useChannelCounts("topic")
   const topicsQuery = useLearningResourceTopics()
 
@@ -274,9 +272,8 @@ const ToopicsListingPage: React.FC = () => {
             current="Topics"
           />
         }
-        header="Browse by Topic"
-        subheader="Select a topic below to explore relevant learning resources across all Academic and Professional units."
-        backgroundUrl={TOPICS_BANNER_IMAGE}
+        title="Browse by Topic"
+        header="Select a topic below to explore relevant learning resources across all Academic and Professional units."
       />
       <Container>
         <Grid container>
@@ -305,4 +302,4 @@ const ToopicsListingPage: React.FC = () => {
   )
 }
 
-export default ToopicsListingPage
+export default TopicsListingPage

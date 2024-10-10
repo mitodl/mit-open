@@ -112,10 +112,7 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
         // no image for now. Channel images are svg and not suitable for social sharing
       />
       <StyledBannerBackground
-        backgroundUrl={
-          displayConfiguration?.banner_background ??
-          "/static/images/background_steps.jpeg"
-        }
+        backgroundUrl={displayConfiguration?.banner_background}
         backgroundDim={30}
       >
         <Container>

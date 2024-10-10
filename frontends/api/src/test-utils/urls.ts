@@ -37,7 +37,11 @@ const query = (params: any) => {
   const queryString = new URLSearchParams()
   for (const [key, value] of Object.entries(params)) {
     if (Array.isArray(value)) {
-      value.forEach((v) => queryString.append(key, String(v)))
+      if (value.length === 0) {
+        queryString.append(key, "")
+      } else {
+        value.forEach((v) => queryString.append(key, String(v)))
+      }
     } else {
       queryString.append(key, String(value))
     }
@@ -96,6 +100,7 @@ const platforms = {
 }
 
 const topics = {
+  get: (id: number) => `${API_BASE_URL}/api/v1/topics/${id}/`,
   list: (params?: Params<TopicsApi, "topicsList">) =>
     `${API_BASE_URL}/api/v1/topics/${query(params)}`,
 }

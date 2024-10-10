@@ -86,6 +86,11 @@ const learningResources = createQueryKeys("learningResources", {
       })
     },
   }),
+  topic: (id: number | undefined) => ({
+    queryKey: [id],
+    queryFn: () =>
+      id ? topicsApi.topicsRetrieve({ id }).then((res) => res.data) : null,
+  }),
   topics: (params: TopicsListRequest) => ({
     queryKey: [params],
     queryFn: () => topicsApi.topicsList(params).then((res) => res.data),

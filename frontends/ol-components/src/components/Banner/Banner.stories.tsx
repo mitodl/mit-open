@@ -28,8 +28,8 @@ const meta: Meta<typeof Banner> = {
         current={"Text"}
       />
     ),
-    header: "Banner Title",
-    subheader: lipsum,
+    title: "Banner Title",
+    subHeader: lipsum,
   },
 }
 export default meta
@@ -76,7 +76,7 @@ export const logoBannerWithExtras: Story = {
             Action Button
           </Button>
         }
-        extraRight={
+        extraActions={
           <div>
             <Typography variant="h4">Extra Content</Typography>
             <div>

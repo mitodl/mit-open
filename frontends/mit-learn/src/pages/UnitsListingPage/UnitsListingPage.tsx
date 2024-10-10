@@ -18,7 +18,6 @@ import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 import { aggregateProgramCounts, aggregateCourseCounts } from "@/common/utils"
 
-const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
 
 const sortUnits = (
@@ -248,9 +247,8 @@ const UnitsListingPage: React.FC = () => {
             current="MIT Units"
           />
         }
-        header="Academic & Professional Learning"
-        subheader="Non-degree learning resources tailored to the needs of students and working professionals."
-        backgroundUrl={UNITS_BANNER_IMAGE}
+        title="Academic & Professional Learning"
+        header="Non-degree learning resources tailored to the needs of students and working professionals."
       />
       <Container>
         <PageContent>

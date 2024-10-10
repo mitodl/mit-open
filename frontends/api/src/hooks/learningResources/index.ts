@@ -62,6 +62,16 @@ const useFeaturedLearningResourcesList = (params: FeaturedListParams = {}) => {
   return useQuery(learningResources.featured(params))
 }
 
+const useLearningResourceTopic = (
+  id: number,
+  opts: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useQuery({
+    ...learningResources.topic(id),
+    ...opts,
+  })
+}
+
 const useLearningResourceTopics = (
   params: TopicsListRequest = {},
   opts: Pick<UseQueryOptions, "enabled"> = {},
@@ -486,6 +496,7 @@ export {
   useLearningResourcesList,
   useFeaturedLearningResourcesList,
   useLearningResourcesDetail,
+  useLearningResourceTopic,
   useLearningResourceTopics,
   useLearningPathsList,
   useLearningPathsDetail,
