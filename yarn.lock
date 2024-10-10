@@ -3527,9 +3527,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@npm:^3.2.3":
+"@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#506ee47d6145837b8f2d3a2add9258c86b390f57":
   version: 3.2.3
-  resolution: "@mitodl/course-search-utils@npm:3.2.3"
+  resolution: "@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#commit=506ee47d6145837b8f2d3a2add9258c86b390f57"
   dependencies:
     "@mitodl/open-api-axios": "npm:2024.9.16"
     "@remixicon/react": "npm:^4.2.0"
@@ -3549,7 +3549,7 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 10/57484acd65d63289f9c539f687af738a079b233848b0c4b25855691491c3a15ff8f98e06d3065519aaee980f10a9d351507fd05abeb95cd667f0b9358d3d8521
+  checksum: 10/1d94934efb27d99540c1428f1056017d8447f05ad2f0cc4ebb4bf13075a74371f3cbd09b1a17b5e14bf489265244015b6483c94db9ecaba001eeef228d657f91
   languageName: node
   linkType: hard
 
@@ -13669,7 +13669,7 @@ __metadata:
     "@ebay/nice-modal-react": "npm:^1.2.13"
     "@emotion/cache": "npm:^11.13.1"
     "@faker-js/faker": "npm:^8.4.1"
-    "@mitodl/course-search-utils": "npm:^3.2.3"
+    "@mitodl/course-search-utils": "https://github.com/mitodl/course-search-utils.git#506ee47d6145837b8f2d3a2add9258c86b390f57"
     "@remixicon/react": "npm:^4.2.0"
     "@tanstack/react-query": "npm:^4.36.1"
     "@testing-library/jest-dom": "npm:^6.4.8"
