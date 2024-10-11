@@ -227,6 +227,10 @@ fixtures = [
 
 
 def load_initial_fixtures(apps, schema_editor):
+    """
+    Load initial static fixtures required by
+    management commands further down
+    """
     offerors = upsert_offered_by_data()
     departments = upsert_department_data()
     schools = upsert_school_data()
