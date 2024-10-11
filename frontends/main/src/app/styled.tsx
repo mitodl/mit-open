@@ -8,13 +8,17 @@ import { styled } from "ol-components"
  * Solution for now is to "use client", though I would expect these to be prerendered
  */
 
-export const PageWrapper = styled.div({
-  height: "calc(100vh - 80px)",
+export const PageWrapper = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-})
+  height: "calc(100vh - 72px)",
+  marginTop: "72px",
+  [theme.breakpoints.down("sm")]: {
+    marginTop: "60px",
+    height: "calc(100vh - 60px)",
+  },
+}))
 
 export const PageWrapperInner = styled.div({
   flex: "1",
-  paddingTop: "60px",
 })
