@@ -51,6 +51,7 @@ import type { TabConfig } from "./ResourceCategoryTabs"
 import { ResourceCard } from "../ResourceCard/ResourceCard"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import { useUserMe } from "api/hooks/user"
+import { usePostHog } from "posthog-js/react"
 
 const StyledResourceTabs = styled(ResourceCategoryTabs.TabList)`
   margin-top: 0 px;
@@ -532,11 +533,11 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   constantSearchParams,
   hasFacets,
   requestParams,
-  setParamValue,
-  clearAllFacets,
-  toggleParamValue,
+  setParamValue: actuallySetParamValue,
+  clearAllFacets: actuallyClearAllFacets,
+  toggleParamValue: actuallyToggleParamValue,
   showProfessionalToggle,
-  setSearchParams,
+  setSearchParams: actuallySetSearchParams,
   resultsHeadingEl,
   filterHeadingEl,
 }) => {
@@ -588,8 +589,43 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = React.useState(false)
 
+  const posthog = usePostHog()
+  const { POSTHOG } = APP_SETTINGS
+
   const toggleMobileDrawer = (newOpen: boolean) => () => {
     setMobileDrawerOpen(newOpen)
+  }
+
+  const captureSearchEvent = () => {
+    if (!(!POSTHOG?.api_key || POSTHOG.api_key.length < 1)) {
+      posthog.capture("search_update")
+    }
+  }
+
+  const setParamValue = (value: string, prev: string | string[]) => {
+    captureSearchEvent()
+    actuallySetParamValue(value, prev)
+  }
+
+  const clearAllFacets = () => {
+    captureSearchEvent()
+    actuallyClearAllFacets()
+  }
+
+  const setSearchParams = (
+    value: URLSearchParams | ((prev: URLSearchParams) => URLSearchParams),
+  ) => {
+    captureSearchEvent()
+    actuallySetSearchParams(value)
+  }
+
+  const toggleParamValue = (
+    name: string,
+    rawValue: string,
+    checked: boolean,
+  ) => {
+    captureSearchEvent()
+    actuallyToggleParamValue(name, rawValue, checked)
   }
 
   const searchModeDropdown = (

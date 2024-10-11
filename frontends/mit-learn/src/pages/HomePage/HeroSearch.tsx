@@ -5,7 +5,6 @@ import {
   styled,
   ChipLink,
   Link,
-  SearchInput,
   SearchInputProps,
 } from "ol-components"
 import type { ChipLinkProps } from "ol-components"
@@ -27,6 +26,7 @@ import {
   RiVerifiedBadgeLine,
 } from "@remixicon/react"
 import _ from "lodash"
+import { SearchField } from "@/page-components/SearchField/SearchField"
 
 type SearchChip = {
   label: string
@@ -236,7 +236,7 @@ const HeroSearch: React.FC = () => {
           </BoldLink>
         </Typography>
         <ControlsContainer>
-          <SearchInput
+          <SearchField
             size="hero"
             fullWidth
             value={searchText}
