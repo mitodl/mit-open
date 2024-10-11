@@ -12,7 +12,7 @@
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
     "@emotion/cache": "^11.13.1",
-    "@mitodl/course-search-utils": "https://github.com/mitodl/course-search-utils.git#506ee47d6145837b8f2d3a2add9258c86b390f57",
+    "@mitodl/course-search-utils": "https://github.com/mitodl/course-search-utils.git#2be637effa7e3bdaf9adcbf98a04724cba2753b1",
     "@remixicon/react": "^4.2.0",
     "@tanstack/react-query": "^4.36.1",
     "api": "workspace:*",
