@@ -24,7 +24,6 @@ const ChannelControlsContainer = styled.div(({ theme }) => ({
   alignItems: "end",
   flexGrow: 0,
   flexShrink: 0,
-  order: 2,
   [theme.breakpoints.down("xs")]: {
     width: "100%",
   },
@@ -85,14 +84,11 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
             />
           )
         }
-        header={channel.data?.title}
-        subheader={displayConfiguration?.heading}
-        extraHeader={displayConfiguration?.sub_heading}
-        backgroundUrl={
-          displayConfiguration?.banner_background ??
-          "/images/backgrounds/background_steps.jpeg"
-        }
-        extraRight={
+        title={channel.data?.title}
+        header={displayConfiguration?.heading}
+        subHeader={displayConfiguration?.sub_heading}
+        backgroundUrl={displayConfiguration?.banner_background}
+        extraActions={
           <ChannelControlsContainer>
             <ChannelControls>
               {channel.data?.search_filter ? (

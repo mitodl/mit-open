@@ -7,7 +7,11 @@ import pytest
 
 from news_events.constants import FeedType
 from news_events.etl import loaders
-from news_events.factories import FeedImageFactory, FeedItemFactory, FeedSourceFactory
+from news_events.factories import (
+    FeedImageFactory,
+    FeedItemFactory,
+    FeedSourceFactory,
+)
 from news_events.models import FeedImage, FeedItem, FeedSource
 
 pytestmark = [pytest.mark.django_db]
@@ -65,24 +69,41 @@ def load_feed_sources_bad_item(mocker, sources_data):
     )
 
 
-def test_load_feed_sources_delete_old_items(sources_data):
+@pytest.mark.parametrize("empty_data", [True, False])
+def test_load_feed_sources_delete_old_items(sources_data, empty_data):
     """Tests that load_sources deletes old items and images"""
-    source_data = sources_data.news
+    source_data = sources_data.events
     source = FeedSourceFactory.create(
-        url=source_data[0]["url"], feed_type=FeedType.news.name
+        url=source_data[0]["url"], feed_type=FeedType.events.name
     )
-    old_source_item = FeedItemFactory(source=source, is_news=True)
-    other_source_item = FeedItemFactory.create(is_news=True)
+    omitted_event_item = FeedItemFactory.create(is_event=True, source=source)
+
+    expired_event_item = FeedItemFactory.create(is_event=True, source=source)
+    expired_event_item.event_details.event_datetime = "2000-01-01T00:00:00Z"
+    expired_event_item.event_details.save()
+
+    other_source_item = FeedItemFactory.create(is_event=True)
     orphaned_image = FeedImageFactory.create()  # no source or item
 
-    loaders.load_feed_sources(FeedType.news.name, source_data)
+    if empty_data:
+        source_data[0]["items"] = []
+    loaders.load_feed_sources(FeedType.events.name, source_data)
 
-    assert FeedItem.objects.filter(pk=old_source_item.pk).exists() is False
-    assert FeedImage.objects.filter(pk=old_source_item.image.pk).exists() is False
+    # Existing feed items with future dates should be removed only if source data exists
+    assert FeedItem.objects.filter(pk=omitted_event_item.pk).exists() is empty_data
+    assert (
+        FeedImage.objects.filter(pk=omitted_event_item.image.pk).exists() is empty_data
+    )
+
+    # Events from other sources should be unaffected
     assert FeedItem.objects.filter(pk=other_source_item.pk).exists() is True
-    assert FeedImage.objects.filter(pk=other_source_item.image.pk).exists() is True
+
+    # Old events and orphaned images should always be removed
+    assert FeedItem.objects.filter(pk=expired_event_item.pk).exists() is False
+    assert FeedImage.objects.filter(pk=expired_event_item.image.pk).exists() is False
     assert FeedImage.objects.filter(pk=orphaned_image.pk).exists() is False
-    assert FeedItem.objects.filter(source=source).count() == 2
+
+    assert FeedItem.objects.filter(source=source).count() == 1 if empty_data else 2
 
 
 def test_load_item_null_data():

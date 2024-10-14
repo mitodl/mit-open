@@ -357,8 +357,10 @@ def clean_data(data: str) -> str:
 
 def clear_search_cache():
     cache = caches["redis"]
+    cleared = 0
     if hasattr(cache, "keys"):
         search_keys = cache.keys("views.decorators.cache.cache_page.search.*")
-        cache.delete_many(search_keys)
+        cleared += cache.delete_many(search_keys) or 0
         search_keys = cache.keys("views.decorators.cache.cache_header.search.*")
-        cache.delete_many(search_keys)
+        cleared += cache.delete_many(search_keys) or 0
+    return cleared

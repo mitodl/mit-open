@@ -58,11 +58,12 @@ const DarkCurrent = styled(Current)({
 type BreadcrumbsProps = {
   variant: "light" | "dark"
   ancestors: Array<{ href: string; label: string }>
-  current: string | undefined
+  current?: string | undefined | null
+  currentHref?: string | undefined | null
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
-  const { variant, ancestors, current } = props
+  const { variant, ancestors, current, currentHref } = props
   const linkColor = variant === "light" ? "black" : "white"
   const _Separator = variant === "light" ? LightSeparator : DarkSeparator
   const _Current = variant === "light" ? LightCurrent : DarkCurrent
@@ -85,7 +86,18 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
         )
       })}
       <Breadcrumb>
-        <_Current>{current}</_Current>
+        {currentHref ? (
+          <BreadcrumbLink
+            size="small"
+            href={currentHref}
+            color={linkColor}
+            hovercolor={linkColor}
+          >
+            <BreadcrumbText>{current}</BreadcrumbText>
+          </BreadcrumbLink>
+        ) : (
+          <_Current>{current}</_Current>
+        )}
       </Breadcrumb>
     </BreadcrumbsContainer>
   )

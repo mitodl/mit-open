@@ -41,6 +41,7 @@ import learningResources, {
   invalidateResourceWithUserListQueries,
   updateListParentsOnAdd,
   updateListParentsOnDestroy,
+  updateListParents,
 } from "./keyFactory"
 import { ListType } from "../../common/constants"
 
@@ -60,6 +61,16 @@ const useLearningResourcesDetail = (id: number) => {
 
 const useFeaturedLearningResourcesList = (params: FeaturedListParams = {}) => {
   return useQuery(learningResources.featured(params))
+}
+
+const useLearningResourceTopic = (
+  id: number,
+  opts: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useQuery({
+    ...learningResources.topic(id),
+    ...opts,
+  })
 }
 
 const useLearningResourceTopics = (
@@ -113,9 +124,9 @@ const useLearningpathCreate = () => {
         LearningPathResourceRequest: params,
       }),
     onSettled: () => {
-      // Invalidate everything: this is over-aggressive, but the new resource
-      // could appear in most lists
-      queryClient.invalidateQueries(learningResources._def)
+      queryClient.invalidateQueries(
+        learningResources.learningpaths._ctx.list._def,
+      )
     },
   })
 }
@@ -333,11 +344,18 @@ const useLearningResourceSetUserListRelationships = () => {
     ) => learningResourcesApi.learningResourcesUserlistsPartialUpdate(params),
     onSettled: (_response, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.id, {
-        skipFeatured: false,
+        skipFeatured: true,
       })
       vars.userlist_id?.forEach((userlistId) => {
         invalidateUserListQueries(queryClient, userlistId)
       })
+    },
+    onSuccess: (response, vars) => {
+      queryClient.setQueriesData<PaginatedLearningResourceList>(
+        learningResources.featured({}).queryKey,
+        (featured) =>
+          updateListParents(vars.id, featured, response.data, "userlist"),
+      )
     },
   })
 }
@@ -351,13 +369,20 @@ const useLearningResourceSetLearningPathRelationships = () => {
       learningResourcesApi.learningResourcesLearningPathsPartialUpdate(params),
     onSettled: (_response, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.id, {
-        skipFeatured: false,
+        skipFeatured: true,
       })
       vars.learning_path_id?.forEach((learningPathId) => {
         invalidateResourceQueries(queryClient, learningPathId, {
-          skipFeatured: false,
+          skipFeatured: true,
         })
       })
+    },
+    onSuccess: (response, vars) => {
+      queryClient.setQueriesData<PaginatedLearningResourceList>(
+        learningResources.featured({}).queryKey,
+        (featured) =>
+          updateListParents(vars.id, featured, response.data, "learningpath"),
+      )
     },
   })
 }
@@ -486,6 +511,7 @@ export {
   useLearningResourcesList,
   useFeaturedLearningResourcesList,
   useLearningResourcesDetail,
+  useLearningResourceTopic,
   useLearningResourceTopics,
   useLearningPathsList,
   useLearningPathsDetail,

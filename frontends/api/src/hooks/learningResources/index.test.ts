@@ -211,7 +211,7 @@ describe("LearningPath CRUD", () => {
   }
 
   test("useLearningpathCreate calls correct API", async () => {
-    const { path, pathUrls, keys } = makeData()
+    const { path, pathUrls } = makeData()
     const url = pathUrls.list
 
     const requestData = { title: path.title }
@@ -226,9 +226,12 @@ describe("LearningPath CRUD", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true))
     expect(makeRequest).toHaveBeenCalledWith("post", url, requestData)
-    expect(queryClient.invalidateQueries).toHaveBeenCalledWith(
-      keys.learningResources,
-    )
+    expect(queryClient.invalidateQueries).toHaveBeenCalledWith([
+      "learningResources",
+      "learningpaths",
+      "learning_paths",
+      "list",
+    ])
   })
 
   test("useLearningpathDestroy calls correct API", async () => {

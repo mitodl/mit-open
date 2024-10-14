@@ -22,3 +22,6 @@ python $MANAGE_FILE prune_subscription_queries 2>&1 | indent
 
 echo "-----> Generating cache tables"
 python $MANAGE_FILE createcachetable 2>&1 | indent
+
+# clear cache entries
+python $MANAGE_FILE clear_cache 2>&1 | indent

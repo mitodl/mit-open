@@ -285,6 +285,7 @@ LEARNING_RESOURCE_MAP = {
                 },
             },
             "prices": {"type": "scaled_float", "scaling_factor": 100},
+            "location": {"type": "keyword"},
         },
     },
     "next_start_date": {"type": "date"},
@@ -293,6 +294,7 @@ LEARNING_RESOURCE_MAP = {
     "completeness": {"type": "float"},
     "license_cc": {"type": "boolean"},
     "continuing_ed_credits": {"type": "float"},
+    "location": {"type": "keyword"},
 }
 
 
@@ -385,9 +387,10 @@ RUN_INSTRUCTORS_QUERY_FIELDS = [
 ]
 
 RESOURCEFILE_QUERY_FIELDS = [
-    "content",
-    "title.english^3",
-    "short_description.english^2",
+    "content.english",
+    "title.english",
+    "content_title.english",
+    "description.english",
     "content_feature_type",
 ]
 

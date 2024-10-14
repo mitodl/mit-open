@@ -113,7 +113,7 @@ class FeedEventDetailFactory(factory.django.DjangoModelFactory):
     audience = factory.List(random.choices(["Faculty", "Public", "Students"]))  # noqa: S311
     location = factory.List(random.choices(["Online", "MIT Campus"]))  # noqa: S311
     event_type = factory.List(random.choices(["Webinar", "Concert", "Conference"]))  # noqa: S311
-    event_datetime = factory.Faker("date_time", tzinfo=UTC)
+    event_datetime = factory.Faker("future_datetime", tzinfo=UTC)
 
     class Meta:
         model = models.FeedEventDetail

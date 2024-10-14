@@ -12,64 +12,11 @@ import type {
   BooleanFacets,
 } from "@mitodl/course-search-utils"
 import { ChannelTypeEnum } from "api/v0"
-import { useLearningResourceTopics } from "api/hooks/learningResources"
-import { ChipLink, Container, styled, Typography } from "ol-components"
-import { propsNotNil } from "ol-utilities"
-
-const SubTopicsContainer = styled(Container)(({ theme }) => ({
-  marginBottom: "60px",
-  [theme.breakpoints.down("sm")]: {
-    marginBottom: "24px",
-  },
-}))
-
-const SubTopicsHeader = styled(Typography)(({ theme }) => ({
-  marginBottom: "10px",
-  ...theme.typography.subtitle1,
-}))
-
-const ChipsContainer = styled.div({
-  display: "flex",
-  flexWrap: "wrap",
-  gap: "12px",
-})
+import { Typography } from "ol-components"
 
 type RouteParams = {
   channelType: ChannelTypeEnum
   name: string
-}
-
-type SubTopicDisplayProps = {
-  parentTopicId: number
-}
-
-const SubTopicsDisplay: React.FC<SubTopicDisplayProps> = (props) => {
-  const { parentTopicId } = props
-  const topicsQuery = useLearningResourceTopics({
-    parent_topic_id: [parentTopicId],
-  })
-  const totalSubtopics = topicsQuery.data?.results.length ?? 0
-  const subTopics = topicsQuery.data?.results.filter(
-    propsNotNil(["channel_url"]),
-  )
-  return (
-    totalSubtopics > 0 && (
-      <SubTopicsContainer>
-        <SubTopicsHeader>Related Topics</SubTopicsHeader>
-        <ChipsContainer>
-          {subTopics?.map((topic) => (
-            <ChipLink
-              size="large"
-              variant="outlinedWhite"
-              key={topic.id}
-              href={new URL(topic.channel_url).pathname}
-              label={topic.name}
-            />
-          ))}
-        </ChipsContainer>
-      </SubTopicsContainer>
-    )
-  )
 }
 
 const ChannelPage: React.FC = () => {
@@ -99,12 +46,6 @@ const ChannelPage: React.FC = () => {
           {publicDescription && (
             <Typography variant="body1">{publicDescription}</Typography>
           )}
-          {channelQuery.data?.channel_type === ChannelTypeEnum.Topic &&
-          channelQuery.data?.topic_detail?.topic ? (
-            <SubTopicsDisplay
-              parentTopicId={channelQuery.data?.topic_detail?.topic}
-            />
-          ) : null}
           {channelQuery.data?.search_filter && (
             <ChannelSearch
               channelTitle={channelQuery.data.title}
