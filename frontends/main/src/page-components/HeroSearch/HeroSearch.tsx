@@ -100,8 +100,8 @@ const ImageContainer = styled.div(({ theme }) => ({
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",
-  marginTop: "22px",
-  transform: "translateX(24px)",
+  marginTop: "44px",
+  transform: "translateX(48px)",
   width: "513px",
   aspectRatio: "513 / 522",
   [theme.breakpoints.down("md")]: {
