@@ -249,7 +249,7 @@ const TopicChannelTemplateInternal: React.FC<
         extraHeader={<TopicChips topic={topic} />}
         backgroundUrl={
           displayConfiguration?.banner_background ??
-          "/static/images/background_steps.jpg"
+          "/images/backgrounds/background_steps.jpg"
         }
         extraActions={
           <ChannelControlsContainer>

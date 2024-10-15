@@ -5,7 +5,7 @@ import Container from "@mui/material/Container"
 import { ResponsiveStyleValue, SxProps } from "@mui/system"
 import { Theme } from "../ThemeProvider/ThemeProvider"
 
-const DEFAULT_BACKGROUND_IMAGE_URL = "/static/images/background_steps.jpg"
+const DEFAULT_BACKGROUND_IMAGE_URL = "/images/backgrounds/background_steps.jpg"
 
 const SubHeader = styled(Typography)({
   marginTop: "8px",
