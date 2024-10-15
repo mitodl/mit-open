@@ -22,6 +22,6 @@
     "SEE_API_CLIENT_SECRET": {}
   },
   "features": {},
-  "postStartCommand": "while [ \"$(python manage.py showmigrations | grep \"\\[ \\]\" | wc -l)\" -ne \"0\" ]; do echo \"waiting for migrations\"; sleep 2; done && python manage.py update_offered_by && python manage.py update_platforms && python manage.py update_departments_schools && python manage.py backpopulate_resource_channels --overwrite --all && python manage.py update_course_number_departments && python manage.py backpopulate_mitxonline_data && python manage.py backpopulate_micromasters_data && python manage.py backpopulate_resource_channels --overwrite --all && python manage.py recreate_index --all",
+  "postStartCommand": "while [ \"$(python manage.py showmigrations | grep \"\\[ \\]\" | wc -l)\" -ne \"0\" ]; do echo \"waiting for migrations\"; sleep 2; done && python manage.py update_offered_by && python manage.py update_platforms && python manage.py update_departments_schools && python manage.py update_course_number_departments && python manage.py backpopulate_mitxonline_data && python manage.py backpopulate_micromasters_data && python manage.py backpopulate_resource_channels --overwrite --all && python manage.py recreate_index --all",
   "forwardPorts": [8062, 8063]
 }
