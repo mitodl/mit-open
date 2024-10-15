@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.21.3
+Version 0.21.3 (Released October 15, 2024)
 --------------
 
 - removing invalid flag from clear cache command (#1675)
