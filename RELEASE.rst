@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.22.0
+--------------
+
+- Make add to list dialog scrollable (#1689)
+- make search defaults settable (#1681)
+- Shuffling around where the search_update event is fired so it happens in more places (#1679)
+- prevent featured course carousel from re-randomizing (#1673)
+
 Version 0.21.3 (Released October 15, 2024)
 --------------
 
