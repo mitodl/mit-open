@@ -22,6 +22,8 @@ import {
   RiArrowLeftLine,
   RiArrowRightLine,
   RiEqualizerLine,
+  RiArrowUpSLine,
+  RiArrowDownSLine,
 } from "@remixicon/react"
 
 import {
@@ -690,8 +692,6 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
     expandAdminOptions,
     setExpandAdminOptions,
   ) => {
-    const titleLineIcon = expandAdminOptions ? "expand_less" : "expand_more"
-
     return (
       <div
         className={`facets admin-facet base-facet${expandAdminOptions ? " facets-expanded" : ""}`}
@@ -703,8 +703,8 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
           onClick={() => setExpandAdminOptions(!expandAdminOptions)}
         >
           Admin Options
-          <i className={`material-icons ${titleLineIcon}`} aria-hidden="true">
-            {titleLineIcon}
+          <i aria-hidden="true">
+            {expandAdminOptions ? <RiArrowUpSLine /> : <RiArrowDownSLine />}
           </i>
         </button>
         {expandAdminOptions ? (
