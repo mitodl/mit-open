@@ -22,10 +22,5 @@ export declare global {
     SITE_NAME: string
     MITOL_SUPPORT_EMAIL: string
     PUBLIC_URL: string
-    DEFAULT_SEARCH_MODE: string
-    DEFAULT_SEARCH_SLOP: number
-    DEFAULT_SEARCH_STALENESS_PENALTY: number
-    DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF: number
-    DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY: number
   }
 }

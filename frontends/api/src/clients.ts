@@ -20,6 +20,7 @@ import {
   NewsEventsApi,
   ProfilesApi,
   TestimonialsApi,
+  LearningResourcesSearchAdminParamsApi,
 } from "./generated/v0/api"
 
 import axiosInstance from "./axios"
@@ -39,6 +40,9 @@ const learningResourcesSearchApi = new LearningResourcesSearchApi(
   BASE_PATH,
   axiosInstance,
 )
+
+const learningResourcesSearchAdminParamsApi =
+  new LearningResourcesSearchAdminParamsApi(undefined, BASE_PATH, axiosInstance)
 
 const featuredApi = new FeaturedApi(undefined, BASE_PATH, axiosInstance)
 
@@ -102,4 +106,5 @@ export {
   newsEventsApi,
   featuredApi,
   testimonialsApi,
+  learningResourcesSearchAdminParamsApi,
 }

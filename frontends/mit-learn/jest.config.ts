@@ -19,11 +19,6 @@ const config: Config.InitialOptions = {
       MITOL_API_BASE_URL: "https://api.test.learn.mit.edu",
       PUBLIC_URL: "",
       SITE_NAME: "MIT Learn",
-      DEFAULT_SEARCH_MODE: "phrase",
-      DEFAULT_SEARCH_SLOP: 6,
-      DEFAULT_SEARCH_STALENESS_PENALTY: 2.5,
-      DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF: 0,
-      DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY: 90,
     },
   },
 }

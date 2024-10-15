@@ -288,6 +288,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/CKEditorSettings'
           description: ''
+  /api/v0/learning_resources_search_admin_params/:
+    get:
+      operationId: learning_resources_search_admin_params_retrieve
+      description: Learning resource search default admin param values
+      tags:
+      - learning_resources_search_admin_params
+      responses:
+        '200':
+          description: No response body
   /api/v0/news_events/:
     get:
       operationId: news_events_list
