@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+Version 0.21.3 (Released October 15, 2024)
+--------------
+
+- removing invalid flag from clear cache command (#1675)
+- Clear Cache on Deploy (#1668)
+- Update Yarn to v4.5.0 (#1624)
+- topic detail banner / subtopic logic revisions (#1646)
+- Restore program letter intercept view (#1643)
+
 Version 0.21.2 (Released October 10, 2024)
 --------------
 
