@@ -36,13 +36,13 @@ describe("Mock Navigation", () => {
   test("useSearchParams returns the current search params", () => {
     mockRouter.setCurrentUrl("/dynamic/bar?a=1&b=2")
     const { result } = renderHook(() => useSearchParams())
-    expect(result.current.toString()).toEqual("a=1&b=2&id=bar")
+    expect(result.current.toString()).toEqual("a=1&b=2")
   })
 
   test("useSearchParams repeats duplicate keys on the querystring", () => {
     mockRouter.setCurrentUrl("/dynamic/bar?a=1&b=2&b=3")
     const { result } = renderHook(() => useSearchParams())
-    expect(result.current.toString()).toEqual("a=1&b=2&b=3&id=bar")
+    expect(result.current.toString()).toEqual("a=1&b=2&b=3")
   })
 
   test("useParams returns the current params", () => {
@@ -58,13 +58,17 @@ describe("Mock Navigation", () => {
     const { result } = renderHook(() => nextNavigationMocks.useRouter())
     act(() => {
       result.current.push(
-        "/dynamic/foo",
+        "/dynamic/foo?c=3",
         // @ts-expect-error The type signature of mockRouter.push is for old pages router.
         // The 2nd arg here is for what our application uses, the app router
         { scroll: false },
       )
     })
-    expect(mockRouter.asPath).toBe("/dynamic/foo")
+    expect(mockRouter.asPath).toBe("/dynamic/foo?c=3")
+    act(() => {
+      result.current.push("?d=4")
+    })
+    expect(mockRouter.asPath).toBe("/dynamic/foo?d=4")
   })
 
   test("router.replace", () => {
@@ -73,12 +77,38 @@ describe("Mock Navigation", () => {
     const { result } = renderHook(() => nextNavigationMocks.useRouter())
     act(() => {
       result.current.replace(
-        "/dynamic/foo",
+        "/dynamic/foo?c=3",
         // @ts-expect-error The type signature of mockRouter.replace is for old pages router.
         // The 2nd arg here is for what our application uses, the app router
         { scroll: false },
       )
     })
-    expect(mockRouter.asPath).toBe("/dynamic/foo")
+    expect(mockRouter.asPath).toBe("/dynamic/foo?c=3")
+    act(() => {
+      result.current.push("?d=4")
+    })
+    expect(mockRouter.asPath).toBe("/dynamic/foo?d=4")
+  })
+
+  test("useSearchParams reacts to history.pushState", () => {
+    const { result } = renderHook(() => nextNavigationMocks.useSearchParams())
+    expect(result.current.toString()).toBe("")
+    const push = jest.spyOn(mockRouter, "push")
+    act(() => {
+      window.history.pushState({}, "", "/dynamic/foo?a=1&b=2")
+    })
+    expect(push).toHaveBeenCalled()
+    expect(result.current.toString()).toBe("a=1&b=2")
+  })
+
+  test("useSearchParams reacts to history.replaceState", () => {
+    const { result } = renderHook(() => nextNavigationMocks.useSearchParams())
+    expect(result.current.toString()).toBe("")
+    const replace = jest.spyOn(mockRouter, "replace")
+    act(() => {
+      window.history.replaceState({}, "", "/dynamic/foo?a=1&b=2")
+    })
+    expect(replace).toHaveBeenCalled()
+    expect(result.current.toString()).toBe("a=1&b=2")
   })
 })
