@@ -23,7 +23,9 @@ const Header = styled.div`
 `
 
 const Content = styled.div`
-  margin: 28px 28px 40px;
+  margin: 28px;
+  min-height: 0;
+  overflow: auto;
 `
 
 const DialogActions = styled(MuiDialogActions)`
