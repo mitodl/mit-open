@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.22.1
+--------------
+
+- increase learning path listing limit to 100 (#1692)
+- Shanbady/consolidate static fixtures (#1684)
+
 Version 0.22.0 (Released October 15, 2024)
 --------------
 
