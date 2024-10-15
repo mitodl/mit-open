@@ -133,6 +133,21 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
       },
     },
     {
+      props: { variant: "darker" },
+      style: {
+        backgroundColor: colors.darkGray2,
+        border: `1px solid ${colors.darkGray1}`,
+        color: colors.white,
+        "&.Mui-focusVisible": {
+          backgroundColor: colors.darkGray2,
+        },
+        "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
+          backgroundColor: colors.black,
+          border: `1px solid ${colors.silverGray}`,
+        },
+      },
+    },
+    {
       props: { variant: "filled" },
       style: {
         backgroundColor: colors.mitRed,

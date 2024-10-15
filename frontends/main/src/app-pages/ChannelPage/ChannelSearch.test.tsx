@@ -84,14 +84,15 @@ const setMockApiResponses = ({
     results: [],
   })
 
-  if (
-    channel.channel_type === ChannelTypeEnum.Topic &&
-    channel.topic_detail.topic
-  ) {
-    setMockResponse.get(
-      urls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
-      factories.learningResources.topics({ count: 5 }),
-    )
+  if (channel.channel_type === ChannelTypeEnum.Topic) {
+    const topicId = channel.topic_detail.topic
+    if (topicId) {
+      setMockResponse.get(urls.topics.get(topicId), null)
+      setMockResponse.get(
+        urls.topics.list({ parent_topic_id: [topicId] }),
+        null,
+      )
+    }
   }
 
   return {

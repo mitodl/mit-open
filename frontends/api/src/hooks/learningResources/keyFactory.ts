@@ -86,6 +86,11 @@ const learningResources = createQueryKeys("learningResources", {
       })
     },
   }),
+  topic: (id: number | undefined) => ({
+    queryKey: [id],
+    queryFn: () =>
+      id ? topicsApi.topicsRetrieve({ id }).then((res) => res.data) : null,
+  }),
   topics: (params: TopicsListRequest) => ({
     queryKey: [params],
     queryFn: () => topicsApi.topicsList(params).then((res) => res.data),
@@ -366,6 +371,41 @@ const updateListParentsOnDestroy = (
   }
 }
 
+/**
+ * Given
+ *  - a LearningResource ID
+ *  - a paginated list of current resources
+ *  - a list of new relationships
+ *  - the type of list
+ * Update the resources' user_list_parents field to include the new relationships
+ */
+const updateListParents = (
+  resourceId: number,
+  staleResources?: PaginatedLearningResourceList,
+  newRelationships?: MicroUserListRelationship[],
+  listType?: "userlist" | "learningpath",
+) => {
+  if (!resourceId || !staleResources || !newRelationships || !listType)
+    return staleResources
+  const matchIndex = staleResources.results.findIndex(
+    (res) => res.id === resourceId,
+  )
+  if (matchIndex === -1) return staleResources
+  const updatedResults = [...staleResources.results]
+  const newResource = { ...updatedResults[matchIndex] }
+  if (listType === "userlist") {
+    newResource.user_list_parents = newRelationships
+  }
+  if (listType === "learningpath") {
+    newResource.learning_path_parents = newRelationships
+  }
+  updatedResults[matchIndex] = newResource
+  return {
+    ...staleResources,
+    results: updatedResults,
+  }
+}
+
 export default learningResources
 export {
   invalidateResourceQueries,
@@ -373,4 +413,5 @@ export {
   invalidateResourceWithUserListQueries,
   updateListParentsOnAdd,
   updateListParentsOnDestroy,
+  updateListParents,
 }

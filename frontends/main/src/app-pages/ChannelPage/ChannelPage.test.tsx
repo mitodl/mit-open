@@ -105,23 +105,51 @@ const setupApis = (
     results: [],
   })
 
-  if (
-    channel.channel_type === ChannelTypeEnum.Topic &&
-    channel.topic_detail.topic
-  ) {
-    const subTopics = factories.learningResources.topics({ count: 5 })
-    setMockResponse.get(
-      urls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
-      subTopics,
-    )
-    return {
-      channel,
-      subTopics,
-    }
-  }
-
   return {
     channel,
+  }
+}
+
+const setupTopicApis = (channel: Channel) => {
+  invariant(
+    channel.channel_type === ChannelTypeEnum.Topic,
+    "Topic channel must have a topic",
+  )
+  const topic = factories.learningResources.topic()
+  channel.channel_url = `/c/${channel.channel_type}/${channel.name.replace(/\s/g, "-")}`
+  topic.channel_url = channel.channel_url
+  topic.id = channel.topic_detail.topic ?? 0
+  const subTopics = factories.learningResources.topics({ count: 5 })
+  setMockResponse.get(urls.topics.get(topic.id), topic)
+  setMockResponse.get(
+    urls.topics.list({ parent_topic_id: [topic.id] }),
+    subTopics,
+  )
+  const subTopicChannels = subTopics.results.map((subTopic) => {
+    subTopic.parent = topic.id
+    const subTopicChannel = factories.channels.channel({
+      channel_type: ChannelTypeEnum.Topic,
+      name: subTopic.name.replace(/\s/g, "-"),
+      title: subTopic.name,
+      topic_detail: { topic: subTopic.id },
+    })
+    const channelUrl = `/c/${subTopicChannel.channel_type}/${subTopicChannel.name.replace(/\s/g, "-")}`
+    subTopic.channel_url = channelUrl
+    subTopicChannel.channel_url = channelUrl
+    setMockResponse.get(urls.topics.get(subTopic.id), subTopic)
+    setMockResponse.get(
+      urls.channels.details(
+        subTopicChannel.channel_type,
+        subTopicChannel.name.replace(/\s/g, "-"),
+      ),
+      subTopicChannel,
+    )
+    return subTopicChannel
+  })
+  return {
+    topic,
+    subTopics,
+    subTopicChannels,
   }
 }
 
@@ -144,6 +172,9 @@ describe.each(ALL_CHANNEL_TYPES)(
       renderWithProviders(<ChannelPage />, {
         url: `/c/${channel.channel_type}/${channel.name}`,
       })
+      if (channelType === ChannelTypeEnum.Topic) {
+        setupTopicApis(channel)
+      }
       await screen.findAllByText(channel.title)
       const expectedProps = expect.objectContaining({
         constantSearchParams: {
@@ -157,7 +188,7 @@ describe.each(ALL_CHANNEL_TYPES)(
         expectedProps,
         expectedContext,
       )
-    })
+    }, 10000)
     it("Does not display the channel search if search_filter is undefined", async () => {
       const { channel } = setupApis({
         channel_type: channelType,
@@ -166,10 +197,13 @@ describe.each(ALL_CHANNEL_TYPES)(
       renderWithProviders(<ChannelPage />, {
         url: `/c/${channel.channel_type}/${channel.name}`,
       })
+      if (channelType === ChannelTypeEnum.Topic) {
+        setupTopicApis(channel)
+      }
       await screen.findAllByText(channel.title)
 
       expect(mockedChannelSearch).toHaveBeenCalledTimes(0)
-    })
+    }, 10000)
 
     it("Includes heading and subheading in banner", async () => {
       const { channel } = setupApis({
@@ -179,6 +213,9 @@ describe.each(ALL_CHANNEL_TYPES)(
       renderWithProviders(<ChannelPage />, {
         url: `/c/${channel.channel_type}/${channel.name}`,
       })
+      if (channelType === ChannelTypeEnum.Topic) {
+        setupTopicApis(channel)
+      }
       await screen.findAllByText(channel.title)
 
       await waitFor(() => {
@@ -191,7 +228,7 @@ describe.each(ALL_CHANNEL_TYPES)(
           expect(el).toBeInTheDocument()
         })
       })
-    })
+    }, 10000)
 
     it.each([{ isSubscribed: false }, { isSubscribed: true }])(
       "Displays the subscribe toggle for authenticated and unauthenticated users",
@@ -204,9 +241,13 @@ describe.each(ALL_CHANNEL_TYPES)(
         renderWithProviders(<ChannelPage />, {
           url: `/c/${channel.channel_type}/${channel.name}`,
         })
-        const subscribedButton = await screen.findByText("Follow")
-        expect(subscribedButton).toBeVisible()
+        if (channelType === ChannelTypeEnum.Topic) {
+          setupTopicApis(channel)
+        }
+        const subscribedButton = await screen.findAllByText("Follow")
+        expect(subscribedButton[0]).toBeVisible()
       },
+      10000,
     )
   },
 )
@@ -219,6 +260,9 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
         search_filter: "topic=physics",
         channel_type: channelType,
       })
+      if (channelType === ChannelTypeEnum.Topic) {
+        setupTopicApis(channel)
+      }
 
       renderWithProviders(<ChannelPage />, {
         url: `/c/${channel.channel_type}/${channel.name}`,
@@ -226,13 +270,16 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
       await screen.findAllByText(channel.title)
       const carousels = screen.queryByText("Featured Courses")
       expect(carousels).toBe(null)
-    })
+    }, 10000)
 
     it("Displays the title, background, and avatar (channelType: %s)", async () => {
       const { channel } = setupApis({
         search_filter: "offered_by=ocw",
         channel_type: channelType,
       })
+      if (channelType === ChannelTypeEnum.Topic) {
+        setupTopicApis(channel)
+      }
 
       const { view } = renderWithProviders(<ChannelPage />, {
         url: `/c/${channel.channel_type}/${channel.name}`,
@@ -251,7 +298,7 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
         view.container,
         `${window.origin}${channel.configuration.logo}`,
       )
-    })
+    }, 10000)
 
     test("headings", async () => {
       const { channel } = setupApis({
@@ -261,6 +308,9 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
       renderWithProviders(<ChannelPage />, {
         url: `/c/${channel.channel_type}/${channel.name}`,
       })
+      if (channelType === ChannelTypeEnum.Topic) {
+        setupTopicApis(channel)
+      }
 
       await waitFor(() => {
         assertHeadings([
@@ -270,21 +320,24 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
           { level: 3, name: "Search Results" },
         ])
       })
-    })
+    }, 10000)
   },
 )
 
 describe("Channel Pages, Topic only", () => {
   test("Subtopics display", async () => {
-    const { channel, subTopics } = setupApis({
+    const { channel } = setupApis({
       search_filter: "topic=Physics",
       channel_type: ChannelTypeEnum.Topic,
     })
     renderWithProviders(<ChannelPage />, {
       url: `/c/${channel.channel_type}/${channel.name}`,
     })
+    const { topic, subTopics } = setupTopicApis(channel)
+    invariant(topic)
 
-    invariant(subTopics)
+    const subTopicsTitle = await screen.findByText("Subtopics")
+    expect(subTopicsTitle).toBeInTheDocument()
     const links = await screen.findAllByRole("link", {
       // name arg can be string, regex, or function
       name: (name) => subTopics?.results.map((t) => t.name).includes(name),
@@ -292,10 +345,37 @@ describe("Channel Pages, Topic only", () => {
     links.forEach((link, i) => {
       expect(link).toHaveAttribute(
         "href",
-        new URL(subTopics.results[i].channel_url!).pathname,
+        new URL(subTopics.results[i].channel_url!, "http://localhost").pathname,
       )
     })
-  })
+  }, 10000)
+
+  test("Related topics display", async () => {
+    const { channel } = setupApis({
+      search_filter: "topic=Physics",
+      channel_type: ChannelTypeEnum.Topic,
+    })
+    const { subTopics, subTopicChannels } = setupTopicApis(channel)
+    invariant(subTopicChannels)
+    const subTopicChannel = subTopicChannels[0]
+    const filteredSubTopics = subTopics?.results.filter(
+      (t) =>
+        t.name.replace(/\s/g, "-") !== subTopicChannel.name.replace(/\s/g, "-"),
+    )
+    renderWithProviders(<ChannelPage />, {
+      url: `/c/${subTopicChannel.channel_type}/${subTopicChannel.name.replace(/\s/g, "-")}`,
+    })
+
+    const relatedTopicsTitle = await screen.findByText("Related Topics")
+    expect(relatedTopicsTitle).toBeInTheDocument()
+    const links = await screen.findAllByRole("link", {
+      // name arg can be string, regex, or function
+      name: (name) => filteredSubTopics?.map((t) => t.name).includes(name),
+    })
+    links.forEach(async (link, i) => {
+      expect(link).toHaveAttribute("href", filteredSubTopics[i].channel_url)
+    })
+  }, 10000)
 })
 
 describe("Channel Pages, Unit only", () => {

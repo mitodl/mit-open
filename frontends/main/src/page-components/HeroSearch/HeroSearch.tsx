@@ -7,7 +7,6 @@ import {
   styled,
   ChipLink,
   Link,
-  SearchInput,
   SearchInputProps,
 } from "ol-components"
 import type { ChipLinkProps } from "ol-components"
@@ -29,6 +28,7 @@ import {
 } from "@remixicon/react"
 import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "@/app-pages/AboutPage/AboutPage"
 import Image from "next/image"
+import { SearchField } from "@/page-components/SearchField/SearchField"
 
 type SearchChip = {
   label: string
@@ -255,7 +255,7 @@ const HeroSearch: React.FC = () => {
           </BoldLink>
         </Typography>
         <ControlsContainer>
-          <SearchInput
+          <SearchField
             size="hero"
             fullWidth
             value={searchText}

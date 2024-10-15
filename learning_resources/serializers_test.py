@@ -273,6 +273,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "pace": [
             {"code": lr_pace, "name": Pace[lr_pace].value} for lr_pace in resource.pace
         ],
+        "location": resource.location,
         "next_start_date": resource.next_start_date,
         "availability": resource.availability,
         "completeness": 1.0,

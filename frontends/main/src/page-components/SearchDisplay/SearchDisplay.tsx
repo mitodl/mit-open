@@ -50,6 +50,7 @@ import type { TabConfig } from "./ResourceCategoryTabs"
 
 import { ResourceCard } from "../ResourceCard/ResourceCard"
 import { useUserMe } from "api/hooks/user"
+import { usePostHog } from "posthog-js/react"
 
 const StyledResourceTabs = styled(ResourceCategoryTabs.TabList)`
   margin-top: 0 px;
@@ -541,11 +542,11 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   constantSearchParams,
   hasFacets,
   requestParams,
-  setParamValue,
-  clearAllFacets,
-  toggleParamValue,
+  setParamValue: actuallySetParamValue,
+  clearAllFacets: actuallyClearAllFacets,
+  toggleParamValue: actuallyToggleParamValue,
   showProfessionalToggle,
-  setSearchParams,
+  setSearchParams: actuallySetSearchParams,
   resultsHeadingEl,
   filterHeadingEl,
 }) => {
@@ -585,6 +586,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
       max_incompleteness_penalty: searchParams.get(
         "max_incompleteness_penalty",
       ),
+      content_file_score_weight: searchParams.get("content_file_score_weight"),
       ...requestParams,
       aggregations: (facetNames || []).concat([
         "resource_category",
@@ -610,8 +612,45 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = React.useState(false)
 
+  const posthog = usePostHog()
+
+  const NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY =
+    process.env.NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY
+
   const toggleMobileDrawer = (newOpen: boolean) => () => {
     setMobileDrawerOpen(newOpen)
+  }
+
+  const captureSearchEvent = () => {
+    if (NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY) {
+      posthog.capture("search_update")
+    }
+  }
+
+  const setParamValue = (value: string, prev: string | string[]) => {
+    captureSearchEvent()
+    actuallySetParamValue(value, prev)
+  }
+
+  const clearAllFacets = () => {
+    captureSearchEvent()
+    actuallyClearAllFacets()
+  }
+
+  const setSearchParams = (
+    value: URLSearchParams | ((prev: URLSearchParams) => URLSearchParams),
+  ) => {
+    captureSearchEvent()
+    actuallySetSearchParams(value)
+  }
+
+  const toggleParamValue = (
+    name: string,
+    rawValue: string,
+    checked: boolean,
+  ) => {
+    captureSearchEvent()
+    actuallyToggleParamValue(name, rawValue, checked)
   }
 
   const searchModeDropdown = (
@@ -761,6 +800,26 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               Partially complete courses have a linear penalty proportional to
               the degree of incompleteness. Only affects results if there is a
               search term.
+            </ExplanationContainer>
+            <AdminTitleContainer>
+              Content File Score Weight Adjustment
+            </AdminTitleContainer>
+            <SliderInput
+              currentValue={
+                searchParams.get("content_file_score_weight")
+                  ? Number(searchParams.get("content_file_score_weight"))
+                  : 1
+              }
+              setSearchParams={setSearchParams}
+              urlParam="content_file_score_weight"
+              min={0}
+              max={1}
+              step={0.1}
+            />
+            <ExplanationContainer>
+              Score weight adjustment for content file matches. 1 means no
+              adjustment. 0 means content file matches are not counted in the
+              score. Only affects the results if there is a search term.
             </ExplanationContainer>
           </div>
         ) : null}

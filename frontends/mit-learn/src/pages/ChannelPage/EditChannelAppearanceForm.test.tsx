@@ -33,14 +33,15 @@ const setupApis = (channelOverrides: Partial<Channel>) => {
     results: [],
   })
 
-  if (
-    channel.channel_type === ChannelTypeEnum.Topic &&
-    channel.topic_detail.topic
-  ) {
-    setMockResponse.get(
-      urls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
-      factories.learningResources.topics({ count: 5 }),
-    )
+  if (channel.channel_type === ChannelTypeEnum.Topic) {
+    const topicId = channel.topic_detail.topic
+    if (topicId) {
+      setMockResponse.get(urls.topics.get(topicId), null)
+      setMockResponse.get(
+        urls.topics.list({ parent_topic_id: [topicId] }),
+        null,
+      )
+    }
   }
 
   return channel
@@ -86,13 +87,11 @@ describe("EditChannelAppearanceForm", () => {
 
     const newTitle = "New Title"
     const newDesc = "New Description"
-    const newChannelType = "topic"
     // Initial channel values
     const updatedValues = {
       ...channel,
       title: newTitle,
       public_description: newDesc,
-      channel_type: newChannelType,
     }
     setMockResponse.patch(urls.channels.patch(channel.id), updatedValues)
     const { location } = renderTestApp({
@@ -104,25 +103,30 @@ describe("EditChannelAppearanceForm", () => {
     const descInput = (await screen.findByLabelText(
       "Description",
     )) as HTMLInputElement
-    const channelTypeInput = (await screen.findByLabelText(
-      "Channel Type",
-    )) as HTMLInputElement
     const submitBtn = await screen.findByText("Save")
-    channelTypeInput.setAttribute("channel_type", newChannelType)
     titleInput.setSelectionRange(0, titleInput.value.length)
     await user.type(titleInput, newTitle)
     descInput.setSelectionRange(0, descInput.value.length)
     await user.type(descInput, newDesc)
     // Expected channel values after submit
     setMockResponse.get(
-      urls.channels.details(newChannelType, channel.name),
+      urls.channels.details(channel.channel_type, channel.name),
       updatedValues,
     )
+    if (
+      channel.channel_type === ChannelTypeEnum.Topic &&
+      channel.topic_detail.topic
+    ) {
+      setMockResponse.get(
+        urls.topics.get(channel.topic_detail.topic),
+        factories.learningResources.topic(),
+      )
+    }
     await user.click(submitBtn)
 
     await waitFor(() => {
       expect(location.current.pathname).toBe(
-        makeChannelViewPath(newChannelType, channel.name),
+        makeChannelViewPath(channel.channel_type, channel.name),
       )
     })
     await screen.findAllByText(newTitle)
