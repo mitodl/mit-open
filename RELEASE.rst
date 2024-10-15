@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.22.1
+Version 0.22.1 (Released October 15, 2024)
 --------------
 
 - increase learning path listing limit to 100 (#1692)
