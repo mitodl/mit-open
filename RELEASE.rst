@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.22.0
+Version 0.22.0 (Released October 15, 2024)
 --------------
 
 - Make add to list dialog scrollable (#1689)
