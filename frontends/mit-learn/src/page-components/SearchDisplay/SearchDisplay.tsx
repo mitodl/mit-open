@@ -119,7 +119,7 @@ const FacetStyles = styled.div`
     margin-bottom: 14px;
 
     i {
-      color: ${({ theme }) => theme.custom.colors.silverGrayLight};
+      color: ${({ theme }) => theme.custom.colors.silverGrayDark};
     }
 
     &:hover i {
