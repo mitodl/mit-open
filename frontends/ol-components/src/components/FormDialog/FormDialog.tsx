@@ -8,7 +8,6 @@ const FormContent = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 100%;
-  margin-bottom: -12px;
 `
 interface FormDialogProps {
   /**

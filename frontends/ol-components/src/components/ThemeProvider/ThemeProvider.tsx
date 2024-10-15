@@ -77,7 +77,13 @@ const themeOptions: ThemeOptions = {
       styleOverrides: { paper: { borderRadius: "4px" } },
     },
     MuiAutocomplete: {
-      styleOverrides: { paper: { borderRadius: "4px" } },
+      styleOverrides: {
+        paper: { borderRadius: "4px" },
+        // Mui puts paddingRight: 2px, marginRight: -2px on the popupIndicator,
+        // which causes the browser to show a horizontal scrollbar on overflow
+        // containers when a scrollbar isn't really necessary.
+        popupIndicator: { paddingRight: 0, marginRight: 0 },
+      },
     },
     MuiChip: chips.chipComponent,
   },
