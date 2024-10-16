@@ -119,7 +119,7 @@ const FacetStyles = styled.div`
     margin-bottom: 14px;
 
     i {
-      color: ${({ theme }) => theme.custom.colors.silverGrayLight};
+      color: ${({ theme }) => theme.custom.colors.silverGrayDark};
     }
 
     &:hover i {
@@ -213,6 +213,16 @@ const FacetStyles = styled.div`
       color: ${({ theme }) => theme.palette.text.secondary};
       font-size: ${({ theme }) => theme.typography.body2.fontSize};
       text-align: right;
+    }
+  }
+
+  .facets:not(.facets-expanded, .facets-transitioning):has(
+      button.filter-section-button
+    ) {
+    div.facet-visible,
+    div.facet-list,
+    div.input-wrapper {
+      visibility: hidden;
     }
   }
 

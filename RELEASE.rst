@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.22.2
+--------------
+
+- search facet accessibility fixes (#1698)
+- exclude topics with no associated channel from Topic querySets (#1693)
+
 Version 0.22.1 (Released October 15, 2024)
 --------------
 

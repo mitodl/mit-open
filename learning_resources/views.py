@@ -591,6 +591,10 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = TopicFilter
 
+    def filter_queryset(self, queryset):
+        queryset = queryset.exclude(channel_url__isnull=True)
+        return super().filter_queryset(queryset)
+
     @method_decorator(
         cache_page_for_all_users(
             settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
