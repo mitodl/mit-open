@@ -219,7 +219,9 @@ const FacetStyles = styled.div`
   .facets:not(.facets-expanded, .facets-transitioning):has(
       button.filter-section-button
     ) {
-    div.facet-visible {
+    div.facet-visible,
+    div.facet-list,
+    div.input-wrapper {
       visibility: hidden;
     }
   }
