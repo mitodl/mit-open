@@ -295,7 +295,6 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   if (!resource) {
     return null
   }
-
   return (
     <ListCard href={href} className={className} draggable={draggable}>
       <ListCard.Image
@@ -323,7 +322,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
         {onAddToUserListClick && (
           <CardActionButton
             filled={inUserList}
-            aria-label="Add to User List"
+            aria-label={`Bookmark ${getReadableResourceType(resource.resource_type)}`}
             onClick={(event) => onAddToUserListClick(event, resource.id)}
           >
             {inUserList ? (

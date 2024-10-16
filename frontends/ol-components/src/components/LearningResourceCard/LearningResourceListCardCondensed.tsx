@@ -114,6 +114,7 @@ const LearningResourceListCardCondensed: React.FC<
       </ListCardCondensed>
     )
   }
+
   if (!resource) {
     return null
   }
@@ -136,7 +137,7 @@ const LearningResourceListCardCondensed: React.FC<
         {onAddToUserListClick && (
           <CardActionButton
             filled={inUserList}
-            aria-label="Add to User List"
+            aria-label={`Bookmark ${getReadableResourceType(resource.resource_type)}`}
             onClick={(event) => onAddToUserListClick(event, resource.id)}
           >
             {inUserList ? (
