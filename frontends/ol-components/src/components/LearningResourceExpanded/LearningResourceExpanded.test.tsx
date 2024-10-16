@@ -134,7 +134,7 @@ describe("Learning Resource Expanded", () => {
   )
 
   test.each([ResourceTypeEnum.PodcastEpisode])(
-    "Renders xpro logo onditionally on offered_by=xpro and not platform.code",
+    "Renders xpro logo conditionally on offered_by=xpro and not platform.code",
     (resourceType) => {
       const resource = factories.learningResources.resource({
         resource_type: resourceType,
