@@ -4,7 +4,12 @@ import { render, screen, within } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import { LearningResourceExpanded } from "./LearningResourceExpanded"
 import type { LearningResourceExpandedProps } from "./LearningResourceExpanded"
-import { ResourceTypeEnum, PodcastEpisodeResource, AvailabilityEnum } from "api"
+import {
+  ResourceTypeEnum,
+  PodcastEpisodeResource,
+  AvailabilityEnum,
+  PlatformEnum,
+} from "api"
 import { factories } from "api/test-utils"
 import { formatDate } from "ol-utilities"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
@@ -129,6 +134,29 @@ describe("Learning Resource Expanded", () => {
           `^${(resource as PodcastEpisodeResource).podcast_episode?.episode_link}/?$`,
         ),
       )
+    },
+  )
+
+  test.each([ResourceTypeEnum.PodcastEpisode])(
+    "Renders xpro logo onditionally on offered_by=xpro and not platform.code",
+    (resourceType) => {
+      const resource = factories.learningResources.resource({
+        resource_type: resourceType,
+        platform: { code: "test" },
+        offered_by: { code: "xpro" },
+        podcast_episode: {
+          episode_link: "https://example.com",
+        },
+      })
+
+      setup(resource)
+      const xproImage = screen
+        .getAllByRole("img")
+        .find((img) => img.getAttribute("alt")?.includes("xPRO"))
+
+      expect(xproImage).toBeInTheDocument()
+
+      expect(xproImage).toHaveAttribute("alt", PlatformEnum.Xpro.name)
     },
   )
 
