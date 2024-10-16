@@ -1,9 +1,11 @@
 import logging
+from typing import Optional, Union
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
-from django_scim import constants
+from django_scim import constants, exceptions
 from django_scim.adapters import SCIMUser
+from scim2_filter_parser.attr_paths import AttrPath
 
 from profiles.models import Profile
 
@@ -18,12 +20,12 @@ def get_user_model_for_scim():
     Get function for the django_scim library configuration (USER_MODEL_GETTER).
 
     Returns:
-        model: Profile model.
+        model: User model.
     """
-    return Profile
+    return User
 
 
-class SCIMProfile(SCIMUser):
+class LearnSCIMUser(SCIMUser):
     """
     Custom adapter to extend django_scim library.  This is required in order
     to extend the profiles.models.Profile model to work with the
@@ -35,6 +37,13 @@ class SCIMProfile(SCIMUser):
 
     resource_type = "User"
 
+    id_field = "profile__scim_id"
+
+    ATTR_MAP = {
+        ("active", None, None): "is_active",
+        ("userName", None, None): ("username", "profile__scim_external_username"),
+    }
+
     @property
     def is_new_user(self):
         """_summary_
@@ -43,28 +52,21 @@ class SCIMProfile(SCIMUser):
             bool: True is the user does not currently exist,
             False if the user already exists.
         """
-        return not bool(self.profile.id)
-
-    @property
-    def profile(self):
-        """
-        Return the Profile
-        """
-        return self.obj
+        return not bool(self.obj.id)
 
     @property
     def emails(self):
         """
         Return the email of the user per the SCIM spec.
         """
-        return [{"value": self.profile.user.email, "primary": True}]
+        return [{"value": self.user.email, "primary": True}]
 
     @property
     def display_name(self):
         """
         Return the displayName of the user per the SCIM spec.
         """
-        return self.profile.name
+        return self.obj.profile.name
 
     @property
     def meta(self):
@@ -73,8 +75,10 @@ class SCIMProfile(SCIMUser):
         """
         return {
             "resourceType": self.resource_type,
-            "created": self.profile.user.date_joined.isoformat(timespec="milliseconds"),
-            "lastModified": self.profile.updated_at.isoformat(timespec="milliseconds"),
+            "created": self.obj.date_joined.isoformat(timespec="milliseconds"),
+            "lastModified": self.obj.profile.updated_at.isoformat(
+                timespec="milliseconds"
+            ),
             "location": self.location,
         }
 
@@ -85,17 +89,17 @@ class SCIMProfile(SCIMUser):
         """
         return {
             "id": self.id,
-            "externalId": self.profile.scim_external_id,
+            "externalId": self.obj.profile.scim_external_id,
             "schemas": [constants.SchemaURI.USER],
-            "userName": self.profile.user.username,
+            "userName": self.user.username,
             "name": {
-                "givenName": self.profile.user.first_name,
-                "familyName": self.profile.user.last_name,
+                "givenName": self.user.first_name,
+                "familyName": self.user.last_name,
                 "formatted": self.name_formatted,
             },
             "displayName": self.display_name,
             "emails": self.emails,
-            "active": self.profile.user.is_active,
+            "active": self.user.is_active,
             "groups": [],
             "meta": self.meta,
         }
@@ -112,30 +116,17 @@ class SCIMProfile(SCIMUser):
             scim_user.from_dict(d)
             scim_user.save()
         """
-        self.profile.user = self.obj.user or User()
-
         self.parse_active(d.get("active"))
+        self.parse_emails(d.get("emails"))
 
-        self.profile.user.first_name = d.get("name", {}).get("givenName") or ""
+        # these are unused, but are left here because the fields exist
+        self.obj.first_name = d.get("name", {}).get("givenName", "")
+        self.obj.last_name = d.get("name", {}).get("familyName", "")
 
-        self.profile.user.last_name = d.get("name", {}).get("familyName") or ""
-
-        super().parse_emails(d.get("emails"))
-
-        self.obj.scim_username = d.get("userName")
-        self.obj.scim_external_id = d.get("externalId") or ""
-
-    def parse_active(self, active):
-        """
-        Set User.is_active to the value from the SCIM request.
-
-        Args:
-            active (bool): The value of 'active' from the SCIM request.
-        """
-        if active is not None:
-            if active != self.obj.user.is_active:
-                self.activity_changed = True
-            self.obj.user.is_active = active
+        self.obj.profile = self.obj.profile or Profile(user=self.obj)
+        self.obj.profile.scim_username = d.get("userName")
+        self.obj.profile.scim_external_id = d.get("externalId")
+        self.obj.profile.name = d.get("name", {}).get("formatted", "")
 
     def save(self):
         """
@@ -146,8 +137,9 @@ class SCIMProfile(SCIMUser):
         """
         try:
             with transaction.atomic():
-                self.obj.user.save()
+                # user must be saved first due to FK Profile -> User
                 self.obj.save()
+                self.obj.profile.save()
                 logger.info("User saved. User id %i", self.obj.id)
         except Exception as e:
             raise self.reformat_exception(e) from e
@@ -156,11 +148,16 @@ class SCIMProfile(SCIMUser):
         """
         Update User's is_active to False.
         """
-        self.profile.user.is_active = False
-        self.profile.user.save()
+        self.obj.is_active = False
+        self.obj.save()
         logger.info("Deactivated user id %i", self.obj.user.id)
 
-    def handle_add(self, path, value):
+    def handle_add(
+        self,
+        path: Optional[AttrPath],
+        value: Union[str, list, dict],
+        operation: dict,  # noqa: ARG002
+    ):
         """
         Handle add operations per:
         https://tools.ietf.org/html/rfc7644#section-3.5.2.1
@@ -169,32 +166,39 @@ class SCIMProfile(SCIMUser):
             path (AttrPath)
             value (Union[str, list, dict])
         """
-        if path == "externalId":
-            self.obj.scim_external_id = value
+        if path is None:
+            return
+
+        if path.first_path == ("externalId", None, None):
+            self.obj.profile.scim_external_id = value
             self.obj.save()
 
-    def handle_replace(self, value):
+    def handle_replace(
+        self,
+        path: Optional[AttrPath],
+        value: Union[str, list, dict],
+        operation: dict,  # noqa: ARG002
+    ):
         """
         Handle the replace operations.
 
         All operations happen within an atomic transaction.
-
-        Args:
-            value (Union[str, list, dict])
         """
-        attr_map = {
-            "familyName": "last_name",
-            "givenName": "first_name",
-            "active": "is_active",
-            "userName": "scim_username",
-            "externalId": "scim_external_id",
-        }
+        if not isinstance(value, dict):
+            # Restructure for use in loop below.
+            value = {path: value}
 
-        for attr, attr_value in (value or {}).items():
-            if attr in attr_map:
-                setattr(self.obj, attr_map.get(attr), attr_value)
+        for nested_path, nested_value in (value or {}).items():
+            if nested_path.first_path in self.ATTR_MAP:
+                self._set_obj_path(nested_path.first_path, nested_value)
 
-            elif attr == "emails":
-                self.parse_email(attr_value)
+            elif nested_path.first_path == ("emails", None, None):
+                self.parse_emails(value)
+
+            else:
+                msg = "Not Implemented"
+                raise exceptions.NotImplementedError(msg)
+
+        self.save()
 
         self.obj.save()
