@@ -38,10 +38,10 @@ export const config = {
     "/topics",
     "/unit",
 
-    /* Images rendered with the Next.js Image component have cache header set for them,
-     * but CSS background images do not.
+    /* Images rendered with the Next.js Image component have the cache header
+     * set on them, but CSS background images do not.
      */
     "/images/(.*)",
-    "favicon.ico",
+    "/favicon.ico",
   ],
 }
