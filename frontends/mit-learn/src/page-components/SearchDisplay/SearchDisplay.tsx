@@ -216,7 +216,7 @@ const FacetStyles = styled.div`
     }
   }
 
-  .facets:not(.facets-expanded):not(.facets-transitioning):has(
+  .facets:not(.facets-expanded, .facets-transitioning):has(
       button.filter-section-button
     ) {
     > div.facet-visible {
