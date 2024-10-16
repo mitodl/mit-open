@@ -136,8 +136,8 @@ SCIM_SERVICE_PROVIDER = {
             "documentationUri": "",
         },
     ],
-    "USER_ADAPTER": "profiles.adapters.SCIMProfile",
-    "USER_MODEL_GETTER": "profiles.adapters.get_user_model_for_scim",
+    "user_adapter": "profiles.scim.adapters.LearnScimUser",
+    "user_model_getter": "profiles.scim.adapters.get_user_model_for_scim",
 }
 
 

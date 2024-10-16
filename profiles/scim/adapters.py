@@ -1,10 +1,8 @@
-import copy
 import logging
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
 from django_scim import constants
-from django_scim import exceptions as scim_exceptions
 from django_scim.adapters import SCIMUser
 
 from profiles.models import Profile
@@ -37,10 +35,6 @@ class SCIMProfile(SCIMUser):
 
     resource_type = "User"
 
-    def __init__(self, obj, request=None):
-        super().__init__(obj, request)
-        self._from_dict_copy = None
-
     @property
     def is_new_user(self):
         """_summary_
@@ -49,23 +43,28 @@ class SCIMProfile(SCIMUser):
             bool: True is the user does not currently exist,
             False if the user already exists.
         """
-        return not bool(self.obj.id)
+        return not bool(self.profile.id)
+
+    @property
+    def profile(self):
+        """
+        Return the Profile
+        """
+        return self.obj
 
     @property
     def emails(self):
         """
         Return the email of the user per the SCIM spec.
         """
-        return [{"value": self.obj.user.email, "primary": True}]
+        return [{"value": self.profile.user.email, "primary": True}]
 
     @property
     def display_name(self):
         """
         Return the displayName of the user per the SCIM spec.
         """
-        if self.obj.first_name and self.obj.last_name:
-            return f"{self.obj.first_name} {self.obj.last_name}"
-        return self.obj.user.email
+        return self.profile.name
 
     @property
     def meta(self):
@@ -74,8 +73,8 @@ class SCIMProfile(SCIMUser):
         """
         return {
             "resourceType": self.resource_type,
-            "created": self.obj.user.date_joined.isoformat(timespec="milliseconds"),
-            "lastModified": self.obj.updated_at.isoformat(timespec="milliseconds"),
+            "created": self.profile.user.date_joined.isoformat(timespec="milliseconds"),
+            "lastModified": self.profile.updated_at.isoformat(timespec="milliseconds"),
             "location": self.location,
         }
 
@@ -86,17 +85,17 @@ class SCIMProfile(SCIMUser):
         """
         return {
             "id": self.id,
-            "externalId": self.obj.scim_external_id,
+            "externalId": self.profile.scim_external_id,
             "schemas": [constants.SchemaURI.USER],
-            "userName": self.obj.user.username,
+            "userName": self.profile.user.username,
             "name": {
-                "givenName": self.obj.user.first_name,
-                "familyName": self.obj.user.last_name,
+                "givenName": self.profile.user.first_name,
+                "familyName": self.profile.user.last_name,
                 "formatted": self.name_formatted,
             },
             "displayName": self.display_name,
             "emails": self.emails,
-            "active": self.obj.user.is_active,
+            "active": self.profile.user.is_active,
             "groups": [],
             "meta": self.meta,
         }
@@ -113,21 +112,15 @@ class SCIMProfile(SCIMUser):
             scim_user.from_dict(d)
             scim_user.save()
         """
-        # Store dict for possible later use when saving user
-        self._from_dict_copy = copy.deepcopy(d)
-
-        self.obj.user = User()
+        self.profile.user = self.obj.user or User()
 
         self.parse_active(d.get("active"))
 
-        self.obj.first_name = d.get("name", {}).get("givenName") or ""
+        self.profile.user.first_name = d.get("name", {}).get("givenName") or ""
 
-        self.obj.last_name = d.get("name", {}).get("familyName") or ""
+        self.profile.user.last_name = d.get("name", {}).get("familyName") or ""
 
         super().parse_emails(d.get("emails"))
-
-        if self.is_new_user and not self.obj.email:
-            raise scim_exceptions.BadRequestError("Empty email value")  # noqa: TRY003 EM101
 
         self.obj.scim_username = d.get("userName")
         self.obj.scim_external_id = d.get("externalId") or ""
@@ -153,12 +146,7 @@ class SCIMProfile(SCIMUser):
         """
         try:
             with transaction.atomic():
-                self.obj.user.email = self.obj.email
-                self.obj.user.username = self.obj.email
-                self.obj.user.first_name = self.obj.first_name
-                self.obj.user.last_name = self.obj.last_name
                 self.obj.user.save()
-                self.obj.name = self.display_name
                 self.obj.save()
                 logger.info("User saved. User id %i", self.obj.id)
         except Exception as e:
@@ -168,9 +156,9 @@ class SCIMProfile(SCIMUser):
         """
         Update User's is_active to False.
         """
-        self.obj.is_active = False
-        self.obj.save()
-        logger.info("Deactivated user id %i", self.obj.id)
+        self.profile.user.is_active = False
+        self.profile.user.save()
+        logger.info("Deactivated user id %i", self.obj.user.id)
 
     def handle_add(self, path, value):
         """
@@ -208,11 +196,5 @@ class SCIMProfile(SCIMUser):
 
             elif attr == "emails":
                 self.parse_email(attr_value)
-
-            elif attr == "password":
-                self.obj.set_password(attr_value)
-
-            else:
-                raise scim_exceptions.SCIMException("Not Implemented", status=409)  # noqa: EM101, TRY003
 
         self.obj.save()
