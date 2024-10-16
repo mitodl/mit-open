@@ -11,6 +11,7 @@ import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import invariant from "tiny-invariant"
 import type { LearningResource } from "api"
 import { faker } from "@faker-js/faker/locale/en"
+import { PLATFORMS } from "../Logo/Logo"
 
 const IMG_CONFIG: LearningResourceExpandedProps["imgConfig"] = {
   key: "fake-key",
@@ -129,6 +130,28 @@ describe("Learning Resource Expanded", () => {
           `^${(resource as PodcastEpisodeResource).podcast_episode?.episode_link}/?$`,
         ),
       )
+    },
+  )
+
+  test.each([ResourceTypeEnum.PodcastEpisode])(
+    "Renders xpro logo conditionally on offered_by=xpro and not platform.code",
+    (resourceType) => {
+      const resource = factories.learningResources.resource({
+        resource_type: resourceType,
+        platform: { code: "test" },
+        offered_by: { code: "xpro" },
+        podcast_episode: {
+          episode_link: "https://example.com",
+        },
+      })
+
+      setup(resource)
+      const xproImage = screen
+        .getAllByRole("img")
+        .find((img) => img.getAttribute("alt")?.includes("xPRO"))
+
+      expect(xproImage).toBeInTheDocument()
+      expect(xproImage).toHaveAttribute("alt", PLATFORMS["xpro"].name)
     },
   )
 

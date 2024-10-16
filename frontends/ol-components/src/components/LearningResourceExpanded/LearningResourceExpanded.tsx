@@ -212,11 +212,13 @@ const CallToActionSection = ({
       </CallToAction>
     )
   }
-
-  const platformImage =
-    PLATFORMS[resource?.platform?.code as PlatformEnum]?.image
-
   const { platform } = resource!
+  const offeredBy = resource?.offered_by
+  const platformCode =
+    (offeredBy?.code as PlatformEnum) === PlatformEnum.Xpro
+      ? (offeredBy?.code as PlatformEnum)
+      : (platform?.code as PlatformEnum)
+  const platformImage = PLATFORMS[platformCode]?.image
 
   const getCallToActionText = (resource: LearningResource): string => {
     if (resource?.platform?.code === PlatformEnum.Ocw) {
@@ -244,7 +246,7 @@ const CallToActionSection = ({
       {platformImage ? (
         <Platform>
           <OnPlatform>on</OnPlatform>
-          <StyledPlatformLogo platformCode={platform?.code as PlatformEnum} />
+          <StyledPlatformLogo platformCode={platformCode} />
         </Platform>
       ) : null}
     </CallToAction>
