@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
-    "@mitodl/course-search-utils": "^3.1.6",
+    "@mitodl/course-search-utils": "^3.2.5",
     "@remixicon/react": "^4.2.0",
     "@sentry/react": "^7.57.0",
     "@tanstack/react-query": "^4.36.1",
