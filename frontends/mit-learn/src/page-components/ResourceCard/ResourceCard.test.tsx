@@ -89,7 +89,7 @@ describe.each([
     async ({ user, expectAddToLearningPathButton }) => {
       const { resource } = setup({ user })
       await screen.findByRole("button", {
-        name: `Bookmark ${getReadableResourceType(resource.resource_type)}`,
+        name: `Bookmark ${getReadableResourceType(resource?.resource_type)}`,
       })
 
       const addToLearningPathButton = screen.queryByRole("button", {
@@ -147,7 +147,7 @@ describe.each([
       user: { is_learning_path_editor: true, is_authenticated: true },
     })
     const addToUserListButton = await screen.findByRole("button", {
-      name: `Bookmark ${getReadableResourceType(resource.resource_type)}`,
+      name: `Bookmark ${getReadableResourceType(resource?.resource_type)}`,
     })
     const addToLearningPathButton = await screen.findByRole("button", {
       name: "Add to Learning Path",
@@ -170,7 +170,7 @@ describe.each([
       user: { is_authenticated: false },
     })
     const addToUserListButton = await screen.findByRole("button", {
-      name: `Bookmark ${getReadableResourceType(resource.resource_type)}`,
+      name: `Bookmark ${getReadableResourceType(resource?.resource_type)}`,
     })
     await user.click(addToUserListButton)
     const dialog = screen.getByRole("dialog")
