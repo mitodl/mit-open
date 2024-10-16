@@ -216,6 +216,14 @@ const FacetStyles = styled.div`
     }
   }
 
+  .facets:not(.facets-expanded):not(.facets-transitioning):has(
+      button.filter-section-button
+    ) {
+    > div.facet-visible {
+      visibility: hidden;
+    }
+  }
+
   .filterable-facet {
     .facet-list {
       max-height: 400px;
