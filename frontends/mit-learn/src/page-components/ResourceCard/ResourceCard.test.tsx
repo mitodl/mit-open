@@ -9,6 +9,7 @@ import {
 import type { User } from "../../test-utils"
 import { getReadableResourceType } from "ol-utilities"
 import { ResourceCard } from "./ResourceCard"
+import { ResourceTypeEnum } from "api"
 import {
   AddToLearningPathDialog,
   AddToUserListDialog,
@@ -89,7 +90,7 @@ describe.each([
     async ({ user, expectAddToLearningPathButton }) => {
       const { resource } = setup({ user })
       await screen.findByRole("button", {
-        name: `Bookmark ${getReadableResourceType(resource?.resource_type)}`,
+        name: `Bookmark ${getReadableResourceType(resource?.resource_type as ResourceTypeEnum)}`,
       })
 
       const addToLearningPathButton = screen.queryByRole("button", {
@@ -147,7 +148,7 @@ describe.each([
       user: { is_learning_path_editor: true, is_authenticated: true },
     })
     const addToUserListButton = await screen.findByRole("button", {
-      name: `Bookmark ${getReadableResourceType(resource?.resource_type)}`,
+      name: `Bookmark ${getReadableResourceType(resource?.resource_type as ResourceTypeEnum)}`,
     })
     const addToLearningPathButton = await screen.findByRole("button", {
       name: "Add to Learning Path",
@@ -170,7 +171,7 @@ describe.each([
       user: { is_authenticated: false },
     })
     const addToUserListButton = await screen.findByRole("button", {
-      name: `Bookmark ${getReadableResourceType(resource?.resource_type)}`,
+      name: `Bookmark ${getReadableResourceType(resource?.resource_type as ResourceTypeEnum)}`,
     })
     await user.click(addToUserListButton)
     const dialog = screen.getByRole("dialog")
