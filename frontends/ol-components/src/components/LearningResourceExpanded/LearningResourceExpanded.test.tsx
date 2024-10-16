@@ -4,18 +4,14 @@ import { render, screen, within } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import { LearningResourceExpanded } from "./LearningResourceExpanded"
 import type { LearningResourceExpandedProps } from "./LearningResourceExpanded"
-import {
-  ResourceTypeEnum,
-  PodcastEpisodeResource,
-  AvailabilityEnum,
-  PlatformEnum,
-} from "api"
+import { ResourceTypeEnum, PodcastEpisodeResource, AvailabilityEnum } from "api"
 import { factories } from "api/test-utils"
 import { formatDate } from "ol-utilities"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import invariant from "tiny-invariant"
 import type { LearningResource } from "api"
 import { faker } from "@faker-js/faker/locale/en"
+import { PLATFORMS } from "../Logo/Logo"
 
 const IMG_CONFIG: LearningResourceExpandedProps["imgConfig"] = {
   key: "fake-key",
@@ -155,8 +151,7 @@ describe("Learning Resource Expanded", () => {
         .find((img) => img.getAttribute("alt")?.includes("xPRO"))
 
       expect(xproImage).toBeInTheDocument()
-
-      expect(xproImage).toHaveAttribute("alt", PlatformEnum.Xpro.name)
+      expect(xproImage).toHaveAttribute("alt", PLATFORMS["xpro"].name)
     },
   )
 
