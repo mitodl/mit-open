@@ -41,7 +41,8 @@ class LearnSCIMUser(SCIMUser):
 
     ATTR_MAP = {
         ("active", None, None): "is_active",
-        ("userName", None, None): ("username", "profile__scim_external_username"),
+        ("name", "givenName", None): "first_name",
+        ("name", "familyName", None): "last_name",
     }
 
     @property
@@ -55,11 +56,18 @@ class LearnSCIMUser(SCIMUser):
         return not bool(self.obj.id)
 
     @property
+    def id(self):
+        """
+        Return the SCIM id
+        """
+        return self.obj.profile.scim_id
+
+    @property
     def emails(self):
         """
         Return the email of the user per the SCIM spec.
         """
-        return [{"value": self.user.email, "primary": True}]
+        return [{"value": self.obj.email, "primary": True}]
 
     @property
     def display_name(self):
@@ -91,15 +99,15 @@ class LearnSCIMUser(SCIMUser):
             "id": self.id,
             "externalId": self.obj.profile.scim_external_id,
             "schemas": [constants.SchemaURI.USER],
-            "userName": self.user.username,
+            "userName": self.obj.username,
             "name": {
-                "givenName": self.user.first_name,
-                "familyName": self.user.last_name,
+                "givenName": self.obj.first_name,
+                "familyName": self.obj.last_name,
                 "formatted": self.name_formatted,
             },
             "displayName": self.display_name,
             "emails": self.emails,
-            "active": self.user.is_active,
+            "active": self.obj.is_active,
             "groups": [],
             "meta": self.meta,
         }
@@ -116,14 +124,14 @@ class LearnSCIMUser(SCIMUser):
             scim_user.from_dict(d)
             scim_user.save()
         """
-        self.parse_active(d.get("active"))
         self.parse_emails(d.get("emails"))
 
-        # these are unused, but are left here because the fields exist
+        self.obj.is_active = d.get("active")
+        self.obj.username = d.get("userName")
         self.obj.first_name = d.get("name", {}).get("givenName", "")
         self.obj.last_name = d.get("name", {}).get("familyName", "")
 
-        self.obj.profile = self.obj.profile or Profile(user=self.obj)
+        self.obj.profile = getattr(self.obj, "profile", Profile())
         self.obj.profile.scim_username = d.get("userName")
         self.obj.profile.scim_external_id = d.get("externalId")
         self.obj.profile.name = d.get("name", {}).get("formatted", "")
@@ -131,18 +139,13 @@ class LearnSCIMUser(SCIMUser):
     def save(self):
         """
         Save instances of the Profile and User models.
-
-        Raises:
-        self.reformat_exception: Error while creating or saving Profile or User model.
         """
-        try:
-            with transaction.atomic():
-                # user must be saved first due to FK Profile -> User
-                self.obj.save()
-                self.obj.profile.save()
-                logger.info("User saved. User id %i", self.obj.id)
-        except Exception as e:
-            raise self.reformat_exception(e) from e
+        with transaction.atomic():
+            # user must be saved first due to FK Profile -> User
+            self.obj.save()
+            self.obj.profile.user = self.obj
+            self.obj.profile.save()
+            logger.info("User saved. User id %i", self.obj.id)
 
     def delete(self):
         """
@@ -190,7 +193,12 @@ class LearnSCIMUser(SCIMUser):
 
         for nested_path, nested_value in (value or {}).items():
             if nested_path.first_path in self.ATTR_MAP:
-                self._set_obj_path(nested_path.first_path, nested_value)
+                setattr(
+                    self.obj, self.ATTR_MAP.get(nested_path.first_path), nested_value
+                )
+
+            elif nested_path.first_path == ("name", "formatted", None):
+                self.obj.profile.name = nested_value
 
             elif nested_path.first_path == ("emails", None, None):
                 self.parse_emails(value)
@@ -200,5 +208,3 @@ class LearnSCIMUser(SCIMUser):
                 raise exceptions.NotImplementedError(msg)
 
         self.save()
-
-        self.obj.save()
