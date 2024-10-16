@@ -20,6 +20,7 @@ import { LearningResource, LearningResourceRun, ResourceTypeEnum } from "api"
 import {
   formatDurationClockTime,
   getLearningResourcePrices,
+  getReadableResourceType,
 } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import Typography from "@mui/material/Typography"
@@ -288,7 +289,7 @@ const InfoSection = ({
           )}
           <CardActionButton
             filled={inUserList}
-            aria-label="Add to User List"
+            aria-label={`Bookmark ${getReadableResourceType(resource.resource_type)}`}
             onClick={
               onAddToUserListClick
                 ? (event) => onAddToUserListClick?.(event, resource.id)

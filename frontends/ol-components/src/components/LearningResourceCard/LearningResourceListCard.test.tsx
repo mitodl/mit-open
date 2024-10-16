@@ -3,7 +3,11 @@ import { BrowserRouter } from "react-router-dom"
 import { screen, render } from "@testing-library/react"
 import { LearningResourceListCard } from "./LearningResourceListCard"
 import type { LearningResourceListCardProps } from "./LearningResourceListCard"
-import { DEFAULT_RESOURCE_IMG, embedlyCroppedImage } from "ol-utilities"
+import {
+  DEFAULT_RESOURCE_IMG,
+  embedlyCroppedImage,
+  getReadableResourceType,
+} from "ol-utilities"
 import { ResourceTypeEnum, PlatformEnum, AvailabilityEnum } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
@@ -123,7 +127,9 @@ describe("Learning Resource List Card", () => {
     )
     await addToLearningPathButton.click()
 
-    const addToUserListButton = screen.getByLabelText("Add to User List")
+    const addToUserListButton = screen.getByLabelText(
+      `Bookmark ${getReadableResourceType(resource.resource_type)}`,
+    )
     await addToUserListButton.click()
 
     expect(onAddToLearningPathClick).toHaveBeenCalledWith(
