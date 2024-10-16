@@ -294,7 +294,7 @@ const Header: FunctionComponent = () => {
                 })
               }
             >
-              Boom
+              Root Layout Error (production only)
             </button>
           </DesktopOnly>
           <MobileOnly>

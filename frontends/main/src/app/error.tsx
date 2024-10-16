@@ -12,10 +12,17 @@
 import React, { useEffect } from "react"
 import * as Sentry from "@sentry/nextjs"
 import FallbackErrorPage from "@/app-pages/ErrorPage/FallbackErrorPage"
+import { ForbiddenError } from "@/common/permissions"
+import ForbiddenPage from "@/app-pages/ErrorPage/ForbiddenPage"
 const Error = ({ error }: { error: Error }) => {
   useEffect(() => {
     Sentry.captureException(error)
   }, [error])
+
+  if (error instanceof ForbiddenError) {
+    return <ForbiddenPage />
+  }
+
   return <FallbackErrorPage error={error} />
 }
 

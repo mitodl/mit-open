@@ -1,4 +1,5 @@
 "use client"
+import { ForbiddenError } from "@/common/permissions"
 import React from "react"
 
 export default function Page() {
@@ -48,7 +49,8 @@ export default function Page() {
           }, 500)
         }}
       >
-        Throw async error!
+        Throw async error! <br />
+        (No UI change)
       </button>
       <button
         type="button"
@@ -68,7 +70,27 @@ export default function Page() {
           })
         }}
       >
-        Render error!
+        Generic render error!
+      </button>
+      <button
+        type="button"
+        style={{
+          padding: "12px",
+          cursor: "pointer",
+          backgroundColor: "#f5b942",
+          borderRadius: "4px",
+          border: "none",
+          color: "white",
+          fontSize: "14px",
+          margin: "18px",
+        }}
+        onClick={() => {
+          setHasError(() => {
+            throw new ForbiddenError("Sync error")
+          })
+        }}
+      >
+        Forbidden error!
       </button>
       <p>
         Next, look for the error on the{" "}
