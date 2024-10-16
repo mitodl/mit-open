@@ -287,6 +287,15 @@ const Header: FunctionComponent = () => {
               onClick={toggler}
               drawerOpen={drawerOpen}
             />
+            <button
+              onClick={() =>
+                toggleDrawer.set(() => {
+                  throw new Error("boom")
+                })
+              }
+            >
+              Boom
+            </button>
           </DesktopOnly>
           <MobileOnly>
             <MenuButton onClick={toggler} drawerOpen={drawerOpen} />
