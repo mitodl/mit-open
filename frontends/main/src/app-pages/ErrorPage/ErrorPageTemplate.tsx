@@ -17,10 +17,6 @@ const ErrorPageTemplate: React.FC<ErrorPageTemplateProps> = ({ children }) => {
   return (
     <Container maxWidth="sm">
       <MuiCard sx={{ marginTop: "4rem" }}>
-        {/* TODO <Helmet>
-          <title>{`${title} | ${APP_SETTINGS.SITE_NAME}`}</title>
-          <meta name="robots" content="noindex,noarchive" />
-        </Helmet> */}
         <CardContent>{children}</CardContent>
         <CardActions>
           <ButtonLink variant="secondary" href={HOME}>

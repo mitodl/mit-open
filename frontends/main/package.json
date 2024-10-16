@@ -14,6 +14,7 @@
     "@emotion/cache": "^11.13.1",
     "@mitodl/course-search-utils": "3.2.4",
     "@remixicon/react": "^4.2.0",
+    "@sentry/nextjs": "^8",
     "@tanstack/react-query": "^4.36.1",
     "api": "workspace:*",
     "formik": "^2.4.6",

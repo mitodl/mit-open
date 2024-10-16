@@ -56,9 +56,13 @@ class ErrorBoundaryHandler extends Component<
   }
 
   render() {
-    if (this.state.hasError && isForbiddenError(this.state.error)) {
-      return <ForbiddenPage />
+    if (this.state.hasError) {
+      if (isForbiddenError(this.state.error)) {
+        return <ForbiddenPage />
+      }
+      throw this.state.error
     }
+
     return this.props.children
   }
 }
