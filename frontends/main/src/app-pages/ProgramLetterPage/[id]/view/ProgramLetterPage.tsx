@@ -5,7 +5,6 @@ import { styled } from "ol-components"
 import { useProgramLettersDetail } from "api/hooks/programLetters"
 import { useParams } from "next/navigation"
 import { CkeditorDisplay } from "ol-ckeditor"
-import Image from "next/image"
 
 type RouteParams = {
   id: string
@@ -106,12 +105,28 @@ const ProgramLetterFooter = styled.div`
   }
 `
 
+const ImageContainer = styled.img(({ theme }) => ({
+  display: "flex",
+  alignItems: "end",
+  minWidth: "0px",
+  maxWidth: "646px",
+  [theme.breakpoints.up("sm")]: {
+    /**
+     * Flex 1, combined with the maxWidth, was causing the image to be stretched
+     * on Safari. We don't need flex 1 on the mobile layout, so omit it there.
+     */
+    flex: 1,
+  },
+  [theme.breakpoints.down("sm")]: {
+    maxWidth: "100%",
+  },
+}))
+
 const ProgramLetterPage: React.FC = () => {
   const { id } = useParams<RouteParams>()
   const programLetter = useProgramLettersDetail(id)
   const templateFields = programLetter.data?.template_fields
   const certificateInfo = programLetter.data?.certificate
-
   return (
     <ProgramLetterPageContainer className="letter">
       <ProgramLetterHeader>
@@ -123,10 +138,9 @@ const ProgramLetterPage: React.FC = () => {
           />
         </div>
         <div className="letter-logo">
-          <Image
+          <ImageContainer
             src={templateFields?.program_letter_logo?.meta?.download_url}
-            alt=""
-            fill
+            alt="letter-logo"
           />
         </div>
       </ProgramLetterHeader>
@@ -141,10 +155,9 @@ const ProgramLetterPage: React.FC = () => {
           {templateFields?.program_letter_signatories?.map((signatory) => (
             <div key={signatory.id} className="signatory">
               <div className="sig-image">
-                <Image
+                <ImageContainer
                   src={signatory.signature_image?.meta?.download_url}
                   alt="Signature"
-                  fill
                 />
               </div>
               <div className="name">
@@ -162,10 +175,9 @@ const ProgramLetterPage: React.FC = () => {
       <ProgramLetterFooter>
         <div className="program-footer">
           {templateFields?.program_letter_footer ? (
-            <Image
+            <ImageContainer
               src={templateFields.program_letter_footer?.meta?.download_url}
               alt=""
-              fill
             />
           ) : (
             <p>MITx MicroMasters program in {templateFields?.title}</p>
