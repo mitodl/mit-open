@@ -42,7 +42,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY .yarnrc.yml /app
-COPY .yarn/releases/yarn-4.4.1.cjs /app/.yarn/releases/yarn-4.4.1.cjs
+COPY .yarn/releases /app/.yarn/releases
 COPY yarn.lock /app
 COPY package.json /app
 COPY frontends /app/frontends
