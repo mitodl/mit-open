@@ -4710,7 +4710,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/typescript-estree@npm:5.62.0":
+"@typescript-eslint/typescript-estree@npm:5.62.0, @typescript-eslint/typescript-estree@npm:^5.59.2":
   version: 5.62.0
   resolution: "@typescript-eslint/typescript-estree@npm:5.62.0"
   dependencies:
@@ -9334,6 +9334,7 @@ __metadata:
     "@types/jest-when": "npm:^3.5.2"
     "@types/react-infinite-scroller": "npm:^1.2.3"
     "@typescript-eslint/eslint-plugin": "npm:^7.0.0"
+    "@typescript-eslint/typescript-estree": "npm:^5.59.2"
     cross-fetch: "npm:^4.0.0"
     eslint: "npm:8"
     eslint-config-mitodl: "npm:^2.1.0"
