@@ -229,6 +229,10 @@
       "description": "URL to MicroMasters catalog API",
       "required": "false"
     },
+    "MITPE_API_ENABLED": {
+      "description": "Whether MIT Professional Education ETL should be enabled",
+      "required": "false"
+    },
     "MITPE_BASE_URL": {
       "description": "Base URL for MIT Professional Education website",
       "required": "false"

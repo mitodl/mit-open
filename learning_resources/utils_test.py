@@ -543,7 +543,12 @@ def test_transfer_list_resources(
     ]
 
     results = transfer_list_resources(
-        "podcast", matching_field, from_source, to_source, delete_unpublished=delete_old
+        "podcast",
+        "podcast",
+        matching_field,
+        from_source,
+        to_source,
+        delete_unpublished=delete_old,
     )
     podcast_path.refresh_from_db()
     podcast_list.refresh_from_db()

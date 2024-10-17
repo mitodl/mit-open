@@ -3,6 +3,7 @@
 import json
 from datetime import UTC, datetime
 from decimal import Decimal
+from pathlib import Path
 from urllib.parse import urljoin, urlparse
 
 import pytest
@@ -19,6 +20,7 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.prolearn import (
+    MITPE_EXCLUSION,
     PROLEARN_BASE_URL,
     SEE_EXCLUSION,
     UNIQUE_FIELD,
@@ -61,22 +63,23 @@ def _mock_offerors_platforms():
 
 
 @pytest.fixture(autouse=True)
-def mock_prolearn_api_setting(settings):  # noqa: PT004
+def mock_prolearn_api_setting(settings):
     """Set the prolearn api url"""
     settings.PROLEARN_CATALOG_API_URL = "http://localhost/test/programs/api"
+    return settings
 
 
 @pytest.fixture
 def mock_csail_programs_data():
     """Mock prolearn CSAIL programs data"""
-    with open("./test_json/prolearn_csail_programs.json") as f:  # noqa: PTH123
+    with Path.open("./test_json/prolearn_csail_programs.json") as f:
         return json.loads(f.read())
 
 
 @pytest.fixture
 def mock_mitpe_courses_data():
     """Mock prolearn MIT Professional Education courses data"""
-    with open("./test_json/prolearn_mitpe_courses.json") as f:  # noqa: PTH123
+    with Path.open("./test_json/prolearn_mitpe_courses.json") as f:
         return json.loads(f.read())
 
 
@@ -282,8 +285,8 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
 @pytest.mark.parametrize(
     ("date_int", "expected_dt"),
     [
-        [1670932800, datetime(2022, 12, 13, 12, 0, tzinfo=UTC)],  # noqa: PT007
-        [None, None],  # noqa: PT007
+        (1670932800, datetime(2022, 12, 13, 12, 0, tzinfo=UTC)),
+        (None, None),
     ],
 )
 def test_parse_date(date_int, expected_dt):
@@ -294,10 +297,10 @@ def test_parse_date(date_int, expected_dt):
 @pytest.mark.parametrize(
     ("price_str", "price_list"),
     [
-        ["$5,342", [round(Decimal(5342), 2)]],  # noqa: PT007
-        ["5.34", [round(Decimal(5.34), 2)]],  # noqa: PT007
-        [None, []],  # noqa: PT007
-        ["", []],  # noqa: PT007
+        ("$5,342", [round(Decimal(5342), 2)]),
+        ("5.34", [round(Decimal(5.34), 2)]),
+        (None, []),
+        ("", []),
     ],
 )
 def test_parse_price(price_str, price_list):
@@ -309,10 +312,10 @@ def test_parse_price(price_str, price_list):
 @pytest.mark.parametrize(
     ("topic", "expected"),
     [
-        ["Blockchain", "Blockchain"],  # noqa: PT007
-        ["Systems Engineering", "Systems Engineering"],  # noqa: PT007
-        ["Other Business", "Management"],  # noqa: PT007
-        ["Other Technology", "Digital Business & IT"],  # noqa: PT007
+        ("Blockchain", "Blockchain"),
+        ("Systems Engineering", "Systems Engineering"),
+        ("Other Business", "Management"),
+        ("Other Technology", "Digital Business & IT"),
     ],
 )
 def test_parse_topic(topic, expected):
@@ -367,9 +370,9 @@ def test_parse_platform(department, platform_name):
 @pytest.mark.parametrize(
     ("featured_image_url", "expected_url"),
     [
-        ["/a/b/c.jog", "http://localhost/a/b/c.jog"],  # noqa: PT007
-        ["", None],  # noqa: PT007
-        [None, None],  # noqa: PT007
+        ("/a/b/c.jog", "http://localhost/a/b/c.jog"),
+        ("", None),
+        (None, None),
     ],
 )
 def test_parse_image(featured_image_url, expected_url):
@@ -420,11 +423,16 @@ def test_update_delivery(
 
 
 @pytest.mark.parametrize("sloan_api_enabled", [True, False])
-def test_sloan_exclusion(settings, mocker, sloan_api_enabled):
-    """Slaon exclusion should be included if sloan api enabled"""
+@pytest.mark.parametrize("mitpe_api_enabled", [True, False])
+def test_sloan_exclusion(settings, mocker, sloan_api_enabled, mitpe_api_enabled):
+    """Slaon/MITPE exclusion should be included if respective api enabled"""
     settings.SEE_API_ENABLED = sloan_api_enabled
-    mock_post = mocker.patch("learning_resources.etl.sloan.requests.post")
+    settings.MITPE_API_ENABLED = mitpe_api_enabled
+    mock_post = mocker.patch("learning_resources.etl.prolearn.requests.post")
     extract_data("course")
     assert (
         SEE_EXCLUSION in mock_post.call_args[1]["json"]["query"]
     ) is sloan_api_enabled
+    assert (
+        MITPE_EXCLUSION in mock_post.call_args[1]["json"]["query"]
+    ) is mitpe_api_enabled
