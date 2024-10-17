@@ -287,15 +287,6 @@ const Header: FunctionComponent = () => {
               onClick={toggler}
               drawerOpen={drawerOpen}
             />
-            <button
-              onClick={() =>
-                toggleDrawer.set(() => {
-                  throw new Error("boom")
-                })
-              }
-            >
-              Root Layout Error (production only)
-            </button>
           </DesktopOnly>
           <MobileOnly>
             <MenuButton onClick={toggler} drawerOpen={drawerOpen} />
