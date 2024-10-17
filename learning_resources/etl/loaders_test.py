@@ -60,6 +60,7 @@ from learning_resources.factories import (
     LearningResourcePlatformFactory,
     LearningResourceRunFactory,
     LearningResourceTopicFactory,
+    LearningResourceTopicMappingFactory,
     PodcastEpisodeFactory,
     PodcastFactory,
     ProgramFactory,
@@ -716,6 +717,49 @@ def test_load_topics(mocker, parent_factory, topics_exist):
     load_topics(parent.learning_resource, [])
 
     assert parent.learning_resource.topics.count() == 0
+
+
+@pytest.mark.parametrize(
+    ("raw_topics", "expected_topics"),
+    [
+        (["Technology:AI/Machine Learning", "Management"], ["Management"]),
+        (
+            ["Technology:AI/Machine Learning", "Business:Management"],
+            [],
+        ),
+        (["Machine Learning", "Management"], ["Machine Learning", "Management"]),
+        (["AI", "Machine Learning"], ["AI", "Machine Learning"]),
+        (
+            ["AI", "Machine Learning", "Technology:AI/Machine Learning"],
+            ["AI", "Machine Learning"],
+        ),
+    ],
+)
+def test_load_mixed_topics_data(raw_topics, expected_topics):
+    """Test that topics are correctly parsed from data containing valid & invalid topics"""
+    resource = LearningResourceFactory.create(is_course=True, topics=[])
+    offeror = LearningResourceOfferorFactory.create(is_xpro=True)
+    LearningResourceTopicMappingFactory.create(
+        offeror=offeror,
+        topic=LearningResourceTopicFactory.create(name="AI"),
+        topic_name="AI/Machine Learning",
+    )
+    LearningResourceTopicMappingFactory.create(
+        offeror=offeror,
+        topic=LearningResourceTopicFactory.create(name="Machine Learning"),
+        topic_name="AI/Machine Learning",
+    )
+    LearningResourceTopicMappingFactory.create(
+        offeror=offeror,
+        topic=LearningResourceTopicFactory.create(name="Management"),
+        topic_name="Management",
+    )
+
+    load_topics(resource, [{"name": topic} for topic in raw_topics])
+
+    assert sorted([topic.name for topic in resource.topics.all()]) == sorted(
+        expected_topics
+    )
 
 
 @pytest.mark.parametrize("instructor_exists", [True, False])
