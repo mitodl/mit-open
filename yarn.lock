@@ -952,6 +952,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ckeditor/ckeditor5-integrations-common@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@ckeditor/ckeditor5-integrations-common@npm:2.1.0"
+  peerDependencies:
+    ckeditor5: ">=42.0.0 || ^0.0.0-nightly"
+  checksum: 10/486597e70572c49a95ac0cd9abbf01310f04bade95d47f09885c0caa2161c3c48d1e854a1c9ed70e84468d574702c929cbfd91cec8795f7ec33c03565ba95492
+  languageName: node
+  linkType: hard
+
 "@ckeditor/ckeditor5-language@npm:41.4.2":
   version: 41.4.2
   resolution: "@ckeditor/ckeditor5-language@npm:41.4.2"
@@ -1051,19 +1060,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-react@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "@ckeditor/ckeditor5-react@npm:7.0.0"
+"@ckeditor/ckeditor5-react@npm:^9.0.0":
+  version: 9.3.1
+  resolution: "@ckeditor/ckeditor5-react@npm:9.3.1"
   dependencies:
+    "@ckeditor/ckeditor5-integrations-common": "npm:^2.1.0"
     prop-types: "npm:^15.7.2"
   peerDependencies:
-    "@ckeditor/ckeditor5-core": ">=41.3.1"
-    "@ckeditor/ckeditor5-editor-multi-root": ">=41.3.1"
-    "@ckeditor/ckeditor5-engine": ">=41.3.1"
-    "@ckeditor/ckeditor5-utils": ">=41.3.1"
-    "@ckeditor/ckeditor5-watchdog": ">=41.3.1"
-    react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 10/e6f4118567a6ee1211d3e28de86d5bff05f6a50bd579a2467f73d909cc2ac5c2b4b7a5702c48a1422a7998ecb1ba2af8f8a719072bf5bc60092bf6578a35773c
+    ckeditor5: ">=42.0.0 || ^0.0.0-nightly"
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10/6f10474ad96ba17c8f653cdfd5396d9919b0209f83961cf1050ae087c617c0743fba38cbe8d27c3fb6e6ab72b78486740bf31b44b70712b8edf0761d44fc24c3
   languageName: node
   linkType: hard
 
@@ -13992,7 +13998,7 @@ __metadata:
     "@ckeditor/ckeditor5-markdown-gfm": "npm:^41.0.0"
     "@ckeditor/ckeditor5-media-embed": "npm:^41.0.0"
     "@ckeditor/ckeditor5-paragraph": "npm:^41.0.0"
-    "@ckeditor/ckeditor5-react": "npm:^7.0.0"
+    "@ckeditor/ckeditor5-react": "npm:^9.0.0"
     "@ckeditor/ckeditor5-theme-lark": "npm:^41.0.0"
     "@ckeditor/ckeditor5-ui": "npm:^41.0.0"
     "@testing-library/react": "npm:16.0.1"
