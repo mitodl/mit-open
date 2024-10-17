@@ -161,7 +161,7 @@ const ProgramLetterPage: React.FC = () => {
                 />
               </div>
               <div className="name">
-                {signatory.name},{signatory.title_line_1}
+                {signatory.name}, {signatory.title_line_1}
                 {signatory.title_line_2 ? (
                   <p>, {signatory.title_line_2}</p>
                 ) : (
