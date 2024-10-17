@@ -21,29 +21,6 @@ const processFeatureFlags = () => {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config, { webpack }) => {
-    config.plugins.push(
-      new webpack.IgnorePlugin({
-        resourceRegExp: /\.test\.tsx$/,
-      }),
-      new webpack.IgnorePlugin({
-        resourceRegExp: /mockAxios\.ts/,
-      }),
-    )
-
-    // Do not do this. Added to fix "import type", but causes a strage issue where
-    // the root page and layout think they're Client Components and "use client"
-    // directives not properly respected.
-    // https://nextjs.org/docs/app/api-reference/next-config-js/webpack
-    //
-    // config.module.rules.push({
-    //   test: /\.tsx?$/,
-    //   use: [defaultLoaders.babel],
-    // })
-
-    return config
-  },
-
   async rewrites() {
     return [
       /* Images moved from /static, though image paths are sometimes
