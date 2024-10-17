@@ -36,9 +36,12 @@ const nextConfig = {
 
   async headers() {
     return [
-      /* This is intended to target the base HTML responses. Some are dynamically rendered,
-       * so Next.js instructs no-cache, however we are currently serving public content that
-       * is cacheable. Excludes everything with a file extension so we're matching only on routes.
+      /* This is intended to target the base HTML responses and streamed RSC
+       * content. Some routes are dynamically rendered, so NextJS by default
+       * sets no-cache. However we are currently serving public content that is
+       * cacheable.
+       *
+       * Excludes everything with a file extension so we're matching only on routes.
        */
       {
         source: "/((?!.*\\.[a-zA-Z0-9]{2,4}$).*)",
