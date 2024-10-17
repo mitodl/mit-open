@@ -156,7 +156,6 @@ jobs:
           file: coverage/lcov.info
 
   build-deploy-frontend:
-    if: github.ref == 'refs/heads/nextjs'
     needs: javascript-tests
     runs-on: ubuntu-latest
     steps:
@@ -186,6 +185,7 @@ jobs:
           --context-path .
 
       - name: Release on Heroku
+        if: github.ref == 'refs/heads/nextjs'
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release --app mitopen-rc-nextjs web
