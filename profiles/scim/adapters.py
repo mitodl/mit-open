@@ -126,7 +126,7 @@ class LearnSCIMUser(SCIMUser):
         """
         self.parse_emails(d.get("emails"))
 
-        self.obj.is_active = d.get("active")
+        self.obj.is_active = d.get("active", True)
         self.obj.username = d.get("userName")
         self.obj.first_name = d.get("name", {}).get("givenName", "")
         self.obj.last_name = d.get("name", {}).get("familyName", "")
