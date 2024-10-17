@@ -1,7 +1,7 @@
 import logging
 import urllib
 
-from opensearch_dsl import Search
+from elasticsearch_dsl import Search
 
 from channels.models import Channel
 from learning_resources.hooks import get_plugin_manager

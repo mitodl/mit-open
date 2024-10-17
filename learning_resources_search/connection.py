@@ -6,7 +6,7 @@ import uuid
 from functools import partial
 
 from django.conf import settings
-from opensearch_dsl.connections import connections
+from elasticsearch_dsl.connections import connections
 
 from learning_resources_search.constants import (
     ALL_INDEX_TYPES,
@@ -22,17 +22,14 @@ def configure_connections():
     """
     # this is the default connection
     http_auth = settings.OPENSEARCH_HTTP_AUTH
-    use_ssl = http_auth is not None
     # configure() lazily creates connections when get_connection() is called
     connections.configure(
         default={
             "hosts": [settings.OPENSEARCH_URL],
             "http_auth": http_auth,
-            "use_ssl": use_ssl,
             "timeout": settings.OPENSEARCH_DEFAULT_TIMEOUT,
             "connections_per_node": settings.OPENSEARCH_CONNECTIONS_PER_NODE,
             # make sure we verify SSL certificates (off by default)
-            "verify_certs": use_ssl,
         }
     )
 

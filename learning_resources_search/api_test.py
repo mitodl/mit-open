@@ -3,9 +3,9 @@
 from unittest.mock import Mock
 
 import pytest
+from elasticsearch_dsl import response
+from elasticsearch_dsl.query import Percolate
 from freezegun import freeze_time
-from opensearch_dsl import response
-from opensearch_dsl.query import Percolate
 
 from learning_resources.factories import LearningResourceFactory
 from learning_resources_search.api import (

@@ -1,0 +1,17 @@
+services:
+  elasticsearch-node-mitopen-1:
+    extends:
+      file: docker-compose.elasticsearch.base.yml
+      service: elasticsearch
+    hostname: elasticsearch-node-mitopen-1
+    environment:
+      - "node.name=elasticsearch-node-mitopen-1"
+      - "discovery.type=single-node" # disables bootstrap checks that are enabled when network.host is set to a non-loopback address
+    volumes:
+      - elasticsearch-data1:/usr/share/elasticsearch/data
+    ports:
+      - 9100:9200 # REST API
+      - 9500:9600 # Performance Analyzer
+
+volumes:
+  elasticsearch-data1:

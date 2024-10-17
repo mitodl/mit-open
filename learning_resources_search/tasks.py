@@ -15,7 +15,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.template.defaultfilters import pluralize
-from opensearchpy.exceptions import NotFoundError, RequestError
+from elasticsearch.exceptions import NotFoundError, RequestError
 from requests.models import PreparedRequest
 
 from learning_resources.constants import LearningResourceType

@@ -8,7 +8,7 @@ from types import SimpleNamespace
 
 import pytest
 from anys import ANY_DICT, ANY_STR
-from opensearchpy.exceptions import ConflictError, NotFoundError
+from elasticsearch.exceptions import ConflictError, NotFoundError
 
 from learning_resources.factories import (
     ContentFileFactory,

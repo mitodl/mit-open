@@ -80,6 +80,8 @@ ruff = "0.6.4"
 dateparser = "^1.2.0"
 uwsgitop = "^0.12"
 pytest-lazy-fixtures = "^1.1.1"
+elasticsearch-dsl = "^8.15.4"
+elasticsearch = "^8.15.1"
 
 
 [tool.poetry.group.dev.dependencies]

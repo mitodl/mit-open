@@ -6,8 +6,8 @@ import pytest
 from celery.exceptions import Ignore, Retry
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from opensearchpy.exceptions import ConnectionError as ESConnectionError
-from opensearchpy.exceptions import ConnectionTimeout, RequestError
+from elasticsearch.exceptions import ConnectionError as ESConnectionError
+from elasticsearch.exceptions import ConnectionTimeout, RequestError
 
 from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES, ETLSource
 from learning_resources.factories import (

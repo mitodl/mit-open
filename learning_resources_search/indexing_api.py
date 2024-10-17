@@ -8,8 +8,8 @@ from math import ceil
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from opensearchpy.exceptions import ConflictError, NotFoundError
-from opensearchpy.helpers import BulkIndexError, bulk
+from elasticsearch.exceptions import ConflictError, NotFoundError
+from elasticsearch.helpers import BulkIndexError, bulk
 
 from learning_resources.models import ContentFile, LearningResourceRun
 from learning_resources_search.connection import (

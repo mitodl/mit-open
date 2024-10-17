@@ -1,5 +1,5 @@
 include:
-  - docker-compose.opensearch.${OPENSEARCH_CLUSTER_TYPE:-single-node}.yml
+  - docker-compose.elasticsearch.single-node.yml
 
 services:
   db:

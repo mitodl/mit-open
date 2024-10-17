@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from opensearchpy.exceptions import ConnectionError as ESConnectionError
+from elasticsearch.exceptions import ConnectionError as ESConnectionError
 from urllib3.exceptions import TimeoutError as UrlTimeoutError
 
 from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS

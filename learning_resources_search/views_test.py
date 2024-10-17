@@ -8,7 +8,7 @@ import factory
 import pytest
 from django.db.models import signals
 from django.urls import reverse
-from opensearchpy.exceptions import TransportError
+from elasticsearch.exceptions import TransportError
 from rest_framework.renderers import JSONRenderer
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory

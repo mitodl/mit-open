@@ -6,9 +6,9 @@ from collections import Counter
 from datetime import UTC, datetime
 
 from django.conf import settings
-from opensearch_dsl import Search
-from opensearch_dsl.query import MoreLikeThis, Percolate
-from opensearchpy.exceptions import NotFoundError
+from elasticsearch.exceptions import NotFoundError
+from elasticsearch_dsl import Search
+from elasticsearch_dsl.query import MoreLikeThis, Percolate
 
 from learning_resources.models import LearningResource
 from learning_resources_search.connection import (

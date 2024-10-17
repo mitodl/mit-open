@@ -7,7 +7,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
-from opensearchpy.exceptions import TransportError
+from elasticsearch.exceptions import TransportError
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
