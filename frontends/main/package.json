@@ -18,7 +18,7 @@
     "api": "workspace:*",
     "formik": "^2.4.6",
     "lodash": "^4.17.21",
-    "next": "^14.2.15",
+    "next": "^14.2.7",
     "ol-ckeditor": "0.0.0",
     "ol-components": "0.0.0",
     "ol-utilities": "0.0.0",

@@ -57,46 +57,6 @@ const nextConfig = {
     ]
   },
 
-  async headers() {
-    return [
-      /* This is intended to target the base HTML responses. Some are dynamically rendered,
-       * so Next.js instructs no-cache, however we are currently serving public content that
-       * is cacheable. Excludes everything with a file extension so we're matching only on routes.
-       */
-      {
-        source: "/((?!.*\\.[a-zA-Z0-9]{2,4}$).*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "s-maxage=120",
-          },
-        ],
-      },
-
-      /* Images rendered with the Next.js Image component have the cache header
-       * set on them, but CSS background images do not.
-       */
-      {
-        source: "/images/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "s-maxage=600",
-          },
-        ],
-      },
-      {
-        source: "/favicon.ico",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "s-maxage=31536000",
-          },
-        ],
-      },
-    ]
-  },
-
   images: {
     remotePatterns: [
       {
