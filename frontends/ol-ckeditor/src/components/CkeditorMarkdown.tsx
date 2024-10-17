@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ChangeEvent } from "react"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
 
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor"
@@ -47,7 +47,7 @@ const CkeditorMarkdown: React.FC<CkeditorMarkdownProps> = ({
         editor={ClassicEditor}
         data={value}
         config={editorConfig}
-        onChange={(_event, editor) => {
+        onChange={(event: ChangeEvent, editor: ClassicEditor) => {
           const data = editor.getData()
           onChange(data)
         }}
