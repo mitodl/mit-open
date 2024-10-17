@@ -45,7 +45,7 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "s-maxage=120",
+            value: "s-maxage=1800",
           },
         ],
       },
@@ -58,7 +58,7 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "s-maxage=600",
+            value: "s-maxage=31536000",
           },
         ],
       },
