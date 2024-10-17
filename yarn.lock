@@ -13690,7 +13690,7 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-extended: "npm:^4.0.2"
     lodash: "npm:^4.17.21"
-    next: "npm:^14.2.7"
+    next: "npm:^14.2.15"
     ol-ckeditor: "npm:0.0.0"
     ol-components: "npm:0.0.0"
     ol-test-utilities: "npm:0.0.0"
@@ -15143,7 +15143,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^14.2.7":
+"next@npm:^14.2.15, next@npm:^14.2.7":
   version: 14.2.15
   resolution: "next@npm:14.2.15"
   dependencies:
