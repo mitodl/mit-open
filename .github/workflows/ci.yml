@@ -155,7 +155,7 @@ jobs:
         with:
           file: coverage/lcov.info
 
-  build-deploy-frontend:
+  build-deploy-frontend-rc:
     needs: javascript-tests
     runs-on: ubuntu-latest
     steps:
@@ -169,6 +169,7 @@ jobs:
 
       - name: Build the Docker image
         env:
+          HEROKU_APP_NAME: mitopen-rc-nextjs
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
           ORIGIN: https://next.rc.learn.mit.edu
@@ -176,19 +177,93 @@ jobs:
           SITE_NAME: MIT Learn
           SUPPORT_EMAIL: mitlearn-support@mit.edu
           MITOL_AXIOS_WITH_CREDENTIALS: true
-          CSRF_COOKIE_NAME: learn-rc-csrftoken
+          CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_RC }}
+          POSTHOG_API_HOST: https://app.posthog.com
+          POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_RC }}
+          POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_RC }}
         run: |
           heroku container:push web \
-          --app mitopen-rc-nextjs \
+          --app $HEROKU_APP_NAME \
           --recursive \
-          --arg NEXT_PUBLIC_ORIGIN=$ORIGIN,NEXT_PUBLIC_MITOL_API_BASE_URL=$MITOL_API_BASE_URL,NEXT_PUBLIC_SITE_NAME="$SITE_NAME",NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=$SUPPORT_EMAIL,NEXT_PUBLIC_EMBEDLY_KEY=$EMBEDLY_KEY,NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=$MITOL_AXIOS_WITH_CREDENTIALS,NEXT_PUBLIC_CSRF_COOKIE_NAME=$CSRF_COOKIE_NAME \
+          --arg NEXT_PUBLIC_ORIGIN=$ORIGIN,\
+          NEXT_PUBLIC_MITOL_API_BASE_URL=$MITOL_API_BASE_URL,\
+          NEXT_PUBLIC_SITE_NAME="$SITE_NAME",\
+          NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=$SUPPORT_EMAIL,\
+          NEXT_PUBLIC_EMBEDLY_KEY=$EMBEDLY_KEY,\
+          NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=$MITOL_AXIOS_WITH_CREDENTIALS,\
+          NEXT_PUBLIC_CSRF_COOKIE_NAME=$CSRF_COOKIE_NAME,\
+          NEXT_PUBLIC_POSTHOG_API_HOST=$POSTHOG_API_HOST,\
+          NEXT_PUBLIC_POSTHOG_POSTHOG_PROJECT_ID=$POSTHOG_POSTHOG_PROJECT_ID,\
+          NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY=$POSTHOG_PROJECT_API_KEY \
           --context-path .
 
       - name: Release on Heroku
         if: github.ref == 'refs/heads/nextjs'
         env:
+          HEROKU_APP_NAME: mitopen-rc-nextjs
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release --app mitopen-rc-nextjs web
+        run: heroku container:release --app $HEROKU_APP_NAME web
+
+      # - name: Purge Fastly cache
+      #   uses: jcoene/fastly-purge-action@master
+      #   with:
+      #     api_key: "${{ secrets.FASTLY_API_KEY_RC_NEXTJS }}"
+      #     service_id: "${{ secrets.FASTLY_SERVICE_ID_RC_NEXTJS }}"
+
+  build-deploy-frontend-prod:
+    needs: javascript-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - name: Heroku login
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+
+      - name: Build the Docker image
+        env:
+          HEROKU_APP_NAME: mitopen-production-nextjs
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_PROD }}
+          ORIGIN: https://learn.mit.edu
+          MITOL_API_BASE_URL: https://api.learn.mit.edu
+          SITE_NAME: MIT Learn
+          SUPPORT_EMAIL: mitlearn-support@mit.edu
+          MITOL_AXIOS_WITH_CREDENTIALS: true
+          CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_PROD }}
+          POSTHOG_API_HOST: https://app.posthog.com
+          POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_PROD }}
+          POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_PROD }}
+        run: |
+          heroku container:push web \
+          --app $HEROKU_APP_NAME \
+          --recursive \
+          --arg NEXT_PUBLIC_ORIGIN=$ORIGIN,\
+          NEXT_PUBLIC_MITOL_API_BASE_URL=$MITOL_API_BASE_URL,\
+          NEXT_PUBLIC_SITE_NAME="$SITE_NAME",\
+          NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=$SUPPORT_EMAIL,\
+          NEXT_PUBLIC_EMBEDLY_KEY=$EMBEDLY_KEY,\
+          NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=$MITOL_AXIOS_WITH_CREDENTIALS,\
+          NEXT_PUBLIC_CSRF_COOKIE_NAME=$CSRF_COOKIE_NAME,\
+          NEXT_PUBLIC_POSTHOG_API_HOST=$POSTHOG_API_HOST,\
+          NEXT_PUBLIC_POSTHOG_POSTHOG_PROJECT_ID=$POSTHOG_POSTHOG_PROJECT_ID,\
+          NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY=$POSTHOG_PROJECT_API_KEY \
+          --context-path .
+
+      - name: Release on Heroku
+        # if: github.ref == 'refs/heads/nextjs'
+        env:
+          HEROKU_APP_NAME: mitopen-production-nextjs
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release --app $HEROKU_APP_NAME web
+
+      # - name: Purge Fastly cache
+      #   uses: jcoene/fastly-purge-action@master
+      #   with:
+      #     api_key: "${{ secrets.FASTLY_API_KEY_PROD_NEXTJS }}"
+      #     service_id: "${{ secrets.FASTLY_SERVICE_ID_PROD_NEXTJS }}"
 
   build-storybook:
     runs-on: ubuntu-latest
