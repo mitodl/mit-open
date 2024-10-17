@@ -32,6 +32,7 @@
     "@ckeditor/ckeditor5-react": "^9.0.0",
     "@ckeditor/ckeditor5-theme-lark": "^42.0.0",
     "@ckeditor/ckeditor5-ui": "^42.0.0",
+    "@ckeditor/ckeditor5-utils": "^42.0.0",
     "axios": "^1.6.3",
     "classnames": "^2.3.2",
     "ol-components": "0.0.0",

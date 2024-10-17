@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react"
+import React from "react"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
 
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor"
@@ -6,6 +6,8 @@ import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials"
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph"
 import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold"
 import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic"
+import { EventInfo } from "@ckeditor/ckeditor5-utils"
+
 import Markdown from "@ckeditor/ckeditor5-markdown-gfm/src/markdown"
 import List from "@ckeditor/ckeditor5-list/src/list"
 import Link from "@ckeditor/ckeditor5-link/src/link"
@@ -47,7 +49,7 @@ const CkeditorMarkdown: React.FC<CkeditorMarkdownProps> = ({
         editor={ClassicEditor}
         data={value}
         config={editorConfig}
-        onChange={(event: ChangeEvent, editor: ClassicEditor) => {
+        onChange={(event: EventInfo, editor: ClassicEditor) => {
           const data = editor.getData()
           onChange(data)
         }}
