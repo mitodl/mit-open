@@ -160,7 +160,7 @@ const INFO_ITEMS: InfoItemConfig = [
           ?.filter((instructor) => instructor.full_name)
           .map((instructor, index) => {
             return (
-              <React.Fragment key={`topic-${index}`}>
+              <React.Fragment key={`instructor-${index}`}>
                 {instructor.full_name}
                 {index < totalInstructors - 1 && <Separator />}
               </React.Fragment>

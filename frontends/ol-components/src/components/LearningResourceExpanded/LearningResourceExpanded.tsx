@@ -32,6 +32,7 @@ const Container = styled.div<{ padTop?: boolean }>`
   width: 900px;
   ${({ theme }) => theme.breakpoints.down("md")} {
     width: auto;
+    padding: 0 16px 160px;
   }
 `
 
@@ -50,7 +51,9 @@ const ContentContainer = styled.div({
   gap: "32px",
   alignSelf: "stretch",
   [theme.breakpoints.down("md")]: {
-    flexDirection: "column",
+    alignItems: "center",
+    flexDirection: "column-reverse",
+    gap: "16px",
   },
 })
 
@@ -93,6 +96,12 @@ const CallToAction = styled.div({
   border: `1px solid ${theme.custom.colors.lightGray2}`,
   boxShadow:
     "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+    padding: "0",
+    border: "none",
+    boxShadow: "none",
+  },
 })
 
 const PlatformContainer = styled.div({
