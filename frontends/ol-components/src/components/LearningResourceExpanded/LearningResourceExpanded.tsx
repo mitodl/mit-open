@@ -37,10 +37,12 @@ const Container = styled.div<{ padTop?: boolean }>`
 `
 
 const TitleSectionContainer = styled.div({
-  backgroundColor: theme.custom.colors.white,
+  display: "flex",
   position: "sticky",
+  justifyContent: "space-between",
   top: "0",
   padding: "24px 0",
+  backgroundColor: theme.custom.colors.white,
 })
 
 const Image = styled.img<{ aspect: number }>`
@@ -116,9 +118,7 @@ type LearningResourceExpandedProps = {
 
 const CloseButton = styled(ActionButton)(({ theme }) => ({
   "&&&": {
-    position: "absolute",
-    top: "24px",
-    right: "0",
+    flexShrink: 0,
     backgroundColor: theme.custom.colors.lightGray2,
     color: theme.custom.colors.black,
     ["&:hover"]: {
@@ -152,15 +152,17 @@ const TitleSection: React.FC<{
   if (resource) {
     return (
       <TitleSectionContainer>
-        <Typography
-          variant="subtitle2"
-          color={theme.custom.colors.silverGrayDark}
-        >
-          {ReadableResourceTypes[resource?.resource_category]}
-        </Typography>
-        <Typography variant="h4" color={theme.custom.colors.darkGray2}>
-          {resource?.title}
-        </Typography>
+        <div>
+          <Typography
+            variant="subtitle2"
+            color={theme.custom.colors.silverGrayDark}
+          >
+            {ReadableResourceTypes[resource?.resource_category]}
+          </Typography>
+          <Typography variant="h4" color={theme.custom.colors.darkGray2}>
+            {resource?.title}
+          </Typography>
+        </div>
         {closeButton}
       </TitleSectionContainer>
     )
