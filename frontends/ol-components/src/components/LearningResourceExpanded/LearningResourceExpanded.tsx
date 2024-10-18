@@ -3,25 +3,26 @@ import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
 import Typography from "@mui/material/Typography"
 import { ButtonLink } from "../Button/Button"
-import type { LearningResource, LearningResourceRun } from "api"
+import type { LearningResource } from "api"
 import { ResourceTypeEnum, PlatformEnum } from "api"
-import {
-  formatDate,
-  capitalize,
-  resourceThumbnailSrc,
-  DEFAULT_RESOURCE_IMG,
-  showStartAnytime,
-} from "ol-utilities"
+import { resourceThumbnailSrc, DEFAULT_RESOURCE_IMG } from "ol-utilities"
 import { RiExternalLinkLine } from "@remixicon/react"
 import type { EmbedlyConfig } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
-import { SimpleSelect } from "../SimpleSelect/SimpleSelect"
-import type { SimpleSelectProps } from "../SimpleSelect/SimpleSelect"
 import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
 import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
 import InfoSection from "./InfoSection"
 import type { User } from "api/hooks/user"
 import { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
+
+const ReadableResourceTypes = {
+  [ResourceTypeEnum.Course.toString()]: "Course",
+  [ResourceTypeEnum.Podcast.toString()]: "Podcast",
+  [ResourceTypeEnum.PodcastEpisode.toString()]: "Podcast Episode",
+  [ResourceTypeEnum.Video.toString()]: "Video",
+  [ResourceTypeEnum.VideoPlaylist.toString()]: "Video Playlist",
+  [ResourceTypeEnum.Program.toString()]: "Program",
+}
 
 const Container = styled.div<{ padTop?: boolean }>`
   display: flex;
@@ -29,52 +30,16 @@ const Container = styled.div<{ padTop?: boolean }>`
   padding: 18px 32px 160px;
   gap: 20px;
   ${({ padTop }) => (padTop ? "padding-top: 64px;" : "")}
-  width: 516px;
-  ${({ theme }) => theme.breakpoints.down("sm")} {
+  width: 900px;
+  ${({ theme }) => theme.breakpoints.down("md")} {
     width: auto;
   }
 `
 
-const DateContainer = styled.div`
-  display: flex;
-  justify-content: start;
-  align-self: stretch;
-  align-items: center;
-  ${{ ...theme.typography.body2 }}
-  color: ${theme.custom.colors.black};
-  margin: 0;
-
-  .MuiInputBase-root {
-    margin-bottom: 0;
-    border-color: ${theme.custom.colors.mitRed};
-    border-width: 1.5px;
-    color: ${theme.custom.colors.mitRed};
-    ${{ ...theme.typography.button }}
-    line-height: ${theme.typography.pxToRem(20)};
-
-    label {
-      display: none;
-    }
-
-    svg {
-      color: ${theme.custom.colors.mitRed};
-    }
-  }
-`
-
-const DateSingle = styled(DateContainer)`
-  margin-top: 10px;
-`
-
-const NoDateSpacer = styled.div`
-  height: 34px;
-`
-
-const DateLabel = styled.span`
-  ${{ ...theme.typography.body2 }}
-  color: ${theme.custom.colors.darkGray1};
-  margin-right: 16px;
-`
+const TitleSectionContainer = styled.div({
+  paddingTop: "6px",
+  paddingBottom: "24px",
+})
 
 const Image = styled.img<{ aspect: number }>`
   aspect-ratio: ${({ aspect }) => aspect};
@@ -144,6 +109,33 @@ type LearningResourceExpandedProps = {
   imgConfig: EmbedlyConfig
   onAddToLearningPathClick?: LearningResourceCardProps["onAddToLearningPathClick"]
   onAddToUserListClick?: LearningResourceCardProps["onAddToUserListClick"]
+}
+
+const TitleSection: React.FC<{ resource?: LearningResource }> = ({
+  resource,
+}) => {
+  if (resource) {
+    return (
+      <TitleSectionContainer>
+        <Typography
+          variant="subtitle2"
+          color={theme.custom.colors.silverGrayDark}
+        >
+          {ReadableResourceTypes[resource?.resource_category]}
+        </Typography>
+        <Typography variant="h4" color={theme.custom.colors.darkGray2}>
+          {resource?.title}
+        </Typography>
+      </TitleSectionContainer>
+    )
+  } else {
+    return (
+      <TitleSectionContainer>
+        <Skeleton variant="text" height={20} width="66%" />
+        <Skeleton variant="text" height={20} width="100%" />
+      </TitleSectionContainer>
+    )
+  }
 }
 
 const ImageSection: React.FC<{
@@ -297,28 +289,6 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
   )
 }
 
-const formatRunDate = (
-  run: LearningResourceRun,
-  asTaughtIn: boolean,
-): string | null => {
-  if (asTaughtIn) {
-    const semester = capitalize(run.semester ?? "")
-    if (semester && run.year) {
-      return `${semester} ${run.year}`
-    }
-    if (semester && run.start_date) {
-      return `${semester} ${formatDate(run.start_date, "YYYY")}`
-    }
-    if (run.start_date) {
-      return formatDate(run.start_date, "MMMM, YYYY")
-    }
-  }
-  if (run.start_date) {
-    return formatDate(run.start_date, "MMMM DD, YYYY")
-  }
-  return null
-}
-
 const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   resource,
   user,
@@ -327,10 +297,6 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   onAddToUserListClick,
 }) => {
   const [selectedRun, setSelectedRun] = useState(resource?.runs?.[0])
-
-  const multipleRuns = resource?.runs && resource.runs.length > 1
-  const asTaughtIn = resource ? showStartAnytime(resource) : false
-  const label = asTaughtIn ? "As taught in:" : "Start Date:"
 
   useEffect(() => {
     if (resource) {
@@ -348,68 +314,6 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     }
   }, [resource])
 
-  const onDateChange: SimpleSelectProps["onChange"] = (event) => {
-    const run = resource?.runs?.find(
-      (run) => run.id === Number(event.target.value),
-    )
-    if (run) setSelectedRun(run)
-  }
-
-  const DateSection = ({ hide }: { hide?: boolean }) => {
-    if (hide) {
-      return null
-    }
-    if (!resource) {
-      return <Skeleton height={40} style={{ marginTop: 0, width: "60%" }} />
-    }
-
-    const dateOptions: SimpleSelectProps["options"] =
-      resource.runs
-        ?.sort((a, b) => {
-          if (a?.start_date && b?.start_date) {
-            return Date.parse(a.start_date) - Date.parse(b.start_date)
-          }
-          return 0
-        })
-        .map((run) => {
-          return {
-            value: run.id.toString(),
-            label: formatRunDate(run, asTaughtIn),
-          }
-        }) ?? []
-
-    if (
-      [ResourceTypeEnum.Course, ResourceTypeEnum.Program].includes(
-        resource.resource_type as "course" | "program",
-      ) &&
-      multipleRuns
-    ) {
-      return (
-        <DateContainer>
-          <DateLabel>{label}</DateLabel>
-          <SimpleSelect
-            value={selectedRun?.id.toString() ?? ""}
-            onChange={onDateChange}
-            options={dateOptions}
-          />
-        </DateContainer>
-      )
-    }
-
-    if (!selectedRun) return <NoDateSpacer />
-
-    const formatted = formatRunDate(selectedRun, asTaughtIn)
-    if (!formatted) {
-      return <NoDateSpacer />
-    }
-    return (
-      <DateSingle>
-        <DateLabel>{label}</DateLabel>
-        {formatted ?? ""}
-      </DateSingle>
-    )
-  }
-
   const isVideo =
     resource &&
     (resource.resource_type === ResourceTypeEnum.Video ||
@@ -417,7 +321,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
 
   return (
     <Container padTop={isVideo}>
-      <DateSection hide={isVideo} />
+      <TitleSection resource={resource} />
       <ImageSection resource={resource} config={imgConfig} />
       <CallToActionSection resource={resource} hide={isVideo} />
       <DetailSection resource={resource} />
