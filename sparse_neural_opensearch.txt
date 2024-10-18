@@ -1,0 +1,343 @@
+from time import sleep
+import requests
+
+requests.put(
+    "http://0.0.0.0:9100/_cluster/settings",
+    json={
+        "index.blocks.read_only_allow_delete": None,
+        "index.blocks.read_only": False,
+        "persistent": {
+            "plugins.ml_commons.only_run_on_ml_node": "false",
+            "plugins.ml_commons.native_memory_threshold": 100,
+            "plugins.ml_commons.agent_framework_enabled": True,
+            "plugins.ml_commons.jvm_heap_memory_threshold": 100,
+            "plugins.ml_commons.agent_framework_enabled": True,
+            "plugins.ml_commons.rag_pipeline_feature_enabled": True,
+            "plugins.ml_commons.connector.private_ip_enabled": True,
+            "plugins.ml_commons.trusted_connector_endpoints_regex": ["^.*$"],
+        },
+    },
+).content
+
+
+resp = requests.post(
+    "http://0.0.0.0:9100/_plugins/_ml/models/_register?deploy=true",
+    json={
+        # "name": "amazon/neural-sparse/opensearch-neural-sparse-encoding-v1",
+        "name": "amazon/neural-sparse/opensearch-neural-sparse-tokenizer-v1",
+        "version": "1.0.1",
+        "model_format": "TORCH_SCRIPT",
+    },
+).json()
+
+model_id = None
+while not model_id:
+    j = requests.get(f'http://0.0.0.0:9100/_plugins/_ml/tasks/{resp["task_id"]}').json()
+    print(j)
+    model_id = j.get("model_id")
+    sleep(3)
+
+
+'''
+resp = requests.post(f'http://0.0.0.0:9100/_plugins/_ml/models/{model_id}/_deploy').json()
+model_id = None
+while not model_id:
+  j = requests.get(f'http://0.0.0.0:9100/_plugins/_ml/tasks/{resp["task_id"]}').json()
+  print(j)
+  model_id = j.get('model_id')
+  sleep(3)
+
+resp = requests.post(f'http://0.0.0.0:9100/_plugins/_ml/models/{model_id}/_predict', json={
+    "query":"Analysis",
+      "text_docs":[ """
+      Analysis of Transport Phenomena: Electrochemical Transport
+    Graduate-level introduction to mathematical modeling of heat and mass transfer (diffusion and convection), fluid dynamics, chemical reactions, and phase transformations.
+      """],
+      "return_number": True,
+      "target_response": ["sparse_encoding"]
+    }).json()
+'''
+
+resp = requests.put(
+    f"http://0.0.0.0:9100/_ingest/pipeline/test-pipeline-local-model",
+    json={
+        "description": "text embedding pipeline",
+        "processors": [
+            {
+                "text_embedding": {
+                    "model_id": model_id,
+                    "field_map": {"text": "embedding"},
+                }
+            }
+        ],
+    },
+)
+
+resp = requests.post(
+    f"http://0.0.0.0:9100/_plugins/_ml/_predict/sparse_encoding/{model_id}",
+    json={
+        "text_docs": [
+            """
+      Analysis of Transport Phenomena: Electrochemical Transport
+    Graduate-level introduction to mathematical modeling of heat and mass transfer (diffusion and convection), fluid dynamics, chemical reactions, and phase transformations.
+      """
+        ],
+    },
+).json()
+
+
+resp = requests.get(
+    "http://0.0.0.0:9100/_search",
+    json={
+        "size": 10,
+        "query": {
+            "neural_sparse": {
+                "sparse_embedding": {
+                    "query_text": "Analysis of Transport Phenomena: Electrochemical Transport",
+                    "model_id": "_wZOnJIB2PKl75eqDOBJ",
+                    "max_token_score": 3.5,
+                }
+            }
+        },
+    },
+)
+
+
+# ----------
+
+
+requests.put(
+    "http://0.0.0.0:9100/_cluster/settings",
+    json={
+        "index.blocks.read_only_allow_delete": None,
+        "index.blocks.read_only": False,
+        "persistent": {
+            "plugins.ml_commons.only_run_on_ml_node": False,
+            "plugins.ml_commons.native_memory_threshold": 100,
+            "plugins.ml_commons.agent_framework_enabled": True,
+            "plugins.ml_commons.jvm_heap_memory_threshold": 100,
+            "plugins.ml_commons.agent_framework_enabled": True,
+            "plugins.ml_commons.rag_pipeline_feature_enabled": True,
+            "plugins.ml_commons.connector.private_ip_enabled": True,
+            "plugins.ml_commons.trusted_connector_endpoints_regex": [
+                "^https://runtime\\.sagemaker\\..*[a-z0-9-]\\.amazonaws\\.com/.*$",
+                "^https://api\\.openai\\.com/.*$",
+                "^https://api\\.cohere\\.ai/.*$",
+                "^http://localhost:11434/.*$",
+                "^http://host.docker.internal:11434/.*$",
+                "^https://bedrock-runtime\\..*[a-z0-9-]\\.amazonaws\\.com/.*$",
+                "^http://open\\.odl\\.local:11434/.*$",
+                "^http://127\\.0\\.0\\.1:11434/.*$",
+                "^http://0\\.0\\.0\\.0:11434/.*$",
+            ],
+        },
+    },
+).content
+
+resp = requests.post(
+    f"http://0.0.0.0:9100/_plugins/_ml/connectors/_create",
+    json={
+        "name": "OpenAI Chat Connector",
+        "description": "The connector to public OpenAI model service for GPT 3.5",
+        "version": 2,
+        "protocol": "http",
+        "parameters": {
+            "endpoint": "host.docker.internal:11434",
+            "model": "llama3.1:8b",
+            "temperature": 0,
+        },
+        "credential": {"openAI_key": "<YOUR_OPENAI_KEY>"},
+        "actions": [
+            {
+                "action_type": "predict",
+                "method": "POST",
+                "url": "http://${parameters.endpoint}/v1/chat/completions",
+                "headers": {"Authorization": "Bearer ${credential.openAI_key}"},
+                "request_body": """{ "model": "${parameters.model}", "messages": ${parameters.messages}, "temperature": ${parameters.temperature} }""",
+            }
+        ],
+    },
+)
+
+
+connector_id = resp.json()["connector_id"]
+
+
+resp = requests.post(
+    f"http://0.0.0.0:9100/_plugins/_ml/models/_register?deploy=true",
+    json={
+        "name": "openAI-gpt-3.5-turbo",
+        "function_name": "remote",
+        "description": "test model",
+        "connector_id": connector_id,
+    },
+).json()
+
+model_id = None
+while not model_id:
+    j = requests.get(f'http://0.0.0.0:9100/_plugins/_ml/tasks/{resp["task_id"]}').json()
+    print(j)
+    model_id = j.get("model_id")
+    if not model_id:
+        sleep(3)
+
+
+resp = requests.put(
+    f"http://0.0.0.0:9100/_search/pipeline/rag_pipeline6",
+    json={
+        "response_processors": [
+            {
+                "retrieval_augmented_generation": {
+                    "tag": "openai_pipeline_demo",
+                    "description": "Demo pipeline Using OpenAI Connector",
+                    "model_id": model_id,
+                    "context_field_list": ["description", "title", "topics", "id"],
+                    "system_prompt": "You are a helpful assistant that gives course recommendations and helps students find information about courses",
+                    "user_instructions": "Generate an informative answer to the given question",
+                }
+            }
+        ]
+    },
+)
+
+# create convo memory
+resp = requests.post(
+    f"http://0.0.0.0:9100/_plugins/_ml/memory/",
+    json={"name": "Similar courses recommendations 5"},
+).json()
+memory_id = resp.get("memory_id")
+
+resp = requests.get(
+    f"http://0.0.0.0:9100/micromasters_course_ac2d0262aa89457d95c0c7dff25f07be/_search?search_pipeline=rag_pipeline6",
+    json={
+        "query": {"match": {"description": "health"}},
+        "ext": {
+            "generative_qa_parameters": {
+                "llm_model": "llama3.1:8b",
+                "llm_question": "I just took a physics course. give me other courses to look at along with their id, title and description. explain why they are similar to the course i took",
+                "memory_id": memory_id,
+                "context_size": 10000,
+                "message_size": 10000,
+                "timeout": 15,
+            }
+        },
+    },
+).json()
+
+for r in resp["hits"]["hits"]:
+    print(r["_source"]["title"])
+
+
+resp = requests.put(
+    f"http://0.0.0.0:9100/_ingest/pipeline/rag_pipeline",
+    json={
+        "processors": [
+            {
+                "text_embedding": {
+                    "model_id": model_id,
+                    "field_map": {"embedding_target_field": "embeddings"},
+                }
+            }
+        ]
+    },
+)
+
+
+resp = requests.put(
+    f"http://0.0.0.0:9100/_ingest/pipeline/test-pipeline-local-model",
+    json={
+        "description": "text embedding pipeline",
+        "processors": [
+            {
+                "text_embedding": {
+                    "model_id": model_id,
+                    "field_map": {"text": "embedding"},
+                }
+            }
+        ],
+    },
+)
+
+
+"""
+resp = requests.put(
+    f"http://0.0.0.0:9100/_ingest/pipeline/rag_pipeline",
+    json={
+        "response_processors": [
+            {
+                "retrieval_augmented_generation": {
+                    "tag": "openai_pipeline_demo",
+                    "description": "Demo pipeline Using OpenAI Connector",
+                    "model_id": "CQaCnJIB2PKl75eqSOHZ",
+                    "context_field_list": [
+                        "full_description_embedding",
+                        "title_embedding",
+                    ],
+                    "system_prompt": "You are a helpful assistant",
+                    "user_instructions": "Generate a concise and informative answer in less than 100 words for the given question",
+                }
+            }
+        ]
+    },
+)
+
+
+resp = requests.put(
+    f"http://0.0.0.0:9100/my_rag_test_data",
+    json={
+        "settings": {"index.search.default_pipeline": "rag_pipeline"},
+        "mappings": {"properties": {"text": {"type": "text"}}},
+    },
+)
+
+
+resp = requests.post(
+    f"http://0.0.0.0:9100/_bulk",
+    json=[
+        {
+            "_index": "my_rag_test_data",
+            "_id": "1",
+            "_source": {
+                "text": "Abraham Lincoln was born on February 12, 1809, the second child of Thomas Lincoln and Nancy Hanks Lincoln, in a log cabin on Sinking Spring Farm near Hodgenville, Kentucky.[2] He was a descendant of Samuel Lincoln, an Englishman who migrated from Hingham, Norfolk, to its namesake, Hingham, Massachusetts, in 1638. The family then migrated west, passing through New Jersey, Pennsylvania, and Virginia.[3] Lincoln was also a descendant of the Harrison family of Virginia; his paternal grandfather and namesake, Captain Abraham Lincoln and wife Bathsheba (née Herring) moved the family from Virginia to Jefferson County, Kentucky.[b] The captain was killed in an Indian raid in 1786.[5] His children, including eight-year-old Thomas, Abraham's father, witnessed the attack.[6][c] Thomas then worked at odd jobs in Kentucky and Tennessee before the family settled in Hardin County, Kentucky, in the early 1800s."
+            },
+        },
+        {
+            "_index": "my_rag_test_data",
+            "_id": "1",
+            "_source": {
+                "text": "Chart and table of population level and growth rate for the New York City metro area from 1950 to 2023. United Nations population projections are also included through the year 2035.\\nThe current metro area population of New York City in 2023 is 18,937,000, a 0.37% increase from 2022.\\nThe metro area population of New York City in 2022 was 18,867,000, a 0.23% increase from 2021.\\nThe metro area population of New York City in 2021 was 18,823,000, a 0.1% increase from 2020.\\nThe metro area population of New York City in 2020 was 18,804,000, a 0.01% decline from 2019."
+            },
+        },
+    ],
+)
+"""
+
+resp = requests.post(
+    f"http://0.0.0.0:9100/_bulk",
+    data=[
+        {"index": {"_index": "my_test_data", "_id": "1"}},
+        {
+            "text": "Chart and table of population level and growth rate for the Ogden-Layton metro area from 1950 to 2023. United Nations population projections are also included through the year 2035.\nThe current metro area population of Ogden-Layton in 2023 is 750,000, a 1.63% increase from 2022.\nThe metro area population of Ogden-Layton in 2022 was 738,000, a 1.79% increase from 2021.\nThe metro area population of Ogden-Layton in 2021 was 725,000, a 1.97% increase from 2020.\nThe metro area population of Ogden-Layton in 2020 was 711,000, a 2.16% increase from 2019."
+        },
+        {"index": {"_index": "my_test_data", "_id": "2"}},
+        {
+            "text": "Chart and table of population level and growth rate for the New York City metro area from 1950 to 2023. United Nations population projections are also included through the year 2035.\\nThe current metro area population of New York City in 2023 is 18,937,000, a 0.37% increase from 2022.\\nThe metro area population of New York City in 2022 was 18,867,000, a 0.23% increase from 2021.\\nThe metro area population of New York City in 2021 was 18,823,000, a 0.1% increase from 2020.\\nThe metro area population of New York City in 2020 was 18,804,000, a 0.01% decline from 2019."
+        },
+        {"index": {"_index": "my_test_data", "_id": "3"}},
+        {
+            "text": "Chart and table of population level and growth rate for the Chicago metro area from 1950 to 2023. United Nations population projections are also included through the year 2035.\\nThe current metro area population of Chicago in 2023 is 8,937,000, a 0.4% increase from 2022.\\nThe metro area population of Chicago in 2022 was 8,901,000, a 0.27% increase from 2021.\\nThe metro area population of Chicago in 2021 was 8,877,000, a 0.14% increase from 2020.\\nThe metro area population of Chicago in 2020 was 8,865,000, a 0.03% increase from 2019."
+        },
+        {"index": {"_index": "my_test_data", "_id": "4"}},
+        {
+            "text": "Chart and table of population level and growth rate for the Miami metro area from 1950 to 2023. United Nations population projections are also included through the year 2035.\\nThe current metro area population of Miami in 2023 is 6,265,000, a 0.8% increase from 2022.\\nThe metro area population of Miami in 2022 was 6,215,000, a 0.78% increase from 2021.\\nThe metro area population of Miami in 2021 was 6,167,000, a 0.74% increase from 2020.\\nThe metro area population of Miami in 2020 was 6,122,000, a 0.71% increase from 2019."
+        },
+        {"index": {"_index": "my_test_data", "_id": "5"}},
+        {
+            "text": "Chart and table of population level and growth rate for the Austin metro area from 1950 to 2023. United Nations population projections are also included through the year 2035.\\nThe current metro area population of Austin in 2023 is 2,228,000, a 2.39% increase from 2022.\\nThe metro area population of Austin in 2022 was 2,176,000, a 2.79% increase from 2021.\\nThe metro area population of Austin in 2021 was 2,117,000, a 3.12% increase from 2020.\\nThe metro area population of Austin in 2020 was 2,053,000, a 3.43% increase from 2019."
+        },
+        {"index": {"_index": "my_test_data", "_id": "6"}},
+        {
+            "text": "Chart and table of population level and growth rate for the Seattle metro area from 1950 to 2023. United Nations population projections are also included through the year 2035.\\nThe current metro area population of Seattle in 2023 is 3,519,000, a 0.86% increase from 2022.\\nThe metro area population of Seattle in 2022 was 3,489,000, a 0.81% increase from 2021.\\nThe metro area population of Seattle in 2021 was 3,461,000, a 0.82% increase from 2020.\\nThe metro area population of Seattle in 2020 was 3,433,000, a 0.79% increase from 2019."
+        },
+    ],
+)
