@@ -35,21 +35,29 @@ const InfoItems = styled.section`
   gap: 16px;
 `
 
-const InfoItemContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  align-self: stretch;
-  ${{ ...theme.typography.subtitle3 }}
-  color: ${theme.custom.colors.black};
+const InfoItemContainer = styled.div({
+  display: "flex",
+  alignItems: "flex-start",
+  gap: "16px",
+  alignSelf: "stretch",
+  ...theme.typography.subtitle3,
+  color: theme.custom.colors.black,
+  svg: {
+    color: theme.custom.colors.silverGrayDark,
+    width: "20px",
+    height: "20px",
+    flexShrink: 0,
+  },
+  [theme.breakpoints.down("sm")]: {
+    gap: "12px",
+  },
+})
 
-  svg {
-    color: ${theme.custom.colors.silverGrayDark};
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-  }
-`
+const IconContainer = styled.div({
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+})
 
 const InfoLabel = styled.div`
   width: 85px;
@@ -68,26 +76,20 @@ const PriceDisplay = styled.div({
   gap: "8px",
 })
 
-const Certificate = styled.div`
-  display: flex;
-  gap: 4px;
-  border-radius: 4px;
-  padding: 4px 8px;
-  border: 1px solid ${theme.custom.colors.lightGray2};
-  background-color: ${theme.custom.colors.lightGray1};
-  color: ${theme.custom.colors.silverGrayDark};
-
-  ${{ ...theme.typography.subtitle3 }}
-
-  svg {
-    width: 16px;
-    height: 16px;
-  }
-`
-
-const CertificatePrice = styled.span`
-  ${{ ...theme.typography.body2 }}
-`
+const Certificate = styled.div({
+  display: "flex",
+  gap: "4px",
+  borderRadius: "4px",
+  padding: "4px 8px",
+  border: `1px solid ${theme.custom.colors.lightGray2}`,
+  backgroundColor: theme.custom.colors.lightGray1,
+  color: theme.custom.colors.silverGrayDark,
+  ...theme.typography.subtitle3,
+  svg: {
+    width: "16px",
+    height: "16px",
+  },
+})
 
 type InfoSelector = (
   resource: LearningResource,
@@ -116,7 +118,7 @@ const INFO_ITEMS: InfoItemConfig = [
               {prices.certificate.display
                 ? "Earn a certificate:"
                 : "Certificate included"}
-              <CertificatePrice>{prices.certificate.display}</CertificatePrice>
+              <span>{prices.certificate.display}</span>
             </Certificate>
           )}
         </PriceDisplay>
@@ -241,7 +243,7 @@ const InfoItem = ({ label, Icon, value }: InfoItemProps) => {
   }
   return (
     <InfoItemContainer>
-      {Icon && <Icon />}
+      <IconContainer>{Icon && <Icon />}</IconContainer>
       <InfoLabel>{label}</InfoLabel>
       <InfoValue>{value}</InfoValue>
     </InfoItemContainer>
