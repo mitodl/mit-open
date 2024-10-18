@@ -80,21 +80,30 @@ const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
   padding-bottom: ${({ aspect }) => 100 / aspect}%;
 `
 
-const CallToAction = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  ${({ theme }) => theme.breakpoints.down("sm")} {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-`
+const CallToAction = styled.div({
+  display: "flex",
+  width: "350px",
+  padding: "16px",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "10px",
+  borderRadius: "8px",
+  border: `1px solid ${theme.custom.colors.lightGray2}`,
+  boxShadow:
+    "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
+})
+
+const PlatformContainer = styled.div({
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+  alignSelf: "stretch",
+})
 
 const StyledLink = styled(ButtonLink)`
   text-align: center;
-  width: 224px;
+  width: 100%;
   ${({ theme }) => theme.breakpoints.down("sm")} {
-    width: 100%;
     margin-top: 10px;
     margin-bottom: 10px;
   }
@@ -249,9 +258,11 @@ const getCallToActionUrl = (resource: LearningResource) => {
 }
 
 const CallToActionSection = ({
+  imgConfig,
   resource,
   hide,
 }: {
+  imgConfig: EmbedlyConfig
   resource?: LearningResource
   hide?: boolean
 }) => {
@@ -261,10 +272,10 @@ const CallToActionSection = ({
 
   if (!resource) {
     return (
-      <CallToAction>
+      <PlatformContainer>
         <Skeleton height={70} width="50%" />
         <Skeleton height={50} width="25%" />
-      </CallToAction>
+      </PlatformContainer>
     )
   }
   const { platform } = resource!
@@ -290,6 +301,7 @@ const CallToActionSection = ({
   const cta = getCallToActionText(resource)
   return (
     <CallToAction>
+      <ImageSection resource={resource} config={imgConfig} />
       <StyledLink
         target="_blank"
         size="medium"
@@ -298,12 +310,14 @@ const CallToActionSection = ({
       >
         {cta}
       </StyledLink>
-      {platformImage ? (
-        <Platform>
-          <OnPlatform>on</OnPlatform>
-          <StyledPlatformLogo platformCode={platformCode} />
-        </Platform>
-      ) : null}
+      <PlatformContainer>
+        {platformImage ? (
+          <Platform>
+            <OnPlatform>on</OnPlatform>
+            <StyledPlatformLogo platformCode={platformCode} />
+          </Platform>
+        ) : null}
+      </PlatformContainer>
     </CallToAction>
   )
 }
@@ -377,8 +391,11 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
           <InfoSection resource={resource} run={selectedRun} />
         </LeftContainer>
         <RightContainer>
-          <ImageSection resource={resource} config={imgConfig} />
-          <CallToActionSection resource={resource} hide={isVideo} />
+          <CallToActionSection
+            imgConfig={imgConfig}
+            resource={resource}
+            hide={isVideo}
+          />
         </RightContainer>
       </ContentContainer>
     </Container>
