@@ -617,15 +617,14 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
 
   const posthog = usePostHog()
 
-  const NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY =
-    process.env.NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY
+  const NEXT_PUBLIC_POSTHOG_API_KEY = process.env.NEXT_PUBLIC_POSTHOG_API_KEY
 
   const toggleMobileDrawer = (newOpen: boolean) => () => {
     setMobileDrawerOpen(newOpen)
   }
 
   const captureSearchEvent = () => {
-    if (NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY) {
+    if (NEXT_PUBLIC_POSTHOG_API_KEY) {
       posthog.capture("search_update")
     }
   }

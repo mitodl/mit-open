@@ -26,7 +26,7 @@ const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 const useCapturePageView = (resourceId: number) => {
   const { data, isSuccess } = useLearningResourcesDetail(Number(resourceId))
   const posthog = usePostHog()
-  const apiKey = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY
+  const apiKey = process.env.NEXT_PUBLIC_POSTHOG_API_KEY
 
   useEffect(() => {
     if (!apiKey || apiKey.length < 1) return
