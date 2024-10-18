@@ -37,9 +37,9 @@ const InfoItems = styled.section`
 
 const InfoItemContainer = styled.div({
   display: "flex",
-  alignItems: "flex-start",
-  gap: "16px",
   alignSelf: "stretch",
+  alignItems: "center",
+  gap: "16px",
   ...theme.typography.subtitle3,
   color: theme.custom.colors.black,
   svg: {
