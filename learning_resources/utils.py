@@ -496,8 +496,9 @@ def add_parent_topics_to_learning_resource(resource):
             _walk_lr_topic_parents(resource, topic.parent)
 
 
-def transfer_list_resources(
-    resource_type: str,
+def transfer_list_resources(  # noqa: PLR0913
+    from_resource_type: str,
+    to_resource_type: str,
     matching_field: str,
     from_source: str,
     to_source: str,
@@ -519,7 +520,7 @@ def transfer_list_resources(
         tuple[int, int]: the number of unpublished and matching published resources
     """
     unpublished_resources = LearningResource.objects.filter(
-        resource_type=resource_type, published=False, etl_source=from_source
+        resource_type=from_resource_type, published=False, etl_source=from_source
     )
     unpublished_count = 0
     published_count = 0
@@ -528,7 +529,7 @@ def transfer_list_resources(
         unique_value = getattr(resource, matching_field)
         published_replacement = LearningResource.objects.filter(
             **{matching_field: unique_value},
-            resource_type=resource_type,
+            resource_type=to_resource_type,
             published=True,
             etl_source=to_source,
         ).first()

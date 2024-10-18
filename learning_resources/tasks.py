@@ -92,6 +92,13 @@ def get_oll_data(sheets_id=None):
 
 
 @app.task
+def get_mitpe_data():
+    """Execute the Professional Education ETL pipeline"""
+    courses, programs = pipelines.mitpe_etl()
+    return len(courses) + len(programs)
+
+
+@app.task
 def get_prolearn_data():
     """Execute the ProLearn ETL pipelines"""
     courses = pipelines.prolearn_courses_etl()

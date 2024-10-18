@@ -32,31 +32,36 @@ PROLEARN_QUERY_FIELDS = "title\nnid\nurl\ncertificate_name\ncourse_application_u
 SEE_EXCLUSION = (
     '{operator: "<>", name: "department", value: "MIT Sloan Executive Education"}'
 )
+MITPE_EXCLUSION = (
+    '{operator: "<>", name: "department", value: "MIT Professional Education"}'
+)
+
 
 # Performs the query made on https://prolearn.mit.edu/graphql, with a filter for program or course  # noqa: E501
 PROLEARN_QUERY = """
-query {
+query {{
     searchAPISearch(
         index_id:\"default_solr_index\",
-        range:{limit: 999, offset: 0},
-        condition_group: {
+        range:{{limit: 999, offset: 0}},
+        condition_group: {{
             conjunction: AND,
             groups: [
-                {
+                {{
                     conjunction: AND,
                     conditions: [
-                        {operator: \"=\", name: \"field_course_or_program\", value: \"%s\"},
-                        {operator: \"<>\", name: \"department\", value: \"MIT xPRO\"}
-                        %s
+                        {{operator: \"=\", name: \"field_course_or_program\", value: \"{course_or_program}\"}},
+                        {{operator: \"<>\", name: \"department\", value: \"MIT xPRO\"}}
+                        {see_exclusion}
+                        {mitpe_exclusion}
                     ]
-                }
+                }}
             ]
-        }
-    ) {
+        }}
+    ) {{
         result_count
-         documents {... on DefaultSolrIndexDoc {%s}}
-    }
-}
+         documents {{... on DefaultSolrIndexDoc {{query_fields}}}}
+    }}
+}}
 """  # noqa: E501
 
 UNIQUE_FIELD = "url"
@@ -201,11 +206,16 @@ def extract_data(course_or_program: str) -> list[dict]:
     """  # noqa: D401, E501
     if settings.PROLEARN_CATALOG_API_URL:
         sloan_filter = SEE_EXCLUSION if settings.SEE_API_ENABLED else ""
+        mitpe_filter = MITPE_EXCLUSION if settings.MITPE_API_ENABLED else ""
         response = requests.post(
             settings.PROLEARN_CATALOG_API_URL,
             json={
-                "query": PROLEARN_QUERY
-                % (course_or_program, sloan_filter, PROLEARN_QUERY_FIELDS)
+                "query": PROLEARN_QUERY.format(
+                    course_or_program=course_or_program,
+                    see_exclusion=sloan_filter,
+                    mitpe_exclusion=mitpe_filter,
+                    query_fields=PROLEARN_QUERY_FIELDS,
+                )
             },
             timeout=30,
         ).json()

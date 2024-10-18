@@ -15,7 +15,12 @@ class Command(BaseCommand):
     help = "Migrate relationships from unpublished resources to published resources."
 
     def add_arguments(self, parser):
-        parser.add_argument("resource_type", type=str, help="Resource type to migrate")
+        parser.add_argument(
+            "from_resource_type", type=str, help="Resource type to migrate from"
+        )
+        parser.add_argument(
+            "to_resource_type", type=str, help="Resource type to migrate to"
+        )
         parser.add_argument(
             "match_field", type=str, help="Resource field to match resources by"
         )
@@ -38,19 +43,21 @@ class Command(BaseCommand):
         Migrate relationships in learningpaths and userlists from unpublished
         resources to published replacement resources.
         """
-        resource_type = options["resource_type"]
+        from_resource_type = options["from_resource_type"]
+        to_resource_type = options["to_resource_type"]
         match_field = options["match_field"]
         from_source = options["from_source"]
         to_source = options["to_source"]
         delete = options["delete"]
 
         self.stdout.write(
-            f"Migrate {resource_type} relationships from "
-            f"{from_source} to {to_source}, matching on {match_field}"
+            f"Migrate {from_resource_type} relationships from {from_source}"
+            f" to {to_resource_type}:{to_source}, matching on {match_field}"
         )
         start = now_in_utc()
         unpublished, matching = transfer_list_resources(
-            resource_type,
+            from_resource_type,
+            to_resource_type,
             match_field,
             from_source,
             to_source,

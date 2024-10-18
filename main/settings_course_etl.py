@@ -77,6 +77,7 @@ CSAIL_BASE_URL = get_string("CSAIL_BASE_URL", None)
 SEE_BASE_URL = get_string("SEE_BASE_URL", None)
 MITPE_BASE_URL = get_string("MITPE_BASE_URL", "https://professional.mit.edu/")
 MITPE_BASE_API_URL = get_string("MITPE_BASE_API_URL", None)
+MITPE_API_ENABLED = get_bool("MITPE_API_ENABLED", default=False)
 
 # course catalog video etl settings
 OPEN_VIDEO_DATA_BRANCH = get_string("OPEN_VIDEO_DATA_BRANCH", "master")

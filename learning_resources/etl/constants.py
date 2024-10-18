@@ -51,13 +51,14 @@ class ETLSource(ExtendedEnum):
 
     micromasters = "micromasters"
     mit_edx = "mit_edx"
+    mitpe = "mitpe"
     mitxonline = "mitxonline"
     oll = "oll"
-    xpro = "xpro"
     ocw = "ocw"
     prolearn = "prolearn"
     podcast = "podcast"
     see = "see"
+    xpro = "xpro"
     youtube = "youtube"
 
 
@@ -81,6 +82,8 @@ RESOURCE_DELIVERY_MAPPING = {
     "": LearningResourceDelivery.online.name,
     "Blended": LearningResourceDelivery.hybrid.name,
     "In Person": LearningResourceDelivery.in_person.name,
+    "Live Virtual": LearningResourceDelivery.online.name,
+    "On Campus": LearningResourceDelivery.in_person.name,
     **{
         value: LearningResourceDelivery(value).name
         for value in LearningResourceDelivery.values()
