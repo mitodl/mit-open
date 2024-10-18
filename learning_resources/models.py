@@ -8,7 +8,7 @@ from typing import Optional
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.db.models import Count, JSONField, OuterRef, Prefetch, Q
+from django.db.models import CharField, Count, JSONField, OuterRef, Prefetch, Q
 from django.db.models.functions import Lower
 from django.utils import timezone
 
@@ -455,6 +455,7 @@ class LearningResource(TimestampedModel):
         ),
         default=default_format,
     )
+    location = models.CharField(max_length=256, blank=True)
 
     @property
     def audience(self) -> str | None:
@@ -606,6 +607,7 @@ class LearningResourceRun(TimestampedModel):
         ),
         default=default_format,
     )
+    location = CharField(max_length=256, blank=True)
 
     def __str__(self):
         return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"  # noqa: E501

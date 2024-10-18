@@ -170,6 +170,21 @@ def parse_format(run_data: dict) -> str:
     return default_format()
 
 
+def parse_location(run_data: dict) -> str:
+    """
+    Parse location from run data
+
+    Args:
+        run_data (list): the run data
+
+    Returns:
+        str: the location
+    """
+    if not run_data or run_data["Delivery"] == "Online":
+        return ""
+    return run_data["Location"] or ""
+
+
 def extract():
     """
     Extract Sloan Executive Education data
@@ -232,6 +247,7 @@ def transform_run(run_data, course_data):
         "instructors": [{"full_name": name.strip()} for name in faculty_names],
         "pace": [parse_pace(run_data)],
         "format": parse_format(run_data),
+        "location": parse_location(run_data),
     }
 
 

@@ -130,8 +130,8 @@ const baseInputStyles = (theme: Theme) => ({
     textOverflow: "ellipsis",
   },
   "& textarea": {
-    paddingTop: "6px",
-    paddingBottom: "7px",
+    paddingTop: "8px",
+    paddingBottom: "8px",
   },
   "&.MuiInputBase-adornedStart": {
     paddingLeft: "0",

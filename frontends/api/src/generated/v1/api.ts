@@ -806,6 +806,12 @@ export interface CourseResource {
    * @memberof CourseResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof CourseResource
+   */
+  location?: string
 }
 
 /**
@@ -1020,6 +1026,12 @@ export interface CourseResourceRequest {
    * @memberof CourseResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof CourseResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -1582,6 +1594,12 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  location?: string
 }
 
 /**
@@ -1680,6 +1698,12 @@ export interface LearningPathResourceRequest {
    * @memberof LearningPathResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -2336,6 +2360,12 @@ export interface LearningResourceRun {
    * @memberof LearningResourceRun
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  location?: string
 }
 
 /**
@@ -2491,6 +2521,12 @@ export interface LearningResourceRunRequest {
    * @memberof LearningResourceRunRequest
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRunRequest
+   */
+  location?: string
 }
 
 /**
@@ -3517,6 +3553,12 @@ export interface PatchedLearningPathResourceRequest {
    * @memberof PatchedLearningPathResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -3820,6 +3862,12 @@ export interface PercolateQuerySubscriptionRequestRequest {
    * @memberof PercolateQuerySubscriptionRequestRequest
    */
   max_incompleteness_penalty?: number | null
+  /**
+   * Score weight for content file data.  1 is the default. 0 means content files are ignored
+   * @type {number}
+   * @memberof PercolateQuerySubscriptionRequestRequest
+   */
+  content_file_score_weight?: number | null
   /**
    *
    * @type {SourceTypeEnum}
@@ -4315,6 +4363,12 @@ export interface PodcastEpisodeResource {
    * @memberof PodcastEpisodeResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodeResource
+   */
+  location?: string
 }
 
 /**
@@ -4413,6 +4467,12 @@ export interface PodcastEpisodeResourceRequest {
    * @memberof PodcastEpisodeResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodeResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -4691,6 +4751,12 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastResource
+   */
+  location?: string
 }
 
 /**
@@ -4789,6 +4855,12 @@ export interface PodcastResourceRequest {
    * @memberof PodcastResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -4858,6 +4930,18 @@ export interface ProgramCertificate {
    * @memberof ProgramCertificate
    */
   record_hash: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_letter_generate_url: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_letter_share_url: string
   /**
    *
    * @type {string}
@@ -5287,6 +5371,12 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramResource
+   */
+  location?: string
 }
 
 /**
@@ -5385,6 +5475,12 @@ export interface ProgramResourceRequest {
    * @memberof ProgramResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -6142,6 +6238,12 @@ export interface VideoPlaylistResource {
    * @memberof VideoPlaylistResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof VideoPlaylistResource
+   */
+  location?: string
 }
 
 /**
@@ -6240,6 +6342,12 @@ export interface VideoPlaylistResourceRequest {
    * @memberof VideoPlaylistResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof VideoPlaylistResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -6506,6 +6614,12 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof VideoResource
+   */
+  location?: string
 }
 
 /**
@@ -6604,6 +6718,12 @@ export interface VideoResourceRequest {
    * @memberof VideoResourceRequest
    */
   continuing_ed_credits?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof VideoResourceRequest
+   */
+  location?: string
 }
 
 /**
@@ -12771,6 +12891,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesSearchRetrieveAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
      * @param {Array<LearningResourcesSearchRetrieveCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+     * @param {number | null} [content_file_score_weight] Score weight for content file data.  1 is the default. 0 means content files are ignored
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesSearchRetrieveDeliveryEnum>} [delivery] The delivery options in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person * &#x60;offline&#x60; - Offline
      * @param {Array<LearningResourcesSearchRetrieveDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;SP&#x60; - Special Programs * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -12801,6 +12922,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       aggregations?: Array<LearningResourcesSearchRetrieveAggregationsEnum>,
       certification?: boolean | null,
       certification_type?: Array<LearningResourcesSearchRetrieveCertificationTypeEnum>,
+      content_file_score_weight?: number | null,
       course_feature?: Array<string>,
       delivery?: Array<LearningResourcesSearchRetrieveDeliveryEnum>,
       department?: Array<LearningResourcesSearchRetrieveDepartmentEnum>,
@@ -12852,6 +12974,11 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
 
       if (certification_type) {
         localVarQueryParameter["certification_type"] = certification_type
+      }
+
+      if (content_file_score_weight !== undefined) {
+        localVarQueryParameter["content_file_score_weight"] =
+          content_file_score_weight
       }
 
       if (course_feature) {
@@ -12980,6 +13107,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {Array<LearningResourcesSearchRetrieveAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
      * @param {Array<LearningResourcesSearchRetrieveCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+     * @param {number | null} [content_file_score_weight] Score weight for content file data.  1 is the default. 0 means content files are ignored
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesSearchRetrieveDeliveryEnum>} [delivery] The delivery options in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person * &#x60;offline&#x60; - Offline
      * @param {Array<LearningResourcesSearchRetrieveDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;SP&#x60; - Special Programs * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -13010,6 +13138,7 @@ export const LearningResourcesSearchApiFp = function (
       aggregations?: Array<LearningResourcesSearchRetrieveAggregationsEnum>,
       certification?: boolean | null,
       certification_type?: Array<LearningResourcesSearchRetrieveCertificationTypeEnum>,
+      content_file_score_weight?: number | null,
       course_feature?: Array<string>,
       delivery?: Array<LearningResourcesSearchRetrieveDeliveryEnum>,
       department?: Array<LearningResourcesSearchRetrieveDepartmentEnum>,
@@ -13045,6 +13174,7 @@ export const LearningResourcesSearchApiFp = function (
           aggregations,
           certification,
           certification_type,
+          content_file_score_weight,
           course_feature,
           delivery,
           department,
@@ -13113,6 +13243,7 @@ export const LearningResourcesSearchApiFactory = function (
           requestParameters.aggregations,
           requestParameters.certification,
           requestParameters.certification_type,
+          requestParameters.content_file_score_weight,
           requestParameters.course_feature,
           requestParameters.delivery,
           requestParameters.department,
@@ -13169,6 +13300,13 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly certification_type?: Array<LearningResourcesSearchRetrieveCertificationTypeEnum>
+
+  /**
+   * Score weight for content file data.  1 is the default. 0 means content files are ignored
+   * @type {number}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly content_file_score_weight?: number | null
 
   /**
    * The course feature. Possible options are at api/v1/course_features/
@@ -13356,6 +13494,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
         requestParameters.aggregations,
         requestParameters.certification,
         requestParameters.certification_type,
+        requestParameters.content_file_score_weight,
         requestParameters.course_feature,
         requestParameters.delivery,
         requestParameters.department,
@@ -13594,6 +13733,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionCheckListAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
      * @param {Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+     * @param {number | null} [content_file_score_weight] Score weight for content file data.  1 is the default. 0 means content files are ignored
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionCheckListDeliveryEnum>} [delivery] The delivery options in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person * &#x60;offline&#x60; - Offline
      * @param {Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;SP&#x60; - Special Programs * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -13625,6 +13765,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       aggregations?: Array<LearningResourcesUserSubscriptionCheckListAggregationsEnum>,
       certification?: boolean | null,
       certification_type?: Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>,
+      content_file_score_weight?: number | null,
       course_feature?: Array<string>,
       delivery?: Array<LearningResourcesUserSubscriptionCheckListDeliveryEnum>,
       department?: Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>,
@@ -13677,6 +13818,11 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (certification_type) {
         localVarQueryParameter["certification_type"] = certification_type
+      }
+
+      if (content_file_score_weight !== undefined) {
+        localVarQueryParameter["content_file_score_weight"] =
+          content_file_score_weight
       }
 
       if (course_feature) {
@@ -13796,6 +13942,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionListAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
      * @param {Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+     * @param {number | null} [content_file_score_weight] Score weight for content file data.  1 is the default. 0 means content files are ignored
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionListDeliveryEnum>} [delivery] The delivery options in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person * &#x60;offline&#x60; - Offline
      * @param {Array<LearningResourcesUserSubscriptionListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;SP&#x60; - Special Programs * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -13826,6 +13973,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       aggregations?: Array<LearningResourcesUserSubscriptionListAggregationsEnum>,
       certification?: boolean | null,
       certification_type?: Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>,
+      content_file_score_weight?: number | null,
       course_feature?: Array<string>,
       delivery?: Array<LearningResourcesUserSubscriptionListDeliveryEnum>,
       department?: Array<LearningResourcesUserSubscriptionListDepartmentEnum>,
@@ -13877,6 +14025,11 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (certification_type) {
         localVarQueryParameter["certification_type"] = certification_type
+      }
+
+      if (content_file_score_weight !== undefined) {
+        localVarQueryParameter["content_file_score_weight"] =
+          content_file_score_weight
       }
 
       if (course_feature) {
@@ -13992,6 +14145,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+     * @param {number | null} [content_file_score_weight] Score weight for content file data.  1 is the default. 0 means content files are ignored
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDeliveryEnum>} [delivery] The delivery options in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person * &#x60;offline&#x60; - Offline
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;SP&#x60; - Special Programs * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -14024,6 +14178,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       aggregations?: Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>,
       certification?: boolean | null,
       certification_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>,
+      content_file_score_weight?: number | null,
       course_feature?: Array<string>,
       delivery?: Array<LearningResourcesUserSubscriptionSubscribeCreateDeliveryEnum>,
       department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>,
@@ -14077,6 +14232,11 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (certification_type) {
         localVarQueryParameter["certification_type"] = certification_type
+      }
+
+      if (content_file_score_weight !== undefined) {
+        localVarQueryParameter["content_file_score_weight"] =
+          content_file_score_weight
       }
 
       if (course_feature) {
@@ -14267,6 +14427,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionCheckListAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
      * @param {Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+     * @param {number | null} [content_file_score_weight] Score weight for content file data.  1 is the default. 0 means content files are ignored
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionCheckListDeliveryEnum>} [delivery] The delivery options in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person * &#x60;offline&#x60; - Offline
      * @param {Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;SP&#x60; - Special Programs * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -14298,6 +14459,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       aggregations?: Array<LearningResourcesUserSubscriptionCheckListAggregationsEnum>,
       certification?: boolean | null,
       certification_type?: Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>,
+      content_file_score_weight?: number | null,
       course_feature?: Array<string>,
       delivery?: Array<LearningResourcesUserSubscriptionCheckListDeliveryEnum>,
       department?: Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>,
@@ -14334,6 +14496,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           aggregations,
           certification,
           certification_type,
+          content_file_score_weight,
           course_feature,
           delivery,
           department,
@@ -14379,6 +14542,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionListAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
      * @param {Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+     * @param {number | null} [content_file_score_weight] Score weight for content file data.  1 is the default. 0 means content files are ignored
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionListDeliveryEnum>} [delivery] The delivery options in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person * &#x60;offline&#x60; - Offline
      * @param {Array<LearningResourcesUserSubscriptionListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;SP&#x60; - Special Programs * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -14409,6 +14573,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       aggregations?: Array<LearningResourcesUserSubscriptionListAggregationsEnum>,
       certification?: boolean | null,
       certification_type?: Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>,
+      content_file_score_weight?: number | null,
       course_feature?: Array<string>,
       delivery?: Array<LearningResourcesUserSubscriptionListDeliveryEnum>,
       department?: Array<LearningResourcesUserSubscriptionListDepartmentEnum>,
@@ -14444,6 +14609,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           aggregations,
           certification,
           certification_type,
+          content_file_score_weight,
           course_feature,
           delivery,
           department,
@@ -14488,6 +14654,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+     * @param {number | null} [content_file_score_weight] Score weight for content file data.  1 is the default. 0 means content files are ignored
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDeliveryEnum>} [delivery] The delivery options in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person * &#x60;offline&#x60; - Offline
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;SP&#x60; - Special Programs * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
@@ -14520,6 +14687,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       aggregations?: Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>,
       certification?: boolean | null,
       certification_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>,
+      content_file_score_weight?: number | null,
       course_feature?: Array<string>,
       delivery?: Array<LearningResourcesUserSubscriptionSubscribeCreateDeliveryEnum>,
       department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>,
@@ -14554,6 +14722,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           aggregations,
           certification,
           certification_type,
+          content_file_score_weight,
           course_feature,
           delivery,
           department,
@@ -14655,6 +14824,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.aggregations,
           requestParameters.certification,
           requestParameters.certification_type,
+          requestParameters.content_file_score_weight,
           requestParameters.course_feature,
           requestParameters.delivery,
           requestParameters.department,
@@ -14699,6 +14869,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.aggregations,
           requestParameters.certification,
           requestParameters.certification_type,
+          requestParameters.content_file_score_weight,
           requestParameters.course_feature,
           requestParameters.delivery,
           requestParameters.department,
@@ -14742,6 +14913,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.aggregations,
           requestParameters.certification,
           requestParameters.certification_type,
+          requestParameters.content_file_score_weight,
           requestParameters.course_feature,
           requestParameters.delivery,
           requestParameters.department,
@@ -14818,6 +14990,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly certification_type?: Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>
+
+  /**
+   * Score weight for content file data.  1 is the default. 0 means content files are ignored
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
+   */
+  readonly content_file_score_weight?: number | null
 
   /**
    * The course feature. Possible options are at api/v1/course_features/
@@ -15016,6 +15195,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly certification_type?: Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>
 
   /**
+   * Score weight for content file data.  1 is the default. 0 means content files are ignored
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
+   */
+  readonly content_file_score_weight?: number | null
+
+  /**
    * The course feature. Possible options are at api/v1/course_features/
    * @type {Array<string>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
@@ -15203,6 +15389,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
   readonly certification_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>
+
+  /**
+   * Score weight for content file data.  1 is the default. 0 means content files are ignored
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly content_file_score_weight?: number | null
 
   /**
    * The course feature. Possible options are at api/v1/course_features/
@@ -15418,6 +15611,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.aggregations,
         requestParameters.certification,
         requestParameters.certification_type,
+        requestParameters.content_file_score_weight,
         requestParameters.course_feature,
         requestParameters.delivery,
         requestParameters.department,
@@ -15464,6 +15658,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.aggregations,
         requestParameters.certification,
         requestParameters.certification_type,
+        requestParameters.content_file_score_weight,
         requestParameters.course_feature,
         requestParameters.delivery,
         requestParameters.department,
@@ -15509,6 +15704,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.aggregations,
         requestParameters.certification,
         requestParameters.certification_type,
+        requestParameters.content_file_score_weight,
         requestParameters.course_feature,
         requestParameters.delivery,
         requestParameters.department,

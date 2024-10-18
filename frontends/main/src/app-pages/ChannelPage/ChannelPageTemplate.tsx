@@ -1,6 +1,6 @@
 import React from "react"
-import UnitChannelSkeleton from "./UnitChannelTemplate"
-import DefaultChannelSkeleton from "./DefaultChannelTemplate"
+import UnitChannelTemplate from "./UnitChannelTemplate"
+import DefaultChannelTemplate from "./DefaultChannelTemplate"
 import { ChannelTypeEnum } from "api/v0"
 import {
   DEPARTMENTS as DEPARTMENTS_URL,
@@ -8,6 +8,7 @@ import {
   UNITS as UNITS_URL,
 } from "@/common/urls"
 import { styled } from "ol-components"
+import TopicChannelTemplate from "./TopicChannelTemplate"
 
 const TOPICS_LABEL = "Browse by Topic"
 const DEPARTMENTS_LABEL = "Browse by Academic Department"
@@ -71,10 +72,17 @@ const ChannelPageTemplate: React.FC<ChannelSkeletonProps> = ({
   channelType,
   name,
 }) => {
-  const ChannelTemplate =
-    channelType === ChannelTypeEnum.Unit
-      ? UnitChannelSkeleton
-      : DefaultChannelSkeleton
+  const getChannelTemplate = (channelType: string) => {
+    switch (channelType) {
+      case ChannelTypeEnum.Unit:
+        return UnitChannelTemplate
+      case ChannelTypeEnum.Topic:
+        return TopicChannelTemplate
+      default:
+        return DefaultChannelTemplate
+    }
+  }
+  const ChannelTemplate = getChannelTemplate(channelType)
 
   return (
     <ChannelTemplate name={name} channelType={channelType}>

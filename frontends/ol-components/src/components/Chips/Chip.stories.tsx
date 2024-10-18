@@ -40,6 +40,10 @@ const VARIANTS: {
     label: "Dark",
   },
   {
+    variant: "darker",
+    label: "Darker",
+  },
+  {
     variant: "filled",
     label: "Filled",
   },

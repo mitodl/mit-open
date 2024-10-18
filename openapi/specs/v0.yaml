@@ -2249,6 +2249,12 @@ components:
         record_hash:
           type: string
           readOnly: true
+        program_letter_generate_url:
+          type: string
+          readOnly: true
+        program_letter_share_url:
+          type: string
+          readOnly: true
         program_title:
           type: string
           maxLength: 256
@@ -2322,6 +2328,8 @@ components:
           format: date-time
           nullable: true
       required:
+      - program_letter_generate_url
+      - program_letter_share_url
       - program_title
       - record_hash
       - user_email

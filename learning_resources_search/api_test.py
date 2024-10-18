@@ -135,7 +135,10 @@ def test_generate_sort_clause(sort_param, departments, result):
 
 @pytest.mark.parametrize("search_mode", ["best_fields", "most_fields", "phrase", None])
 @pytest.mark.parametrize("slop", [None, 2])
-def test_generate_learning_resources_text_clause(search_mode, slop):
+@pytest.mark.parametrize("content_file_score_weight", [None, 0, 0.5, 1])
+def test_generate_learning_resources_text_clause(
+    search_mode, slop, content_file_score_weight
+):
     extra_params = {}
 
     if search_mode:
@@ -143,6 +146,23 @@ def test_generate_learning_resources_text_clause(search_mode, slop):
 
     if search_mode == "phrase" and slop:
         extra_params["slop"] = slop
+
+    if content_file_score_weight is None:
+        content_file_fields = [
+            "content.english",
+            "title.english",
+            "content_title.english",
+            "description.english",
+            "content_feature_type",
+        ]
+    else:
+        content_file_fields = [
+            f"content.english^{content_file_score_weight}",
+            f"title.english^{content_file_score_weight}",
+            f"content_title.english^{content_file_score_weight}",
+            f"description.english^{content_file_score_weight}",
+            f"content_feature_type^{content_file_score_weight}",
+        ]
 
     result1 = {
         "bool": {
@@ -251,12 +271,7 @@ def test_generate_learning_resources_text_clause(search_mode, slop):
                                             "query": {
                                                 "multi_match": {
                                                     "query": "math",
-                                                    "fields": [
-                                                        "content",
-                                                        "title.english^3",
-                                                        "short_description.english^2",
-                                                        "content_feature_type",
-                                                    ],
+                                                    "fields": content_file_fields,
                                                     **extra_params,
                                                 }
                                             },
@@ -365,12 +380,7 @@ def test_generate_learning_resources_text_clause(search_mode, slop):
                         "query": {
                             "multi_match": {
                                 "query": "math",
-                                "fields": [
-                                    "content",
-                                    "title.english^3",
-                                    "short_description.english^2",
-                                    "content_feature_type",
-                                ],
+                                "fields": content_file_fields,
                                 **extra_params,
                             }
                         },
@@ -482,12 +492,7 @@ def test_generate_learning_resources_text_clause(search_mode, slop):
                                             "query": {
                                                 "query_string": {
                                                     "query": '"math"',
-                                                    "fields": [
-                                                        "content",
-                                                        "title.english^3",
-                                                        "short_description.english^2",
-                                                        "content_feature_type",
-                                                    ],
+                                                    "fields": content_file_fields,
                                                 }
                                             },
                                             "score_mode": "avg",
@@ -590,12 +595,7 @@ def test_generate_learning_resources_text_clause(search_mode, slop):
                         "query": {
                             "query_string": {
                                 "query": '"math"',
-                                "fields": [
-                                    "content",
-                                    "title.english^3",
-                                    "short_description.english^2",
-                                    "content_feature_type",
-                                ],
+                                "fields": content_file_fields,
                             }
                         },
                         "score_mode": "avg",
@@ -604,9 +604,17 @@ def test_generate_learning_resources_text_clause(search_mode, slop):
             ],
         }
     }
-    assert generate_learning_resources_text_clause("math", search_mode, slop) == result1
     assert (
-        generate_learning_resources_text_clause('"math"', search_mode, slop) == result2
+        generate_learning_resources_text_clause(
+            "math", search_mode, slop, content_file_score_weight
+        )
+        == result1
+    )
+    assert (
+        generate_learning_resources_text_clause(
+            '"math"', search_mode, slop, content_file_score_weight
+        )
+        == result2
     )
 
 
@@ -623,9 +631,10 @@ def test_generate_content_file_text_clause():
                                         "multi_match": {
                                             "query": "math",
                                             "fields": [
-                                                "content",
-                                                "title.english^3",
-                                                "short_description.english^2",
+                                                "content.english",
+                                                "title.english",
+                                                "content_title.english",
+                                                "description.english",
                                                 "content_feature_type",
                                             ],
                                         }
@@ -655,9 +664,10 @@ def test_generate_content_file_text_clause():
                     "multi_match": {
                         "query": "math",
                         "fields": [
-                            "content",
-                            "title.english^3",
-                            "short_description.english^2",
+                            "content.english",
+                            "title.english",
+                            "content_title.english",
+                            "description.english",
                             "content_feature_type",
                         ],
                     }
@@ -691,9 +701,10 @@ def test_generate_content_file_text_clause():
                                         "query_string": {
                                             "query": '"math"',
                                             "fields": [
-                                                "content",
-                                                "title.english^3",
-                                                "short_description.english^2",
+                                                "content.english",
+                                                "title.english",
+                                                "content_title.english",
+                                                "description.english",
                                                 "content_feature_type",
                                             ],
                                         }
@@ -723,9 +734,10 @@ def test_generate_content_file_text_clause():
                     "query_string": {
                         "query": '"math"',
                         "fields": [
-                            "content",
-                            "title.english^3",
-                            "short_description.english^2",
+                            "content.english",
+                            "title.english",
+                            "content_title.english",
+                            "description.english",
                             "content_feature_type",
                         ],
                     }
@@ -1170,9 +1182,10 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                     "multi_match": {
                                                                         "query": "math",
                                                                         "fields": [
-                                                                            "content",
-                                                                            "title.english^3",
-                                                                            "short_description.english^2",
+                                                                            "content.english",
+                                                                            "title.english",
+                                                                            "content_title.english",
+                                                                            "description.english",
                                                                             "content_feature_type",
                                                                         ],
                                                                         "type": "best_fields",
@@ -1289,9 +1302,10 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                             "multi_match": {
                                                 "query": "math",
                                                 "fields": [
-                                                    "content",
-                                                    "title.english^3",
-                                                    "short_description.english^2",
+                                                    "content.english",
+                                                    "title.english",
+                                                    "content_title.english",
+                                                    "description.english",
                                                     "content_feature_type",
                                                 ],
                                                 "type": "best_fields",
@@ -1639,9 +1653,10 @@ def test_execute_learn_search_with_script_score(
                                                                             "multi_match": {
                                                                                 "query": "math",
                                                                                 "fields": [
-                                                                                    "content",
-                                                                                    "title.english^3",
-                                                                                    "short_description.english^2",
+                                                                                    "content.english",
+                                                                                    "title.english",
+                                                                                    "content_title.english",
+                                                                                    "description.english",
                                                                                     "content_feature_type",
                                                                                 ],
                                                                                 "type": "phrase",
@@ -1758,9 +1773,10 @@ def test_execute_learn_search_with_script_score(
                                                     "multi_match": {
                                                         "query": "math",
                                                         "fields": [
-                                                            "content",
-                                                            "title.english^3",
-                                                            "short_description.english^2",
+                                                            "content.english",
+                                                            "title.english",
+                                                            "content_title.english",
+                                                            "description.english",
                                                             "content_feature_type",
                                                         ],
                                                         "type": "phrase",
@@ -2068,9 +2084,10 @@ def test_execute_learn_search_with_min_score(mocker, settings, opensearch):
                                                                             "multi_match": {
                                                                                 "query": "math",
                                                                                 "fields": [
-                                                                                    "content",
-                                                                                    "title.english^3",
-                                                                                    "short_description.english^2",
+                                                                                    "content.english",
+                                                                                    "title.english",
+                                                                                    "content_title.english",
+                                                                                    "description.english",
                                                                                     "content_feature_type",
                                                                                 ],
                                                                                 "type": "best_fields",
@@ -2187,9 +2204,10 @@ def test_execute_learn_search_with_min_score(mocker, settings, opensearch):
                                                     "multi_match": {
                                                         "query": "math",
                                                         "fields": [
-                                                            "content",
-                                                            "title.english^3",
-                                                            "short_description.english^2",
+                                                            "content.english",
+                                                            "title.english",
+                                                            "content_title.english",
+                                                            "description.english",
                                                             "content_feature_type",
                                                         ],
                                                         "type": "best_fields",
@@ -2388,9 +2406,10 @@ def test_execute_learn_search_for_content_file_query(opensearch):
                                                             "multi_match": {
                                                                 "query": "math",
                                                                 "fields": [
-                                                                    "content",
-                                                                    "title.english^3",
-                                                                    "short_description.english^2",
+                                                                    "content.english",
+                                                                    "title.english",
+                                                                    "content_title.english",
+                                                                    "description.english",
                                                                     "content_feature_type",
                                                                 ],
                                                             }
@@ -2421,9 +2440,10 @@ def test_execute_learn_search_for_content_file_query(opensearch):
                                     "multi_match": {
                                         "query": "math",
                                         "fields": [
-                                            "content",
-                                            "title.english^3",
-                                            "short_description.english^2",
+                                            "content.english",
+                                            "title.english",
+                                            "content_title.english",
+                                            "description.english",
                                             "content_feature_type",
                                         ],
                                     }
