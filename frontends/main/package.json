@@ -12,7 +12,7 @@
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
     "@emotion/cache": "^11.13.1",
-    "@mitodl/course-search-utils": "3.2.4",
+    "@mitodl/course-search-utils": "^3.2.5",
     "@remixicon/react": "^4.2.0",
     "@sentry/nextjs": "^8",
     "@tanstack/react-query": "^4.36.1",

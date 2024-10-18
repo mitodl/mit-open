@@ -5,6 +5,7 @@ from rest_framework.routers import SimpleRouter
 
 from learning_resources_search.views import (
     ContentFileSearchView,
+    LearningResourceSearchDefaultsView,
     LearningResourcesSearchView,
     UserSearchSubscriptionViewSet,
 )
@@ -30,7 +31,16 @@ v1_urls = [
     ),
 ]
 
+v0_urls = [
+    path(
+        r"learning_resources_search_admin_params/",
+        LearningResourceSearchDefaultsView.as_view(),
+        name="learning_resources_search_admin_params",
+    ),
+]
+
 app_name = "lr_search"
 urlpatterns = [
     re_path(r"^api/v1/", include((v1_urls, "v1"))),
+    re_path(r"^api/v0/", include((v0_urls, "v0"))),
 ]

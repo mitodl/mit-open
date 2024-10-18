@@ -2,7 +2,7 @@
 
 from django.core.management import BaseCommand
 
-from learning_resources.utils import (
+from data_fixtures.utils import (
     upsert_department_data,
     upsert_school_data,
 )

@@ -32,6 +32,7 @@ import {
   SearchModeEnumDescriptions,
 } from "api"
 import { useLearningResourcesSearch } from "api/hooks/learningResources"
+import { useAdminSearchParams } from "api/hooks/adminSearchParams"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import {
   AvailableFacets,
@@ -119,7 +120,7 @@ const FacetStyles = styled.div`
     margin-bottom: 14px;
 
     i {
-      color: ${({ theme }) => theme.custom.colors.silverGrayLight};
+      color: ${({ theme }) => theme.custom.colors.silverGrayDark};
 
       svg {
         display: block;
@@ -217,6 +218,16 @@ const FacetStyles = styled.div`
       color: ${({ theme }) => theme.palette.text.secondary};
       font-size: ${({ theme }) => theme.typography.body2.fontSize};
       text-align: right;
+    }
+  }
+
+  .facets:not(.facets-expanded, .facets-transitioning):has(
+      button.filter-section-button
+    ) {
+    div.facet-visible,
+    div.facet-list,
+    div.input-wrapper {
+      visibility: hidden;
     }
   }
 
@@ -552,22 +563,12 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   resultsHeadingEl,
   filterHeadingEl,
 }) => {
-  const DEFAULT_SEARCH_MODE = process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MODE
-  const DEFAULT_SEARCH_SLOP = parseFloat(
-    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_SLOP!,
-  )
-  const DEFAULT_SEARCH_STALENESS_PENALTY = parseFloat(
-    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_STALENESS_PENALTY!,
-  )
-  const DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF = parseFloat(
-    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF!,
-  )
-  const DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY = parseFloat(
-    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY!,
-  )
-
   const [searchParams] = useSearchParams()
   const [expandAdminOptions, setExpandAdminOptions] = useState(false)
+
+  const { data: adminParams, isLoading: isAdminParamsLoading } =
+    useAdminSearchParams(expandAdminOptions)
+
   const scrollHook = useRef<HTMLDivElement>(null)
   const activeTab =
     TABS.find(
@@ -654,25 +655,6 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
     actuallyToggleParamValue(name, rawValue, checked)
   }
 
-  const searchModeDropdown = (
-    <SimpleSelect
-      size="small"
-      value={searchParams.get("search_mode") || DEFAULT_SEARCH_MODE}
-      onChange={(e) =>
-        setSearchParams((prev) => {
-          const next = new URLSearchParams(prev)
-          next.set("search_mode", e.target.value as string)
-          if (e.target.value !== "phrase") {
-            next.delete("slop")
-          }
-          return next
-        })
-      }
-      options={searchModeDropdownOptions}
-      className="search-mode-dropdown"
-    />
-  )
-
   const sortDropdown = (
     <SimpleSelect
       size="small"
@@ -687,10 +669,39 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
     />
   )
 
-  const AdminOptions: React.FC = (
-    expandAdminOptions,
-    setExpandAdminOptions,
+  type adminParamsType = {
+    search_mode: string
+    slop: number
+    yearly_decay_percent: number
+    min_score: number
+    max_incompleteness_penalty: number
+    content_file_score_weight: number
+  }
+
+  const AdminOptions = (
+    expandAdminOptions: boolean,
+    setExpandAdminOptions: (value: boolean) => void,
+    adminParams: adminParamsType | void | undefined,
   ) => {
+    const searchModeDropdown = (
+      <SimpleSelect
+        size="small"
+        value={searchParams.get("search_mode") || adminParams?.search_mode}
+        onChange={(e) =>
+          setSearchParams((prev) => {
+            const next = new URLSearchParams(prev)
+            next.set("search_mode", e.target.value as string)
+            if (e.target.value !== "phrase") {
+              next.delete("slop")
+            }
+            return next
+          })
+        }
+        options={searchModeDropdownOptions}
+        className="search-mode-dropdown"
+      />
+    )
+
     return (
       <div
         className={`facets admin-facet base-facet${expandAdminOptions ? " facets-expanded" : ""}`}
@@ -706,7 +717,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
             {expandAdminOptions ? <RiArrowUpSLine /> : <RiArrowDownSLine />}
           </i>
         </button>
-        {expandAdminOptions ? (
+        {expandAdminOptions && adminParams && !isAdminParamsLoading ? (
           <div>
             <AdminTitleContainer>
               Resource Score Staleness Penalty
@@ -715,7 +726,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               currentValue={
                 searchParams.get("yearly_decay_percent")
                   ? Number(searchParams.get("yearly_decay_percent"))
-                  : DEFAULT_SEARCH_STALENESS_PENALTY
+                  : adminParams.yearly_decay_percent
               }
               setSearchParams={setSearchParams}
               urlParam="yearly_decay_percent"
@@ -737,7 +748,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               </ExplanationContainer>
             </div>
             {(!searchParams.get("search_mode") &&
-              DEFAULT_SEARCH_MODE === "phrase") ||
+              adminParams.search_mode === "phrase") ||
             searchParams.get("search_mode") === "phrase" ? (
               <div>
                 <AdminTitleContainer>Slop</AdminTitleContainer>
@@ -746,7 +757,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                   currentValue={
                     searchParams.get("slop")
                       ? Number(searchParams.get("slop"))
-                      : DEFAULT_SEARCH_SLOP
+                      : adminParams.slop
                   }
                   setSearchParams={setSearchParams}
                   urlParam="slop"
@@ -766,7 +777,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               currentValue={
                 searchParams.get("min_score")
                   ? Number(searchParams.get("min_score"))
-                  : DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF
+                  : adminParams.min_score
               }
               setSearchParams={setSearchParams}
               urlParam="min_score"
@@ -785,7 +796,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               currentValue={
                 searchParams.get("max_incompleteness_penalty")
                   ? Number(searchParams.get("max_incompleteness_penalty"))
-                  : DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY
+                  : adminParams.max_incompleteness_penalty
               }
               setSearchParams={setSearchParams}
               urlParam="max_incompleteness_penalty"
@@ -807,7 +818,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               currentValue={
                 searchParams.get("content_file_score_weight")
                   ? Number(searchParams.get("content_file_score_weight"))
-                  : 1
+                  : adminParams.content_file_score_weight
               }
               setSearchParams={setSearchParams}
               urlParam="content_file_score_weight"
@@ -842,7 +853,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
           facetOptions={data?.metadata.aggregations ?? {}}
         />
         {user?.is_learning_path_editor
-          ? AdminOptions(expandAdminOptions, setExpandAdminOptions)
+          ? AdminOptions(expandAdminOptions, setExpandAdminOptions, adminParams)
           : null}
       </FacetStyles>
     </>
