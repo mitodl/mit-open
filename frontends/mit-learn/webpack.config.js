@@ -45,11 +45,6 @@ const {
   CSRF_COOKIE_NAME,
   APPZI_URL,
   MITOL_NOINDEX,
-  DEFAULT_SEARCH_MODE,
-  DEFAULT_SEARCH_SLOP,
-  DEFAULT_SEARCH_STALENESS_PENALTY,
-  DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF,
-  DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY,
 } = cleanEnv(process.env, {
   NODE_ENV: str({
     choices: ["development", "production", "test"],
@@ -128,26 +123,6 @@ const {
   MITOL_NOINDEX: bool({
     desc: "Whether to include a noindex meta tag",
     default: true,
-  }),
-  DEFAULT_SEARCH_SLOP: num({
-    desc: "The default search slop",
-    default: 6,
-  }),
-  DEFAULT_SEARCH_STALENESS_PENALTY: num({
-    desc: "The default search staleness penalty",
-    default: 2.5,
-  }),
-  DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF: num({
-    desc: "The default search minimum score cutoff",
-    default: 5,
-  }),
-  DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY: num({
-    desc: "The default search max incompleteness penalty",
-    default: 90,
-  }),
-  DEFAULT_SEARCH_MODE: str({
-    desc: "The default search mode",
-    default: "phrase",
   }),
 })
 
@@ -290,11 +265,6 @@ module.exports = (env, argv) => {
           MITOL_SUPPORT_EMAIL: JSON.stringify(MITOL_SUPPORT_EMAIL),
           PUBLIC_URL: JSON.stringify(PUBLIC_URL),
           CSRF_COOKIE_NAME: JSON.stringify(CSRF_COOKIE_NAME),
-          DEFAULT_SEARCH_MODE: JSON.stringify(DEFAULT_SEARCH_MODE),
-          DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY,
-          DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF,
-          DEFAULT_SEARCH_SLOP,
-          DEFAULT_SEARCH_STALENESS_PENALTY,
         },
       }),
     ]

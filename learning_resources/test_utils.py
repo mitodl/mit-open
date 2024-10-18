@@ -1,7 +1,7 @@
 """Test utility functions for learning resources."""
 
+from data_fixtures.utils import upsert_topic_data_file
 from learning_resources.factories import LearningResourceOfferorFactory
-from learning_resources.utils import upsert_topic_data_file
 
 
 def set_up_topics(**kwargs):

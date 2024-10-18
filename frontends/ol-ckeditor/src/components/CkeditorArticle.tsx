@@ -149,7 +149,7 @@ const CkeditorArticle: React.FC<CkeditorArticleProps> = ({
       <CKEditor
         editor={ClassicEditor}
         config={fullConfig}
-        onReady={(editor) => {
+        onReady={(editor: ClassicEditor) => {
           setEditor(editor)
           onReady?.()
         }}

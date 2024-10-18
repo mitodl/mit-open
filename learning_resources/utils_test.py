@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 import yaml
 
+from data_fixtures import utils as data_utils
 from learning_resources import utils
 from learning_resources.constants import (
     CONTENT_TYPE_FILE,
@@ -35,8 +36,6 @@ from learning_resources.models import (
 from learning_resources.utils import (
     add_parent_topics_to_learning_resource,
     transfer_list_resources,
-    upsert_topic_data_file,
-    upsert_topic_data_string,
 )
 
 pytestmark = pytest.mark.django_db
@@ -189,9 +188,11 @@ def test_platform_data():
     """
     LearningResourcePlatform.objects.create(code="bad", name="bad platform")
     assert LearningResourcePlatform.objects.filter(code="bad").count() == 1
-    with Path.open(Path(__file__).parent / "fixtures" / "platforms.json") as inf:
+    with Path.open(
+        Path(data_utils.__file__).parent / "fixtures" / "platforms.json"
+    ) as inf:
         expected_count = len(json.load(inf))
-    codes = utils.upsert_platform_data()
+    codes = data_utils.upsert_platform_data()
     assert LearningResourcePlatform.objects.count() == expected_count == len(codes)
     assert LearningResourcePlatform.objects.filter(code="bad").count() == 0
 
@@ -312,7 +313,7 @@ def test_upsert_topic_data_file(mocker):
     assert LearningResourceTopic.objects.count() == 0
     assert LearningResourceTopicMapping.objects.count() == 0
 
-    upsert_topic_data_file(test_file_location)
+    data_utils.upsert_topic_data_file(test_file_location)
 
     assert mock_pluggy.called
     assert LearningResourceTopic.objects.count() == item_count
@@ -340,7 +341,7 @@ def test_modify_topic_data_string(mocker):
     LearningResourceOfferorFactory.create(is_ocw=True)
     see_offeror = LearningResourceOfferorFactory.create(is_see=True)
 
-    upsert_topic_data_file(test_file_location)
+    data_utils.upsert_topic_data_file(test_file_location)
 
     mock_pluggy = mocker.patch("learning_resources.utils.topic_upserted_actions")
 
@@ -358,7 +359,7 @@ def test_modify_topic_data_string(mocker):
         "%%ARCHITECTURE_ID%%", str(architecture_topic.topic_uuid)
     )
 
-    upsert_topic_data_string(update_yaml_string)
+    data_utils.upsert_topic_data_string(update_yaml_string)
 
     assert mock_pluggy.called
 
@@ -436,7 +437,7 @@ topics:
         name: Google Analytics
 """
 
-    upsert_topic_data_string(base_topic_file)
+    data_utils.upsert_topic_data_string(base_topic_file)
 
     assert mock_pluggy.called
 
@@ -452,7 +453,7 @@ topics:
     assert sub_topic.exists()
     sub_topic = sub_topic.get()
 
-    upsert_topic_data_string(new_topic_file)
+    data_utils.upsert_topic_data_string(new_topic_file)
 
     new_topic = LearningResourceTopic.objects.filter(
         topic_uuid="d335c250-1292-4391-a7cb-3181f803e0f3"
@@ -461,7 +462,7 @@ topics:
     assert new_topic.exists()
     assert new_topic.get().parent == sub_topic
 
-    upsert_topic_data_string(new_topic_nested_parent_file)
+    data_utils.upsert_topic_data_string(new_topic_nested_parent_file)
 
     main_topic.refresh_from_db()
 
@@ -493,10 +494,12 @@ def test_add_parent_topics_to_learning_resource(fixture_resource):
 
 def test_upsert_offered_by(mocker):
     """Test that upsert_offered_by_data creates expected offerors and triggers pluggy"""
-    mock_upsert = mocker.patch("learning_resources.utils.offeror_upserted_actions")
-    with Path.open(Path(__file__).parent / "fixtures" / "offered_by.json") as inf:
+    mock_upsert = mocker.patch("data_fixtures.utils.offeror_upserted_actions")
+    with Path.open(
+        Path(data_utils.__file__).parent / "fixtures" / "offered_by.json"
+    ) as inf:
         offered_by_json = json.load(inf)
-    utils.upsert_offered_by_data()
+    data_utils.upsert_offered_by_data()
     assert LearningResourceOfferor.objects.count() == len(offered_by_json)
     for offered_by_data in offered_by_json:
         offeror = LearningResourceOfferor.objects.get(

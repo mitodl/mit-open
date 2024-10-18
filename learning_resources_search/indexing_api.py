@@ -26,6 +26,7 @@ from learning_resources_search.constants import (
     COURSE_TYPE,
     MAPPING,
     PERCOLATE_INDEX_TYPE,
+    SYNONYMS,
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError
@@ -143,18 +144,21 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
             },
             "analysis": {
                 "analyzer": {
-                    "folding": {
-                        "type": "custom",
-                        "tokenizer": "standard",
-                        "filter": [
-                            "lowercase",
-                            "asciifolding",  # remove accents if we use folding analyzer
-                        ],
-                    },
                     "trigram": {
                         "type": "custom",
                         "tokenizer": "standard",
-                        "filter": ["lowercase", "shingle"],
+                        "filter": ["lowercase", "synonyms_filter", "shingle"],
+                    },
+                    "custom_english": {
+                        "tokenizer": "standard",
+                        "filter": [
+                            "english_possessive_stemmer",
+                            "lowercase",
+                            "synonyms_filter",
+                            "english_stop",
+                            "english_keywords",
+                            "english_stemmer",
+                        ],
                     },
                 },
                 "filter": {
@@ -162,7 +166,19 @@ def clear_and_create_index(*, index_name=None, skip_mapping=False, object_type=N
                         "type": "shingle",
                         "min_shingle_size": 2,
                         "max_shingle_size": 3,
-                    }
+                    },
+                    "english_stop": {"type": "stop", "stopwords": "_english_"},
+                    "english_keywords": {"type": "keyword_marker", "keywords": []},
+                    "english_stemmer": {"type": "stemmer", "language": "english"},
+                    "english_possessive_stemmer": {
+                        "type": "stemmer",
+                        "language": "possessive_english",
+                    },
+                    "synonyms_filter": {
+                        "type": "synonym_graph",
+                        "synonyms": SYNONYMS,
+                        "expand": "true",
+                    },
                 },
             },
         }

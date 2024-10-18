@@ -58,7 +58,10 @@ const setupLearningPaths = ({
     urls.learningResources.details({ id: resource.id }),
     resource,
   )
-  setMockResponse.get(urls.learningPaths.list(), paginatedLearningPaths)
+  setMockResponse.get(
+    urls.learningPaths.list({ limit: 100 }),
+    paginatedLearningPaths,
+  )
   const view = renderWithProviders(null)
   if (dialogOpen) {
     act(() => {
@@ -94,7 +97,7 @@ const setupUserLists = ({
     urls.learningResources.details({ id: resource.id }),
     resource,
   )
-  setMockResponse.get(urls.userLists.list(), paginatedUserLists)
+  setMockResponse.get(urls.userLists.list({ limit: 100 }), paginatedUserLists)
   const view = renderWithProviders(null)
   if (dialogOpen) {
     act(() => {

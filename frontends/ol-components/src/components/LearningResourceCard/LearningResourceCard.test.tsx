@@ -2,7 +2,7 @@ import React from "react"
 import { screen, render } from "@testing-library/react"
 import { LearningResourceCard } from "./LearningResourceCard"
 import type { LearningResourceCardProps } from "./LearningResourceCard"
-import { DEFAULT_RESOURCE_IMG } from "ol-utilities"
+import { DEFAULT_RESOURCE_IMG, getReadableResourceType } from "ol-utilities"
 import { ResourceTypeEnum, PlatformEnum, AvailabilityEnum } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
@@ -125,7 +125,9 @@ describe("Learning Resource Card", () => {
 
     await addToLearningPathButton.click()
 
-    const addToUserListButton = screen.getByLabelText("Add to User List")
+    const addToUserListButton = screen.getByLabelText(
+      `Bookmark ${getReadableResourceType(resource.resource_type)}`,
+    )
 
     await addToUserListButton.click()
 

@@ -91,6 +91,10 @@
       "description": "Default max incompleteness penalty value for the search API and frontend",
       "required": false
     },
+    "DEFAULT_SEARCH_CONTENT_FILE_SCORE_WEIGHT": {
+      "description": "Default score weight for content file search match",
+      "required": false
+    },
     "EDX_API_ACCESS_TOKEN_URL": {
       "description": "URL to retrieve a MITx access token",
       "required": false

@@ -4521,6 +4521,143 @@ export class CkeditorApi extends BaseAPI {
 }
 
 /**
+ * LearningResourcesSearchAdminParamsApi - axios parameter creator
+ * @export
+ */
+export const LearningResourcesSearchAdminParamsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Learning resource search default admin param values
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesSearchAdminParamsRetrieve: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/learning_resources_search_admin_params/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * LearningResourcesSearchAdminParamsApi - functional programming interface
+ * @export
+ */
+export const LearningResourcesSearchAdminParamsApiFp = function (
+  configuration?: Configuration,
+) {
+  const localVarAxiosParamCreator =
+    LearningResourcesSearchAdminParamsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Learning resource search default admin param values
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesSearchAdminParamsRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesSearchAdminParamsRetrieve(
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "LearningResourcesSearchAdminParamsApi.learningResourcesSearchAdminParamsRetrieve"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * LearningResourcesSearchAdminParamsApi - factory interface
+ * @export
+ */
+export const LearningResourcesSearchAdminParamsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = LearningResourcesSearchAdminParamsApiFp(configuration)
+  return {
+    /**
+     * Learning resource search default admin param values
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesSearchAdminParamsRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .learningResourcesSearchAdminParamsRetrieve(options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * LearningResourcesSearchAdminParamsApi - object-oriented interface
+ * @export
+ * @class LearningResourcesSearchAdminParamsApi
+ * @extends {BaseAPI}
+ */
+export class LearningResourcesSearchAdminParamsApi extends BaseAPI {
+  /**
+   * Learning resource search default admin param values
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesSearchAdminParamsApi
+   */
+  public learningResourcesSearchAdminParamsRetrieve(
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningResourcesSearchAdminParamsApiFp(this.configuration)
+      .learningResourcesSearchAdminParamsRetrieve(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
  * NewsEventsApi - axios parameter creator
  * @export
  */

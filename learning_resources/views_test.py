@@ -547,6 +547,8 @@ def test_topics_list_endpoint(client, django_assert_num_queries):
         LearningResourceTopicFactory.create_batch(100),
         key=lambda topic: topic.name,
     )
+    for topic in topics:
+        ChannelTopicDetailFactory.create(topic=topic)
 
     with django_assert_num_queries(2):
         resp = client.get(reverse("lr:v1:topics_api-list"))
@@ -564,6 +566,7 @@ def test_topics_list_endpoint(client, django_assert_num_queries):
 def test_topics_detail_endpoint(client):
     """Test topics detail endpoint"""
     topic = LearningResourceTopicFactory.create()
+    ChannelTopicDetailFactory.create(topic=topic)
     resp = client.get(reverse("lr:v1:topics_api-detail", args=[topic.pk]))
     assert resp.data == LearningResourceTopicSerializer(instance=topic).data
 
@@ -571,11 +574,8 @@ def test_topics_detail_endpoint(client):
 @pytest.mark.parametrize("published", [True, False])
 def test_topic_channel_url(client, published):
     """
-    Check that the topic API returns 'None' for channel_url of unpublished channels.
-
-    Note: The channel_url being None is also tested on the Channel model itself,
-    but the API may generate the channel_url in a slightly different manner (for
-    example, queryset annotation)
+    Test that topics with published channels return the channel_url,
+    and unpublished channels are not included in the response
     """
     topic = LearningResourceTopicFactory.create()
     channel = ChannelTopicDetailFactory.create(
@@ -583,9 +583,10 @@ def test_topic_channel_url(client, published):
     ).channel
     resp = client.get(reverse("lr:v1:topics_api-detail", args=[topic.pk]))
 
-    assert resp.data["channel_url"] == channel.channel_url
-    if not published:
-        assert resp.data["channel_url"] is None
+    if published:
+        assert resp.data["channel_url"] == channel.channel_url
+    else:
+        assert resp.status_code == 404
 
 
 def test_departments_list_endpoint(client):

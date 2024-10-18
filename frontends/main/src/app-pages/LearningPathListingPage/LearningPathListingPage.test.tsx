@@ -24,7 +24,7 @@ const setup = ({
   const paths = factories.learningResources.learningPaths({ count: listsCount })
   const userData = factories.user.user({ ...user })
   setMockResponse.get(urls.userMe.get(), userData)
-  setMockResponse.get(urls.learningPaths.list(), paths)
+  setMockResponse.get(urls.learningPaths.list({ limit: 100 }), paths)
 
   const { location } = renderWithProviders(<LearningPathListingPage />, {
     user,

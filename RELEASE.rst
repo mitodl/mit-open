@@ -1,6 +1,29 @@
 Release Notes
 =============
 
+Version 0.22.1 (Released October 15, 2024)
+--------------
+
+- increase learning path listing limit to 100 (#1692)
+- Shanbady/consolidate static fixtures (#1684)
+
+Version 0.22.0 (Released October 15, 2024)
+--------------
+
+- Make add to list dialog scrollable (#1689)
+- make search defaults settable (#1681)
+- Shuffling around where the search_update event is fired so it happens in more places (#1679)
+- prevent featured course carousel from re-randomizing (#1673)
+
+Version 0.21.3 (Released October 15, 2024)
+--------------
+
+- removing invalid flag from clear cache command (#1675)
+- Clear Cache on Deploy (#1668)
+- Update Yarn to v4.5.0 (#1624)
+- topic detail banner / subtopic logic revisions (#1646)
+- Restore program letter intercept view (#1643)
+
 Version 0.21.2 (Released October 10, 2024)
 --------------
 
