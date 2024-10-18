@@ -14,7 +14,18 @@ import type {
 } from "api"
 import invariant from "tiny-invariant"
 import { Permissions } from "@/common/permissions"
-import { assertHeadings } from "ol-test-utilities"
+import { assertHeadings, ControlledPromise } from "ol-test-utilities"
+
+const DEFAULT_SEARCH_RESPONSE: LearningResourcesSearchResponse = {
+  count: 0,
+  next: null,
+  previous: null,
+  results: [],
+  metadata: {
+    aggregations: {},
+    suggestions: [],
+  },
+}
 
 const setMockApiResponses = ({
   search,
@@ -28,14 +39,7 @@ const setMockApiResponses = ({
   })
 
   setMockResponse.get(expect.stringContaining(urls.search.resources()), {
-    count: 0,
-    next: null,
-    previous: null,
-    results: [],
-    metadata: {
-      aggregations: {},
-      suggestions: [],
-    },
+    ...DEFAULT_SEARCH_RESPONSE,
     ...search,
   })
   setMockResponse.get(
@@ -709,9 +713,47 @@ describe("Search Page pagination controls", () => {
 })
 
 test("Count changes are announced to screen readers", async () => {
-  setMockApiResponses({ search: { count: 137 } })
+  setMockApiResponses({ search: { count: 123 } })
   renderWithProviders(<SearchPage />)
-  const count = await screen.findByText("137 results")
+  const count = await screen.findByText("123 results")
   expect(count).toHaveAttribute("aria-live", "polite")
   expect(count).toHaveAttribute("aria-atomic", "true")
+  // aria-relevant is important here. See https://stackoverflow.com/a/62179258/2747370
+  expect(count).toHaveAttribute("aria-relevant", "all")
+
+  const nextResponse = new ControlledPromise()
+  const nextData = { ...DEFAULT_SEARCH_RESPONSE, count: 456 }
+  setMockResponse.get(
+    expect.stringContaining(urls.search.resources()),
+    nextResponse,
+  )
+
+  const queryInput = await screen.findByRole<HTMLInputElement>("textbox", {
+    name: "Search for",
+  })
+  await user.clear(queryInput)
+  await user.paste("woof")
+  await user.click(screen.getByRole("button", { name: "Search" }))
+
+  /**
+   * The point here is to check that while new data is loading, the aria-live
+   * region is empty.
+   *
+   * That's important: it guarantees that the result count will always be read,
+   * even if the count hasn't changed.
+   *
+   * For example:
+   *  - search for "foo" ... 0 results
+   *  - try again, search for "bar" ... still 0 results
+   *
+   * This ensures that we read "0 results" both times.
+   */
+  await waitFor(() => {
+    expect(count).toHaveTextContent("")
+  })
+  nextResponse.resolve(nextData)
+
+  await waitFor(() => {
+    expect(count).toHaveTextContent("456 results")
+  })
 })

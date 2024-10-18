@@ -587,7 +587,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
     page,
   ])
 
-  const { data, isLoading } = useLearningResourcesSearch(
+  const { data, isLoading, isFetching } = useLearningResourcesSearch(
     allParams as LRSearchRequest,
     { keepPreviousData: true },
   )
@@ -874,8 +874,9 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
             <VisuallyHidden as={resultsHeadingEl}>
               Search Results
             </VisuallyHidden>
-            <VisuallyHidden aria-live="polite" aria-atomic>
-              {`${data?.count} results`}
+            <VisuallyHidden aria-live="polite" aria-atomic aria-relevant="all">
+              {/* This could be just isLoading, except we set keepPreviousData to true */}
+              {isFetching || isLoading ? "" : `${data?.count} results`}
             </VisuallyHidden>
             <DesktopSortContainer>{sortDropdown}</DesktopSortContainer>
             <StyledResourceTabs
