@@ -182,9 +182,10 @@ jobs:
           POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_RC }}
           POSTHOG_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_RC }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_RC }}
-          SENTRY_ENV: rc
-          SENTRY_PROFILES_SAMPLE_RATE: 0.0
-          SENTRY_TRACES_SAMPLE_RATE: 0.0
+          SENTRY_ENV: ${{ secrets.MITOL_ENVIRONMENT_RC }}
+          SENTRY_PROFILES_SAMPLE_RATE: ${{ secrets.SENTRY_PROFILES_SAMPLE_RATE_RC }}
+          SENTRY_TRACES_SAMPLE_RATE: ${{ secrets.SENTRY_TRACES_SAMPLE_RATE_RC }}
+          APPZI_URL: ${{ secrets.APPZI_URL_RC }}
           VERSION: ${{ github.sha }}
         run: |
           heroku container:push web \
@@ -204,6 +205,7 @@ jobs:
           NEXT_PUBLIC_SENTRY_ENV=$SENTRY_ENV,\
           NEXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE=$SENTRY_PROFILES_SAMPLE_RATE,\
           NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE=$SENTRY_TRACES_SAMPLE_RATE,\
+          NEXT_PUBLIC_APPZI_URL=$APPZI_URL,\
           NEXT_PUBLIC_VERSION=$VERSION \
           --context-path .
 
@@ -247,9 +249,10 @@ jobs:
           POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_PROD }}
           POSTHOG_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_PROD }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_PROD }}
-          SENTRY_ENV: rc
+          SENTRY_ENV: ${{ secrets.SENTRY_ENV_PROD }}
           SENTRY_PROFILES_SAMPLE_RATE: 0.0
           SENTRY_TRACES_SAMPLE_RATE: 0.0
+          APPZI_URL: ${{ secrets.APPZI_URL_PROD }}
           VERSION: ${{ github.sha }}
         run: |
           heroku container:push web \
@@ -269,6 +272,7 @@ jobs:
           NEXT_PUBLIC_SENTRY_ENV=$SENTRY_ENV,\
           NEXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE=$SENTRY_PROFILES_SAMPLE_RATE,\
           NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE=$SENTRY_TRACES_SAMPLE_RATE,\
+          NEXT_PUBLIC_APPZI_URL=$APPZI_URL,\
           NEXT_PUBLIC_VERSION=$VERSION \
           --context-path .
 
