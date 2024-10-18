@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react"
 import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
 import Typography from "@mui/material/Typography"
-import { ButtonLink } from "../Button/Button"
+import { ActionButton, ButtonLink } from "../Button/Button"
 import type { LearningResource } from "api"
 import { ResourceTypeEnum, PlatformEnum } from "api"
 import { resourceThumbnailSrc, DEFAULT_RESOURCE_IMG } from "ol-utilities"
-import { RiExternalLinkLine } from "@remixicon/react"
+import { RiCloseLargeLine, RiExternalLinkLine } from "@remixicon/react"
 import type { EmbedlyConfig } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
@@ -27,7 +27,7 @@ const ReadableResourceTypes = {
 const Container = styled.div<{ padTop?: boolean }>`
   display: flex;
   flex-direction: column;
-  padding: 18px 32px 160px;
+  padding: 0 32px 160px;
   gap: 20px;
   ${({ padTop }) => (padTop ? "padding-top: 64px;" : "")}
   width: 900px;
@@ -37,8 +37,10 @@ const Container = styled.div<{ padTop?: boolean }>`
 `
 
 const TitleSectionContainer = styled.div({
-  paddingTop: "6px",
-  paddingBottom: "24px",
+  backgroundColor: theme.custom.colors.white,
+  position: "sticky",
+  top: "0",
+  padding: "24px 0",
 })
 
 const Image = styled.img<{ aspect: number }>`
@@ -109,11 +111,44 @@ type LearningResourceExpandedProps = {
   imgConfig: EmbedlyConfig
   onAddToLearningPathClick?: LearningResourceCardProps["onAddToLearningPathClick"]
   onAddToUserListClick?: LearningResourceCardProps["onAddToUserListClick"]
+  closeDrawer: () => void
 }
 
-const TitleSection: React.FC<{ resource?: LearningResource }> = ({
-  resource,
-}) => {
+const CloseButton = styled(ActionButton)(({ theme }) => ({
+  "&&&": {
+    position: "absolute",
+    top: "24px",
+    right: "0",
+    backgroundColor: theme.custom.colors.lightGray2,
+    color: theme.custom.colors.black,
+    ["&:hover"]: {
+      backgroundColor: theme.custom.colors.red,
+      color: theme.custom.colors.white,
+    },
+  },
+}))
+
+const CloseIcon = styled(RiCloseLargeLine)`
+  &&& {
+    width: 18px;
+    height: 18px;
+  }
+`
+
+const TitleSection: React.FC<{
+  resource?: LearningResource
+  closeDrawer: () => void
+}> = ({ resource, closeDrawer }) => {
+  const closeButton = (
+    <CloseButton
+      variant="text"
+      size="medium"
+      onClick={() => closeDrawer()}
+      aria-label="Close"
+    >
+      <CloseIcon />
+    </CloseButton>
+  )
   if (resource) {
     return (
       <TitleSectionContainer>
@@ -126,6 +161,7 @@ const TitleSection: React.FC<{ resource?: LearningResource }> = ({
         <Typography variant="h4" color={theme.custom.colors.darkGray2}>
           {resource?.title}
         </Typography>
+        {closeButton}
       </TitleSectionContainer>
     )
   } else {
@@ -133,6 +169,7 @@ const TitleSection: React.FC<{ resource?: LearningResource }> = ({
       <TitleSectionContainer>
         <Skeleton variant="text" height={20} width="66%" />
         <Skeleton variant="text" height={20} width="100%" />
+        {closeButton}
       </TitleSectionContainer>
     )
   }
@@ -295,6 +332,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   imgConfig,
   onAddToLearningPathClick,
   onAddToUserListClick,
+  closeDrawer,
 }) => {
   const [selectedRun, setSelectedRun] = useState(resource?.runs?.[0])
 
@@ -321,7 +359,8 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
 
   return (
     <Container padTop={isVideo}>
-      <TitleSection resource={resource} />
+      <TitleSection resource={resource} closeDrawer={closeDrawer} />
+
       <ImageSection resource={resource} config={imgConfig} />
       <CallToActionSection resource={resource} hide={isVideo} />
       <DetailSection resource={resource} />
@@ -332,6 +371,57 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
         onAddToLearningPathClick={onAddToLearningPathClick}
         onAddToUserListClick={onAddToUserListClick}
       />
+      <div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+        felis nisl, imperdiet ac eros ac, vestibulum sagittis magna. Phasellus
+        nunc lacus, rutrum a justo vitae, ultrices elementum sem. Nulla id
+        semper erat, ac mollis diam. Duis erat eros, tempus vitae dui ac,
+        elementum interdum enim. Donec ut laoreet justo, in sagittis metus.
+        Phasellus nec convallis est, ac varius libero. Vivamus fringilla nunc
+        sed felis tempor pulvinar. In hac habitasse platea dictumst. Aenean
+        elementum nec ligula ut bibendum. Nam eu aliquam quam. Lorem ipsum dolor
+        sit amet, consectetur adipiscing elit. Curabitur vestibulum est vitae
+        ante fermentum, vel commodo risus aliquam. Praesent faucibus nisi a
+        pharetra pulvinar. Phasellus eu bibendum urna. Sed nec congue diam, ut
+        pellentesque ante. Quisque venenatis id massa sed facilisis. Orci varius
+        natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+        mus. Morbi nibh mauris, elementum at augue a, consectetur viverra ante.
+        Sed placerat velit felis, maximus pretium arcu euismod a. Duis eget mi
+        massa. Vestibulum eget odio eleifend erat efficitur lobortis. Etiam quis
+        tellus justo. Morbi volutpat bibendum ipsum hendrerit varius.
+        Pellentesque faucibus augue nunc, non venenatis sem fringilla id. Sed
+        eget lorem sed nibh rhoncus accumsan. Nulla purus nibh, maximus et
+        consectetur eu, feugiat sed metus. Proin et egestas neque. Praesent
+        aliquam dui vel sem suscipit, eleifend bibendum lorem sagittis. Nam quis
+        metus nisl. Nam laoreet sagittis massa, in scelerisque odio fringilla
+        ac. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+        malesuada felis at dui scelerisque egestas. Donec magna risus, mollis eu
+        neque commodo, consequat tincidunt ex. Phasellus luctus condimentum
+        magna auctor fermentum. Etiam aliquam justo et sagittis lacinia. Etiam
+        vestibulum bibendum tortor non molestie. Orci varius natoque penatibus
+        et magnis dis parturient montes, nascetur ridiculus mus. Nulla facilisi.
+        Integer elementum dolor sed vulputate faucibus. Curabitur mattis
+        convallis risus a fringilla. Curabitur viverra turpis sed lectus rhoncus
+        luctus id nec dui. Nunc auctor vitae ligula a dictum. Nunc et metus in
+        mi ultricies rhoncus in vel leo. Donec risus sapien, elementum sed orci
+        eu, eleifend lobortis tellus. Mauris sit amet lorem est. Nunc eu
+        vehicula ipsum, a semper diam. Sed pretium sem tempus tellus imperdiet
+        dictum. Pellentesque sit amet vehicula lacus. Morbi gravida, ante vel
+        varius dignissim, massa tellus tincidunt libero, non interdum mauris
+        nulla vel nisi. Ut venenatis porttitor porta. Quisque tempus feugiat mi
+        mollis commodo. Nunc ut libero ut arcu dictum cursus semper consequat
+        mi. Morbi tempor finibus turpis, id tincidunt erat congue luctus. Aenean
+        sollicitudin vel mauris quis ultricies. Proin sit amet quam a mauris
+        maximus faucibus. Morbi sed justo vulputate, malesuada sapien vel,
+        vulputate nisi. Aliquam sit amet mauris non eros cursus aliquet. Morbi
+        in purus sit amet nulla dictum tincidunt. Nulla commodo ligula vel lorem
+        facilisis, at varius tortor tristique. Sed laoreet sem vitae scelerisque
+        finibus. Nunc a libero quis sem tristique sagittis dignissim a erat.
+        Curabitur quis sem eget neque ultricies rutrum eget eget augue.
+        Curabitur non lacus venenatis, tristique lacus fermentum, volutpat sem.
+        Cras lobortis risus id leo ultrices, ut varius nulla porta. Proin a
+        vulputate leo. Nullam lacinia faucibus velit vel aliquet.
+      </div>
     </Container>
   )
 }
