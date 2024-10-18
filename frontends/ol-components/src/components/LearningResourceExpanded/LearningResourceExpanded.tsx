@@ -28,7 +28,6 @@ const Container = styled.div<{ padTop?: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 0 32px 160px;
-  gap: 20px;
   ${({ padTop }) => (padTop ? "padding-top: 64px;" : "")}
   width: 900px;
   ${({ theme }) => theme.breakpoints.down("md")} {
