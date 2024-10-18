@@ -11,8 +11,8 @@ import {
   RiDashboard3Line,
   RiGraduationCapLine,
   RiTranslate2,
-  RiAwardLine,
   RiPresentationLine,
+  RiAwardFill,
 } from "@remixicon/react"
 import { LearningResource, LearningResourceRun, ResourceTypeEnum } from "api"
 import {
@@ -112,7 +112,7 @@ const INFO_ITEMS: InfoItemConfig = [
           <div>{prices.course.display}</div>
           {resource.certification && (
             <Certificate>
-              <RiAwardLine />
+              <RiAwardFill />
               {prices.certificate.display
                 ? "Earn a certificate:"
                 : "Certificate included"}
