@@ -154,11 +154,18 @@ const INFO_ITEMS: InfoItemConfig = [
     label: "Instructors:",
     Icon: RiGraduationCapLine,
     selector: (resource: LearningResource, run?: LearningResourceRun) => {
+      const totalInstructors = run?.instructors?.length || 0
       return (
         run?.instructors
           ?.filter((instructor) => instructor.full_name)
-          .map(({ full_name: name }) => name)
-          .join(", ") || null
+          .map((instructor, index) => {
+            return (
+              <React.Fragment key={`topic-${index}`}>
+                {instructor.full_name}
+                {index < totalInstructors - 1 && <Separator />}
+              </React.Fragment>
+            )
+          }) || null
       )
     },
   },
