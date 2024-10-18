@@ -707,3 +707,11 @@ describe("Search Page pagination controls", () => {
     ])
   })
 })
+
+test("Count changes are announced to screen readers", async () => {
+  setMockApiResponses({ search: { count: 137 } })
+  renderWithProviders(<SearchPage />)
+  const count = await screen.findByText("137 results")
+  expect(count).toHaveAttribute("aria-live", "polite")
+  expect(count).toHaveAttribute("aria-atomic", "true")
+})

@@ -874,6 +874,9 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
             <VisuallyHidden as={resultsHeadingEl}>
               Search Results
             </VisuallyHidden>
+            <VisuallyHidden aria-live="polite" aria-atomic>
+              {`${data?.count} results`}
+            </VisuallyHidden>
             <DesktopSortContainer>{sortDropdown}</DesktopSortContainer>
             <StyledResourceTabs
               setSearchParams={setSearchParams}
