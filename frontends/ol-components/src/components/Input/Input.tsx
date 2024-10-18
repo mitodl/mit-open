@@ -116,17 +116,16 @@ const baseInputStyles = (theme: Theme) => ({
     borderColor: "transparent",
     outline: "2px solid currentcolor",
     outlineOffset: "-2px",
-    color: theme.custom.colors.darkGray2,
   },
   "&.Mui-error": {
     borderColor: theme.custom.colors.red,
     outlineColor: theme.custom.colors.red,
   },
-  "& input::placeholder": {
+  "& input::placeholder, textarea::placeholder": {
     color: theme.custom.colors.silverGrayDark,
     opacity: 1, // some browsers apply opacity to placeholder text
   },
-  "& input:placeholder-shown": {
+  "& input:placeholder-shown, textarea:placeholder-shown": {
     textOverflow: "ellipsis",
   },
   "& textarea": {
@@ -154,7 +153,7 @@ const baseInputStyles = (theme: Theme) => ({
 type CustomInputProps = { responsive?: true }
 const noForward = Object.keys({
   responsive: true,
-} satisfies { [key in keyof CustomInputProps]: boolean })
+} satisfies { [_key in keyof CustomInputProps]: boolean })
 
 const Input = styled(InputBase, {
   shouldForwardProp: (prop) => !noForward.includes(prop),
