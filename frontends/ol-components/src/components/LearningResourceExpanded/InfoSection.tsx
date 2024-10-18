@@ -17,7 +17,9 @@ import {
 import { LearningResource, LearningResourceRun, ResourceTypeEnum } from "api"
 import {
   formatDurationClockTime,
+  formatRunDate,
   getLearningResourcePrices,
+  showStartAnytime,
 } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
 
@@ -25,9 +27,7 @@ const SeparatorContainer = styled.span({
   color: theme.custom.colors.silverGray,
 })
 
-const Separator: React.FC = () => (
-  <SeparatorContainer>&nbsp;|&nbsp;</SeparatorContainer>
-)
+const Separator: React.FC = () => <SeparatorContainer> | </SeparatorContainer>
 
 const InfoItems = styled.section`
   display: flex;
@@ -97,7 +97,9 @@ type InfoSelector = (
 ) => React.ReactNode
 
 type InfoItemConfig = {
-  label: string
+  label:
+    | string
+    | ((resource: LearningResource, run?: LearningResourceRun) => string)
   Icon: RemixiconComponentType | null
   selector: InfoSelector
 }[]
@@ -123,6 +125,41 @@ const INFO_ITEMS: InfoItemConfig = [
           )}
         </PriceDisplay>
       )
+    },
+  },
+  {
+    label: (resource: LearningResource, _run?: LearningResourceRun) => {
+      const asTaughtIn = resource ? showStartAnytime(resource) : false
+      const label = asTaughtIn ? "As taught in:" : "Start Date:"
+      return label
+    },
+    Icon: RiCalendarLine,
+    selector: (resource: LearningResource, _run?: LearningResourceRun) => {
+      const asTaughtIn = resource ? showStartAnytime(resource) : false
+      if (
+        [ResourceTypeEnum.Course, ResourceTypeEnum.Program].includes(
+          resource.resource_type as "course" | "program",
+        )
+      ) {
+        const runDates =
+          resource.runs
+            ?.sort((a, b) => {
+              if (a?.start_date && b?.start_date) {
+                return Date.parse(a.start_date) - Date.parse(b.start_date)
+              }
+              return 0
+            })
+            .map((run, index) => {
+              const totalRuns = resource.runs?.length ?? 0
+              return (
+                <React.Fragment key={`run-${run.id}`}>
+                  {formatRunDate(run, asTaughtIn)}
+                  {index < totalRuns - 1 && <Separator />}
+                </React.Fragment>
+              )
+            }) ?? []
+        return runDates
+      } else return null
     },
   },
   {
@@ -262,7 +299,7 @@ const InfoSection = ({
   }
 
   const infoItems = INFO_ITEMS.map(({ label, Icon, selector }) => ({
-    label,
+    label: typeof label === "function" ? label(resource, run) : label,
     Icon,
     value: selector(resource, run),
   })).filter(({ value }) => value !== null && value !== "")
@@ -272,7 +309,7 @@ const InfoSection = ({
   }
 
   return (
-    <InfoItems>
+    <InfoItems data-testid="drawer-info-items">
       {infoItems.map((props, index) => (
         <InfoItem key={index} {...props} />
       ))}

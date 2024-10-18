@@ -1,8 +1,10 @@
 import React from "react"
-import { render, screen } from "@testing-library/react"
+import { render, screen, within } from "@testing-library/react"
 import { courses } from "../LearningResourceCard/testUtils"
 import InfoSection from "./InfoSection"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
+import { formatRunDate } from "ol-utilities"
+import invariant from "tiny-invariant"
 
 describe("Learning resource info section pricing", () => {
   test("Free course, no certificate", () => {
@@ -89,5 +91,59 @@ describe("Learning resource info section pricing", () => {
     screen.getByText("$49 – $99")
     expect(screen.queryByText("Paid")).toBeNull()
     screen.getByText("Certificate included")
+  })
+})
+
+describe("Learning resource info section start date", () => {
+  test("Start date", () => {
+    const course = courses.free.dated
+    const run = course.runs?.[0]
+    invariant(run)
+    const runDate = formatRunDate(run, false)
+    invariant(runDate)
+    render(<InfoSection resource={course} />, {
+      wrapper: ThemeProvider,
+    })
+
+    const section = screen.getByTestId("drawer-info-items")
+    within(section).getByText("Start Date:")
+    within(section).getByText(runDate)
+  })
+
+  test("As taught in", () => {
+    const course = courses.free.anytime
+    const run = course.runs?.[0]
+    invariant(run)
+    const runDate = formatRunDate(run, true)
+    invariant(runDate)
+    render(<InfoSection resource={course} />, {
+      wrapper: ThemeProvider,
+    })
+
+    const section = screen.getByTestId("drawer-info-items")
+    within(section).getByText("As taught in:")
+    within(section).getByText(runDate)
+  })
+
+  test("Multiple Runs", () => {
+    const course = courses.free.multipleRuns
+    const expectedDateText = course.runs
+      ?.sort((a, b) => {
+        if (a?.start_date && b?.start_date) {
+          return Date.parse(a.start_date) - Date.parse(b.start_date)
+        }
+        return 0
+      })
+      .map((run) => formatRunDate(run, false))
+      .join(" | ")
+    invariant(expectedDateText)
+    render(<InfoSection resource={course} />, {
+      wrapper: ThemeProvider,
+    })
+
+    const section = screen.getByTestId("drawer-info-items")
+    within(section).getByText((_content, node) => {
+      return node?.textContent === expectedDateText || false
+    })
   })
 })

@@ -164,7 +164,7 @@ type LearningResourceExpandedProps = {
   imgConfig: EmbedlyConfig
   onAddToLearningPathClick?: LearningResourceCardProps["onAddToLearningPathClick"]
   onAddToUserListClick?: LearningResourceCardProps["onAddToUserListClick"]
-  closeDrawer: () => void
+  closeDrawer?: () => void
 }
 
 const CloseButton = styled(ActionButton)(({ theme }) => ({
@@ -326,7 +326,7 @@ const CallToActionSection = ({
 
   const cta = getCallToActionText(resource)
   return (
-    <CallToAction>
+    <CallToAction data-testid="drawer-cta">
       <ImageSection resource={resource} config={imgConfig} />
       <StyledLink
         target="_blank"
@@ -432,14 +432,12 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     }
   }, [resource])
 
-  const isVideo =
-    resource &&
-    (resource.resource_type === ResourceTypeEnum.Video ||
-      resource.resource_type === ResourceTypeEnum.VideoPlaylist)
-
   return (
-    <Container padTop={isVideo}>
-      <TitleSection resource={resource} closeDrawer={closeDrawer} />
+    <Container>
+      <TitleSection
+        resource={resource}
+        closeDrawer={closeDrawer ?? (() => {})}
+      />
       <ContentContainer>
         <LeftContainer>
           <DetailSection resource={resource} />
@@ -449,7 +447,6 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
           <CallToActionSection
             imgConfig={imgConfig}
             resource={resource}
-            hide={isVideo}
             user={user}
             onAddToLearningPathClick={onAddToLearningPathClick}
             onAddToUserListClick={onAddToUserListClick}

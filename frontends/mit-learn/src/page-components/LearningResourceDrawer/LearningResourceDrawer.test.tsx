@@ -14,7 +14,6 @@ import { urls, factories, setMockResponse } from "api/test-utils"
 import { LearningResourceExpanded } from "ol-components"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { ResourceTypeEnum } from "api"
-import invariant from "tiny-invariant"
 
 jest.mock("ol-components", () => {
   const actual = jest.requireActual("ol-components")
@@ -60,7 +59,7 @@ describe("LearningResourceDrawer", () => {
       await waitFor(() => {
         expectProps(LearningResourceExpanded, { resource })
       })
-      await screen.findByRole("heading", { name: resource.title })
+      await screen.findByText(resource.title)
 
       if (enablePostHog) {
         expect(mockedPostHogCapture).toHaveBeenCalled()
@@ -117,7 +116,7 @@ describe("LearningResourceDrawer", () => {
       expectAddToLearningPathButton: false,
     },
   ])(
-    "Renders info section list buttons correctly",
+    "Renders call to action section list buttons correctly",
     async ({
       isLearningPathEditor,
       isAuthenticated,
@@ -150,10 +149,7 @@ describe("LearningResourceDrawer", () => {
         expectProps(LearningResourceExpanded, { resource })
       })
 
-      const section = screen
-        .getByRole("heading", { name: "Info" })
-        .closest("section")
-      invariant(section)
+      const section = screen.getByTestId("drawer-cta")
 
       const buttons = within(section).getAllByRole("button")
       const expectedButtons = expectAddToLearningPathButton ? 2 : 1

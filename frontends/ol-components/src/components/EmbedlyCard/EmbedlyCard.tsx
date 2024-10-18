@@ -88,6 +88,7 @@ const EmbedlyCard: React.FC<EmbedlyCardProps> = ({
     a.dataset.cardKey = embedlyKey ?? getEmbedlyKey() ?? ""
     a.href = url
     a.classList.add("embedly-card")
+    a.dataset["testid"] = "embedly-card"
     container.appendChild(a)
   }, [embedlyKey, container, url])
 
