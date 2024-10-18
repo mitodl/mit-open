@@ -14,11 +14,7 @@ import { usePostHog } from "posthog-js/react"
 
 import NiceModal, { muiDialogV5 } from "@ebay/nice-modal-react"
 
-import {
-  type LearningPathResource,
-  type LearningResource,
-  type UserList,
-} from "api"
+import type { LearningPathResource, LearningResource, UserList } from "api"
 
 import {
   useLearningResourceSetUserListRelationships,
@@ -30,6 +26,8 @@ import {
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { ListType } from "api/constants"
 import { useFormik } from "formik"
+
+const LIST_LIMIT = 100
 
 const ResourceTitle = styled.span({
   fontStyle: "italic",
@@ -200,7 +198,7 @@ const AddToLearningPathDialogInner: React.FC<AddToListDialogProps> = ({
 }) => {
   const resourceQuery = useLearningResourcesDetail(resourceId)
   const resource = resourceQuery.data
-  const listsQuery = useLearningPathsList()
+  const listsQuery = useLearningPathsList({ limit: LIST_LIMIT })
 
   const isReady = !!(resource && listsQuery.isSuccess)
   const lists = listsQuery.data?.results ?? []
@@ -219,7 +217,7 @@ const AddToUserListDialogInner: React.FC<AddToListDialogProps> = ({
 }) => {
   const resourceQuery = useLearningResourcesDetail(resourceId)
   const resource = resourceQuery.data
-  const listsQuery = useUserListList()
+  const listsQuery = useUserListList({ limit: LIST_LIMIT })
 
   const isReady = !!(resource && listsQuery.isSuccess)
   const lists = listsQuery.data?.results ?? []

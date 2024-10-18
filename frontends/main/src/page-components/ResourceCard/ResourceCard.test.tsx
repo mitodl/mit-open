@@ -3,6 +3,8 @@ import * as NiceModal from "@ebay/nice-modal-react"
 import { renderWithProviders, user, screen, expectProps } from "@/test-utils"
 import type { User } from "api/hooks/user"
 import { ResourceCard } from "./ResourceCard"
+import { getReadableResourceType } from "ol-utilities"
+import { ResourceTypeEnum } from "api"
 import {
   AddToLearningPathDialog,
   AddToUserListDialog,
@@ -65,11 +67,6 @@ describe.each([
     return { resource, view, location }
   }
 
-  const labels = {
-    addToLearningPaths: "Add to Learning Path",
-    addToUserList: "Add to User List",
-  }
-
   test("Applies className to the resource card", () => {
     const { view } = setup({ user: {}, props: { className: "test-class" } })
     expect(view.container.firstChild).toHaveClass("test-class")
@@ -91,12 +88,13 @@ describe.each([
   ])(
     "Always shows 'Add to User List' button, but only shows 'Add to Learning Path' button if user is a learning path editor",
     async ({ user, expectAddToLearningPathButton }) => {
-      setup({ user })
+      const { resource } = setup({ user })
       await screen.findByRole("button", {
-        name: labels.addToUserList,
+        name: `Bookmark ${getReadableResourceType(resource?.resource_type as ResourceTypeEnum)}`,
       })
+
       const addToLearningPathButton = screen.queryByRole("button", {
-        name: labels.addToLearningPaths,
+        name: "Add to Learning Path",
       })
       expect(!!addToLearningPathButton).toBe(expectAddToLearningPathButton)
     },
@@ -150,10 +148,10 @@ describe.each([
       user: { is_learning_path_editor: true, is_authenticated: true },
     })
     const addToUserListButton = await screen.findByRole("button", {
-      name: labels.addToUserList,
+      name: `Bookmark ${getReadableResourceType(resource?.resource_type as ResourceTypeEnum)}`,
     })
     const addToLearningPathButton = await screen.findByRole("button", {
-      name: labels.addToLearningPaths,
+      name: "Add to Learning Path",
     })
 
     expect(showModal).not.toHaveBeenCalled()
@@ -169,11 +167,11 @@ describe.each([
   })
 
   test("Clicking 'Add to User List' opens signup popover if not authenticated", async () => {
-    setup({
+    const { resource } = setup({
       user: { is_authenticated: false },
     })
     const addToUserListButton = await screen.findByRole("button", {
-      name: labels.addToUserList,
+      name: `Bookmark ${getReadableResourceType(resource?.resource_type as ResourceTypeEnum)}`,
     })
     await user.click(addToUserListButton)
     const dialog = screen.getByRole("dialog")

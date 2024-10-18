@@ -7,7 +7,7 @@ Update the topics:
 
 from django.db import migrations
 
-from learning_resources.utils import upsert_topic_data_string
+from data_fixtures.utils import upsert_topic_data_string
 
 forward_map_changes = """
 ---

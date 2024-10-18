@@ -7,6 +7,16 @@ from django.conf import settings
 from django.core.files import File
 from django.db import migrations
 
+from data_fixtures.utils import (
+    upsert_department_data,
+    upsert_offered_by_data,
+    upsert_platform_data,
+    upsert_school_data,
+    upsert_topic_data_file,
+)
+
+logger = logging.getLogger(__name__)
+
 """
 Fix an issue with PIL's logger when running in test
 https://github.com/camptocamp/pytest-odoo/issues/15
@@ -216,6 +226,27 @@ fixtures = [
 ]
 
 
+def load_initial_fixtures(apps, schema_editor):
+    """
+    Load initial static fixtures required by
+    management commands further down
+    """
+    offerors = upsert_offered_by_data()
+    departments = upsert_department_data()
+    schools = upsert_school_data()
+    platforms = upsert_platform_data()
+    topics = upsert_topic_data_file()
+    logout = (
+        f"Updated:"
+        f"   {offerors} offerors"
+        f"   {departments} departments"
+        f"   {schools} schools"
+        f"   {platforms} platforms"
+        f"   {topics} topics"
+    )
+    logger.info(logout)
+
+
 def load_fixtures(apps, schema_editor):
     """
     Load fixtures for testimonials
@@ -252,5 +283,6 @@ class Migration(migrations.Migration):
     dependencies = []
 
     operations = [
+        migrations.RunPython(load_initial_fixtures, migrations.RunPython.noop),
         migrations.RunPython(load_fixtures, migrations.RunPython.noop),
     ]

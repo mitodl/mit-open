@@ -257,7 +257,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
         {onAddToUserListClick && (
           <CardActionButton
             filled={inUserList}
-            aria-label="Add to User List"
+            aria-label={`Bookmark ${getReadableResourceType(resource.resource_type)}`}
             onClick={(event) => onAddToUserListClick(event, resource.id)}
           >
             {inUserList ? (

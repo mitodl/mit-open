@@ -2,7 +2,7 @@
 
 from django.core.management import BaseCommand
 
-from learning_resources.utils import upsert_platform_data
+from data_fixtures.utils import upsert_platform_data
 from main.utils import clear_search_cache, now_in_utc
 
 
