@@ -1463,6 +1463,7 @@ def test_load_run_dependent_values(certification):
         availability=Availability.dated.name,
         prices=[Decimal("0.00"), Decimal("20.00")],
         start_date=closest_date,
+        location="Portland, ME",
     )
     LearningResourceRunFactory.create(
         learning_resource=course,
@@ -1470,11 +1471,13 @@ def test_load_run_dependent_values(certification):
         availability=Availability.dated.name,
         prices=[Decimal("0.00"), Decimal("50.00")],
         start_date=furthest_date,
+        location="Portland, OR",
     )
     result = load_run_dependent_values(course)
     assert result.next_start_date == course.next_start_date == closest_date
     assert result.prices == course.prices == ([] if not certification else run.prices)
     assert result.availability == course.availability == Availability.dated.name
+    assert result.location == course.location == run.location
 
 
 @pytest.mark.parametrize(

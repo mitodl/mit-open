@@ -2,6 +2,7 @@
 
 import logging
 
+from main.utils import now_in_utc
 from news_events.constants import FeedType
 from news_events.models import (
     FeedEventDetail,
@@ -153,10 +154,13 @@ def load_feed_source(
         FeedItem.objects.filter(source=source).exclude(
             pk__in=[item.pk for item in items if item]
         ).delete()
-        FeedImage.objects.filter(
-            feeditem__isnull=True, feedsource__isnull=True
+    # Always delete past events and orphaned images
+    FeedImage.objects.filter(feeditem__isnull=True, feedsource__isnull=True).delete()
+    if source.feed_type == FeedType.events.name:
+        FeedItem.objects.filter(
+            source=source,
+            event_details__event_datetime__lt=now_in_utc(),
         ).delete()
-
     return source, items
 
 

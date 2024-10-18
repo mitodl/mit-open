@@ -2,10 +2,14 @@ import { renderTestApp, screen } from "../../test-utils"
 import { channels as factory } from "api/test-utils/factories"
 import { setMockResponse, urls as apiUrls, factories } from "api/test-utils"
 import { makeChannelEditPath } from "@/common/urls"
+import { ChannelTypeEnum } from "api/v0"
 
 describe("EditChannelPage", () => {
   const setup = () => {
-    const channel = factory.channel({ is_moderator: true })
+    const channel = factory.channel({
+      is_moderator: true,
+      channel_type: ChannelTypeEnum.Topic,
+    })
     setMockResponse.get(
       apiUrls.channels.details(channel.channel_type, channel.name),
       channel,
@@ -20,7 +24,16 @@ describe("EditChannelPage", () => {
       }),
       factories.percolateQueries,
     )
-
+    if (channel.channel_type === ChannelTypeEnum.Topic) {
+      const topicId = channel.topic_detail.topic
+      if (topicId) {
+        setMockResponse.get(apiUrls.topics.get(topicId), null)
+        setMockResponse.get(
+          apiUrls.topics.list({ parent_topic_id: [topicId] }),
+          null,
+        )
+      }
+    }
     return channel
   }
 
@@ -35,7 +48,8 @@ describe("EditChannelPage", () => {
   })
 
   it("Displays message and no tabs for non-moderators", async () => {
-    const channel = factory.channel({ is_moderator: false })
+    const channel = setup()
+    channel.is_moderator = false
     setMockResponse.get(apiUrls.userMe.get(), {})
     setMockResponse.get(
       apiUrls.learningResources.featured({ limit: 12 }),

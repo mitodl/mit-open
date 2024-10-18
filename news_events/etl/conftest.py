@@ -65,7 +65,7 @@ def sources_data() -> SimpleNamespace:
                         }
                         if feed_type == FeedType.news.name
                         else {
-                            "event_datetime": "2024-03-15T13:42:36Z",
+                            "event_datetime": "2124-03-15T13:42:36Z",
                             **event_details,
                         },
                     },
@@ -86,7 +86,7 @@ def sources_data() -> SimpleNamespace:
                         }
                         if feed_type == FeedType.news.name
                         else {
-                            "event_datetime": "2024-03-13T15:57:53Z",
+                            "event_datetime": "2124-03-13T15:57:53Z",
                             **event_details,
                         },
                     },
@@ -111,7 +111,7 @@ def sources_data() -> SimpleNamespace:
                         }
                         if feed_type == FeedType.news.name
                         else {
-                            "event_datetime": "2024-02-15T13:42:36Z",
+                            "event_datetime": "2124-02-15T13:42:36Z",
                             **event_details,
                         },
                     },

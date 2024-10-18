@@ -89,6 +89,7 @@ declare module "@mui/material/Chip" {
     outlined: true
     outlinedWhite: true
     dark: true
+    darker: true
     gray: true
   }
 }
