@@ -5,8 +5,17 @@ import Typography from "@mui/material/Typography"
 import { ActionButton, ButtonLink } from "../Button/Button"
 import type { LearningResource } from "api"
 import { ResourceTypeEnum, PlatformEnum } from "api"
-import { resourceThumbnailSrc, DEFAULT_RESOURCE_IMG } from "ol-utilities"
-import { RiCloseLargeLine, RiExternalLinkLine } from "@remixicon/react"
+import {
+  resourceThumbnailSrc,
+  DEFAULT_RESOURCE_IMG,
+  getReadableResourceType,
+} from "ol-utilities"
+import {
+  RiBookmarkLine,
+  RiCloseLargeLine,
+  RiExternalLinkLine,
+  RiMenuAddLine,
+} from "@remixicon/react"
 import type { EmbedlyConfig } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
@@ -14,15 +23,7 @@ import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
 import InfoSection from "./InfoSection"
 import type { User } from "api/hooks/user"
 import { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
-
-const ReadableResourceTypes = {
-  [ResourceTypeEnum.Course.toString()]: "Course",
-  [ResourceTypeEnum.Podcast.toString()]: "Podcast",
-  [ResourceTypeEnum.PodcastEpisode.toString()]: "Podcast Episode",
-  [ResourceTypeEnum.Video.toString()]: "Video",
-  [ResourceTypeEnum.VideoPlaylist.toString()]: "Video Playlist",
-  [ResourceTypeEnum.Program.toString()]: "Program",
-}
+import { CardActionButton } from "../LearningResourceCard/LearningResourceListCard"
 
 const Container = styled.div<{ padTop?: boolean }>`
   display: flex;
@@ -107,6 +108,7 @@ const CallToAction = styled.div({
 const PlatformContainer = styled.div({
   display: "flex",
   alignItems: "center",
+  justifyContent: "space-between",
   gap: "16px",
   alignSelf: "stretch",
 })
@@ -149,6 +151,11 @@ const StyledPlatformLogo = styled(PlatformLogo)`
 const OnPlatform = styled.span`
   ${{ ...theme.typography.body2 }}
   color: ${theme.custom.colors.black};
+`
+
+const ListButtonContainer = styled.div`
+  display: flex;
+  gap: 8px;
 `
 
 type LearningResourceExpandedProps = {
@@ -201,7 +208,7 @@ const TitleSection: React.FC<{
             variant="subtitle2"
             color={theme.custom.colors.silverGrayDark}
           >
-            {ReadableResourceTypes[resource?.resource_category]}
+            {getReadableResourceType(resource?.resource_type)}
           </Typography>
           <Typography variant="h4" color={theme.custom.colors.darkGray2}>
             {resource?.title}
@@ -272,10 +279,16 @@ const CallToActionSection = ({
   imgConfig,
   resource,
   hide,
+  user,
+  onAddToLearningPathClick,
+  onAddToUserListClick,
 }: {
   imgConfig: EmbedlyConfig
   resource?: LearningResource
   hide?: boolean
+  user?: User
+  onAddToLearningPathClick?: LearningResourceCardProps["onAddToLearningPathClick"]
+  onAddToUserListClick?: LearningResourceCardProps["onAddToUserListClick"]
 }) => {
   if (hide) {
     return null
@@ -289,6 +302,8 @@ const CallToActionSection = ({
       </PlatformContainer>
     )
   }
+  const inUserList = !!resource?.user_list_parents?.length
+  const inLearningPath = !!resource?.learning_path_parents?.length
   const { platform } = resource!
   const offeredBy = resource?.offered_by
   const platformCode =
@@ -328,6 +343,32 @@ const CallToActionSection = ({
             <StyledPlatformLogo platformCode={platformCode} />
           </Platform>
         ) : null}
+        <ListButtonContainer>
+          {user?.is_learning_path_editor && (
+            <CardActionButton
+              filled={inLearningPath}
+              aria-label="Add to Learning Path"
+              onClick={(event) =>
+                onAddToLearningPathClick
+                  ? onAddToLearningPathClick(event, resource.id)
+                  : null
+              }
+            >
+              <RiMenuAddLine aria-hidden />
+            </CardActionButton>
+          )}
+          <CardActionButton
+            filled={inUserList}
+            aria-label={`Bookmark ${getReadableResourceType(resource.resource_type)}`}
+            onClick={
+              onAddToUserListClick
+                ? (event) => onAddToUserListClick?.(event, resource.id)
+                : undefined
+            }
+          >
+            <RiBookmarkLine aria-hidden />
+          </CardActionButton>
+        </ListButtonContainer>
       </PlatformContainer>
     </CallToAction>
   )
@@ -368,6 +409,9 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
 const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   resource,
   imgConfig,
+  user,
+  onAddToLearningPathClick,
+  onAddToUserListClick,
   closeDrawer,
 }) => {
   const [selectedRun, setSelectedRun] = useState(resource?.runs?.[0])
@@ -406,6 +450,9 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
             imgConfig={imgConfig}
             resource={resource}
             hide={isVideo}
+            user={user}
+            onAddToLearningPathClick={onAddToLearningPathClick}
+            onAddToUserListClick={onAddToUserListClick}
           />
         </RightContainer>
       </ContentContainer>
