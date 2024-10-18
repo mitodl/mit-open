@@ -203,6 +203,11 @@ const search = {
 const userMe = {
   get: () => `${API_BASE_URL}/api/v0/users/me/`,
 }
+
+const adminSearchParams = {
+  get: () => `${API_BASE_URL}/api/v0/learning_resources_search_admin_params/`,
+}
+
 const profileMe = {
   get: () => `${API_BASE_URL}/api/v0/profiles/me/`,
   patch: () => `${API_BASE_URL}/api/v0/profiles/me/`,
@@ -232,4 +237,5 @@ export {
   departments,
   newsEvents,
   testimonials,
+  adminSearchParams,
 }

@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useMemo } from "react"
 import { getSearchParamMap } from "@/common/utils"
 import {

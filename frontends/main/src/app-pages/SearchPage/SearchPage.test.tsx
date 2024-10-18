@@ -249,6 +249,12 @@ describe("SearchPage", () => {
       const adminOptions = screen.queryByText("Admin Options")
       expect(adminOptions).toBeNull()
     })
+
+    expect(makeRequest).not.toHaveBeenCalledWith(
+      "get",
+      urls.adminSearchParams,
+      expect.anything(),
+    )
   })
 
   test("non admin users do not see admin options", async () => {
@@ -275,12 +281,19 @@ describe("SearchPage", () => {
       is_authenticated: true,
       is_learning_path_editor: false,
     })
+
     renderWithProviders(<SearchPage />)
 
     await waitFor(() => {
       const adminOptions = screen.queryByText("Admin Options")
       expect(adminOptions).toBeNull()
     })
+
+    expect(makeRequest).not.toHaveBeenCalledWith(
+      "get",
+      urls.adminSearchParams,
+      expect.anything(),
+    )
   })
 
   test("admin users can set staleness and score cutoff sliders", async () => {
@@ -306,11 +319,16 @@ describe("SearchPage", () => {
     setMockResponse.get(urls.userMe.get(), {
       is_learning_path_editor: true,
     })
-    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MODE = "phrase"
-    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_SLOP = "6"
-    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_STALENESS_PENALTY = "2.5"
-    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF = "0"
-    process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY = "90"
+
+    setMockResponse.get(urls.adminSearchParams.get(), {
+      search_mode: "phrase",
+      slop: 6,
+      yearly_decay_percent: 2.5,
+      min_score: 0,
+      max_incompleteness_penalty: 90,
+      content_file_score_weight: 1,
+    })
+
     renderWithProviders(<SearchPage />)
     await waitFor(() => {
       const adminFacetContainer = screen.getByText("Admin Options")
@@ -326,11 +344,6 @@ describe("SearchPage", () => {
 })
 
 test("admin users can set the search mode and slop", async () => {
-  process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MODE = "phrase"
-  process.env.NEXT_PUBLIC_DEFAULT_SEARCH_SLOP = "6"
-  process.env.NEXT_PUBLIC_DEFAULT_SEARCH_STALENESS_PENALTY = "2.5"
-  process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF = "0"
-  process.env.NEXT_PUBLIC_DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY = "90"
   setMockApiResponses({
     search: {
       count: 700,
@@ -353,6 +366,15 @@ test("admin users can set the search mode and slop", async () => {
   setMockResponse.get(urls.userMe.get(), {
     is_learning_path_editor: true,
   })
+  setMockResponse.get(urls.adminSearchParams.get(), {
+    search_mode: "phrase",
+    slop: 6,
+    yearly_decay_percent: 2.5,
+    min_score: 0,
+    max_incompleteness_penalty: 90,
+    content_file_score_weight: 1,
+  })
+
   const { location } = renderWithProviders(<SearchPage />)
   await waitFor(() => {
     const adminFacetContainer = screen.getByText("Admin Options")

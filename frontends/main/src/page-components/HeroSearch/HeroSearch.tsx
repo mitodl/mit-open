@@ -28,6 +28,7 @@ import {
 } from "@remixicon/react"
 import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "@/app-pages/AboutPage/AboutPage"
 import Image from "next/image"
+import _ from "lodash"
 import { SearchField } from "@/page-components/SearchField/SearchField"
 
 type SearchChip = {

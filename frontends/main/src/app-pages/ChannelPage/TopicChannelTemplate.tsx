@@ -119,7 +119,6 @@ const TopicChips: React.FC<TopicChipsProps> = (props) => {
     return null
   }
   const isTopLevelTopic = topic?.parent === null
-
   if (isTopLevelTopic) {
     return (
       <TopicChipsInternal
@@ -249,7 +248,7 @@ const TopicChannelTemplateInternal: React.FC<
         extraHeader={<TopicChips topic={topic} />}
         backgroundUrl={
           displayConfiguration?.banner_background ??
-          "/images/backgrounds/background_steps.jpg"
+          "/static/images/background_steps.jpg"
         }
         extraActions={
           <ChannelControlsContainer>

@@ -70,7 +70,7 @@ const EditListMenu: React.FC<{ resource: LearningPathResource }> = ({
 }
 
 const LearningPathListingPage: React.FC = () => {
-  const listingQuery = useLearningPathsList()
+  const listingQuery = useLearningPathsList({ limit: 100 })
   const { data: user } = useUserMe()
 
   const handleCreate = useCallback(() => {

@@ -8,7 +8,7 @@ so it should match on name directly.
 from django.db import migrations
 
 from channels.constants import ChannelType
-from learning_resources.utils import upsert_topic_data_string
+from data_fixtures.utils import upsert_topic_data_string
 
 map_changes = """
 ---

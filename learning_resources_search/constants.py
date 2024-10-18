@@ -90,13 +90,13 @@ SEARCH_NESTED_FILTERS = {
 
 ENGLISH_TEXT_FIELD = {
     "type": "text",
-    "fields": {"english": {"type": "text", "analyzer": "english"}},
+    "fields": {"english": {"type": "text", "analyzer": "custom_english"}},
 }
 
 ENGLISH_TEXT_FIELD_WITH_SUGGEST = {
     "type": "text",
     "fields": {
-        "english": {"type": "text", "analyzer": "english"},
+        "english": {"type": "text", "analyzer": "custom_english"},
         "trigram": {"type": "text", "analyzer": "trigram"},
     },
 }
@@ -429,3 +429,13 @@ LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS = {
     },
     **LEARNING_RESOURCE_SORTBY_OPTIONS,
 }
+
+SYNONYMS = [
+    "ai, ml, artificial intelligence, machine learning",
+    "math, mathematics",
+    "chem, chemistry",
+    "bio, biology",
+    "econ, economics",
+    "natural language processing, nlp",
+    "large language model, llm",
+]

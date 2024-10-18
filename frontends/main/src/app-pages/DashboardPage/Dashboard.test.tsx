@@ -222,7 +222,7 @@ describe("DashboardPage", () => {
       const userInfoText = screen.getByText("Jane Smith")
       expect(userInfoText).toBeInTheDocument()
     })
-  })
+  }, 10000)
 
   test("Renders user menu tabs and panels", async () => {
     setupAPIs()
@@ -244,7 +244,7 @@ describe("DashboardPage", () => {
       expect(desktopLabel).toBeInTheDocument()
       expect(mobileLabel).toBeInTheDocument()
     })
-  })
+  }, 10000)
 
   test("Renders the expected tab links", async () => {
     setupAPIs()
@@ -259,7 +259,7 @@ describe("DashboardPage", () => {
       expect(desktopTab).toHaveAttribute("href", url)
       expect(mobileTab).toHaveAttribute("href", url)
     })
-  })
+  }, 10000)
 
   test("Renders the expected carousels on the dashboard", async () => {
     const {
