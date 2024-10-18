@@ -171,16 +171,21 @@ jobs:
         env:
           HEROKU_APP_NAME: mitopen-rc-nextjs
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
           ORIGIN: https://next.rc.learn.mit.edu
           MITOL_API_BASE_URL: https://api.rc.learn.mit.edu
           SITE_NAME: MIT Learn
           SUPPORT_EMAIL: mitlearn-support@mit.edu
+          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
           MITOL_AXIOS_WITH_CREDENTIALS: true
           CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_RC }}
           POSTHOG_API_HOST: https://app.posthog.com
           POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_RC }}
-          POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_RC }}
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_RC }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN_RC }}
+          SENTRY_ENV: rc
+          SENTRY_PROFILES_SAMPLE_RATE: 0.0
+          SENTRY_TRACES_SAMPLE_RATE: 0.0
+          VERSION: ${{ github.sha }}
         run: |
           heroku container:push web \
           --app $HEROKU_APP_NAME \
@@ -193,8 +198,13 @@ jobs:
           NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=$MITOL_AXIOS_WITH_CREDENTIALS,\
           NEXT_PUBLIC_CSRF_COOKIE_NAME=$CSRF_COOKIE_NAME,\
           NEXT_PUBLIC_POSTHOG_API_HOST=$POSTHOG_API_HOST,\
-          NEXT_PUBLIC_POSTHOG_POSTHOG_PROJECT_ID=$POSTHOG_POSTHOG_PROJECT_ID,\
-          NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY=$POSTHOG_PROJECT_API_KEY \
+          NEXT_PUBLIC_POSTHOG_PROJECT_ID=$POSTHOG_PROJECT_ID,\
+          NEXT_PUBLIC_POSTHOG_API_KEY=$POSTHOG_API_KEY,\
+          NEXT_PUBLIC_SENTRY_DSN=$SENTRY_DSN,\
+          NEXT_PUBLIC_SENTRY_ENV=$SENTRY_ENV,\
+          NEXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE=$SENTRY_PROFILES_SAMPLE_RATE,\
+          NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE=$SENTRY_TRACES_SAMPLE_RATE,\
+          NEXT_PUBLIC_VERSION=$VERSION \
           --context-path .
 
       - name: Release on Heroku
@@ -204,11 +214,11 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release --app $HEROKU_APP_NAME web
 
-      # - name: Purge Fastly cache
-      #   uses: jcoene/fastly-purge-action@master
-      #   with:
-      #     api_key: "${{ secrets.FASTLY_API_KEY_RC_NEXTJS }}"
-      #     service_id: "${{ secrets.FASTLY_SERVICE_ID_RC_NEXTJS }}"
+      - name: Purge Fastly cache
+        uses: jcoene/fastly-purge-action@master
+        with:
+          api_key: "${{ secrets.FASTLY_API_KEY_RC_NEXTJS }}"
+          # service_id: "${{ secrets.FASTLY_SERVICE_ID_RC_NEXTJS }}"
 
   build-deploy-frontend-prod:
     needs: javascript-tests
@@ -226,16 +236,21 @@ jobs:
         env:
           HEROKU_APP_NAME: mitopen-production-nextjs
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_PROD }}
           ORIGIN: https://learn.mit.edu
           MITOL_API_BASE_URL: https://api.learn.mit.edu
           SITE_NAME: MIT Learn
           SUPPORT_EMAIL: mitlearn-support@mit.edu
+          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_PROD }}
           MITOL_AXIOS_WITH_CREDENTIALS: true
           CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_PROD }}
           POSTHOG_API_HOST: https://app.posthog.com
           POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_PROD }}
-          POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_PROD }}
+          POSTHOG_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_PROD }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN_PROD }}
+          SENTRY_ENV: rc
+          SENTRY_PROFILES_SAMPLE_RATE: 0.0
+          SENTRY_TRACES_SAMPLE_RATE: 0.0
+          VERSION: ${{ github.sha }}
         run: |
           heroku container:push web \
           --app $HEROKU_APP_NAME \
@@ -248,8 +263,13 @@ jobs:
           NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=$MITOL_AXIOS_WITH_CREDENTIALS,\
           NEXT_PUBLIC_CSRF_COOKIE_NAME=$CSRF_COOKIE_NAME,\
           NEXT_PUBLIC_POSTHOG_API_HOST=$POSTHOG_API_HOST,\
-          NEXT_PUBLIC_POSTHOG_POSTHOG_PROJECT_ID=$POSTHOG_POSTHOG_PROJECT_ID,\
-          NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY=$POSTHOG_PROJECT_API_KEY \
+          NEXT_PUBLIC_POSTHOG_PROJECT_ID=$POSTHOG_PROJECT_ID,\
+          NEXT_PUBLIC_POSTHOG_API_KEY=$POSTHOG_API_KEY,\
+          NEXT_PUBLIC_SENTRY_DSN=$SENTRY_DSN,\
+          NEXT_PUBLIC_SENTRY_ENV=$SENTRY_ENV,\
+          NEXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE=$SENTRY_PROFILES_SAMPLE_RATE,\
+          NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE=$SENTRY_TRACES_SAMPLE_RATE,\
+          NEXT_PUBLIC_VERSION=$VERSION \
           --context-path .
 
       - name: Release on Heroku
@@ -259,11 +279,11 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release --app $HEROKU_APP_NAME web
 
-      # - name: Purge Fastly cache
-      #   uses: jcoene/fastly-purge-action@master
-      #   with:
-      #     api_key: "${{ secrets.FASTLY_API_KEY_PROD_NEXTJS }}"
-      #     service_id: "${{ secrets.FASTLY_SERVICE_ID_PROD_NEXTJS }}"
+      - name: Purge Fastly cache
+        uses: jcoene/fastly-purge-action@master
+        with:
+          api_key: "${{ secrets.FASTLY_API_KEY_PROD_NEXTJS }}"
+          # service_id: "${{ secrets.FASTLY_SERVICE_ID_PROD_NEXTJS }}"
 
   build-storybook:
     runs-on: ubuntu-latest

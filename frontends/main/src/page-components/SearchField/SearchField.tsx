@@ -25,7 +25,7 @@ const SearchField: React.FC<SearchFieldProps> = ({
   ) => {
     onSubmit(event)
     setPage?.(1)
-    if (process.env.NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY) {
+    if (process.env.NEXT_PUBLIC_POSTHOG_API_KEY) {
       posthog.capture("search_update", { isEnter: isEnter })
     }
   }

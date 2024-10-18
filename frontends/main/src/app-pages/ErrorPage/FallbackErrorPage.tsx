@@ -4,15 +4,15 @@ import React from "react"
 import ErrorPageTemplate from "./ErrorPageTemplate"
 import { Typography } from "ol-components"
 
-const GlobalErrorPage = ({ error }: { error: Pick<Error, "message"> }) => {
+const FallbackErrorPage = ({ error }: { error: Pick<Error, "message"> }) => {
   return (
     <ErrorPageTemplate title="Unexpected Error">
       <Typography variant="h3" component="h1">
-        Unexpected Error
+        Something went wrong.
       </Typography>
-      {error.message || ""}
+      {error.message}
     </ErrorPageTemplate>
   )
 }
 
-export default GlobalErrorPage
+export default FallbackErrorPage

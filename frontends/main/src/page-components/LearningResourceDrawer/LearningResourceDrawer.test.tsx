@@ -41,7 +41,7 @@ describe("LearningResourceDrawer", () => {
     "Renders drawer content when resource=id is in the URL and captures the view if PostHog $descriptor",
     async ({ enablePostHog }) => {
       setMockResponse.get(urls.userMe.get(), {})
-      process.env.NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY = enablePostHog
+      process.env.NEXT_PUBLIC_POSTHOG_API_KEY = enablePostHog
         ? "12345abcdef" // pragma: allowlist secret
         : ""
       const resource = factories.learningResources.resource()

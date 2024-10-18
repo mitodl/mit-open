@@ -21,7 +21,7 @@ const schema = yup.object().shape({
     .string()
     .oneOf(["true", "false"]),
   NEXT_PUBLIC_CSRF_COOKIE_NAME: yup.string().required(),
-  NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY: yup.string(),
+  NEXT_PUBLIC_POSTHOG_API_KEY: yup.string(),
   NEXT_PUBLIC_POSTHOG_FEATURE_PREFIX: yup.string(),
   NEXT_PUBLIC_POSTHOG_API_HOST: yup.string(),
 })

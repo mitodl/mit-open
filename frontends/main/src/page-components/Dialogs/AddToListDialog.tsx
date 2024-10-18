@@ -106,7 +106,7 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
     },
     onSubmit: async (values) => {
       if (resource) {
-        if (process.env.NEXT_PUBLIC_POSTHOG_PROJECT_API_KEY) {
+        if (process.env.NEXT_PUBLIC_POSTHOG_API_KEY) {
           posthog.capture("lr_add_to_list", {
             listType: listType,
             resourceId: resource?.id,

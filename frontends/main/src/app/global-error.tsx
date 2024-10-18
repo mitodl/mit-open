@@ -1,19 +1,34 @@
 "use client"
 
-/* This is the catch-all error page that receives errors from server rendered root layout
- * components and metadata.
- * It is only enabled in production so that in development we see the Next.js error overlay.
- * It is passed an error object as an argument, though this has been stripped of everything except
- * the message and a digest for server logs correlation; to prevent leaking anything to the client
+/*
+ * Fallback error UI for errors within root layout.
+ * (error.tsx is the fallback error page for UI within page content.)
+ *
+ * Notes:
+ *  - does NOT use root layout (since error occured there!)
+ *  - therefore, must definie its own HTML tags and providers
+ *    Must define its own HTML tag
+ *  - NOT used in development mode
  *
  * https://nextjs.org/docs/app/building-your-application/routing/error-handling#handling-errors-in-root-layouts
  */
+import React, { useEffect } from "react"
+import * as Sentry from "@sentry/nextjs"
+import FallbackErrorPage from "@/app-pages/ErrorPage/FallbackErrorPage"
+import { MITLearnGlobalStyles, ThemeProvider } from "ol-components"
 
-import React from "react"
-import GlobalErrorPage from "@/app-pages/ErrorPage/GlobalErrorPage"
-
-const GlobalError = ({ error }: { error: Error }) => {
-  return <GlobalErrorPage error={error} />
+export default function GlobalError({ error }: { error: Error }) {
+  useEffect(() => {
+    Sentry.captureException(error)
+  }, [error])
+  return (
+    <html lang="en">
+      <body>
+        <ThemeProvider>
+          <MITLearnGlobalStyles />
+          <FallbackErrorPage error={error} />
+        </ThemeProvider>
+      </body>
+    </html>
+  )
 }
-
-export default GlobalError
