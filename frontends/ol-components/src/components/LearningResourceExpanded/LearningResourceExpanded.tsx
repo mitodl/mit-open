@@ -50,6 +50,9 @@ const ContentContainer = styled.div({
   alignItems: "flex-start",
   gap: "32px",
   alignSelf: "stretch",
+  [theme.breakpoints.down("md")]: {
+    flexDirection: "column",
+  },
 })
 
 const LeftContainer = styled.div({
