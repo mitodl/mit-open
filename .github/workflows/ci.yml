@@ -155,17 +155,12 @@ jobs:
         with:
           file: coverage/lcov.info
 
-  build-deploy-frontend-rc:
+  build-nextjs-container:
     needs: javascript-tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
-
-      - name: Heroku login
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
 
       - name: Build the Docker image
         env:
@@ -188,106 +183,25 @@ jobs:
           APPZI_URL: ${{ secrets.APPZI_URL_RC }}
           VERSION: ${{ github.sha }}
         run: |
-          heroku container:push web \
-          --app $HEROKU_APP_NAME \
-          --recursive \
-          --arg NEXT_PUBLIC_ORIGIN=$ORIGIN,\
-          NEXT_PUBLIC_MITOL_API_BASE_URL=$MITOL_API_BASE_URL,\
-          NEXT_PUBLIC_SITE_NAME="$SITE_NAME",\
-          NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=$SUPPORT_EMAIL,\
-          NEXT_PUBLIC_EMBEDLY_KEY=$EMBEDLY_KEY,\
-          NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=$MITOL_AXIOS_WITH_CREDENTIALS,\
-          NEXT_PUBLIC_CSRF_COOKIE_NAME=$CSRF_COOKIE_NAME,\
-          NEXT_PUBLIC_POSTHOG_API_HOST=$POSTHOG_API_HOST,\
-          NEXT_PUBLIC_POSTHOG_PROJECT_ID=$POSTHOG_PROJECT_ID,\
-          NEXT_PUBLIC_POSTHOG_API_KEY=$POSTHOG_API_KEY,\
-          NEXT_PUBLIC_SENTRY_DSN=$SENTRY_DSN,\
-          NEXT_PUBLIC_SENTRY_ENV=$SENTRY_ENV,\
-          NEXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE=$SENTRY_PROFILES_SAMPLE_RATE,\
-          NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE=$SENTRY_TRACES_SAMPLE_RATE,\
-          NEXT_PUBLIC_APPZI_URL=$APPZI_URL,\
-          NEXT_PUBLIC_VERSION=$VERSION \
-          --context-path .
-
-      - name: Release on Heroku
-        if: github.ref == 'refs/heads/nextjs'
-        env:
-          HEROKU_APP_NAME: mitopen-rc-nextjs
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release --app $HEROKU_APP_NAME web
-
-      - name: Purge Fastly cache
-        uses: jcoene/fastly-purge-action@master
-        with:
-          api_key: "${{ secrets.FASTLY_API_KEY_RC_NEXTJS }}"
-          # service_id: "${{ secrets.FASTLY_SERVICE_ID_RC_NEXTJS }}"
-
-  build-deploy-frontend-prod:
-    needs: javascript-tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
-
-      - name: Heroku login
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
-
-      - name: Build the Docker image
-        env:
-          HEROKU_APP_NAME: mitopen-production-nextjs
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          ORIGIN: https://learn.mit.edu
-          MITOL_API_BASE_URL: https://api.learn.mit.edu
-          SITE_NAME: MIT Learn
-          SUPPORT_EMAIL: mitlearn-support@mit.edu
-          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_PROD }}
-          MITOL_AXIOS_WITH_CREDENTIALS: true
-          CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_PROD }}
-          POSTHOG_API_HOST: https://app.posthog.com
-          POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_PROD }}
-          POSTHOG_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_PROD }}
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN_PROD }}
-          SENTRY_ENV: ${{ secrets.SENTRY_ENV_PROD }}
-          SENTRY_PROFILES_SAMPLE_RATE: 0.0
-          SENTRY_TRACES_SAMPLE_RATE: 0.0
-          APPZI_URL: ${{ secrets.APPZI_URL_PROD }}
-          VERSION: ${{ github.sha }}
-        run: |
-          heroku container:push web \
-          --app $HEROKU_APP_NAME \
-          --recursive \
-          --arg NEXT_PUBLIC_ORIGIN=$ORIGIN,\
-          NEXT_PUBLIC_MITOL_API_BASE_URL=$MITOL_API_BASE_URL,\
-          NEXT_PUBLIC_SITE_NAME="$SITE_NAME",\
-          NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=$SUPPORT_EMAIL,\
-          NEXT_PUBLIC_EMBEDLY_KEY=$EMBEDLY_KEY,\
-          NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=$MITOL_AXIOS_WITH_CREDENTIALS,\
-          NEXT_PUBLIC_CSRF_COOKIE_NAME=$CSRF_COOKIE_NAME,\
-          NEXT_PUBLIC_POSTHOG_API_HOST=$POSTHOG_API_HOST,\
-          NEXT_PUBLIC_POSTHOG_PROJECT_ID=$POSTHOG_PROJECT_ID,\
-          NEXT_PUBLIC_POSTHOG_API_KEY=$POSTHOG_API_KEY,\
-          NEXT_PUBLIC_SENTRY_DSN=$SENTRY_DSN,\
-          NEXT_PUBLIC_SENTRY_ENV=$SENTRY_ENV,\
-          NEXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE=$SENTRY_PROFILES_SAMPLE_RATE,\
-          NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE=$SENTRY_TRACES_SAMPLE_RATE,\
-          NEXT_PUBLIC_APPZI_URL=$APPZI_URL,\
-          NEXT_PUBLIC_VERSION=$VERSION \
-          --context-path .
-
-      - name: Release on Heroku
-        # if: github.ref == 'refs/heads/nextjs'
-        env:
-          HEROKU_APP_NAME: mitopen-production-nextjs
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release --app $HEROKU_APP_NAME web
-
-      - name: Purge Fastly cache
-        uses: jcoene/fastly-purge-action@master
-        with:
-          api_key: "${{ secrets.FASTLY_API_KEY_PROD_NEXTJS }}"
-          # service_id: "${{ secrets.FASTLY_SERVICE_ID_PROD_NEXTJS }}"
+          docker build \
+            -f frontends/main/Dockerfile.web \
+            --build-arg NEXT_PUBLIC_ORIGIN=$ORIGIN \
+            --build-arg NEXT_PUBLIC_MITOL_API_BASE_URL=$MITOL_API_BASE_URL \
+            --build-arg NEXT_PUBLIC_SITE_NAME="$SITE_NAME" \
+            --build-arg NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=$SUPPORT_EMAIL \
+            --build-arg NEXT_PUBLIC_EMBEDLY_KEY=$EMBEDLY_KEY \
+            --build-arg NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=$MITOL_AXIOS_WITH_CREDENTIALS \
+            --build-arg NEXT_PUBLIC_CSRF_COOKIE_NAME=$CSRF_COOKIE_NAME \
+            --build-arg NEXT_PUBLIC_POSTHOG_API_HOST=$POSTHOG_API_HOST \
+            --build-arg NEXT_PUBLIC_POSTHOG_PROJECT_ID=$POSTHOG_PROJECT_ID \
+            --build-arg NEXT_PUBLIC_POSTHOG_API_KEY=$POSTHOG_API_KEY \
+            --build-arg NEXT_PUBLIC_SENTRY_DSN=$SENTRY_DSN \
+            --build-arg NEXT_PUBLIC_SENTRY_ENV=$SENTRY_ENV \
+            --build-arg NEXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE=$SENTRY_PROFILES_SAMPLE_RATE \
+            --build-arg NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE=$SENTRY_TRACES_SAMPLE_RATE \
+            --build-arg NEXT_PUBLIC_APPZI_URL=$APPZI_URL \
+            --build-arg NEXT_PUBLIC_VERSION=$VERSION \
+            -t mitodl/mit-learn-frontend:$VERSION .
 
   build-storybook:
     runs-on: ubuntu-latest
