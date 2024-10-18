@@ -13,20 +13,21 @@ import {
   RiTranslate2,
   RiAwardLine,
   RiPresentationLine,
-  RiMenuAddLine,
-  RiBookmarkLine,
 } from "@remixicon/react"
 import { LearningResource, LearningResourceRun, ResourceTypeEnum } from "api"
 import {
   formatDurationClockTime,
   getLearningResourcePrices,
-  getReadableResourceType,
 } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
-import Typography from "@mui/material/Typography"
-import type { User } from "api/hooks/user"
-import { CardActionButton } from "../LearningResourceCard/LearningResourceListCard"
-import { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
+
+const SeparatorContainer = styled.span({
+  color: theme.custom.colors.silverGray,
+})
+
+const Separator: React.FC = () => (
+  <SeparatorContainer>&nbsp;|&nbsp;</SeparatorContainer>
+)
 
 const InfoItems = styled.section`
   display: flex;
@@ -34,26 +35,16 @@ const InfoItems = styled.section`
   gap: 16px;
 `
 
-const InfoHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`
-
-const ListButtonContainer = styled.div`
-  display: flex;
-  gap: 8px;
-`
-
 const InfoItemContainer = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 16px;
   align-self: stretch;
-  ${{ ...theme.typography.body2 }}
-  color: ${theme.custom.colors.silverGrayDark};
+  ${{ ...theme.typography.subtitle3 }}
+  color: ${theme.custom.colors.black};
 
   svg {
+    color: ${theme.custom.colors.silverGrayDark};
     width: 20px;
     height: 20px;
     flex-shrink: 0;
@@ -66,21 +57,27 @@ const InfoLabel = styled.div`
 `
 
 const InfoValue = styled.div`
-  ${{ ...theme.typography.body2 }}
-  color: ${theme.custom.colors.black};
+  ${{ ...theme.typography.body3 }}
+  color: ${theme.custom.colors.darkGray2};
   flex-grow: 1;
 `
+
+const PriceDisplay = styled.div({
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+})
 
 const Certificate = styled.div`
   display: flex;
   gap: 4px;
-  border-radius: 8px;
-  padding: 12px 16px;
-  margin-top: 8px;
+  border-radius: 4px;
+  padding: 4px 8px;
+  border: 1px solid ${theme.custom.colors.lightGray2};
   background-color: ${theme.custom.colors.lightGray1};
-  color: ${theme.custom.colors.darkGray2};
+  color: ${theme.custom.colors.silverGrayDark};
 
-  ${{ ...theme.typography.subtitle2 }}
+  ${{ ...theme.typography.subtitle3 }}
 
   svg {
     width: 16px;
@@ -111,8 +108,8 @@ const INFO_ITEMS: InfoItemConfig = [
       const prices = getLearningResourcePrices(resource)
 
       return (
-        <>
-          {prices.course.display}
+        <PriceDisplay>
+          <div>{prices.course.display}</div>
           {resource.certification && (
             <Certificate>
               <RiAwardLine />
@@ -122,7 +119,7 @@ const INFO_ITEMS: InfoItemConfig = [
               <CertificatePrice>{prices.certificate.display}</CertificatePrice>
             </Certificate>
           )}
-        </>
+        </PriceDisplay>
       )
     },
   },
@@ -135,7 +132,14 @@ const INFO_ITEMS: InfoItemConfig = [
         return null
       }
 
-      return topics.map((topic) => topic.name).join(", ")
+      return topics.map((topic, index) => {
+        return (
+          <React.Fragment key={`topic-${index}`}>
+            {topic.name}
+            {index < topics.length - 1 && <Separator />}
+          </React.Fragment>
+        )
+      })
     },
   },
   {
@@ -240,22 +244,13 @@ const InfoItem = ({ label, Icon, value }: InfoItemProps) => {
 const InfoSection = ({
   resource,
   run,
-  user,
-  onAddToLearningPathClick,
-  onAddToUserListClick,
 }: {
   resource?: LearningResource
   run?: LearningResourceRun
-  user?: User
-  onAddToLearningPathClick?: LearningResourceCardProps["onAddToLearningPathClick"]
-  onAddToUserListClick?: LearningResourceCardProps["onAddToUserListClick"]
 }) => {
   if (!resource) {
     return null
   }
-
-  const inUserList = !!resource?.user_list_parents?.length
-  const inLearningPath = !!resource?.learning_path_parents?.length
 
   const infoItems = INFO_ITEMS.map(({ label, Icon, selector }) => ({
     label,
@@ -269,37 +264,6 @@ const InfoSection = ({
 
   return (
     <InfoItems>
-      <InfoHeader>
-        <Typography variant="subtitle2" component="h3">
-          Info
-        </Typography>
-        <ListButtonContainer>
-          {user?.is_learning_path_editor && (
-            <CardActionButton
-              filled={inLearningPath}
-              aria-label="Add to Learning Path"
-              onClick={(event) =>
-                onAddToLearningPathClick
-                  ? onAddToLearningPathClick(event, resource.id)
-                  : null
-              }
-            >
-              <RiMenuAddLine aria-hidden />
-            </CardActionButton>
-          )}
-          <CardActionButton
-            filled={inUserList}
-            aria-label={`Bookmark ${getReadableResourceType(resource.resource_type)}`}
-            onClick={
-              onAddToUserListClick
-                ? (event) => onAddToUserListClick?.(event, resource.id)
-                : undefined
-            }
-          >
-            <RiBookmarkLine aria-hidden />
-          </CardActionButton>
-        </ListButtonContainer>
-      </InfoHeader>
       {infoItems.map((props, index) => (
         <InfoItem key={index} {...props} />
       ))}

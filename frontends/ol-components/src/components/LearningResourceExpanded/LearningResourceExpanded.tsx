@@ -342,10 +342,7 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
 
 const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   resource,
-  user,
   imgConfig,
-  onAddToLearningPathClick,
-  onAddToUserListClick,
   closeDrawer,
 }) => {
   const [selectedRun, setSelectedRun] = useState(resource?.runs?.[0])
@@ -377,13 +374,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       <ContentContainer>
         <LeftContainer>
           <DetailSection resource={resource} />
-          <InfoSection
-            resource={resource}
-            run={selectedRun}
-            user={user}
-            onAddToLearningPathClick={onAddToLearningPathClick}
-            onAddToUserListClick={onAddToUserListClick}
-          />
+          <InfoSection resource={resource} run={selectedRun} />
         </LeftContainer>
         <RightContainer>
           <ImageSection resource={resource} config={imgConfig} />
