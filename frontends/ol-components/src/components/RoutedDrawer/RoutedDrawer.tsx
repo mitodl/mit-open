@@ -7,11 +7,20 @@ import { RiCloseLargeLine } from "@remixicon/react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useToggle } from "ol-utilities"
 
-const closeSx: React.CSSProperties = {
-  position: "absolute",
-  top: "16px",
-  right: "22px",
-}
+const CloseButton = styled(ActionButton)(({ theme }) => ({
+  "&&&": {
+    position: "absolute",
+    top: "24px",
+    right: "32px",
+    backgroundColor: theme.custom.colors.lightGray2,
+    color: theme.custom.colors.black,
+    ["&:hover"]: {
+      opacity: 1,
+      backgroundColor: theme.custom.colors.red,
+      color: theme.custom.colors.white,
+    },
+  },
+}))
 
 const CloseIcon = styled(RiCloseLargeLine)`
   &&& {
@@ -27,6 +36,7 @@ type RoutedDrawerProps<K extends string = string, R extends K = K> = {
   params?: readonly K[]
   requiredParams: readonly R[]
   onView?: () => void
+  hideCloseButton?: boolean
   children: (childProps: {
     params: ChildParams<K, R>
     closeDrawer: () => void
@@ -36,7 +46,7 @@ type RoutedDrawerProps<K extends string = string, R extends K = K> = {
 const RoutedDrawer = <K extends string, R extends K = K>(
   props: RoutedDrawerProps<K, R>,
 ) => {
-  const { requiredParams, children, onView, ...others } = props
+  const { requiredParams, children, onView, hideCloseButton, ...others } = props
   const { params = requiredParams } = props
 
   const [open, setOpen] = useToggle(false)
@@ -91,15 +101,16 @@ const RoutedDrawer = <K extends string, R extends K = K>(
               params: childParams as Record<K, string>,
               closeDrawer: setOpen.off,
             })}
-          <ActionButton
-            style={closeSx}
-            variant="text"
-            size="medium"
-            onClick={setOpen.off}
-            aria-label="Close"
-          >
-            <CloseIcon />
-          </ActionButton>
+          {!hideCloseButton && (
+            <CloseButton
+              variant="text"
+              size="medium"
+              onClick={setOpen.off}
+              aria-label="Close"
+            >
+              <CloseIcon />
+            </CloseButton>
+          )}
         </>
       }
     </Drawer>

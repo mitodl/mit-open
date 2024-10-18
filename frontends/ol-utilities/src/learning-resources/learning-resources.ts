@@ -1,6 +1,8 @@
 import moment from "moment"
 import type { LearningResource, LearningResourceRun } from "api"
 import { ResourceTypeEnum } from "api"
+import { capitalize } from "lodash"
+import { formatDate } from "../date/format"
 
 const readableResourceTypes: Record<ResourceTypeEnum, string> = {
   [ResourceTypeEnum.Course]: "Course",
@@ -96,11 +98,34 @@ const findBestRun = (
   return past[0] ?? sorted[0]
 }
 
+const formatRunDate = (
+  run: LearningResourceRun,
+  asTaughtIn: boolean,
+): string | null => {
+  if (asTaughtIn) {
+    const semester = capitalize(run.semester ?? "")
+    if (semester && run.year) {
+      return `${semester} ${run.year}`
+    }
+    if (semester && run.start_date) {
+      return `${semester} ${formatDate(run.start_date, "YYYY")}`
+    }
+    if (run.start_date) {
+      return formatDate(run.start_date, "MMMM, YYYY")
+    }
+  }
+  if (run.start_date) {
+    return formatDate(run.start_date, "MMMM DD, YYYY")
+  }
+  return null
+}
+
 export {
   DEFAULT_RESOURCE_IMG,
   embedlyCroppedImage,
   resourceThumbnailSrc,
   getReadableResourceType,
   findBestRun,
+  formatRunDate,
 }
 export type { EmbedlyConfig }
